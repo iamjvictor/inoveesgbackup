@@ -1,0 +1,974 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum RecordStatus {
+  ACTIVE
+  INACTIVE
+  SUSPENDED
+  ARCHIVED
+}
+
+enum BusinessRole {
+  COMPANY
+  SUPPLIER
+}
+
+enum RoleSource {
+  SELF_SIGNUP
+  INVITE
+  UPGRADE
+  MANUAL
+}
+
+enum MembershipRole {
+  OWNER
+  ADMIN
+  MEMBER
+  VIEWER
+}
+
+enum PlatformAdminRole {
+  SUPER_ADMIN
+  OPS
+  FINANCE
+}
+
+enum ProductKind {
+  SUBSCRIPTION
+  ONE_TIME
+  INVITE_PACK
+}
+
+enum BillingPeriod {
+  MONTH
+  SEMESTER
+  YEAR
+}
+
+enum PricingType {
+  FIXED
+  QUOTE
+}
+
+enum EntitlementSourceType {
+  SUBSCRIPTION
+  ORDER
+  MANUAL
+}
+
+enum EntitlementStatus {
+  SCHEDULED
+  ACTIVE
+  EXPIRED
+  REVOKED
+}
+
+enum SubscriptionStatus {
+  TRIALING
+  ACTIVE
+  PAST_DUE
+  CANCELED
+  EXPIRED
+}
+
+enum OrderType {
+  SUBSCRIPTION
+  ONE_TIME
+  INVITE_PACK
+}
+
+enum OrderStatus {
+  DRAFT
+  PENDING_PAYMENT
+  PARTIALLY_PAID
+  PAID
+  FAILED
+  CANCELED
+  REFUNDED
+  EXPIRED
+}
+
+enum PaymentMethod {
+  PIX
+  CARD
+  BOLETO
+  MANUAL
+}
+
+enum PaymentStatus {
+  PENDING
+  AUTHORIZED
+  PAID
+  FAILED
+  CANCELED
+  REFUNDED
+  EXPIRED
+}
+
+enum InvoiceStatus {
+  DRAFT
+  ISSUED
+  PAID
+  VOID
+  OVERDUE
+  CANCELED
+}
+
+enum InviteStatus {
+  PENDING
+  SENT
+  ACCEPTED
+  EXPIRED
+  CANCELED
+}
+
+enum InviteTransactionType {
+  PURCHASE
+  CONSUMPTION
+  REFUND
+  ADJUSTMENT
+}
+
+enum InviteReferenceType {
+  ORDER
+  INVITE
+  MANUAL
+}
+
+enum SupplierLinkStatus {
+  INVITED
+  IN_PROGRESS
+  COMPLETED
+  EXPIRED
+  INACTIVE
+}
+
+enum RelationshipStatus {
+  ACTIVE
+  INACTIVE
+}
+
+enum DiagnosticKind {
+  PRE_DIAGNOSTIC
+  FULL_DIAGNOSTIC
+  SUPPLIER_DIAGNOSTIC
+}
+
+enum DiagnosticStatus {
+  DRAFT
+  PENDING_PAYMENT
+  ACTIVE
+  COMPLETED
+  CANCELED
+  EXPIRED
+}
+
+enum Axis {
+  ENVIRONMENTAL
+  BIOECONOMY_CIRCULAR
+  SOCIAL
+  GOVERNANCE
+}
+
+enum QuestionType {
+  MULTIPLE_CHOICE
+  TEXT
+  NUMERIC
+  DATE
+  BOOLEAN
+  FILE
+}
+
+enum UploadStatus {
+  PENDING
+  UPLOADING
+  COMPLETED
+  FAILED
+}
+
+enum VerificationStatus {
+  PENDING
+  VERIFIED
+  REJECTED
+}
+
+enum EvidenceRequestStatus {
+  PENDING
+  RECEIVED
+  COMPLETE
+}
+
+enum EvidenceCategory {
+  REGULARIZATION
+  CONSERVATION
+  NATURAL_RESOURCES
+  SUSTAINABLE_PRODUCTION
+  PEOPLE_AND_SOCIAL
+  GOVERNANCE
+  TRACEABILITY_AND_QUALITY
+  PHOTOGRAPHIC
+}
+
+enum MaturityLevel {
+  NASCENT
+  DEVELOPING
+  ESTABLISHED
+  MANAGED
+  OPTIMIZED
+}
+
+enum ReportStatus {
+  DRAFT
+  GENERATED
+  PUBLISHED
+  ARCHIVED
+}
+
+enum BudgetRequestStatus {
+  SOLICITADO
+  RESPONDIDO
+  ACEITO
+  RECUSADO
+  ATIVO
+}
+
+enum ConsultingAppointmentStatus {
+  REQUESTED
+  CONFIRMED
+  COMPLETED
+  CANCELED
+  NO_SHOW
+}
+
+model User {
+  id                       String                      @id @default(uuid()) @db.Uuid
+  supabaseUserId           String                      @unique @db.Uuid
+  email                    String                      @unique
+  fullName                 String?
+  phone                    String?
+  cpf                      String?
+  cargoFuncao              String?
+  grauParticipacao         String?
+  status                   RecordStatus                @default(ACTIVE)
+  lastLoginAt              DateTime?
+  createdAt                DateTime                    @default(now())
+  updatedAt                DateTime                    @updatedAt
+  organizationUsers        OrganizationUser[]
+  adminUser                AdminUser?
+  requestedAppointments    ConsultingAppointment[]     @relation("AppointmentRequester")
+  budgetRequests           BudgetRequest[]             @relation("BudgetRequester")
+  assignedEvidenceRequests DiagnosticEvidenceRequest[] @relation("EvidenceRequestAssignee")
+  uploadedEvidences        Evidence[]                  @relation("EvidenceUploader")
+  evidenceReviews          EvidenceReview[]            @relation("EvidenceReviewer")
+  evidenceNotes            EvidenceNote[]               @relation("EvidenceNoteAuthor")
+
+  @@map("users")
+}
+
+model Organization {
+  id                     String                     @id @default(uuid()) @db.Uuid
+  legalName              String
+  tradeName              String?
+  cnpj                   String                     @unique
+  logoUrl                String?
+  logoStoragePath        String?
+  primaryEmail           String?
+  phone                  String?
+  website                String?
+  industrySegment        String?
+  size                   String?
+  numberOfSuppliers      String?
+  annualRevenue          String?
+  description            String?
+  addressLine1           String?
+  addressLine2           String?
+  addressNumber          String?
+  addressComplement      String?
+  city                   String?
+  state                  String?
+  postalCode             String?
+  enderecoCompleto       String?
+  municipioEstado        String?
+  redesSociais           String?
+  naturezaJuridica       String?
+  porte                  String?
+  tempoOperacao          String?
+  alcanceMercado         String?
+  esgJaPossui            String[]                   @default([])
+  esgInteresse           String[]                   @default([])
+  country                String                     @default("BR")
+  latitude               Decimal?                   @db.Decimal(10, 7)
+  longitude              Decimal?                   @db.Decimal(10, 7)
+  businessCategoryId     String?                    @db.Uuid
+  businessSegmentId      String?                    @db.Uuid
+  specificActivity       String?
+  businessCategory       BusinessCategory?          @relation(fields: [businessCategoryId], references: [id], onDelete: SetNull)
+  businessSegment        BusinessSegment?           @relation(fields: [businessSegmentId], references: [id], onDelete: SetNull)
+  status                 RecordStatus               @default(ACTIVE)
+  onboardedAt            DateTime?
+  archivedAt             DateTime?
+  createdAt              DateTime                   @default(now())
+  updatedAt              DateTime                   @updatedAt
+  roles                  OrganizationRole[]
+  users                  OrganizationUser[]
+  subscriptions          Subscription[]
+  orders                 Order[]
+  inviteWallet           InviteWallet?
+  inviteTransactions     InviteTransaction[]
+  buyerInvites           Invite[]                   @relation("BuyerInvites")
+  supplierInvites        Invite[]                   @relation("SupplierInvites")
+  buyerSupplierLinks     SupplierLink[]             @relation("BuyerSupplierLinks")
+  supplierBuyerLinks     SupplierLink[]             @relation("SupplierBuyerLinks")
+  buyerRelationships     OrganizationRelationship[] @relation("BuyerRelationships")
+  supplierRelationships  OrganizationRelationship[] @relation("SupplierRelationships")
+  subjectDiagnostics     Diagnostic[]               @relation("SubjectDiagnostics")
+  evidences              Evidence[]                 @relation("OrganizationEvidences")
+  evidenceScores         EvidenceScore[]            @relation("OrganizationEvidenceScores")
+  entitlements           OrganizationEntitlement[]
+  budgetRequests         BudgetRequest[]
+  consultingAppointments ConsultingAppointment[]
+
+  @@map("organizations")
+}
+
+enum BusinessCategoryCode {
+  AGRONEGOCIO
+  OLEO_E_GAS
+  INFRAESTRUTURA
+}
+
+enum BusinessSegmentCode {
+  AGROINDUSTRIA
+  PRODUCAO
+  OLEO_E_GAS
+  INFRAESTRUTURA
+}
+
+model BusinessCategory {
+  id            String               @id @default(uuid()) @db.Uuid
+  code          BusinessCategoryCode @unique
+  name          String
+  active        Boolean              @default(true)
+  createdAt     DateTime             @default(now())
+  updatedAt     DateTime             @updatedAt
+  segments      BusinessSegment[]
+  organizations Organization[]
+
+  @@map("business_categories")
+}
+
+model BusinessSegment {
+  id            String              @id @default(uuid()) @db.Uuid
+  categoryId    String              @db.Uuid
+  code          BusinessSegmentCode @unique
+  name          String
+  active        Boolean             @default(true)
+  createdAt     DateTime            @default(now())
+  updatedAt     DateTime            @updatedAt
+  category      BusinessCategory    @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  organizations Organization[]
+
+  @@map("business_segments")
+}
+
+model OrganizationRole {
+  id             String       @id @default(uuid()) @db.Uuid
+  organizationId String       @db.Uuid
+  role           BusinessRole
+  source         RoleSource   @default(MANUAL)
+  assignedAt     DateTime     @default(now())
+  removedAt      DateTime?
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+
+  @@unique([organizationId, role])
+  @@index([role])
+  @@map("organization_roles")
+}
+
+model OrganizationUser {
+  id               String         @id @default(uuid()) @db.Uuid
+  organizationId   String         @db.Uuid
+  userId           String         @db.Uuid
+  membershipRole   MembershipRole @default(VIEWER)
+  isPrimaryContact Boolean        @default(false)
+  invitedAt        DateTime?
+  joinedAt         DateTime?
+  createdAt        DateTime       @default(now())
+  updatedAt        DateTime       @updatedAt
+  organization     Organization   @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  user             User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([organizationId, userId])
+  @@index([userId])
+  @@map("organization_users")
+}
+
+model AdminUser {
+  id        String            @id @default(uuid()) @db.Uuid
+  userId    String            @unique @db.Uuid
+  adminRole PlatformAdminRole
+  createdAt DateTime          @default(now())
+  updatedAt DateTime          @updatedAt
+  user      User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("admin_users")
+}
+
+model Product {
+  id              String           @id @default(uuid()) @db.Uuid
+  code            String           @unique
+  name            String
+  description     String?
+  productKind     ProductKind
+  priceCents      Int?
+  active          Boolean          @default(true)
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+  plan            Plan?
+  service         Service?
+  orderItems      OrderItem[]
+  budgetRequests  BudgetRequest[]
+  productFeatures ProductFeature[]
+
+  @@index([productKind])
+  @@map("products")
+}
+
+model Plan {
+  id            String         @id @default(uuid()) @db.Uuid
+  productId     String         @unique @db.Uuid
+  billingPeriod BillingPeriod
+  priceCents    Int
+  currency      String         @default("BRL")
+  trialDays     Int?
+  isAutoRenew   Boolean        @default(true)
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  product       Product        @relation(fields: [productId], references: [id], onDelete: Cascade)
+  subscriptions Subscription[]
+
+  @@map("plans")
+}
+
+model Service {
+  id                     String                  @id @default(uuid()) @db.Uuid
+  productId              String                  @unique @db.Uuid
+  pricingType            PricingType
+  basePriceCents         Int?
+  currency               String                  @default("BRL")
+  requiresApproval       Boolean                 @default(false)
+  durationMinutes       Int                     @default(60)
+  createdAt              DateTime                @default(now())
+  updatedAt              DateTime                @updatedAt
+  product                Product                 @relation(fields: [productId], references: [id], onDelete: Cascade)
+  consultingAppointments ConsultingAppointment[]
+
+  @@map("services")
+}
+
+model FeatureFlag {
+  id              String                    @id @default(uuid()) @db.Uuid
+  code            String                    @unique
+  name            String
+  description     String?
+  createdAt       DateTime                  @default(now())
+  updatedAt       DateTime                  @updatedAt
+  productFeatures ProductFeature[]
+  entitlements    OrganizationEntitlement[]
+
+  @@map("feature_flags")
+}
+
+model ProductFeature {
+  productId     String      @db.Uuid
+  featureFlagId String      @db.Uuid
+  limitValue    Int?
+  createdAt     DateTime    @default(now())
+  product       Product     @relation(fields: [productId], references: [id], onDelete: Cascade)
+  featureFlag   FeatureFlag @relation(fields: [featureFlagId], references: [id], onDelete: Cascade)
+
+  @@id([productId, featureFlagId])
+  @@map("product_features")
+}
+
+model OrganizationEntitlement {
+  id             String                @id @default(uuid()) @db.Uuid
+  organizationId String                @db.Uuid
+  featureFlagId  String                @db.Uuid
+  sourceType     EntitlementSourceType
+  sourceId       String                @db.Uuid
+  status         EntitlementStatus     @default(SCHEDULED)
+  limitValue     Int?
+  startsAt       DateTime?
+  endsAt         DateTime?
+  createdAt      DateTime              @default(now())
+  updatedAt      DateTime              @updatedAt
+  organization   Organization          @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  featureFlag    FeatureFlag           @relation(fields: [featureFlagId], references: [id], onDelete: Cascade)
+
+  @@index([organizationId, status])
+  @@index([sourceType, sourceId])
+  @@map("organization_entitlements")
+}
+
+model Subscription {
+  id             String             @id @default(uuid()) @db.Uuid
+  organizationId String             @db.Uuid
+  planId         String             @db.Uuid
+  orderId        String?            @db.Uuid
+  externalRef    String?            @unique
+  status         SubscriptionStatus @default(TRIALING)
+  startsAt       DateTime
+  endsAt         DateTime?
+  renewalAt      DateTime?
+  canceledAt     DateTime?
+  createdAt      DateTime           @default(now())
+  updatedAt      DateTime           @updatedAt
+  organization   Organization       @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  plan           Plan               @relation(fields: [planId], references: [id], onDelete: Restrict)
+  order          Order?             @relation(fields: [orderId], references: [id], onDelete: SetNull)
+
+  @@index([organizationId, status])
+  @@map("subscriptions")
+}
+
+model Order {
+  id                     String                  @id @default(uuid()) @db.Uuid
+  organizationId         String                  @db.Uuid
+  orderType              OrderType
+  status                 OrderStatus             @default(DRAFT)
+  totalCents             Int
+  currency               String                  @default("BRL")
+  placedAt               DateTime?
+  paidAt                 DateTime?
+  canceledAt             DateTime?
+  checkoutKey            String?
+  checkoutExpiresAt      DateTime?
+  createdAt              DateTime                @default(now())
+  updatedAt              DateTime                @updatedAt
+  organization           Organization            @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  items                  OrderItem[]
+  payments               Payment[]
+  invoice                Invoice?
+  subscriptions          Subscription[]
+  consultingAppointments ConsultingAppointment[]
+
+  @@index([organizationId, status])
+  @@index([organizationId, status, checkoutExpiresAt])
+  @@map("orders")
+}
+
+model OrderItem {
+  id             String   @id @default(uuid()) @db.Uuid
+  orderId        String   @db.Uuid
+  productId      String   @db.Uuid
+  quantity       Int      @default(1)
+  unitPriceCents Int
+  metadata       Json?
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+  order          Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  product        Product  @relation(fields: [productId], references: [id], onDelete: Restrict)
+
+  @@index([orderId])
+  @@map("order_items")
+}
+
+model Payment {
+  id                String        @id @default(uuid()) @db.Uuid
+  orderId           String        @db.Uuid
+  provider          String?
+  providerReference String?       @unique
+  method            PaymentMethod
+  status            PaymentStatus @default(PENDING)
+  amountCents       Int
+  currency          String        @default("BRL")
+  paidAt            DateTime?
+  rawPayload        Json?
+  createdAt         DateTime      @default(now())
+  updatedAt         DateTime      @updatedAt
+  order             Order         @relation(fields: [orderId], references: [id], onDelete: Cascade)
+
+  @@index([orderId, status])
+  @@map("payments")
+}
+
+model Invoice {
+  id        String        @id @default(uuid()) @db.Uuid
+  orderId   String        @unique @db.Uuid
+  number    String?       @unique
+  status    InvoiceStatus @default(DRAFT)
+  issuedAt  DateTime?
+  dueAt     DateTime?
+  paidAt    DateTime?
+  metadata  Json?
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+  order     Order         @relation(fields: [orderId], references: [id], onDelete: Cascade)
+
+  @@map("invoices")
+}
+
+model InviteWallet {
+  id             String       @id @default(uuid()) @db.Uuid
+  organizationId String       @unique @db.Uuid
+  balance        Int          @default(0)
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+
+  @@map("invite_wallets")
+}
+
+model InviteTransaction {
+  id             String                @id @default(uuid()) @db.Uuid
+  organizationId String                @db.Uuid
+  type           InviteTransactionType
+  amount         Int
+  referenceType  InviteReferenceType
+  referenceId    String?               @db.Uuid
+  notes          String?
+  createdAt      DateTime              @default(now())
+  organization   Organization          @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+
+  @@index([organizationId, createdAt])
+  @@map("invite_transactions")
+}
+
+model Invite {
+  id                     String                     @id @default(uuid()) @db.Uuid
+  buyerOrganizationId    String                     @db.Uuid
+  supplierOrganizationId String?                    @db.Uuid
+  supplierEmail          String
+  token                  String                     @unique
+  status                 InviteStatus               @default(PENDING)
+  message                String?
+  expiresAt              DateTime?
+  acceptedAt             DateTime?
+  createdAt              DateTime                   @default(now())
+  updatedAt              DateTime                   @updatedAt
+  buyerOrganization      Organization               @relation("BuyerInvites", fields: [buyerOrganizationId], references: [id], onDelete: Cascade)
+  supplierOrganization   Organization?              @relation("SupplierInvites", fields: [supplierOrganizationId], references: [id], onDelete: SetNull)
+  supplierLinks          SupplierLink[]
+  relationships          OrganizationRelationship[]
+
+  @@index([buyerOrganizationId, status])
+  @@index([supplierEmail])
+  @@map("invites")
+}
+
+model SupplierLink {
+  id                     String             @id @default(uuid()) @db.Uuid
+  buyerOrganizationId    String             @db.Uuid
+  supplierOrganizationId String             @db.Uuid
+  inviteId               String?            @db.Uuid
+  status                 SupplierLinkStatus @default(INVITED)
+  invitedAt              DateTime?
+  completedAt            DateTime?
+  createdAt              DateTime           @default(now())
+  updatedAt              DateTime           @updatedAt
+  buyerOrganization      Organization       @relation("BuyerSupplierLinks", fields: [buyerOrganizationId], references: [id], onDelete: Cascade)
+  supplierOrganization   Organization       @relation("SupplierBuyerLinks", fields: [supplierOrganizationId], references: [id], onDelete: Cascade)
+  invite                 Invite?            @relation(fields: [inviteId], references: [id], onDelete: SetNull)
+
+  @@unique([buyerOrganizationId, supplierOrganizationId])
+  @@index([status])
+  @@map("supplier_links")
+}
+
+model OrganizationRelationship {
+  id                     String             @id @default(uuid()) @db.Uuid
+  buyerOrganizationId    String             @db.Uuid
+  supplierOrganizationId String             @db.Uuid
+  inviteId               String?            @db.Uuid
+  status                 RelationshipStatus @default(ACTIVE)
+  startedAt              DateTime           @default(now())
+  endedAt                DateTime?
+  endedReason            String?
+  createdAt              DateTime           @default(now())
+  updatedAt              DateTime           @updatedAt
+
+  buyerOrganization    Organization @relation("BuyerRelationships", fields: [buyerOrganizationId], references: [id], onDelete: Cascade)
+  supplierOrganization Organization @relation("SupplierRelationships", fields: [supplierOrganizationId], references: [id], onDelete: Cascade)
+  invite               Invite?      @relation(fields: [inviteId], references: [id], onDelete: SetNull)
+
+  @@index([status])
+  @@index([buyerOrganizationId, supplierOrganizationId])
+  @@map("organization_relationships")
+}
+
+model Diagnostic {
+  id                                String                      @id @default(uuid()) @db.Uuid
+  organizationId                    String                      @db.Uuid
+  kind                              DiagnosticKind
+  status                            DiagnosticStatus            @default(DRAFT)
+  completedAt                       DateTime?
+  responsibilityDeclarationAccepted Boolean                     @default(false)
+  createdAt                         DateTime                    @default(now())
+  updatedAt                         DateTime                    @updatedAt
+  organization                      Organization                @relation("SubjectDiagnostics", fields: [organizationId], references: [id], onDelete: Cascade)
+  responses                         DiagnosticResponse[]
+  evidences                         Evidence[]
+  evidenceRequests                  DiagnosticEvidenceRequest[]
+  score                             DiagnosticScore?
+  reports                           DiagnosticReport[]
+
+  @@index([organizationId, status])
+  @@map("diagnostics")
+}
+
+model DiagnosticResponse {
+  id                  String                      @id @default(uuid()) @db.Uuid
+  diagnosticId        String                      @db.Uuid
+  questionCode        String?
+  questionOrder       Int
+  axis                Axis
+  questionText        String
+  questionType        QuestionType
+  answerText          String?
+  answerNumber        Decimal?                    @db.Decimal(12, 2)
+  answerBoolean       Boolean?
+  answerDate          DateTime?
+  answerJson          Json?
+  score               Int?
+  weight              Decimal?                    @db.Decimal(5, 2)
+  comment             String?
+  autoCalculatedScore Boolean                     @default(false)
+  answeredAt          DateTime?
+  createdAt           DateTime                    @default(now())
+  updatedAt           DateTime                    @updatedAt
+  diagnostic          Diagnostic                  @relation(fields: [diagnosticId], references: [id], onDelete: Cascade)
+  evidences           Evidence[]
+  evidenceRequests    DiagnosticEvidenceRequest[]
+
+  @@unique([diagnosticId, questionOrder])
+  @@index([diagnosticId, axis])
+  @@map("diagnostic_responses")
+}
+
+model EvidenceRequirement {
+  id                  String                      @id @default(uuid()) @db.Uuid
+  code                String
+  categoryCode        String
+  segmentCode         String?
+  name                String
+  expectedDocument    String
+  acceptedTypes       Json
+  groupCode           String
+  primaryAxis         Axis
+  scoringAxes         Json
+  points              Int
+  strategicObjectives Json
+  gapIfMissing        String?
+  recommendedService  String?
+  active              Boolean                     @default(true)
+  createdAt           DateTime                    @default(now())
+  updatedAt           DateTime                    @updatedAt
+  requests            DiagnosticEvidenceRequest[]
+
+  @@unique([code, categoryCode, segmentCode])
+  @@index([categoryCode, segmentCode, active])
+  @@map("evidence_requirements")
+}
+
+model DiagnosticEvidenceRequest {
+  id                   String                @id @default(uuid()) @db.Uuid
+  diagnosticId         String                @db.Uuid
+  requirementId        String                @db.Uuid
+  diagnosticResponseId String?               @db.Uuid
+  assignedUserId       String?               @db.Uuid
+  status               EvidenceRequestStatus @default(PENDING)
+  requestedAt          DateTime              @default(now())
+  completedAt          DateTime?
+  createdAt            DateTime              @default(now())
+  updatedAt            DateTime              @updatedAt
+  diagnostic           Diagnostic            @relation(fields: [diagnosticId], references: [id], onDelete: Cascade)
+  requirement          EvidenceRequirement   @relation(fields: [requirementId], references: [id], onDelete: Restrict)
+  diagnosticResponse   DiagnosticResponse?   @relation(fields: [diagnosticResponseId], references: [id], onDelete: SetNull)
+  assignedUser         User?                 @relation("EvidenceRequestAssignee", fields: [assignedUserId], references: [id], onDelete: SetNull)
+  evidences            Evidence[]
+
+  @@unique([diagnosticId, requirementId])
+  @@index([diagnosticId, status])
+  @@index([assignedUserId, status])
+  @@map("evidence_requests")
+}
+
+model Evidence {
+  id                   String                     @id @default(uuid()) @db.Uuid
+  organizationId       String                     @db.Uuid
+  diagnosticId         String                     @db.Uuid
+  requestId            String?                    @db.Uuid
+  diagnosticResponseId String?                    @db.Uuid
+  uploadedByUserId     String?                    @db.Uuid
+  evidenceCategory     EvidenceCategory?
+  storageBucket        String                     @default("diagnostic-evidences")
+  fileName             String
+  documentType         String?
+  filePath             String
+  fileSizeBytes        Int?
+  mimeType             String?
+  fileUrl              String?
+  uploadStatus         UploadStatus               @default(PENDING)
+  verificationStatus   VerificationStatus         @default(PENDING)
+  description          String?
+  uploadedAt           DateTime?
+  verifiedAt           DateTime?
+  createdAt            DateTime                   @default(now())
+  updatedAt            DateTime                   @updatedAt
+  diagnostic           Diagnostic                 @relation(fields: [diagnosticId], references: [id], onDelete: Cascade)
+  organization         Organization               @relation("OrganizationEvidences", fields: [organizationId], references: [id], onDelete: Cascade)
+  request              DiagnosticEvidenceRequest? @relation(fields: [requestId], references: [id], onDelete: SetNull)
+  diagnosticResponse   DiagnosticResponse?        @relation(fields: [diagnosticResponseId], references: [id], onDelete: SetNull)
+  uploadedByUser       User?                      @relation("EvidenceUploader", fields: [uploadedByUserId], references: [id], onDelete: SetNull)
+  reviews              EvidenceReview[]
+  notes                EvidenceNote[]
+
+  @@index([diagnosticId])
+  @@index([organizationId])
+  @@index([diagnosticResponseId])
+  @@index([requestId])
+  @@index([uploadedByUserId])
+  @@map("evidences")
+}
+
+model EvidenceReview {
+  id             String             @id @default(uuid()) @db.Uuid
+  evidenceId     String             @db.Uuid
+  reviewerUserId String             @db.Uuid
+  previousStatus VerificationStatus
+  newStatus      VerificationStatus
+  comment        String?
+  reviewedAt     DateTime           @default(now())
+  evidence       Evidence           @relation(fields: [evidenceId], references: [id], onDelete: Cascade)
+  reviewer       User               @relation("EvidenceReviewer", fields: [reviewerUserId], references: [id], onDelete: Restrict)
+
+  @@index([evidenceId, reviewedAt])
+  @@index([reviewerUserId, reviewedAt])
+  @@map("evidence_reviews")
+}
+
+model EvidenceNote {
+  id           String   @id @default(uuid()) @db.Uuid
+  evidenceId   String   @db.Uuid
+  authorUserId String   @db.Uuid
+  content      String   @db.Text
+  createdAt    DateTime @default(now())
+  evidence     Evidence @relation(fields: [evidenceId], references: [id], onDelete: Cascade)
+  author       User     @relation("EvidenceNoteAuthor", fields: [authorUserId], references: [id], onDelete: Restrict)
+
+  @@index([evidenceId, createdAt])
+  @@map("evidence_notes")
+}
+
+model EvidenceScore {
+  id                    String   @id @default(uuid()) @db.Uuid
+  organizationId        String   @db.Uuid
+  axis                  Axis
+  approvedPoints        Int      @default(0)
+  totalAvailablePoints  Int      @default(0)
+  provenScore           Decimal  @default(0) @db.Decimal(5, 2)
+  approvedEvidenceCount Int      @default(0)
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+  organization          Organization @relation("OrganizationEvidenceScores", fields: [organizationId], references: [id], onDelete: Cascade)
+
+  @@unique([organizationId, axis])
+  @@index([organizationId])
+  @@map("evidence_scores")
+}
+
+model DiagnosticScore {
+  id                            String         @id @default(uuid()) @db.Uuid
+  diagnosticId                  String         @unique @db.Uuid
+  overallScore                  Decimal        @db.Decimal(5, 2)
+  environmentalScore            Decimal?       @db.Decimal(5, 2)
+  bioeconomyCircularScore       Decimal?       @db.Decimal(5, 2)
+  socialScore                   Decimal?       @db.Decimal(5, 2)
+  governanceScore               Decimal?       @db.Decimal(5, 2)
+  provenOverallScore            Decimal?       @db.Decimal(5, 2)
+  provenEnvironmentalScore      Decimal?       @db.Decimal(5, 2)
+  provenBioeconomyCircularScore Decimal?       @db.Decimal(5, 2)
+  provenSocialScore             Decimal?       @db.Decimal(5, 2)
+  provenGovernanceScore         Decimal?       @db.Decimal(5, 2)
+  maturityLevel                 MaturityLevel?
+  strengths                     Json?
+  opportunities                 Json?
+  calculatedAt                  DateTime       @default(now())
+  createdAt                     DateTime       @default(now())
+  updatedAt                     DateTime       @updatedAt
+  diagnostic                    Diagnostic     @relation(fields: [diagnosticId], references: [id], onDelete: Cascade)
+
+  @@map("diagnostic_scores")
+}
+
+model DiagnosticReport {
+  id           String       @id @default(uuid()) @db.Uuid
+  diagnosticId String       @db.Uuid
+  version      Int          @default(1)
+  status       ReportStatus @default(DRAFT)
+  title        String?
+  summary      String?
+  reportData   Json?
+  generatedAt  DateTime?
+  publishedAt  DateTime?
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
+  diagnostic   Diagnostic   @relation(fields: [diagnosticId], references: [id], onDelete: Cascade)
+
+  @@unique([diagnosticId, version])
+  @@map("diagnostic_reports")
+}
+
+model BudgetRequest {
+  id             String              @id @default(uuid()) @db.Uuid
+  organizationId String              @db.Uuid
+  productId      String              @db.Uuid
+  requestedByUserId String?          @db.Uuid
+  proposedPriceCents Int?
+  months         Int?
+  status         BudgetRequestStatus @default(SOLICITADO)
+  createdAt      DateTime            @default(now())
+  updatedAt      DateTime            @updatedAt
+  organization   Organization        @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  product        Product             @relation(fields: [productId], references: [id], onDelete: Restrict)
+  requestedBy    User?               @relation("BudgetRequester", fields: [requestedByUserId], references: [id], onDelete: SetNull)
+
+  @@index([organizationId, requestedByUserId, status])
+  @@map("budget_requests")
+}
+
+model ConsultingAppointment {
+  id                 String                      @id @default(uuid()) @db.Uuid
+  organizationId     String                      @db.Uuid
+  requestedByUserId  String?                     @db.Uuid
+  orderId            String?                     @db.Uuid
+  serviceId          String?                     @db.Uuid
+  status             ConsultingAppointmentStatus @default(REQUESTED)
+  startsAt           DateTime?
+  endsAt             DateTime?
+  timezone           String                      @default("America/Sao_Paulo")
+  meetingUrl         String?
+  notes              String?
+  cancellationReason String?
+  confirmedAt        DateTime?
+  completedAt        DateTime?
+  canceledAt         DateTime?
+  createdAt          DateTime                    @default(now())
+  updatedAt          DateTime                    @updatedAt
+  organization       Organization                @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  requestedBy        User?                       @relation("AppointmentRequester", fields: [requestedByUserId], references: [id], onDelete: SetNull)
+  order              Order?                      @relation(fields: [orderId], references: [id], onDelete: SetNull)
+  service            Service?                    @relation(fields: [serviceId], references: [id], onDelete: SetNull)
+
+  @@index([organizationId, status])
+  @@index([startsAt, status])
+  @@index([requestedByUserId])
+  @@map("consulting_appointments")
+}

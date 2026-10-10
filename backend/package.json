@@ -1,0 +1,40 @@
+{
+  "name": "inoveesg-backend",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "tsx watch src/server.ts",
+    "build": "prisma generate && tsc -p tsconfig.json && mkdir -p dist/modules/diagnostic/models && cp -R src/modules/diagnostic/models/assets dist/modules/diagnostic/models/",
+    "start": "node dist/server.js",
+    "predev": "prisma generate",
+    "prestart": "prisma generate",
+    "test:autodeclaravel": "tsx src/scripts/test-autodeclaravel.ts",
+    "test:checkout-autodeclaravel": "tsx src/scripts/test-checkout-autodeclaravel.ts",
+    "prisma:generate": "prisma generate",
+    "prisma:migrate": "prisma migrate dev",
+    "seed:business-categories": "node dist/scripts/seed-business-categories.js",
+    "prisma:studio": "prisma studio",
+    "admin:create": "tsx src/scripts/admin-users.ts",
+    "test": "tsx --test \"src/**/*.test.ts\""
+  },
+  "dependencies": {
+    "@prisma/client": "^6.8.2",
+    "@sparticuz/chromium": "^149.0.0",
+    "@supabase/supabase-js": "^2.57.4",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.0",
+    "jspdf": "^4.2.1",
+    "puppeteer-core": "^25.5.0",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.17",
+    "@types/express": "^4.17.21",
+    "@types/node": "^20.16.5",
+    "prisma": "^6.8.2",
+    "tsx": "^4.19.1",
+    "typescript": "^5.6.2"
+  }
+}

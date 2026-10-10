@@ -1,0 +1,32 @@
+# Secrets and local environment files. Keep only safe example templates.
+.env*
+!.env.example
+**/.env*
+!**/.env.example
+
+# Installed dependencies and generated output.
+node_modules/
+**/node_modules/
+**/.next/
+**/dist/
+**/build/
+**/coverage/
+**/.vercel/
+**/.turbo/
+**/.venv/
+**/__pycache__/
+**/.prisma/
+
+# Local credentials, data stores, logs, and tool caches.
+*.pem
+*.key
+*.crt
+*.rdb
+*.sqlite
+*.sqlite3
+*.log
+admin-users.json
+backend/.worktrees/
+supabase/.temp/
+.DS_Store
+Thumbs.db

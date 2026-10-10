@@ -1,0 +1,20 @@
+[
+  {
+    "email": "admin1@empresa.com",
+    "fullName": "Administrador 1",
+    "password": "PREENCHER_SENHA_FORTE_1",
+    "adminRole": "SUPER_ADMIN"
+  },
+  {
+    "email": "admin2@empresa.com",
+    "fullName": "Administrador 2",
+    "password": "PREENCHER_SENHA_FORTE_2",
+    "adminRole": "OPS"
+  },
+  {
+    "email": "admin3@empresa.com",
+    "fullName": "Administrador 3",
+    "password": "PREENCHER_SENHA_FORTE_3",
+    "adminRole": "FINANCE"
+  }
+]
