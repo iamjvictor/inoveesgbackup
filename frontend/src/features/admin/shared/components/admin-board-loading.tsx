@@ -4,12 +4,13 @@ type Props = {
   eyebrow: string;
   title: string;
   description: string;
+  hideHeading?: boolean;
 };
 
-export function AdminBoardLoading({ eyebrow, title, description }: Props) {
+export function AdminBoardLoading({ eyebrow, title, description, hideHeading = false }: Props) {
   return (
     <div className="space-y-8">
-      <AdminSectionHeading eyebrow={eyebrow} title={title} description={description} />
+      {!hideHeading ? <AdminSectionHeading eyebrow={eyebrow} title={title} description={description} /> : null}
 
       <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
         {Array.from({ length: 4 }).map((_, index) => (

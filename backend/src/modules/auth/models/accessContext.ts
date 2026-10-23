@@ -33,7 +33,7 @@ const SERVICE_CATALOG: Record<string, { serviceId: string; name: string; descrip
   },
 };
 
-const EVIDENCE_PRODUCTS = ["ASSESSORIA_EVIDENCIAS", "ASSESSORIA_COMPLETA", "FULL_DIAGNOSTIC"];
+const EVIDENCE_PRODUCTS = ["ASSESSORIA_EVIDENCIAS", "ASSESSORIA_COMPLETA", "FULL_DIAGNOSTIC", "FULL_DIAGNOSTIC_PLUS"];
 
 export function hasEvidenceProductAccess(productCodes: string[]): boolean {
   return productCodes.some((code) =>

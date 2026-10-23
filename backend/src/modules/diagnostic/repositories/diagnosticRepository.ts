@@ -145,7 +145,10 @@ export class DiagnosticRepository {
   }
 
   /** Lean lookup: only id + status + hasResponses flag — no JOIN on responses rows. */
-  async findCurrentByOrganizationId(organizationId: string) {
+  async findCurrentByOrganizationId(
+    organizationId: string,
+    kinds?: ("PRE_DIAGNOSTIC" | "FULL_DIAGNOSTIC")[],
+  ) {
     console.info("[diagnostic.repository.findCurrentByOrganizationId] Fetching current diagnostic", {
       organizationId,
     });
@@ -154,6 +157,7 @@ export class DiagnosticRepository {
       where: {
         organizationId,
         status: { in: ["ACTIVE", "DRAFT", "COMPLETED"] },
+        ...(kinds ? { kind: { in: kinds } } : {}),
       },
       select: {
         id: true,
@@ -219,7 +223,7 @@ export class DiagnosticRepository {
           },
         },
       },
-      orderBy: { updatedAt: "desc" },
+      orderBy: { createdAt: "desc" },
     });
   }
 

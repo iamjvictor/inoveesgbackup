@@ -7,7 +7,7 @@ import { useCompany } from "../../context/company-context";
 import { canAccessEvidenceRoute, canAccessSuppliersRoute } from "../../access/route-access";
 
 export function AppShell({ children }: { children: ReactNode }) {
-  const { user, isUnpaid, isSupplierOnly, hasOnlyPreDiagnostic, hasInviteAccess, hasEvidenceAccess, hasPreDiagnosticAccess, isLoading } = useCompany();
+  const { user, serviceAccess, isUnpaid, isSupplierOnly, hasOnlyPreDiagnostic, hasInviteAccess, hasEvidenceAccess, hasPreDiagnosticAccess, isLoading } = useCompany();
   const pathname = usePathname();
   const router = useRouter();
 
@@ -20,8 +20,13 @@ export function AppShell({ children }: { children: ReactNode }) {
       return;
     }
 
+    const evidenceDeadlinePreview = process.env.NODE_ENV === "development" &&
+      pathname.startsWith("/app/evidencias") &&
+      new URLSearchParams(window.location.search).get("mockPrazo") === "2026-10-01";
+    if (evidenceDeadlinePreview) return;
+
     if (pathname.startsWith("/app/evidencias") && !canAccessEvidenceRoute({ hasEvidenceAccess, hasPreDiagnosticAccess })) {
-      router.push("/app/upgrade");
+      router.push(serviceAccess?.hasEvidenceAccess ? "/app/diagnostico" : "/app/upgrade");
       return;
     }
 
@@ -78,7 +83,7 @@ export function AppShell({ children }: { children: ReactNode }) {
           router.push("/app/upgrade");
         }
       }
-  }, [user, isUnpaid, isSupplierOnly, hasOnlyPreDiagnostic, hasInviteAccess, hasEvidenceAccess, hasPreDiagnosticAccess, isLoading, pathname, router]);
+  }, [user, serviceAccess, isUnpaid, isSupplierOnly, hasOnlyPreDiagnostic, hasInviteAccess, hasEvidenceAccess, hasPreDiagnosticAccess, isLoading, pathname, router]);
 
   if (isLoading) {
     return (

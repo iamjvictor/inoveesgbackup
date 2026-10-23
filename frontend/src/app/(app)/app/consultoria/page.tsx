@@ -3,20 +3,25 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { Calendar, Clock, ArrowLeft, Video } from "lucide-react";
-import { getCurrentConsultingAppointment, type CompanyConsultingAppointment } from "@/features/company-area/services/consulting.service";
+import { getConsultingAppointments, type CompanyConsultingAppointment } from "@/features/company-area/services/consulting.service";
 
 export default function CompanyConsultingPage() {
   const [appointment, setAppointment] = useState<CompanyConsultingAppointment | null>(null);
+  const [appointments, setAppointments] = useState<CompanyConsultingAppointment[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    getCurrentConsultingAppointment()
-      .then(setAppointment)
+    getConsultingAppointments()
+      .then((result) => {
+        setAppointment(result.appointment);
+        setAppointments(result.appointments);
+      })
       .finally(() => setIsLoading(false));
   }, []);
 
   const isScheduled = appointment?.status === "REQUESTED" || appointment?.status === "CONFIRMED";
   const isCompleted = appointment?.status === "COMPLETED";
+  const isNoShow = appointment?.status === "NO_SHOW";
 
   const appointmentStartDate = appointment?.startsAt ? new Date(appointment.startsAt) : null;
   const appointmentEndDate = appointment?.endsAt 
@@ -60,18 +65,32 @@ export default function CompanyConsultingPage() {
               </div>
             </div>
             {appointment.meetingUrl && (
-              <a href={appointment.meetingUrl} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 rounded-xl bg-emerald-600 px-4 py-2 text-sm font-bold text-white hover:bg-emerald-700">
+              <a href={appointment.meetingUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 rounded-xl bg-emerald-600 px-4 py-2 text-sm font-bold text-white hover:bg-emerald-700">
                 <Video className="h-4 w-4" /> Entrar na reunião
               </a>
             )}
+            {appointments
+              .filter((item) => item.id !== appointment.id && ["REQUESTED", "CONFIRMED"].includes(item.status))
+              .map((item) => (
+                <div key={item.id} className="flex flex-wrap items-center justify-between gap-3 border-t border-slate-100 pt-4">
+                  <span className="text-sm font-semibold text-slate-700">
+                    Outra sessão · {item.startsAt ? new Date(item.startsAt).toLocaleString("pt-BR", { dateStyle: "short", timeStyle: "short", timeZone: item.timezone || "America/Sao_Paulo" }) : "Data a confirmar"}
+                  </span>
+                  {item.meetingUrl && (
+                    <a href={item.meetingUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 text-sm font-bold text-emerald-700 hover:underline">
+                      <Video className="h-4 w-4" /> Entrar na reunião
+                    </a>
+                  )}
+                </div>
+              ))}
           </div>
         ) : (
           <div>
             <p className={`text-xs font-bold uppercase tracking-wider ${isCompleted ? "text-emerald-600" : "text-amber-600"}`}>
-              {isCompleted ? "Consultoria concluída" : "Aguardando agendamento"}
+              {isCompleted ? "Consultoria concluída" : isNoShow ? "Não compareceu" : "Aguardando agendamento"}
             </p>
             <h2 className="mt-2 text-xl font-bold text-slate-900">
-              {isCompleted ? "Sua sessão foi concluída" : "Nossa equipe agendará sua sessão em breve"}
+              {isCompleted ? "Sua sessão foi concluída" : isNoShow ? "Você não compareceu à sessão" : "Nossa equipe agendará sua sessão em breve"}
             </h2>
             <p className="mt-2 text-sm text-slate-500">Em caso de dúvidas, entre em contato com a equipe InoveESG.</p>
           </div>

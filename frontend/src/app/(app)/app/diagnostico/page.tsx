@@ -25,27 +25,32 @@ export default function DiagnosticPage() {
   const isCompletedDiagnostic = dbDiagnostic?.status === "COMPLETED";
 
   useEffect(() => {
-    async function loadCurrentDiagnostic() {
-    const token = "cookie-session";
+    let active = true;
+
+    async function loadCurrentDiagnostic(showFailure = true) {
+      const token = "cookie-session";
       if (!token) {
-        setIsFetchingDiag(false);
+        if (active) setIsFetchingDiag(false);
         return;
       }
       try {
         const res = await diagnosticService.getCurrentDiagnostic(token);
+        if (!active) return;
         if (res.hasDiagnostic && res.diagnostic) {
           setDbDiagnostic(res.diagnostic);
         }
       } catch (err) {
         console.error("Failed to load current diagnostic:", err);
-        const apiError = err instanceof ApiError ? err : null;
-        showError({
-          code: apiError?.code,
-          message: apiError?.status === 503 ? undefined : "Não foi possível carregar o diagnóstico.",
-          retry: () => window.location.reload(),
-        });
+        if (showFailure && active) {
+          const apiError = err instanceof ApiError ? err : null;
+          showError({
+            code: apiError?.code,
+            message: apiError?.status === 503 ? undefined : "Não foi possível carregar o diagnóstico.",
+            retry: () => window.location.reload(),
+          });
+        }
       } finally {
-        setIsFetchingDiag(false);
+        if (active) setIsFetchingDiag(false);
       }
     }
 
@@ -54,6 +59,25 @@ export default function DiagnosticPage() {
     } else if (!isLoading && !company) {
       setIsFetchingDiag(false);
     }
+
+    // The page can remain mounted in Next.js' client-side navigation cache.
+    // Refresh the diagnostic when the user returns from a proof so saved
+    // responses and completion badges reflect the server state immediately.
+    const refreshOnReturn = () => {
+      if (document.visibilityState === "visible") {
+        void loadCurrentDiagnostic(false);
+      }
+    };
+    window.addEventListener("focus", refreshOnReturn);
+    window.addEventListener("pageshow", refreshOnReturn);
+    document.addEventListener("visibilitychange", refreshOnReturn);
+
+    return () => {
+      active = false;
+      window.removeEventListener("focus", refreshOnReturn);
+      window.removeEventListener("pageshow", refreshOnReturn);
+      document.removeEventListener("visibilitychange", refreshOnReturn);
+    };
   }, [isLoading, company, showError]);
 
   if (isLoading || isFetchingDiag) {

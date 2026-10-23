@@ -10,7 +10,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import Link from "next/link";
 
 import { diagnosticService } from "../../../services/diagnostic.service";
-import { getCurrentConsultingAppointment, type CompanyConsultingAppointment } from "../../../services/consulting.service";
+import { getConsultingAppointments, type CompanyConsultingAppointment } from "../../../services/consulting.service";
 import { inviteService, type SupplierInvite } from "../../../services/invite.service";
 import { useCompany } from "../../../context/company-context";
 import { budgetService } from "../../../services/budget.service";
@@ -43,6 +43,7 @@ export function PreDiagnosticResultsView() {
   const [dbDiagnostic, setDbDiagnostic] = useState<DBDiagnostic | null>(null);
   const [realSuppliers, setRealSuppliers] = useState<SupplierInvite[]>([]);
   const [consultingAppointment, setConsultingAppointment] = useState<CompanyConsultingAppointment | null>(null);
+  const [consultingAppointments, setConsultingAppointments] = useState<CompanyConsultingAppointment[]>([]);
   const [openBudget, setOpenBudget] = useState<OpenBudget | null>(null);
   const [cardRotationIndex, setCardRotationIndex] = useState(0);
   const [isCardPaused, setIsCardPaused] = useState(false);
@@ -72,7 +73,9 @@ export function PreDiagnosticResultsView() {
         }
         if (hasConsultingAccess) {
           try {
-            setConsultingAppointment(await getCurrentConsultingAppointment());
+            const consulting = await getConsultingAppointments();
+            setConsultingAppointment(consulting.appointment);
+            setConsultingAppointments(consulting.appointments);
           } catch (e) {
             console.error("Failed to load consulting appointment:", e);
           }
@@ -138,7 +141,8 @@ export function PreDiagnosticResultsView() {
   const consultingScheduledAt = consultingAppointment?.startsAt ?? null;
   const isConsultingScheduled = consultingAppointment?.status === "REQUESTED" || consultingAppointment?.status === "CONFIRMED";
   const isConsultingCompleted = consultingAppointment?.status === "COMPLETED";
-  const isConsultingCanceled = consultingAppointment?.status === "CANCELED" || consultingAppointment?.status === "NO_SHOW";
+  const isConsultingCanceled = consultingAppointment?.status === "CANCELED";
+  const isConsultingNoShow = consultingAppointment?.status === "NO_SHOW";
 
   const appointmentStartDate = consultingScheduledAt ? new Date(consultingScheduledAt) : null;
   const appointmentEndDate = consultingAppointment?.endsAt 
@@ -368,7 +372,7 @@ export function PreDiagnosticResultsView() {
                     <div className="bg-amber-50 p-1.5 rounded-lg text-amber-600">
                       <Recycle className="h-4 w-4" />
                     </div>
-                    <CardTitle className="text-sm font-bold text-slate-800">Bioeconomia Circular (B)</CardTitle>
+                    <CardTitle className="text-sm font-bold text-slate-800">Bioeconomia (B)</CardTitle>
                   </div>
                   <span className="text-sm font-bold text-slate-800 font-mono">{bioScore}/100</span>
                 </div>
@@ -549,7 +553,7 @@ export function PreDiagnosticResultsView() {
                 <span className={`${
                   isConsultingCompleted
                     ? "bg-slate-100 border-slate-200 text-slate-700" 
-                    : isConsultingCanceled 
+                    : isConsultingCanceled || isConsultingNoShow
                     ? "bg-rose-50 border-rose-200 text-rose-600" 
                     : isConsultingScheduled 
                     ? isAppointmentPast
@@ -559,8 +563,10 @@ export function PreDiagnosticResultsView() {
                 } border text-[10px] font-bold uppercase tracking-wider py-1 px-3 rounded-full inline-block`}>
                   {isConsultingCompleted 
                     ? "Consultoria Concluída" 
-                    : isConsultingCanceled 
-                    ? "Consultoria Cancelada" 
+                    : isConsultingNoShow
+                    ? "Não compareceu"
+                    : isConsultingCanceled
+                    ? "Consultoria Cancelada"
                     : isConsultingScheduled 
                     ? "Consultoria Ativa" 
                     : "Aguardando Agendamento"}
@@ -604,6 +610,28 @@ export function PreDiagnosticResultsView() {
                         </div>
                       </div>
                     </div>
+                    {consultingAppointment?.meetingUrl && (
+                      <a
+                        href={consultingAppointment.meetingUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-1.5 rounded-xl bg-emerald-600 px-3 py-2 text-xs font-bold text-white hover:bg-emerald-700"
+                      >
+                        Entrar na reunião <ArrowUpRight className="h-3.5 w-3.5" />
+                      </a>
+                    )}
+                    {consultingAppointments
+                      .filter((item) => item.id !== consultingAppointment?.id && ["REQUESTED", "CONFIRMED"].includes(item.status) && item.meetingUrl)
+                      .map((item) => (
+                        <div key={item.id} className="flex items-center justify-between gap-3 rounded-xl border border-slate-200 px-3 py-2 text-xs">
+                          <span className="font-medium text-slate-600">
+                            Outra sessão · {item.startsAt ? new Date(item.startsAt).toLocaleString("pt-BR", { dateStyle: "short", timeStyle: "short", timeZone: item.timezone || "America/Sao_Paulo" }) : "Data a confirmar"}
+                          </span>
+                          <a href={item.meetingUrl!} target="_blank" rel="noopener noreferrer" className="shrink-0 font-bold text-emerald-700 hover:underline">
+                            Abrir Meet
+                          </a>
+                        </div>
+                      ))}
                   </div>
                 ) : isConsultingCompleted ? (
                   <div className="space-y-2">
@@ -617,12 +645,14 @@ export function PreDiagnosticResultsView() {
                 ) : (
                   <div className="space-y-2">
                     <p className="text-slate-500 text-xs leading-relaxed">
-                      {isConsultingCanceled
+                      {isConsultingNoShow
+                        ? "Você não compareceu à sessão agendada. Entre em contato com nossa equipe se precisar de ajuda."
+                        : isConsultingCanceled
                         ? "Seu agendamento foi cancelado. Nossa equipe poderá remarcar uma nova sessão para você."
                         : "Você tem direito a uma consultoria especializada individual. Agende seu horário para validar suas práticas."}
                     </p>
                     <span className="text-[10px] text-amber-600 font-semibold bg-amber-50 border border-amber-100 px-2.5 py-1 rounded-lg inline-block">
-                      {isConsultingCanceled ? "Agendamento cancelado" : "Aguardando Agendamento"}
+                      {isConsultingNoShow ? "Não compareceu" : isConsultingCanceled ? "Agendamento cancelado" : "Aguardando Agendamento"}
                     </span>
                   </div>
                 )}
@@ -720,7 +750,7 @@ export function PreDiagnosticResultsView() {
                   <div className="bg-amber-50 p-1.5 rounded-lg text-amber-600">
                     <Recycle className="h-4 w-4" />
                   </div>
-                  <CardTitle className="text-sm font-bold text-slate-800">Bioeconomia Circular (B)</CardTitle>
+                  <CardTitle className="text-sm font-bold text-slate-800">Bioeconomia (B)</CardTitle>
                 </div>
                 <span className="text-sm font-bold text-slate-800 font-mono">{bioScore}/100</span>
               </div>

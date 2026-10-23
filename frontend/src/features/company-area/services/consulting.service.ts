@@ -9,7 +9,7 @@ export type CompanyConsultingAppointment = {
   meetingUrl: string | null;
 };
 
-export async function getCurrentConsultingAppointment(): Promise<CompanyConsultingAppointment | null> {
+export async function getConsultingAppointments(): Promise<{ appointment: CompanyConsultingAppointment | null; appointments: CompanyConsultingAppointment[] }> {
   const response = await fetch(`${API_URL}/consulting/current`, {
     credentials: "include",
   });
@@ -19,5 +19,8 @@ export async function getCurrentConsultingAppointment(): Promise<CompanyConsulti
     throw new Error(data?.message ?? "Erro ao carregar o agendamento");
   }
 
-  return data.appointment ?? null;
+  return {
+    appointment: data.appointment ?? null,
+    appointments: Array.isArray(data.appointments) ? data.appointments : data.appointment ? [data.appointment] : [],
+  };
 }

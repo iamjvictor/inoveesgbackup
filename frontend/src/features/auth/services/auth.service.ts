@@ -75,14 +75,14 @@ export const authService = {
     });
   },
   
-  getMe(_token?: string) {
-    return request<any>("/auth/me", {
+  getMe(_token?: string, forceFresh = false) {
+    return request<any>(`/auth/me${forceFresh ? "?fresh=true" : ""}`, {
       method: "GET",
     });
   },
 
-  getAccessContext(_token?: string) {
-    return request<AuthAccessContext>("/auth/me/access", {
+  getAccessContext(_token?: string, forceFresh = false) {
+    return request<AuthAccessContext>(`/auth/me/access${forceFresh ? "?fresh=true" : ""}`, {
       method: "GET",
     });
   },

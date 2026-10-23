@@ -15,6 +15,7 @@ export interface FilterGroup {
   options: FilterOption[];
   selectedValue: string;
   onValueChange: (value: string) => void;
+  display?: "buttons" | "select";
 }
 
 interface AdminFiltersProps {
@@ -64,7 +65,18 @@ export function AdminFilters({
             <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider block sm:inline">
               {group.label}
             </span>
-            <div className="flex flex-wrap gap-1.5">
+            {group.display === "select" ? (
+              <select
+                aria-label={group.label}
+                value={group.selectedValue}
+                onChange={(event) => group.onValueChange(event.target.value)}
+                className="w-full max-w-[320px] rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-xs font-semibold text-slate-700 outline-none transition-colors focus:border-slate-400 focus:bg-white sm:w-auto"
+              >
+                {group.options.map((option) => (
+                  <option key={option.value} value={option.value}>{option.label}</option>
+                ))}
+              </select>
+            ) : <div className="flex flex-wrap gap-1.5">
               {group.options.map((option) => {
                 const isSelected = group.selectedValue === option.value;
                 return (
@@ -83,7 +95,7 @@ export function AdminFilters({
                   </button>
                 );
               })}
-            </div>
+            </div>}
           </div>
         ))}
 

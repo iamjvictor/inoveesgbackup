@@ -263,21 +263,23 @@ export class AuthService {
     };
   }
 
-  async getMe(supabaseUserId: string) {
+  async getMe(supabaseUserId: string, forceFresh = false) {
     console.info("[auth.getMe] Fetching profile from database", {
       supabaseUserId,
     });
 
+    if (forceFresh) await authRepository.invalidateUserCachesForSupabaseUser(supabaseUserId);
     const user = await this.resolveSessionUser(supabaseUserId);
 
     return user;
   }
 
-  async getAccessContext(supabaseUserId: string): Promise<AuthAccessContext | null> {
+  async getAccessContext(supabaseUserId: string, forceFresh = false): Promise<AuthAccessContext | null> {
     console.info("[auth.getAccessContext] Fetching access context", {
       supabaseUserId,
     });
 
+    if (forceFresh) await authRepository.invalidateUserCachesForSupabaseUser(supabaseUserId);
     return authRepository.getAccessContextBySupabaseUserId(supabaseUserId);
   }
 

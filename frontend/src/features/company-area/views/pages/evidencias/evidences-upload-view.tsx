@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { Heart, Leaf, Loader2, Recycle, Scale, ShieldCheck } from "lucide-react";
 import { diagnosticService } from "@/features/company-area/services/diagnostic.service";
+import { getBusinessDayStart, getEvidenceUploadDeadline } from "@/features/company-area/services/evidence-upload-window";
 import { useCompany } from "../../../context/company-context";
 import {
   EVIDENCE_ALLOWED_EXTENSIONS,
@@ -77,8 +78,10 @@ function buildFileId(groupCode: EvidenceGroupCode, fileName: string, index: numb
 }
 
 export function EvidencesView() {
-  const { company } = useCompany();
+  const { company, serviceAccess, hasEvidenceAccess } = useCompany();
+  const [previewMode, setPreviewMode] = useState(false);
   const [diagnosticId, setDiagnosticId] = useState<string | null>(null);
+  const [now, setNow] = useState(() => Date.now());
   const [scores, setScores] = useState<PillarScores | null>(null);
   const [overallScore, setOverallScore] = useState(0);
   const [provenOverallScore, setProvenOverallScore] = useState(0);
@@ -88,6 +91,11 @@ export function EvidencesView() {
   const [sendingByGroup, setSendingByGroup] = useState<LoadingGroup>(() => createEmptyGroupMap(() => false));
   const [isLoading, setIsLoading] = useState(true);
   const [statusMessage, setStatusMessage] = useState<string | null>(null);
+
+  useEffect(() => {
+    setPreviewMode(process.env.NODE_ENV === "development" &&
+      new URLSearchParams(window.location.search).get("mockPrazo") === "2026-10-01");
+  }, []);
 
   useEffect(() => {
     async function loadCurrentDiagnostic() {
@@ -157,6 +165,34 @@ export function EvidencesView() {
     loadCurrentDiagnostic();
   }, []);
 
+  useEffect(() => {
+    const interval = window.setInterval(() => setNow(Date.now()), 60_000);
+    return () => window.clearInterval(interval);
+  }, []);
+
+  const hasPurchasedFullDiagnostic = serviceAccess?.purchasedProductCodes?.some((code) =>
+    ["FULL_DIAGNOSTIC", "FULL_DIAGNOSTIC_PLUS"].includes(code.toUpperCase().replace(/-/g, "_")),
+  ) ?? false;
+  const latestDeclaration = (company?.subjectDiagnostics ?? []).find((diagnostic) =>
+    (hasPurchasedFullDiagnostic ? diagnostic.kind === "FULL_DIAGNOSTIC" : ["PRE_DIAGNOSTIC", "FULL_DIAGNOSTIC"].includes(diagnostic.kind)) &&
+    ["DRAFT", "ACTIVE", "COMPLETED"].includes(diagnostic.status),
+  );
+  const hasUnresolvedDiagnostic = !previewMode && Boolean(latestDeclaration && latestDeclaration.status !== "COMPLETED");
+  const completedAt = previewMode
+    ? new Date("2026-10-01T00:00:00-03:00").getTime()
+    : latestDeclaration?.status === "COMPLETED" && latestDeclaration.completedAt
+      ? new Date(latestDeclaration.completedAt).getTime()
+      : 0;
+  const deadline = completedAt ? getEvidenceUploadDeadline(completedAt) : null;
+  const hasFullDiagnostic = previewMode || hasPurchasedFullDiagnostic;
+  const showEvidenceDeadline = hasFullDiagnostic || hasEvidenceAccess || hasUnresolvedDiagnostic;
+  const canUpload = previewMode || (hasEvidenceAccess && !hasUnresolvedDiagnostic &&
+    (!hasFullDiagnostic || Boolean(deadline && now < deadline.closesAt.getTime())));
+  const daysRemaining = deadline
+    ? Math.max(0, Math.round((deadline.lastUploadDay - getBusinessDayStart(now)) / (24 * 60 * 60 * 1000)))
+    : 0;
+  const answeredDate = completedAt ? new Intl.DateTimeFormat("pt-BR", { timeZone: "America/Sao_Paulo", dateStyle: "short" }).format(new Date(completedAt)) : null;
+
   const pillarKpis = useMemo(() => [
     {
       id: "environmental",
@@ -201,6 +237,7 @@ export function EvidencesView() {
   ], [scores]);
 
   const handleAddFiles = (groupCode: EvidenceGroupCode, documentType: string, files: FileList) => {
+    if (!canUpload) return;
     const accepted = Array.from(files).filter((file) =>
       EVIDENCE_ALLOWED_EXTENSIONS.some((extension) => file.name.toLowerCase().endsWith(extension))
     );
@@ -246,6 +283,14 @@ export function EvidencesView() {
   };
 
   const handleSendGroup = async (groupCode: EvidenceGroupCode) => {
+    if (previewMode) {
+      setStatusMessage("Esta é uma prévia do prazo. Nenhum arquivo será enviado.");
+      return;
+    }
+    if (!canUpload) {
+      setStatusMessage("O prazo de 20 dias para enviar evidências terminou.");
+      return;
+    }
     if (sendingByGroup[groupCode]) {
       return;
     }
@@ -320,26 +365,51 @@ export function EvidencesView() {
 
   return (
     <div className="space-y-8">
-      <section className="flex flex-wrap items-center justify-between gap-4 rounded-2xl border border-emerald-100 bg-white px-5 py-4 shadow-sm">
-        <div>
-          <p className="text-[10px] font-semibold uppercase tracking-[0.15em] text-emerald-600">Desempenho comprovado</p>
-          <p className="mt-1 text-sm text-slate-500">Pontuação calculada a partir das evidências aprovadas.</p>
-        </div>
-        <div className="flex flex-wrap items-center gap-x-6 gap-y-3">
+      <div className="w-full">
+        <section className={`flex flex-wrap items-center justify-between gap-4 border border-emerald-100 bg-white px-5 py-4 shadow-sm ${showEvidenceDeadline ? "rounded-t-2xl rounded-b-none" : "rounded-2xl"}`}>
           <div>
-            <p className="text-[10px] font-semibold uppercase tracking-[0.13em] text-slate-400">ICEB</p>
-            <p className="text-xl font-extrabold leading-tight text-emerald-700">{provenOverallScore}<span className="text-xs font-medium text-emerald-600">/100</span></p>
+            <p className="text-[10px] font-semibold uppercase tracking-[0.15em] text-emerald-600">Desempenho comprovado</p>
+            <p className="mt-1 text-sm text-slate-500">Pontuação calculada a partir das evidências aprovadas.</p>
           </div>
-          <div className="border-l border-slate-100 pl-6">
-            <p className="text-[10px] font-semibold uppercase tracking-[0.13em] text-slate-400">Nível atual</p>
-            <p className="text-sm font-bold leading-tight text-slate-800">{getMaturityLevel(provenOverallScore, maturityLevel)}</p>
+          <div className="flex flex-wrap items-center gap-x-6 gap-y-3">
+            <div>
+              <p className="text-[10px] font-semibold uppercase tracking-[0.13em] text-slate-400">ICEB</p>
+              <p className="text-xl font-extrabold leading-tight text-emerald-700">{provenOverallScore}<span className="text-xs font-medium text-emerald-600">/100</span></p>
+            </div>
+            <div className="border-l border-slate-100 pl-6">
+              <p className="text-[10px] font-semibold uppercase tracking-[0.13em] text-slate-400">Nível atual</p>
+              <p className="text-sm font-bold leading-tight text-slate-800">{getMaturityLevel(provenOverallScore, maturityLevel)}</p>
+            </div>
+            <div className="border-l border-slate-100 pl-6">
+              <p className="text-[10px] font-semibold uppercase tracking-[0.13em] text-slate-400">Nota declarada</p>
+              <p className="text-lg font-bold leading-tight text-slate-700">{overallScore}/100</p>
+            </div>
           </div>
-          <div className="border-l border-slate-100 pl-6">
-            <p className="text-[10px] font-semibold uppercase tracking-[0.13em] text-slate-400">Nota declarada</p>
-            <p className="text-lg font-bold leading-tight text-slate-700">{overallScore}/100</p>
-          </div>
-        </div>
-      </section>
+        </section>
+
+      {showEvidenceDeadline ? (
+        <section className={`w-full max-w-none rounded-b-2xl border border-t-0 px-5 py-4 text-sm shadow-sm ${canUpload ? "border-emerald-100 bg-white text-slate-700" : "border-amber-200 bg-amber-50 text-amber-950"}`}>
+          {hasUnresolvedDiagnostic ? (
+            <p>Conclua o diagnóstico autodeclarado antes de enviar as evidências.</p>
+          ) : deadline ? (
+            <>
+              <div className="flex flex-wrap items-center justify-between gap-3">
+                <div className="flex flex-wrap items-baseline gap-x-2 gap-y-1">
+                  <p className="font-semibold">Prazo para envio de evidências</p>
+                  <p className="text-slate-600">{canUpload ? "Envie seus arquivos até" : "Encerrado em"} <strong>{deadline.label}</strong></p>
+                </div>
+                <span className={`rounded-xl px-3 py-2 text-center font-bold text-white ${canUpload ? "bg-emerald-600" : "bg-amber-600"}`}>
+                  {canUpload ? daysRemaining === 0 ? "Último dia" : `${daysRemaining} ${daysRemaining === 1 ? "dia restante" : "dias restantes"}` : "Prazo encerrado"}
+                </span>
+              </div>
+              <p className="mt-3 border-t border-slate-100 pt-3 text-xs text-slate-500">Diagnóstico autodeclarado respondido em: <strong className="text-slate-700">{answeredDate}</strong></p>
+            </>
+          ) : (
+            <p>Conclua o diagnóstico autodeclarado para iniciar o prazo de 20 dias de envio das evidências.</p>
+          )}
+        </section>
+      ) : null}
+      </div>
 
       <section className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
         {pillarKpis.map((kpi) => {
@@ -396,6 +466,8 @@ export function EvidencesView() {
         draftsByGroup={draftsByGroup}
         persistedByGroup={persistedByGroup}
         sendingByGroup={sendingByGroup}
+        canUpload={canUpload}
+        uploadDeadline={deadline?.label ?? null}
         onAddFiles={handleAddFiles}
         onRemoveFile={handleRemoveFile}
         onClearGroup={handleClearGroup}

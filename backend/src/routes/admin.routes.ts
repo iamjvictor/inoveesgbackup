@@ -34,5 +34,7 @@ adminRoutes.get("/livros", (req, res) => adminController.getBooks(req, res));
 adminRoutes.post("/livros/load", (req, res) => adminController.getBooks(req, res));
 adminRoutes.post("/consultoria/:id/schedule", (req, res) => adminController.scheduleConsulting(req, res));
 adminRoutes.post("/consultoria/:id/complete", (req, res) => adminController.completeConsulting(req, res));
+adminRoutes.post("/consultoria/:id/no-show", (req, res) => adminController.markConsultingNoShow(req, res));
+adminRoutes.post("/consultoria/:id/meeting-link", (req, res) => adminController.updateConsultingMeetingLink(req, res));
 adminRoutes.post("/consultoria/:id/cancel", (req, res) => adminController.cancelConsulting(req, res));
 adminRoutes.post("/consultoria/:id/reschedule", (req, res) => adminController.rescheduleConsulting(req, res));

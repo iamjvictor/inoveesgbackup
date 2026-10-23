@@ -285,24 +285,21 @@ function buildPriorityHtml(axisScores: PDFGeneratorOptions["model"]["axisScores"
 }
 
 function buildCardComprovado(hasVerified: boolean, scoreComprovado: number): string {
-  if (hasVerified) {
-    return `
-    <div class="card-score" style="background:#f0fdf4; border-color:#a7f3d0;">
-      <div class="score-header" style="color:#065f46;">Score Comprovado (Auditado)</div>
-      <div class="score-main">
-        <div class="score-number" style="color:#059669;">${scoreComprovado}%</div>
-        <div>
-          <div style="font-size:9pt; font-weight:700; color:#065f46;">✓ Evidências Validadas</div>
-          <div style="font-size:8pt; color:#047857;">Auditado via Plataforma InoveESG</div>
-        </div>
-      </div>
-    </div>`;
-  }
+  const badgeText = hasVerified ? "Verificado InoveESG" : "Verificado InoveESG";
+  const noteText = hasVerified
+    ? "Evidências validadas e auditadas"
+    : "Evidências validadas e auditadas";
   return `
-  <div class="card-score" style="background:#f8fafc; border-color:#e2e8f0;">
-    <div class="score-header">Score Comprovado (Auditado)</div>
-    <div style="font-size:9pt; color:#94a3b8; padding:10px 0;">Processo de auditoria não realizado.</div>
-    <div style="font-size:8pt; color:#cbd5e1;">Envie evidências formais na plataforma InoveESG para certificar seu score e obter o Selo ESG.</div>
+  <div class="result-score-card proven">
+    <div style="display:flex; justify-content:center; align-items:center;">
+      <div class="proof-ring">${scoreComprovado}%</div>
+    </div>
+    <div>
+      <div class="score-label">Score Comprovado</div>
+      <div class="score-number">${scoreComprovado}%</div>
+      <div class="score-note">${noteText}</div>
+      <span class="verified-pill">${badgeText}</span>
+    </div>
   </div>`;
 }
 
@@ -380,46 +377,14 @@ function buildLevelNarrative(levelIndex: number): {
 
 function buildFooterHtml(): string {
   return `
-    <div class="footer">
-      <span class="brand">
-        <i class="footer-icon" aria-hidden="true">
-          <svg viewBox="0 0 24 24" fill="none" stroke="#2d2d2d" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-            <rect x="3.5" y="3.5" width="17" height="17" rx="5"/>
-            <circle cx="12" cy="12" r="4.2"/>
-            <circle cx="17.1" cy="6.9" r="1"/>
-          </svg>
-        </i>
-        @inove-esg
-      </span>
-      <span>
-        <i class="footer-icon" aria-hidden="true">
-          <svg viewBox="0 0 24 24" fill="none" stroke="#2d2d2d" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
-            <rect x="3" y="5.5" width="18" height="13" rx="1"/>
-            <path d="M4 7l8 6 8-6"/>
-          </svg>
-        </i>
-        <a href="mailto:inove-esg@inove-esg.com.br" class="footer-link">inove-esg@inove-esg.com.br</a>
-      </span>
-      <span>
-        <i class="footer-icon" aria-hidden="true">
-          <svg viewBox="0 0 24 24" fill="none" stroke="#2d2d2d" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="12" cy="12" r="9"/>
-            <path d="M3.6 12h16.8"/>
-            <path d="M12 3c2.4 2.5 3.6 5.5 3.6 9s-1.2 6.5-3.6 9"/>
-            <path d="M12 3c-2.4 2.5-3.6 5.5-3.6 9s1.2 6.5 3.6 9"/>
-          </svg>
-        </i>
-        www.inove-esg.com.br
-      </span>
-      <span>
-        <i class="footer-icon" aria-hidden="true">
-          <svg viewBox="0 0 24 24" fill="none" stroke="#2d2d2d" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="12" cy="12" r="9"/>
-            <path d="M8.6 7.7c.3-.3.8-.4 1.2-.2l1.5 2c.2.3.2.8 0 1.1l-.8 1c.8 1.5 2 2.7 3.5 3.5l1-.8c.3-.2.8-.2 1.1 0l2 1.5c.3.3.4.8.2 1.2-.4.8-1.2 1.4-2.1 1.4-5.2 0-9.4-4.2-9.4-9.4 0-.9.6-1.7 1.8-2.3z"/>
-          </svg>
-        </i>
-        ((22) 9980873-23
-      </span>
+    <div class="page-footer">
+      <div class="footer-bar-left"></div>
+      <div class="footer-text">
+        <a href="http://www.inoveesg.com.br/" class="footer-link">WWW.INOVEESG.COM.BR</a>
+        <span class="footer-sep">&nbsp;|&nbsp;</span>
+        <span class="footer-phone">(22) 99808-7323</span>
+      </div>
+      <div class="footer-bar-right"></div>
     </div>`;
 }
 
@@ -464,55 +429,39 @@ export async function generateESGReportPDF({
 
   const __dir = path.dirname(fileURLToPath(import.meta.url));
 
-  // Imagens convertidas em Base64 Data URI para garantir renderização no Puppeteer
-  const logoPath = path.join(__dir, "../models/assets/img/image3.png");
-  const watermarkPath = path.join(__dir, "../models/assets/img/image4.png");
-  const watermarkSecondPath = path.join(__dir, "../models/assets/img/image5.png");
-  const bisLogoPath = path.join(__dir, "../models/assets/img/image22.png");
+  // Função auxiliar para carregar imagens em Base64
+  const toBase64 = (filePath: string, mime = "image/png"): string => {
+    return fs.existsSync(filePath)
+      ? `data:${mime};base64,${fs.readFileSync(filePath).toString("base64")}`
+      : "";
+  };
 
-  const logoImage = fs.existsSync(logoPath)
-    ? `data:image/png;base64,${fs.readFileSync(logoPath).toString("base64")}`
-    : "";
-  const watermarkImage = fs.existsSync(watermarkPath)
-    ? `data:image/png;base64,${fs.readFileSync(watermarkPath).toString("base64")}`
-    : "";
-  const watermarkImageSecond = fs.existsSync(watermarkSecondPath)
-    ? `data:image/png;base64,${fs.readFileSync(watermarkSecondPath).toString("base64")}`
-    : "";
-  const bisImage = fs.existsSync(bisLogoPath)
-    ? `data:image/png;base64,${fs.readFileSync(bisLogoPath).toString("base64")}`
-    : "";
-  const signatureDanielePath = path.join(__dir, "../models/assets/img/assinatura_daniele.jpg");
-  const signatureDanieleImage = fs.existsSync(signatureDanielePath)
-    ? `data:image/jpeg;base64,${fs.readFileSync(signatureDanielePath).toString("base64")}`
-    : "";
+  // Imagens oficiais do modelo Word (assets/img)
+  const coverLogoImage =
+    toBase64(path.join(__dir, "../models/assets/img/image14.png")) ||
+    toBase64(path.join(__dir, "../models/assets/img/image3.png"));
+  const headerLogoImage =
+    toBase64(path.join(__dir, "../models/assets/img/image15.png")) || coverLogoImage;
+  const headerBarImage = toBase64(path.join(__dir, "../models/assets/img/image8.png"));
+  const watermarkImage =
+    toBase64(path.join(__dir, "../models/assets/img/image11.png")) ||
+    toBase64(path.join(__dir, "../models/assets/img/image4.png"));
+  const bisImage =
+    toBase64(path.join(__dir, "../models/assets/img/image16.png")) ||
+    toBase64(path.join(__dir, "../models/assets/img/image22.png"));
+  const footerBannerImage = toBase64(path.join(__dir, "../models/assets/img/image9.png"));
+  const signatureLineImage = toBase64(path.join(__dir, "../models/assets/img/image5.png"));
+  const iconInstagram = toBase64(path.join(__dir, "../models/assets/img/image7.png"));
+  const iconEmail = toBase64(path.join(__dir, "../models/assets/img/image13.png"));
+  const iconWeb = toBase64(path.join(__dir, "../models/assets/img/image10.png"));
+  const iconPhone = toBase64(path.join(__dir, "../models/assets/img/image6.png"));
+  const signatureDanieleImage = toBase64(
+    path.join(__dir, "../models/assets/img/assinatura_daniele.jpg"),
+    "image/jpeg"
+  );
 
-  // Processar Logo da Empresa (se existir URL, converte para Base64)
-  let companyLogoHtml = `
-    <div class="company-logo-placeholder">
-      <span>Logo da</span>
-      <span>empresa</span>
-    </div>
-  `;
-
-  if (companyLogoUrl) {
-    try {
-      let base64Src = companyLogoUrl;
-      if (companyLogoUrl.startsWith("http://") || companyLogoUrl.startsWith("https://")) {
-        const resp = await fetch(companyLogoUrl);
-        if (resp.ok) {
-          const arrayBuffer = await resp.arrayBuffer();
-          const buffer = Buffer.from(arrayBuffer);
-          const contentType = resp.headers.get("content-type") || "image/png";
-          base64Src = `data:${contentType};base64,${buffer.toString("base64")}`;
-        }
-      }
-      companyLogoHtml = `<div class="company-logo-box"><img src="${base64Src}" alt="${escapeHtml(companyName)}" class="company-logo-img" /></div>`;
-    } catch (err) {
-      console.warn("[pdfGeneratorService] Erro ao carregar imagem da logo da empresa para o PDF:", err);
-      companyLogoHtml = `<div class="company-logo-box"><img src="${escapeHtml(companyLogoUrl)}" alt="${escapeHtml(companyName)}" class="company-logo-img" /></div>`;
-    }
-  }
+  // Logo da Empresa não é mais exibida no cabeçalho conforme alinhamento com modelo oficial
+  const companyLogoHtml = "";
 
   // Status badge
   const statusClass = hasVerifiedScore ? "auditado" : "declaratorio";
@@ -536,7 +485,7 @@ export async function generateESGReportPDF({
   const templatePath = path.join(__dir, "../models/assets/template_relatorio.html");
   let html = fs.readFileSync(templatePath, "utf-8");
 
-  const reportTitle = "Relatório de Pré-Diagnóstico<br>ESG & Bioeconomia circular";
+  const reportTitle = "Relatório de Pré-Diagnóstico<br>ESG &amp; Bioeconomia Circular";
 
   // Substituir placeholders
   html = html
@@ -559,10 +508,19 @@ export async function generateESGReportPDF({
     .replace(/\{\{OPERATION_TIME\}\}/g, displayValue(operationTime, ""))
     .replace(/\{\{DATE\}\}/g, dateStr)
     .replace(/\{\{DATE_EXTENSO\}\}/g, dateExtenso)
-    .replace(/\{\{LOGO_IMAGE\}\}/g, logoImage)
+    .replace(/\{\{COVER_LOGO_IMAGE\}\}/g, coverLogoImage)
+    .replace(/\{\{HEADER_LOGO_IMAGE\}\}/g, headerLogoImage)
+    .replace(/\{\{HEADER_BAR_IMAGE\}\}/g, headerBarImage)
     .replace(/\{\{WATERMARK_IMAGE\}\}/g, watermarkImage)
-    .replace(/\{\{WATERMARK_IMAGE_SECOND\}\}/g, watermarkImageSecond)
+    .replace(/\{\{WATERMARK_IMAGE_SECOND\}\}/g, watermarkImage)
+    .replace(/\{\{LOGO_IMAGE\}\}/g, coverLogoImage)
     .replace(/\{\{BIS_IMAGE\}\}/g, bisImage)
+    .replace(/\{\{FOOTER_BANNER_IMAGE\}\}/g, footerBannerImage)
+    .replace(/\{\{SIGNATURE_LINE_IMAGE\}\}/g, signatureLineImage)
+    .replace(/\{\{ICON_INSTAGRAM\}\}/g, iconInstagram)
+    .replace(/\{\{ICON_EMAIL\}\}/g, iconEmail)
+    .replace(/\{\{ICON_WEB\}\}/g, iconWeb)
+    .replace(/\{\{ICON_PHONE\}\}/g, iconPhone)
     .replace(/\{\{SIGNATURE_DANIELE_IMAGE\}\}/g, signatureDanieleImage)
     .replace(/\{\{COMPANY_LOGO_HTML\}\}/g, companyLogoHtml)
     .replace(/\{\{FOOTER_HTML\}\}/g, buildFooterHtml())

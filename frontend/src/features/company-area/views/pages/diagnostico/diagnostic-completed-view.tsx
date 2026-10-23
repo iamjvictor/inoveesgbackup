@@ -5,12 +5,14 @@ import Link from "next/link";
 
 import { Button } from "@/components/ui/button";
 import { inviteService, type SupplierInvite } from "@/features/company-area/services/invite.service";
+import { useCompany } from "@/features/company-area/context/company-context";
 import {
   CheckCircle2,
   ArrowRight,
   Sparkles,
   ShieldCheck,
   ShieldAlert,
+  LockKeyhole,
   AlertTriangle,
   Building2,
   Leaf,
@@ -93,6 +95,8 @@ export function DiagnosticCompletedView({
   isStarting = false,
   onRedo,
 }: DiagnosticCompletedViewProps) {
+  const { serviceAccess, hasEvidenceAccess } = useCompany();
+  const hasEvidenceProduct = serviceAccess?.hasEvidenceAccess ?? false;
   const [invites, setInvites] = useState<SupplierInvite[]>([]);
   const [loadingInvites, setLoadingInvites] = useState(true);
   const [errorInvites, setErrorInvites] = useState(false);
@@ -184,7 +188,49 @@ export function DiagnosticCompletedView({
       </div>
 
       {/* Conditional Warning/Verification Status Banner */}
-      {!hasAudit ? (
+      {!hasAudit && hasEvidenceAccess ? (
+        <div className="relative overflow-hidden rounded-3xl border border-emerald-200 bg-gradient-to-r from-emerald-50/80 via-teal-50/30 to-background p-6 shadow-sm">
+          <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+            <div className="flex items-start gap-4">
+              <div className="bg-emerald-100 text-emerald-800 p-3 rounded-2xl shrink-0">
+                <CheckCircle2 className="h-6 w-6" />
+              </div>
+              <div className="space-y-1">
+                <h4 className="text-sm md:text-base font-bold text-slate-800 font-display">
+                  Evidências liberadas para envio
+                </h4>
+                <p className="text-xs md:text-sm text-slate-600 leading-relaxed max-w-4xl">
+                  Com a conclusão do diagnóstico, você já pode enviar os documentos. O prazo para envio é de 20 dias a partir desta conclusão.
+                </p>
+              </div>
+            </div>
+            <Button asChild className="rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white shrink-0 h-10 text-xs font-bold shadow-md">
+              <Link href="/app/evidencias">
+                Enviar evidências <ArrowRight className="ml-2 h-4 w-4" />
+              </Link>
+            </Button>
+          </div>
+        </div>
+      ) : !hasAudit && hasEvidenceProduct ? (
+        <div className="relative overflow-hidden rounded-3xl border border-amber-200 bg-amber-50/80 p-6 shadow-sm">
+          <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+            <div className="flex items-start gap-4">
+              <div className="bg-amber-100 text-amber-800 p-3 rounded-2xl shrink-0">
+                <LockKeyhole className="h-6 w-6" />
+              </div>
+              <div className="space-y-1">
+                <h4 className="text-sm md:text-base font-bold text-slate-800 font-display">Evidências aguardando a conclusão do diagnóstico</h4>
+                <p className="text-xs md:text-sm text-slate-600 leading-relaxed max-w-4xl">
+                  Finalize o Diagnóstico Estratégico vinculado à sua compra para liberar o envio. Depois da conclusão, você terá 20 dias para enviar as evidências.
+                </p>
+              </div>
+            </div>
+            <Button asChild className="rounded-xl bg-amber-600 hover:bg-amber-700 text-white shrink-0 h-10 text-xs font-bold shadow-md">
+              <Link href="/app/diagnostico">Continuar diagnóstico</Link>
+            </Button>
+          </div>
+        </div>
+      ) : !hasAudit ? (
         <div className="relative overflow-hidden rounded-3xl border border-amber-200 bg-gradient-to-r from-amber-50/80 via-orange-50/30 to-background p-6 shadow-sm">
           <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
             <div className="flex items-start gap-4">

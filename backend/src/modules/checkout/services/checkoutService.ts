@@ -4,7 +4,7 @@ import { createMercadoPagoPreference } from "../../../lib/mercadopago.js";
 import { DiagnosticRepository } from "../../diagnostic/repositories/diagnosticRepository.js";
 import { AuthRepository } from "../../auth/repositories/authRepository.js";
 import { InviteRepository } from "../../invite/repositories/inviteRepository.js";
-import { cache } from "../../../lib/cache.js";
+import { invalidateCurrentDiagnosticCache } from "../../diagnostic/services/diagnosticCache.js";
 import type { Order, OrderItem, Product } from "@prisma/client";
 
 const CHECKOUT_TTL_HOURS = 24;
@@ -136,7 +136,7 @@ export class CheckoutService {
   }
 
   private async clearCheckoutCache(organizationId: string) {
-    await cache.delete(`diagnostic:current:${organizationId}`);
+    await invalidateCurrentDiagnosticCache(organizationId);
   }
 
   private async getPricedProduct(productCode: Exclude<CheckoutProductCode, "INVITE_PACK">) {

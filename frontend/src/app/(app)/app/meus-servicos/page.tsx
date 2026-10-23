@@ -61,6 +61,13 @@ export default function MeusServicosPage() {
   const [isPaymentSuccessModalOpen, setIsPaymentSuccessModalOpen] = useState(false);
   const [purchasedProductName, setPurchasedProductName] = useState<string | null>(null);
 
+  useEffect(() => {
+    if (companyLoading || !company) return;
+    void refreshProfile(true).catch((error) => {
+      console.error("Erro ao atualizar serviços contratados:", error);
+    });
+  }, [companyLoading, company?.id, refreshProfile]);
+
   // Carrega serviços comprados e solicitações de orçamento do localStorage & Banco de Dados
   useEffect(() => {
     if (companyLoading || !company) return;
@@ -99,7 +106,9 @@ export default function MeusServicosPage() {
             });
           }
         });
-      } else if (company.orders) {
+      }
+
+      if (company.orders) {
         const paidOrders = company.orders.filter((o) => o.status === "PAID");
         paidOrders.forEach((order) => {
           order.items?.forEach((item) => {

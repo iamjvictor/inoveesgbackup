@@ -360,7 +360,7 @@ export class AuthController {
     }
 
     try {
-      const user = await authService.getMe(supabaseUserId);
+      const user = await authService.getMe(supabaseUserId, request.query.fresh === "true");
 
       if (!user) {
         return response.status(404).json({ message: "User not found" });
@@ -386,7 +386,7 @@ export class AuthController {
     }
 
     try {
-      const accessContext = await authService.getAccessContext(supabaseUserId);
+      const accessContext = await authService.getAccessContext(supabaseUserId, request.query.fresh === "true");
 
       console.info("=== USER ACCESS CONTEXT LOG ===");
       console.info(JSON.stringify(accessContext, null, 2));

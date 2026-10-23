@@ -24,6 +24,7 @@ import {
 import { AuthRepository } from "../../auth/repositories/authRepository.js";
 import { calculateEvidenceIndices, evidencePillarPointTotals, evidenceScoreAxes } from "../../evidence/services/evidenceScore.js";
 import { getBudgetProposalPriceCents } from "../../budget/budgetPricing.js";
+import { invalidateCurrentDiagnosticCache } from "../../diagnostic/services/diagnosticCache.js";
 
 export interface AdminMetric {
   id: string;
@@ -90,9 +91,12 @@ export interface AdminClientSummary {
   evidencePending: number;
   supplierCoverage: string;
   activeUsers: number;
-  consultingStatus?: "PENDING" | "SCHEDULED" | "COMPLETED" | "CANCELED";
+  consultingStatus?: "PENDING" | "SCHEDULED" | "COMPLETED" | "CANCELED" | "NO_SHOW";
   consultingDate?: string | null;
   consultingStartsAt?: string | null;
+  consultingSessionLimit?: number;
+  consultingSessionsUsed?: number;
+  consultingAppointments?: Array<{ id: string; status: string; startsAt: string | null; endsAt: string | null; meetingUrl: string | null }>;
 }
 
 export interface AdminSupplierSummary {
@@ -968,10 +972,12 @@ function buildClientSummaryFromRow(row: AdminClientRow): AdminClientSummary {
   const supplierTotal = toNumber(row.supplierTotal);
   const supplierCompleted = toNumber(row.supplierCompleted);
 
-  let consultingStatus: "PENDING" | "SCHEDULED" | "COMPLETED" | "CANCELED" = "PENDING";
+  let consultingStatus: "PENDING" | "SCHEDULED" | "COMPLETED" | "CANCELED" | "NO_SHOW" = "PENDING";
   if (row.appointmentStatus === "COMPLETED") {
     consultingStatus = "COMPLETED";
-  } else if (row.appointmentStatus === "CANCELED" || row.appointmentStatus === "NO_SHOW") {
+  } else if (row.appointmentStatus === "NO_SHOW") {
+    consultingStatus = "NO_SHOW";
+  } else if (row.appointmentStatus === "CANCELED") {
     consultingStatus = "CANCELED";
   } else if (row.appointmentStatus === "CONFIRMED" || row.appointmentStatus === "REQUESTED") {
     consultingStatus = "SCHEDULED";
@@ -994,6 +1000,17 @@ function buildClientSummaryFromRow(row: AdminClientRow): AdminClientSummary {
     consultingStatus,
     consultingDate: row.appointmentStartsAt ? formatDateTime(row.appointmentStartsAt) : null,
     consultingStartsAt: row.appointmentStartsAt?.toISOString() ?? null,
+    consultingSessionLimit: row.consultingSessionLimit ?? 0,
+    consultingSessionsUsed: toNumber(row.consultingSessionsUsed),
+    consultingAppointments: Array.isArray(row.consultingAppointmentsJson)
+      ? row.consultingAppointmentsJson.map((appointment: any) => ({
+          id: String(appointment.id),
+          status: String(appointment.status),
+          startsAt: appointment.startsAt ?? null,
+          endsAt: appointment.endsAt ?? null,
+          meetingUrl: appointment.meetingUrl ?? null,
+        }))
+      : [],
   };
 }
 
@@ -3080,139 +3097,6 @@ export class AdminService {
     return updated;
   }
 
-  async scheduleConsulting(organizationId: string, startsAt: string, orderId?: string) {
-    const startsAtDate = new Date(startsAt);
-    if (isNaN(startsAtDate.getTime())) {
-      throw new Error("Data de agendamento inválida");
-    }
-    if (startsAtDate <= new Date()) {
-      throw new Error("O agendamento deve ser feito para uma data futura");
-    }
-
-    const existingAppointment = await prisma.consultingAppointment.findFirst({
-      where: {
-        organizationId,
-        orderId: orderId ?? undefined,
-        status: { in: ["REQUESTED", "CONFIRMED"] },
-      },
-      orderBy: { createdAt: "desc" },
-    });
-
-    if (existingAppointment) {
-      throw new Error("Esta empresa já possui uma consultoria agendada para esta compra");
-    }
-
-    const paidOrder = await prisma.order.findFirst({
-      where: {
-        id: orderId ?? undefined,
-        organizationId,
-        status: "PAID",
-        items: {
-          some: {
-            product: { code: { in: ["PRE_DIAGNOSTIC_PLUS", "CONSULTING_1H"] } },
-          },
-        },
-      },
-      orderBy: { paidAt: "desc" },
-      include: {
-        items: {
-          include: {
-            product: { include: { service: true } },
-          },
-        },
-      },
-    });
-
-    if (!paidOrder) {
-      throw new Error("A empresa não possui uma compra paga de consultoria");
-    }
-
-    const consultingItem = paidOrder.items.find(
-      (item) => ["PRE_DIAGNOSTIC_PLUS", "CONSULTING_1H"].includes(item.product.code),
-    );
-    const durationMinutes = consultingItem?.product.service?.durationMinutes ?? 60;
-    const endsAtDate = new Date(startsAtDate.getTime() + durationMinutes * 60 * 1000);
-
-    return prisma.consultingAppointment.create({
-      data: {
-        organizationId,
-        orderId: paidOrder.id,
-        serviceId: consultingItem?.product.service?.id,
-        startsAt: startsAtDate,
-        endsAt: endsAtDate,
-        status: "CONFIRMED",
-        timezone: "America/Sao_Paulo",
-      },
-    });
-  }
-
-  private async findLatestConsultingAppointment(organizationId: string, orderId?: string) {
-    const appointment = await prisma.consultingAppointment.findFirst({
-      where: {
-        organizationId,
-        orderId: orderId ?? undefined,
-      },
-      orderBy: { createdAt: "desc" },
-    });
-
-    if (!appointment) {
-      throw new Error("Nenhum agendamento encontrado para esta compra/empresa");
-    }
-
-    return appointment;
-  }
-
-  async completeConsulting(organizationId: string, orderId?: string) {
-    const appointment = await this.findLatestConsultingAppointment(organizationId, orderId);
-
-    return prisma.consultingAppointment.update({
-      where: { id: appointment.id },
-      data: {
-        status: "COMPLETED",
-        completedAt: new Date(),
-        canceledAt: null,
-        cancellationReason: null,
-      },
-    });
-  }
-
-  async cancelConsulting(organizationId: string, reason?: string, orderId?: string) {
-    const appointment = await this.findLatestConsultingAppointment(organizationId, orderId);
-
-    return prisma.consultingAppointment.update({
-      where: { id: appointment.id },
-      data: {
-        status: "CANCELED",
-        canceledAt: new Date(),
-        cancellationReason: reason?.trim() || null,
-      },
-    });
-  }
-
-  async rescheduleConsulting(organizationId: string, startsAt: string, orderId?: string) {
-    const startsAtDate = new Date(startsAt);
-    if (isNaN(startsAtDate.getTime()) || startsAtDate <= new Date()) {
-      throw new Error("O novo horário deve ser uma data futura válida");
-    }
-
-    const appointment = await this.findLatestConsultingAppointment(organizationId, orderId);
-    const endsAtDate = new Date(startsAtDate.getTime() + 60 * 60 * 1000);
-
-    return prisma.consultingAppointment.update({
-      where: { id: appointment.id },
-      data: {
-        status: "CONFIRMED",
-        startsAt: startsAtDate,
-        endsAt: endsAtDate,
-        timezone: "America/Sao_Paulo",
-        confirmedAt: new Date(),
-        completedAt: null,
-        canceledAt: null,
-        cancellationReason: null,
-      },
-    });
-  }
-
   async getEvidencePreview(supabaseUserId: string, evidenceId: string) {
     const admin = await authRepository.findAdminUserBySupabaseUserId(supabaseUserId);
     if (!admin) throw new Error("Acesso administrativo não autorizado");
@@ -3376,7 +3260,7 @@ export class AdminService {
       }
 
       await Promise.all([
-        cache.delete(`diagnostic:current:${evidence.diagnostic.organizationId}`),
+        invalidateCurrentDiagnosticCache(evidence.diagnostic.organizationId),
         cache.delete(`auth:profile:v2:${supabaseUserId}`),
       ]);
 

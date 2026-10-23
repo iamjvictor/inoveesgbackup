@@ -2,418 +2,387 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <title>Relatório de Pré-Diagnóstico ESG & Bioeconomia Circular</title>
+  <title>Relatório de Pré-Diagnóstico ESG &amp; Bioeconomia Circular</title>
   <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+    @page {
+      size: A4 portrait;
+      margin: 0;
+    }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
     body {
       font-family: Arial, Helvetica, sans-serif;
-      color: #262626;
-      background: #fff;
+      color: #000000;
+      background: #ffffff;
       -webkit-print-color-adjust: exact;
       print-color-adjust: exact;
     }
+
+    /* Estrutura das Páginas A4 */
     .page {
       width: 210mm;
+      height: 297mm;
       min-height: 297mm;
-      padding: 18mm 20mm 24mm 20mm;
+      max-height: 297mm;
+      padding: 0;
       margin: 0 auto;
       position: relative;
       overflow: hidden;
       page-break-after: always;
-      background: #fff;
+      break-after: page;
+      background: #ffffff;
+      box-sizing: border-box;
     }
-    .page::before {
-      display: none !important;
-    }
+
+    /* O PNG já tem transparência própria; manter a opacidade original da imagem. */
     .page::after {
       content: "";
       position: absolute;
-      right: -17mm;
-      top: 82mm;
-      width: 108mm;
-      height: 145mm;
-      background-image: url("{{WATERMARK_IMAGE}}"), url("{{WATERMARK_IMAGE_SECOND}}");
-      background-repeat: no-repeat, no-repeat;
-      background-position: left center, right center;
-      background-size: auto 145mm, auto 145mm;
-      opacity: .80;
-      z-index: 0;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      width: 110mm;
+      height: 106mm;
+      background-image: url("{{WATERMARK_IMAGE}}");
+      background-repeat: no-repeat;
+      background-position: center center;
+      background-size: contain;
+      z-index: 1;
       pointer-events: none;
     }
-    .content { position: relative; z-index: 1; min-height: 255mm; }
-    .doc-header {
-      height: 22mm;
-      display: flex;
-      align-items: flex-start;
-      justify-content: flex-start;
-    }
-    .doc-header img { width: 36mm; height: auto; }
-    .doc-header.center-logo {
-      height: 38mm;
-      justify-content: center;
-      align-items: flex-center;
-      margin-bottom: 4mm;
-    }
-    .doc-header.center-logo img {
-      width: 58mm;
-      height: auto;
-    }
-    .intro-page .content {
-      padding-top: 8mm;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-    .intro-page .doc-header.center-logo {
-      height: 44mm;
-      justify-content: center;
-      align-items: center;
-      margin-bottom: 12mm;
-    }
-    .intro-page .doc-header.center-logo img {
-      width: 95mm;
-      height: auto;
-    }
-    .intro-main-title {
-      font-size: 13.5pt;
-      line-height: 1.35;
-      font-weight: 700;
-      color: #000000;
-      text-align: center;
-      max-width: 155mm;
-      margin: 0 auto 9mm;
-    }
-    .intro-page p {
-      font-size: 10.5pt;
-      line-height: 1.55;
-      margin-bottom: 7mm;
-      text-align: justify;
-      color: #222222;
-      max-width: 160mm;
-    }
-    .company-info-page .content {
-      padding-top: 4mm;
-    }
-    .company-header {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 100%;
-      margin-top: 4mm;
-      margin-bottom: 12mm;
-    }
-    .company-logo-placeholder {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-end;
-      text-align: right;
-      font-size: 9.5pt;
-      line-height: 1.15;
-      color: #222222;
-      font-weight: 400;
-    }
-    .company-logo-box {
-      display: flex;
-      align-items: center;
-      justify-content: flex-end;
-      height: 12mm;
-      max-width: 45mm;
-    }
-    .company-logo-img {
-      max-height: 12mm;
-      max-width: 45mm;
-      object-fit: contain;
-      display: block;
-    }
-    .company-header-divider {
-      width: 1.2px;
-      height: 7mm;
-      background-color: #b0b0b0;
-      margin: 0 3.5mm;
-    }
-    .company-inove-logo img {
-      width: 40mm;
-      height: auto;
-      display: block;
-    }
-    .company-info-title {
-      font-size: 20pt;
-      line-height: 1.25;
-      font-weight: 700;
-      color: #000000;
-      text-align: left;
-      margin: 0 0 10mm 4mm;
-      max-width: 150mm;
-    }
-    .company-data-list {
-      width: 165mm;
-      margin: 0 0 0 6mm;
-      display: flex;
-      flex-direction: column;
-      gap: 4.8mm;
-      padding-left: 0;
-    }
-    .company-data-list .data-row {
-      font-size: 10.5pt;
-      line-height: 1.4;
-      color: #222222;
-      text-align: left;
-    }
-    .company-data-list .data-label {
-      font-weight: 700;
-      color: #111111;
-      text-transform: none !important;
-      letter-spacing: normal !important;
-    }
-    .company-data-list .data-value {
-      font-weight: 400;
-      color: #333333;
-      margin-left: 1.5mm;
-    }
-    .company-info-page .footer {
-      display: none !important;
-    }
-    .footer {
-      position: absolute;
-      left: 20mm;
-      right: 20mm;
-      bottom: 8mm;
-      display: grid;
-      grid-template-columns: 1fr 1.45fr;
-      column-gap: 18mm;
-      row-gap: 2.3mm;
-      align-items: start;
-      font-size: 6.2pt;
-      color: #3f3f3f;
-      z-index: 2;
-    }
-    .footer span {
-      white-space: nowrap;
-      display: inline-flex;
-      align-items: center;
-      gap: 2.1mm;
-      line-height: 1.1;
-    }
-    .footer .brand { color: #3f3f3f; font-weight: 400; }
-    .footer-icon {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      color: #2d2d2d;
-      flex: 0 0 auto;
-      width: 4.7mm;
-      height: 4.7mm;
-    }
-    .footer-icon svg {
-      width: 4.7mm;
-      height: 4.7mm;
-      display: block;
-    }
-    h1, h2, h3 { font-weight: 700; color: #202020; text-align: center; }
-    h1 { font-size: 18pt; line-height: 1.25; margin-bottom: 8mm; }
-    h2 { font-size: 17pt; line-height: 1.25; margin-bottom: 8mm; }
-    h3 { font-size: 13pt; line-height: 1.25; margin: 7mm 0 4mm; }
-    p {
-      font-size: 11pt;
-      line-height: 1.48;
-      margin-bottom: 4.2mm;
-      text-align: justify;
-    }
-    .muted { color: #555; }
-    .center { text-align: center; }
-    .pre-line { white-space: pre-line; }
-    /* Cover Overrides */
-    .page.cover {
-      padding: 0;
-      background: #ffffff;
-    }
-    .page.cover::before,
     .page.cover::after {
       display: none !important;
     }
-    .cover .content {
+
+    /* Cabeçalho do Relatório: Logo no Canto Esquerdo e Barra Verde (#BFD549) até o canto direito */
+    .page-header {
+      position: absolute;
+      top: 19mm;
+      left: 0;
+      right: 0;
+      height: 22mm;
+      display: flex;
+      align-items: center;
+      z-index: 5;
+    }
+    .header-logos-wrap {
+      margin-left: 20mm;
+      display: flex;
+      align-items: center;
+      flex: 0 0 auto;
+    }
+    .header-inove-logo {
+      height: 15mm;
+      width: auto;
+      max-width: 62mm;
+      object-fit: contain;
+      display: block;
+    }
+    .header-bis-logo {
+      height: 22mm;
+      width: auto;
+      max-width: 55mm;
+      object-fit: contain;
+      display: block;
+    }
+    .header-bar-wrap {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      margin-left: 11mm;
+    }
+    .header-bar-fill {
+      width: 100%;
+      height: 15mm;
+      background-color: #BFD549;
+      display: block;
+    }
+
+    /* Rodapé oficial do modelo Word: barrinha verde esquerda (do canto 0), texto Century Gothic e barrinha verde direita até o canto da página */
+    .page-footer {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 10mm;
+      height: 5mm;
+      display: flex;
+      align-items: center;
+      z-index: 10;
+      font-family: "Century Gothic", "Segoe UI", Arial, sans-serif;
+      font-size: 8.5pt;
+      color: #232321;
+    }
+    .footer-bar-left {
+      position: absolute;
+      left: 0;
+      width: 17.5mm;
+      height: 3.8mm;
+      background-color: #BFD549;
+    }
+    .footer-text {
+      position: absolute;
+      left: 21.5mm;
+      white-space: nowrap;
+      color: #232321;
+      display: flex;
+      align-items: center;
+    }
+    .footer-text a {
+      color: #232321;
+      text-decoration: none;
+      font-weight: 400;
+    }
+    .footer-sep {
+      color: #232321;
+      margin: 0 1.5mm;
+    }
+    .footer-phone {
+      color: #232321;
+    }
+    .footer-bar-right {
+      position: absolute;
+      left: 105mm;
+      right: 0;
+      height: 3.8mm;
+      background-color: #BFD549;
+    }
+
+    /* Área de Conteúdo Interna */
+    .content {
+      position: relative;
+      z-index: 2;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      padding: 76mm 20mm 20mm 20mm;
+      box-sizing: border-box;
+      height: 100%;
+    }
+    .level-description-content {
+      padding-bottom: 32mm;
+    }
+    .level-description-content .narrative-paragraph {
+      margin-bottom: 3.2mm;
+    }
+
+    /* Tipografia e Títulos padrão Word (centralizados conforme modelo oficial) */
+    h1, h2, h3 {
+      color: #000000;
+    }
+    .section-title {
+      font-family: "Tahoma", "Segoe UI", Arial, sans-serif;
+      font-size: 16pt;
+      font-weight: 700;
+      line-height: 1.35;
+      margin-bottom: 7mm;
+      color: #000000;
+      text-align: center;
+    }
+    .section-title.center {
+      text-align: center;
+    }
+    .section-subtitle {
+      font-family: "Tahoma", "Segoe UI", Arial, sans-serif;
+      font-size: 13pt;
+      font-weight: 700;
+      line-height: 1.35;
+      margin-bottom: 6mm;
+      color: #111111;
+      text-align: center;
+    }
+    p {
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 11pt;
+      line-height: 1.5;
+      margin-bottom: 4.5mm;
+      text-align: justify;
+      color: #222222;
+    }
+    .pre-line {
+      white-space: pre-line;
+    }
+
+    /* Página 1: Capa */
+    .page.cover .content {
+      padding: 24mm 20mm 18mm 20mm;
       display: flex;
       flex-direction: column;
       align-items: center;
-      min-height: 275mm;
-      padding: 24mm 20mm 16mm 20mm;
-      box-sizing: border-box;
+      height: 100%;
     }
-    .cover-logo {
+    .cover-logo-wrap {
       display: flex;
       justify-content: center;
       align-items: center;
-      margin-top: 10mm;
+      margin-top: 26mm;
       margin-bottom: 22mm;
       width: 100%;
     }
-    .cover-logo img {
-      width: 115mm;
-      max-width: 85%;
+    .cover-logo-img {
+      width: 120mm;
+      max-width: 80%;
       height: auto;
+      display: block;
     }
     .cover-title-group {
       display: flex;
       flex-direction: column;
       align-items: center;
       text-align: center;
-      margin-bottom: 28mm;
+      margin-bottom: 24mm;
     }
     .cover-title {
-      font-size: 21pt;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 16.5pt;
       font-weight: 700;
-      color: #111111;
+      color: #000000;
       line-height: 1.35;
       text-align: center;
-      max-width: 150mm;
-      margin-bottom: 5mm;
+      max-width: 155mm;
+      margin-bottom: 6mm;
+      text-transform: uppercase;
     }
     .cover-confidential {
-      font-size: 13pt;
-      font-weight: 700;
-      color: #222222;
+      font-family: "Gill Sans", sans-serif;
+      font-size: 11pt;
+      font-weight: 400;
+      color: #111111;
       text-align: center;
+      letter-spacing: 0.5px;
     }
     .cover-meta {
       display: flex;
       flex-direction: column;
       align-items: center;
       text-align: center;
-      gap: 3.5mm;
+      gap: 3mm;
       margin-bottom: auto;
     }
     .cover-company {
+      font-family: "Century Gothic", "Segoe UI", Arial, sans-serif;
       font-size: 12.5pt;
-      font-weight: 400;
-      color: #222222;
+      font-weight: 700;
+      color: #000000;
     }
     .cover-date {
-      font-size: 12.5pt;
+      font-family: "Century Gothic", "Segoe UI", Arial, sans-serif;
+      font-size: 11pt;
       font-weight: 400;
       color: #222222;
     }
-    .cover-bottom-pill {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      background-color: #9ecc3b;
-      color: #1c2b05;
-      font-size: 9.5pt;
-      font-weight: 700;
-      letter-spacing: 0.4px;
-      padding: 2.8mm 9mm;
-      border-radius: 999px;
-      margin-bottom: 6mm;
-      white-space: nowrap;
-    }
-    .summary {
-      margin-top: 8mm;
-      list-style-position: inside;
-    }
-    .summary li {
-      font-size: 13pt;
-      line-height: 1.9;
-    }
-    .data-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      column-gap: 12mm;
-      row-gap: 6mm;
-      margin-top: 8mm;
-    }
-    .data-item {
-      border-bottom: 1px solid #d6d6d6;
-      padding-bottom: 2.2mm;
-      min-height: 14mm;
-    }
-    .data-label {
-      font-size: 8.5pt;
-      color: #6b6b6b;
-      margin-bottom: 1.5mm;
-      text-transform: uppercase;
-      letter-spacing: .2px;
-    }
-    .data-value {
-      font-size: 10.5pt;
-      color: #222;
-      line-height: 1.35;
-      overflow-wrap: anywhere;
-    }
-    .result-page {
-      padding: 18mm 20mm 24mm 20mm;
-    }
-    .result-page::after {
-      right: -17mm;
-      top: 82mm;
-      width: 108mm;
-      height: 145mm;
-      opacity: .80;
-    }
-    .result-page .content {
-      min-height: 250mm;
-      padding-top: 4mm;
-    }
-    .result-page .footer {
-      display: none;
-    }
-    .result-logo {
+
+    /* Página 3: Dados da Empresa */
+    .company-data-list {
+      width: 100%;
       display: flex;
-      justify-content: flex-end;
-      height: 28mm;
-      align-items: flex-start;
-      padding-top: 13mm;
+      flex-direction: column;
+      gap: 5.6mm;
+      margin-top: 2mm;
     }
-    .result-logo img {
-      width: 36mm;
-      height: auto;
-    }
-    .result-title {
-      font-size: 20pt;
-      line-height: 1.15;
-      font-weight: 700;
-      margin: 4mm 0 6mm;
-      color: #111;
+    .company-data-title {
       text-align: left;
     }
+    .result-page-title {
+      text-align: left;
+    }
+    .company-data-list .data-row {
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 12.5pt;
+      line-height: 1.45;
+      color: #222222;
+      text-align: left;
+    }
+    .company-data-list .data-label {
+      font-weight: 700;
+      color: #000000;
+      margin-right: 1.5mm;
+    }
+    .company-data-list .data-value {
+      font-weight: 400;
+      color: #222222;
+    }
+
+    /* Página 4: Termo de Autorresponsabilidade */
+    .terms-signature-block {
+      margin-top: auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      padding-bottom: 14mm;
+    }
+    .terms-content p {
+      font-size: 12.5pt;
+      line-height: 1.35;
+      margin-bottom: 3.2mm;
+      text-align: justify;
+      text-justify: inter-word;
+    }
+    .terms-content {
+      padding-left: 27mm;
+      padding-right: 27mm;
+    }
+    .signature-name {
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 11pt;
+      font-weight: 700;
+      color: #111111;
+      margin-bottom: 1mm;
+    }
+    .terms-signature-line {
+      width: 65mm;
+      border-top: 1px solid #333333;
+      margin-bottom: 2mm;
+    }
+    .signature-role {
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 9.5pt;
+      font-weight: 400;
+      color: #444444;
+    }
+
+    /* Página 5: Resultados */
     .result-layout {
       display: grid;
-      grid-template-columns: 94mm 66mm;
-      gap: 10mm;
+      grid-template-columns: 96mm 68mm;
+      gap: 6mm;
       align-items: start;
     }
     .result-left {
       display: flex;
       flex-direction: column;
-      gap: 5mm;
+      gap: 3.5mm;
     }
     .result-score-card {
       width: 100%;
-      min-height: 27mm;
+      min-height: 24mm;
       display: grid;
-      grid-template-columns: 30mm 1fr;
+      grid-template-columns: 32mm 1fr;
       align-items: center;
-      gap: 5mm;
-      padding: 4.5mm 5mm;
-      border: 1px solid #edf2ef;
-      border-radius: 2.4mm;
-      background: rgba(255,255,255,.92);
-      box-shadow: 0 0 0 1px rgba(0,0,0,.015), 0 2px 8px rgba(15,23,42,.045);
+      gap: 4mm;
+      padding: 3mm 4mm;
+      border: 1px solid #e2e8f0;
+      border-radius: 2.2mm;
+      background: rgba(255,255,255,.95);
+      box-shadow: 0 1px 3px rgba(15,23,42,.04);
     }
     .result-score-card.proven {
-      min-height: 29mm;
       border-color: #d8efe4;
       background: #f2fbf5;
     }
     .score-label {
-      font-size: 6.3pt;
-      color: #8ea096;
+      font-size: 6.5pt;
+      color: #718096;
       text-transform: uppercase;
       letter-spacing: .35px;
       font-weight: 700;
-      margin-bottom: 1mm;
+      margin-bottom: 0.8mm;
     }
     .score-number {
-      font-size: 19pt;
+      font-size: 20pt;
       color: #111827;
       font-weight: 800;
       line-height: 1;
@@ -423,39 +392,39 @@
       font-size: 18pt;
     }
     .score-level {
-      font-size: 8.2pt;
-      color: #324233;
+      font-size: 8.5pt;
+      color: #2d3748;
       font-weight: 700;
-      margin-bottom: 1mm;
+      margin-bottom: 0.8mm;
     }
     .score-note {
-      color: #7a8b80;
+      color: #718096;
       font-size: 6.5pt;
       line-height: 1.35;
     }
     .stars {
       display: flex;
       align-items: center;
-      gap: 1mm;
-      margin-top: 2.2mm;
+      gap: 0.8mm;
+      margin-top: 1.5mm;
     }
     .star-icon {
       display: block;
-      width: 4.2mm;
-      height: 4.2mm;
+      width: 3.8mm;
+      height: 3.8mm;
     }
     .stars .muted {
-      color: #718075;
+      color: #718096;
       font-size: 6.3pt;
       letter-spacing: 0;
       display: block;
-      margin-top: 1mm;
+      margin-top: 0.8mm;
     }
     .proof-ring {
-      width: 20mm;
-      height: 20mm;
+      width: 18mm;
+      height: 18mm;
       border-radius: 50%;
-      border: 2.7mm solid #0a9b73;
+      border: 2.5mm solid #0a9b73;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -466,8 +435,8 @@
     }
     .verified-pill {
       display: inline-block;
-      margin-top: 2mm;
-      padding: 1mm 2.4mm;
+      margin-top: 1.2mm;
+      padding: 0.6mm 2mm;
       border-radius: 99px;
       border: 1px solid #bfe8d5;
       background: #f8fffb;
@@ -479,76 +448,29 @@
       font-size: 8.5pt;
       font-weight: 700;
       color: #2b2b2b;
-      margin: 1mm 0 -1mm;
+      margin: 1.5mm 0 0.5mm;
       text-align: center;
-    }
-    .priority-box {
-      margin-top: 5mm;
-    }
-    .priority-box h3 {
-      margin: 0 0 6mm;
-      font-size: 11.5pt;
-      line-height: 1.35;
-      font-weight: 400;
-      color: #111;
-      text-align: left;
-    }
-    .priority-copy {
-      font-size: 11pt;
-      line-height: 1.32;
-      color: #1b1b1b;
-      margin-bottom: 6mm;
-    }
-    .priority-item {
-      display: flex;
-      justify-content: space-between;
-      gap: 4mm;
-      border-bottom: 1px solid rgba(75,143,59,.2);
-      padding: 1.8mm 0;
-      font-size: 11pt;
-    }
-    .priority-item:last-child { border-bottom: 0; }
-    .radar-wrapper {
-      text-align: center;
-      border: 0;
-      background: transparent;
-      padding: 0;
-      margin-top: -2mm;
-    }
-    .radar-title {
-      font-size: 11pt;
-      font-weight: 700;
-      color: #4b8f29;
-      margin-bottom: 1mm;
-      display: none;
     }
     .axes-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 5mm;
+      gap: 3.5mm;
       margin-top: 0;
     }
     .axis-card {
-      border: 1px solid #e3eee7;
-      border-top: 0;
-      border-radius: 2.4mm;
-      padding: 4mm 3.5mm;
-      background: rgba(255,255,255,.9);
-      min-height: 42mm;
-      box-shadow: 0 2px 8px rgba(15,23,42,.04);
+      border: 1px solid #e2e8f0;
+      border-radius: 2.2mm;
+      padding: 3mm;
+      background: rgba(255,255,255,.94);
+      min-height: 34mm;
+      box-shadow: 0 1px 3px rgba(15,23,42,.03);
     }
-    .axis-card.bio { border-top-color: #c9841d; }
-    .axis-card.social { border-top-color: #3578bd; }
-    .axis-card.gov { border-top-color: #7952b3; }
     .axis-header {
-      display: block;
-      align-items: start;
-      font-size: 9.5pt;
+      font-size: 8.5pt;
       font-weight: 700;
-      margin-bottom: 3mm;
+      margin-bottom: 2mm;
     }
     .axis-title {
-      min-width: 0;
       display: grid;
       grid-template-columns: auto minmax(0, 1fr);
       align-items: start;
@@ -561,409 +483,264 @@
       transform: translateY(.2mm);
     }
     .axis-icon svg {
+      width: 3.8mm;
+      height: 3.8mm;
       display: block;
-      width: 4.2mm;
-      height: 4.2mm;
       fill: none;
       stroke: currentColor;
-      stroke-width: 1.7;
+      stroke-width: 2;
       stroke-linecap: round;
       stroke-linejoin: round;
     }
     .axis-name {
-      display: block;
       overflow-wrap: anywhere;
     }
-    .badge-comprovado, .badge-declarado { display: none; }
-    .badge-comprovado { background: #e1f3dc; color: #2f6c1f; }
-    .badge-declarado { background: #fff1ce; color: #916410; }
-    .bar-group { margin-bottom: 2.5mm; }
+    .bar-group { margin-bottom: 1.8mm; }
     .bar-label {
       display: flex;
       justify-content: space-between;
-      font-size: 8pt;
-      margin-bottom: 1mm;
+      font-size: 7.5pt;
+      margin-bottom: 0.8mm;
       color: #555;
     }
     .progress-bar-bg {
-      height: 5px;
+      height: 4.5px;
       background: #ededed;
       overflow: hidden;
-      border-radius: 3px;
+      border-radius: 2.5px;
     }
-    .progress-bar-fill { height: 5px; border-radius: 3px; }
+    .progress-bar-fill { height: 4.5px; border-radius: 2.5px; }
     .fill-declarado { background: #8d8d8d; }
     .fill-comprovado { background: #4b8f29; }
     .axis-interpretation {
-      font-size: 8pt;
+      font-size: 7.2pt;
       line-height: 1.35;
       color: #606060;
-      margin: 2mm 0 0;
+      margin: 1.5mm 0 0;
     }
-    .recommendation-title {
+    .radar-wrapper {
+      text-align: center;
+      border: 0;
+      background: transparent;
+      padding: 0;
+    }
+    .priority-box {
+      margin-top: 3.5mm;
+    }
+    .priority-box h3 {
+      margin: 0 0 3mm;
+      font-size: 10.5pt;
+      line-height: 1.35;
+      font-weight: 700;
+      color: #111;
+      text-align: left;
+    }
+    .priority-item {
+      display: flex;
+      justify-content: space-between;
+      gap: 3mm;
+      border-bottom: 1px solid rgba(75,143,59,.2);
+      padding: 1.6mm 0;
+      font-size: 9.5pt;
+    }
+
+    /* Página 10: Final */
+    .final-page-content {
+      padding: 72mm 20mm 35mm;
+    }
+    .final-report-page .page-header {
+      top: 20mm;
+      height: 38mm;
+    }
+    .final-report-page .header-bis-logo {
+      height: 38mm;
+    }
+    .final-report-page .header-bar-wrap {
+      align-self: flex-start;
+      margin-top: 4.5mm;
+    }
+    /* Página "Considerações Finais": medidas e hierarquia do modelo Word enviado. */
+    .final-considerations-content {
+      padding: 76mm 17mm 20mm 23mm;
+    }
+    .final-considerations-title {
+      display: block;
+      font-family: Tahoma, "Segoe UI", Arial, sans-serif;
+      font-size: 16pt;
+      font-weight: 700;
+      line-height: 1.2;
+      margin-bottom: 14mm;
+      text-align: center;
+    }
+    .final-considerations-content p {
+      font-family: Arial, Helvetica, sans-serif;
       font-size: 12.5pt;
-      font-weight: 700;
-      margin: 5mm 0 4mm;
-      text-align: center;
-    }
-    .terms-title {
-      font-size: 17pt;
-      line-height: 1.25;
-      margin-top: 22mm;
-      margin-bottom: 8mm;
-    }
-    .method-list {
-      margin: 3mm 0 5mm 7mm;
-      font-size: 11pt;
-      line-height: 1.6;
-    }
-    .cta-list {
-      margin: 5mm 0 7mm 7mm;
-      font-size: 11pt;
-      line-height: 1.7;
-      font-weight: 700;
-    }
-    .final-page {
-      padding: 12mm 20mm 14mm 22mm;
-    }
-    .final-page .content {
-      min-height: 260mm;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
-    }
-    .final-bis-logo {
-      display: flex;
-      justify-content: center;
-      margin-top: 4mm;
-      margin-bottom: 10mm;
-    }
-    .final-bis-logo img {
-      width: 56mm;
-      height: auto;
+      line-height: 1.35;
+      margin-bottom: 3.4mm;
+      text-align: justify;
+      color: #111111;
     }
     .final-main-title {
-      font-size: 21pt;
+      display: block;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 18.5pt;
       line-height: 1.25;
       font-weight: 700;
       color: #000000;
       text-align: center;
-      margin-bottom: 6mm;
+      margin-bottom: 2mm;
     }
     .final-sub-title {
+      font-family: Arial, Helvetica, sans-serif;
       font-size: 11pt;
       line-height: 1.3;
       font-weight: 700;
       color: #111111;
       text-align: center;
-      margin-bottom: 9mm;
+      margin-bottom: 16mm;
     }
     .final-intro {
-      width: 156mm;
-      margin: 0 auto 8mm;
-      font-size: 10.5pt;
-      line-height: 1.5;
-      text-align: justify;
-      color: #222222;
-    }
-    .final-cta-list {
-      width: 145mm;
-      margin: 0 auto 12mm 24mm;
-      font-size: 10.5pt;
-      line-height: 1.7;
-      font-weight: 400;
-      text-align: left;
-    }
-    .final-cta-list li {
-      margin-bottom: 2mm;
-      color: #1a56db;
-    }
-    .final-cta-list a {
-      color: #1a56db;
-      text-decoration: underline;
-      background: transparent;
-      font-weight: 500;
-    }
-    .final-closing {
-      width: 130mm;
-      margin: 0 auto 14mm;
+      max-width: 128mm;
+      align-self: center;
       font-size: 10.5pt;
       line-height: 1.45;
-      text-align: center;
+      text-align: justify;
       color: #222222;
+      margin-bottom: 6mm;
     }
-    .final-contacts {
+    .final-solutions-list {
+      width: 110mm;
+      max-width: 110mm;
+      align-self: center;
+      margin: 0 0 8mm;
+      font-size: 10.5pt;
+      line-height: 1.75;
+    }
+    .final-solutions-list li {
+      margin-bottom: 1.8mm;
+      color: #1a56da;
+    }
+    .final-solutions-list a {
+      color: #1a56da;
+      text-decoration: none;
+      font-weight: 500;
+    }
+    .final-callout {
+      max-width: 128mm;
+      align-self: center;
+      font-size: 10.5pt;
+      line-height: 1.45;
+      text-align: left;
+      color: #222222;
+      margin-bottom: 14mm;
+    }
+    .final-contacts-grid {
       display: grid;
-      grid-template-columns: 1fr 1.25fr;
-      column-gap: 10mm;
-      row-gap: 4mm;
-      width: 130mm;
-      margin: 0 auto 16mm;
+      grid-template-columns: 55mm 55mm;
+      column-gap: 14mm;
+      row-gap: 3.5mm;
+      width: 125mm;
+      align-self: center;
+      margin: 6mm 0 0;
       font-size: 9.5pt;
       color: #222222;
     }
-    .final-contacts .contact-item {
+    .contact-item {
       display: flex;
       align-items: center;
       gap: 2.5mm;
       white-space: nowrap;
     }
-    .final-contacts .contact-icon {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      color: #111111;
-      flex: 0 0 auto;
-      width: 5mm;
-      height: 5mm;
+    .contact-item a {
+      color: inherit;
+      text-decoration: none;
     }
-    .final-contacts .contact-icon svg {
-      width: 5mm;
-      height: 5mm;
-      display: block;
-    }
-    .final-footer-banner {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8mm;
-      width: 155mm;
-      margin: auto auto 2mm;
-      padding-top: 4mm;
-    }
-    .final-footer-banner img {
-      width: 44mm;
-      height: auto;
-    }
-    .final-footer-banner span {
-      font-size: 9pt;
-      line-height: 1.35;
-      color: #333333;
-      text-align: left;
-      max-width: 95mm;
-    }
-    .considerations-page {
-      padding: 18mm 20mm 24mm 20mm;
-    }
-    .considerations-page::before {
-      display: none;
-    }
-    .considerations-page .content {
-      min-height: 250mm;
-      padding-top: 4mm;
-    }
-    .considerations-page .doc-header {
-      height: 40mm;
-      align-items: flex-start;
-      justify-content: center;
-    }
-    .considerations-page .doc-header img {
-      width: 100mm;
-      height: auto;
-    }
-    .considerations-page h2 {
-      font-size: 20pt;
-      line-height: 1.25;
-      font-weight: 700;
-      margin-bottom: 10mm;
-    }
-    .considerations-page p {
-      font-size: 12pt;
-      line-height: 1.45;
-      margin-bottom: 10mm;
-      text-align: justify;
-    }
-    .considerations-page .footer {
-      display: none;
-    }
-    .terms-page .content {
-      padding-top: 4mm;
-      display: flex;
-      flex-direction: column;
-      min-height: 250mm;
-    }
-    .terms-title {
-      font-size: 18pt;
-      font-weight: 700;
-      line-height: 1.25;
-      color: #000000;
-      text-align: center;
-      margin-top: 4mm;
-      margin-bottom: 9mm;
-    }
-    .terms-page p {
-      font-size: 10pt;
-      line-height: 1.55;
-      margin-bottom: 5.5mm;
-      text-align: justify;
-      color: #222222;
-      max-width: 155mm;
-      margin-left: auto;
-      margin-right: auto;
-    }
-    .terms-signatures {
-      display: flex;
-      justify-content: center;
-      align-items: flex-end;
-      margin-top: auto;
-      padding-bottom: 8mm;
-      padding-left: 6mm;
-      padding-right: 6mm;
-    }
-    .signature-block {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
-      width: 80mm;
-    }
-    .signature-image-container {
-      height: 20mm;
-      display: flex;
-      align-items: flex-end;
-      justify-content: center;
-      width: 100%;
-      margin-bottom: 2.5mm;
-    }
-    .signature-line {
-      width: 70mm;
-      border-bottom: 1px solid #111111;
-    }
-    .signature-img {
-      max-width: 58mm;
-      max-height: 24mm;
+    .contact-icon-img {
+      width: 5.2mm;
+      height: 5.2mm;
       object-fit: contain;
       display: block;
     }
-    .signature-name {
-      font-size: 10pt;
-      font-weight: 700;
-      color: #111111;
-      margin-bottom: 0.5mm;
-    }
-    .signature-role {
-      font-size: 8.5pt;
-      font-weight: 400;
-      color: #444444;
-    }
-    .doc-header.right-logo {
+
+    /* Faixa inferior da página final: Logo Inove-ESG na esquerda e barra verde até a borda direita */
+    .final-bottom-banner {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 16mm;
       display: flex;
-      justify-content: flex-end !important;
-      align-items: flex-start;
+      align-items: flex-end;
+      z-index: 5;
     }
-    .doc-header.right-logo img {
-      width: 36mm;
-      height: auto;
-      margin-left: auto;
-      margin-right: 0;
+    .final-bottom-logo-wrap {
+      margin-left: 2.5mm;
+      display: flex;
+      align-items: center;
+      flex: 0 0 auto;
+      transform: translateY(-2mm);
     }
-    .doc-header.right-logo img,
-    .result-logo img {
-      margin-right: 8mm;
+    .final-bottom-bar-left {
+      flex: 0 0 17.5mm;
+      align-self: center;
+      height: 3.8mm;
+      background-color: #BFD549;
     }
-    .level-page {
-      page-break-before: always;
-      break-before: page;
+    .final-bottom-logo {
+      height: 14mm;
+      width: auto;
+      max-width: 46mm;
+      object-fit: contain;
+      display: block;
     }
-    .level-page .content,
-    .recommendation-page .content,
-    .considerations-page .content {
-      padding-top: 4mm;
+    .final-bottom-bar-fill {
+      flex: 1;
+      align-self: center;
+      height: 3.8mm;
+      background-color: #BFD549;
+      margin-left: 6mm;
     }
-    .level-main-title {
-      font-size: 18pt;
-      font-weight: 700;
-      color: #000000;
-      text-align: center;
-      margin-top: 2mm;
-      margin-bottom: 2mm;
-    }
-    .level-sub-title {
-      font-size: 16pt;
-      font-weight: 700;
-      color: #000000;
-      text-align: center;
-      margin-bottom: 7mm;
-    }
-    .level-desc {
-      font-size: 10pt;
-      line-height: 1.55;
-      text-align: justify;
-      color: #222222;
-      max-width: 155mm;
-      margin-left: auto;
-      margin-right: auto;
-    }
-    .recommendation-title {
-      font-size: 18pt;
-      font-weight: 700;
-      line-height: 1.25;
-      color: #000000;
-      text-align: center;
-      margin-top: 2mm;
-      margin-bottom: 8mm;
-    }
-    .recommendation-text {
-      font-size: 10pt;
-      line-height: 1.55;
-      text-align: justify;
-      color: #222222;
-      max-width: 155mm;
-      margin-left: auto;
-      margin-right: auto;
-    }
-    .considerations-page h2 {
-      font-size: 18pt;
-      font-weight: 700;
-      color: #000000;
-      text-align: center;
-      margin-top: 2mm;
-      margin-bottom: 8mm;
-    }
-    .considerations-page p {
-      font-size: 10pt;
-      line-height: 1.55;
-      margin-bottom: 5.5mm;
-      text-align: justify;
-      color: #222222;
-      max-width: 155mm;
-      margin-left: auto;
-      margin-right: auto;
-    }
+
     @media print {
       .page { margin: 0; box-shadow: none; }
     }
   </style>
 </head>
 <body>
+
+  <!-- PÁGINA 1: CAPA -->
   <div class="page cover">
     <div class="content">
-      <div class="cover-logo">
-        <img src="{{LOGO_IMAGE}}" alt="INOVE ESG">
+      <div class="cover-logo-wrap">
+        <img src="{{COVER_LOGO_IMAGE}}" alt="INOVE ESG" class="cover-logo-img">
       </div>
       
       <div class="cover-title-group">
-        <p class="cover-title">{{REPORT_TITLE}}</p>
-        <p class="cover-confidential">Documento Confidencial</p>
+        <h1 class="cover-title">RELATÓRIO DE PRÉ-DIAGNÓSTICO ESG<br>&amp; BIOECONOMIA CIRCULAR</h1>
+        <p class="cover-confidential">DOCUMENTO CONFIDENCIAL</p>
       </div>
 
       <div class="cover-meta">
         <p class="cover-company">{{COMPANY_NAME}}</p>
         <p class="cover-date">{{DATE_EXTENSO}}</p>
       </div>
-
-      <div class="cover-bottom-pill">
-        WWW.INOVEESG.COM.BR &nbsp;|&nbsp; (22) 99808-7323
-      </div>
     </div>
+    {{FOOTER_HTML}}
   </div>
 
-  <div class="page intro-page">
+  <!-- PÁGINA 2: INTRODUÇÃO / PARABENIZAMOS -->
+  <div class="page">
+    <div class="page-header">
+      <div class="header-logos-wrap">
+        <img src="{{HEADER_LOGO_IMAGE}}" alt="INOVE ESG" class="header-inove-logo" />
+      </div>
+      <div class="header-bar-wrap">
+        <div class="header-bar-fill"></div>
+      </div>
+    </div>
+
     <div class="content">
-      <div class="doc-header center-logo"><img src="{{LOGO_IMAGE}}" alt="INOVE ESG"></div>
-      
-      <h2 class="intro-main-title">Parabenizamos pela finalização do Pré-Diagnóstico ESG &amp;<br>Bioeconomia Circular desenvolvido pela Inove-ESG.</h2>
+      <h2 class="section-title">Parabenizamos pela finalização do Pré-Diagnóstico ESG &amp; Bioeconomia Circular desenvolvido pela Inove-ESG.</h2>
       
       <p>O presente relatório foi elaborado a partir das respostas fornecidas e estruturado a partir das diretrizes da ABNT PR 2030, integradas aos princípios da Bioeconomia Circular, inovação sustentável e geração de impacto socioambiental.</p>
       <p>Este diagnóstico tem caráter orientativo e representa o momento atual da organização em relação às suas práticas ambientais, sociais, de governança e bioeconomia. O objetivo é identificar o nível de maturidade da empresa, evidenciar seus pontos fortes, destacar oportunidades de melhoria e oferecer caminhos estratégicos de sustentabilidade.</p>
@@ -972,17 +749,19 @@
     </div>
   </div>
 
-  <div class="page company-info-page">
-    <div class="content">
-      <div class="company-header">
-        {{COMPANY_LOGO_HTML}}
-        <div class="company-header-divider"></div>
-        <div class="company-inove-logo">
-          <img src="{{LOGO_IMAGE}}" alt="INOVE ESG">
-        </div>
+  <!-- PÁGINA 3: DADOS DA EMPRESA -->
+  <div class="page">
+    <div class="page-header">
+      <div class="header-logos-wrap">
+        <img src="{{HEADER_LOGO_IMAGE}}" alt="INOVE ESG" class="header-inove-logo" />
       </div>
-      
-      <h1 class="company-info-title">{{COMPANY_NAME}}</h1>
+      <div class="header-bar-wrap">
+        <div class="header-bar-fill"></div>
+      </div>
+    </div>
+
+    <div class="content">
+      <h2 class="section-title company-data-title">{{COMPANY_NAME}}</h2>
       
       <div class="company-data-list">
         <div class="data-row"><span class="data-label">Nome Completo do responsável respondente:</span><span class="data-value">{{RESPONSIBLE_NAME}}</span></div>
@@ -1000,45 +779,51 @@
         <div class="data-row"><span class="data-label">Tempo de Operação:</span><span class="data-value">{{OPERATION_TIME}}</span></div>
       </div>
     </div>
+    {{FOOTER_HTML}}
   </div>
 
-  <div class="page terms-page">
-    <div class="content">
-      <div class="company-header">
-        {{COMPANY_LOGO_HTML}}
-        <div class="company-header-divider"></div>
-        <div class="company-inove-logo">
-          <img src="{{LOGO_IMAGE}}" alt="INOVE ESG">
-        </div>
+  <!-- PÁGINA 4: TERMO DE AUTORRESPONSABILIDADE -->
+  <div class="page">
+    <div class="page-header">
+      <div class="header-logos-wrap">
+        <img src="{{HEADER_LOGO_IMAGE}}" alt="INOVE ESG" class="header-inove-logo" />
       </div>
-      <h2 class="terms-title">Termo de Autorresponsabilidade<br>das Informações Prestadas</h2>
+      <div class="header-bar-wrap">
+        <div class="header-bar-fill"></div>
+      </div>
+    </div>
+
+    <div class="content terms-content">
+      <h2 class="section-title center">Termo de Autorresponsabilidade<br>das Informações Prestadas</h2>
+      
       <p>A organização contratante ao fechar o serviço, declara que as informações fornecidas neste questionário são verdadeiras, refletindo, tanto quanto possível, sua realidade operacional no momento da avaliação.</p>
       <p>O resultado deste Pré-Diagnóstico ESG &amp; Bioeconomia Circular foi gerado exclusivamente a partir das respostas declaradas, não havendo, nesta etapa, processo de auditoria, verificação documental ou validação independente das evidências apresentadas.</p>
       <p>A Inove-ESG não se responsabiliza por inconsistências decorrentes de informações incompletas, imprecisas ou incorretas fornecidas pelos respondentes.</p>
       <p>A utilização deste relatório para processos internos, planejamento estratégico, comunicação institucional ou futuras avaliações é de responsabilidade exclusiva do contratante, sendo recomendada a realização de uma avaliação técnica aprofundada para validação das informações e definição de ações prioritárias.</p>
 
-      <div class="terms-signatures">
-        <div class="signature-block">
-          <div class="signature-image-container">
-            <div class="signature-line"></div>
-          </div>
-          <div class="signature-name">{{RESPONSIBLE_NAME}}</div>
-          <div class="signature-role">{{RESPONSIBLE_ROLE}}</div>
-        </div>
+      <div class="terms-signature-block">
+        <div class="terms-signature-line" aria-hidden="true"></div>
+        <div class="signature-name">{{RESPONSIBLE_NAME}}</div>
+        <div class="signature-role">{{RESPONSIBLE_ROLE}}</div>
       </div>
     </div>
+    {{FOOTER_HTML}}
   </div>
 
-  <div class="page result-page">
-    <div class="content">
-      <div class="company-header">
-        {{COMPANY_LOGO_HTML}}
-        <div class="company-header-divider"></div>
-        <div class="company-inove-logo">
-          <img src="{{LOGO_IMAGE}}" alt="INOVE ESG">
-        </div>
+  <!-- PÁGINA 5: RESULTADOS E RADAR ESG -->
+  <div class="page">
+    <div class="page-header">
+      <div class="header-logos-wrap">
+        <img src="{{HEADER_LOGO_IMAGE}}" alt="INOVE ESG" class="header-inove-logo" />
       </div>
-      <h2 class="result-title">{{COMPANY_NAME}}</h2>
+      <div class="header-bar-wrap">
+        <div class="header-bar-fill"></div>
+      </div>
+    </div>
+
+    <div class="content">
+      <h2 class="section-title result-page-title">{{COMPANY_NAME}}</h2>
+      
       <div class="result-layout">
         <div class="result-left">
           <div class="result-score-card">
@@ -1055,15 +840,7 @@
             </div>
           </div>
 
-          <div class="result-score-card proven">
-            <div class="proof-ring">{{SCORE_COMPROVADO}}%</div>
-            <div>
-              <div class="score-label">Score Comprovado</div>
-              <div class="score-number">{{SCORE_COMPROVADO}}%</div>
-              <div class="score-note">Evidências validadas e auditadas</div>
-              <span class="verified-pill">Verificado InoveESG</span>
-            </div>
-          </div>
+          {{CARD_COMPROVADO_HTML}}
 
           <div class="result-section-label">Desempenho por Eixo</div>
           <div class="axes-grid">{{AXES_CARDS_HTML}}</div>
@@ -1071,7 +848,6 @@
 
         <div>
           <div class="radar-wrapper">
-            <div class="radar-title">Radar ESG &amp; Bioeconomia Circular</div>
             <svg width="52mm" height="52mm" viewBox="0 0 200 200">
               <polygon points="100,20 176,75 147,165 53,165 24,75" fill="rgba(242,248,239,.25)" stroke="#aeb2bd" stroke-width="2.2"/>
               <polygon points="100,47 151,84 131,151 69,151 49,84" fill="none" stroke="#aeb2bd" stroke-width="1.3"/>
@@ -1098,47 +874,57 @@
     {{FOOTER_HTML}}
   </div>
 
-  <div class="page level-page">
-    <div class="content">
-      <div class="company-header">
-        {{COMPANY_LOGO_HTML}}
-        <div class="company-header-divider"></div>
-        <div class="company-inove-logo">
-          <img src="{{LOGO_IMAGE}}" alt="INOVE ESG">
-        </div>
+  <!-- PÁGINA 6: NÍVEL DE MATURIDADE -->
+  <div class="page">
+    <div class="page-header">
+      <div class="header-logos-wrap">
+        <img src="{{HEADER_LOGO_IMAGE}}" alt="INOVE ESG" class="header-inove-logo" />
       </div>
-      <h2 class="level-main-title">{{LEVEL_TITLE}}</h2>
-      <h3 class="level-sub-title">{{LEVEL_SUBTITLE}}</h3>
-      <p class="pre-line level-desc">{{LEVEL_DESCRIPTION}}</p>
+      <div class="header-bar-wrap">
+        <div class="header-bar-fill"></div>
+      </div>
+    </div>
+
+    <div class="content level-description-content">
+      <h2 class="section-title">{{LEVEL_TITLE}}</h2>
+      <h3 class="section-subtitle">{{LEVEL_SUBTITLE}}</h3>
+      <p class="pre-line">{{LEVEL_DESCRIPTION}}</p>
     </div>
     {{FOOTER_HTML}}
   </div>
 
-  <div class="page recommendation-page">
-    <div class="content">
-      <div class="company-header">
-        {{COMPANY_LOGO_HTML}}
-        <div class="company-header-divider"></div>
-        <div class="company-inove-logo">
-          <img src="{{LOGO_IMAGE}}" alt="INOVE ESG">
-        </div>
+  <!-- PÁGINA 7: RECOMENDAÇÃO ESTRATÉGICA -->
+  <div class="page">
+    <div class="page-header">
+      <div class="header-logos-wrap">
+        <img src="{{HEADER_LOGO_IMAGE}}" alt="INOVE ESG" class="header-inove-logo" />
       </div>
-      <h2 class="recommendation-title">{{LEVEL_RECOMMENDATION_TITLE}}</h2>
-      <p class="pre-line recommendation-text">{{LEVEL_RECOMMENDATION}}</p>
+      <div class="header-bar-wrap">
+        <div class="header-bar-fill"></div>
+      </div>
+    </div>
+
+    <div class="content">
+      <h2 class="section-title">{{LEVEL_RECOMMENDATION_TITLE}}</h2>
+      <p class="pre-line">{{LEVEL_RECOMMENDATION}}</p>
     </div>
     {{FOOTER_HTML}}
   </div>
 
-  <div class="page considerations-page">
-    <div class="content">
-      <div class="company-header">
-        {{COMPANY_LOGO_HTML}}
-        <div class="company-header-divider"></div>
-        <div class="company-inove-logo">
-          <img src="{{LOGO_IMAGE}}" alt="INOVE ESG">
-        </div>
+  <!-- PÁGINA 8: CONSIDERAÇÕES FINAIS -->
+  <div class="page">
+    <div class="page-header">
+      <div class="header-logos-wrap">
+        <img src="{{HEADER_LOGO_IMAGE}}" alt="INOVE ESG" class="header-inove-logo" />
       </div>
-      <h2>Considerações Finais</h2>
+      <div class="header-bar-wrap">
+        <div class="header-bar-fill"></div>
+      </div>
+    </div>
+
+    <div class="content final-considerations-content">
+      <h2 class="section-title final-considerations-title">Considerações Finais</h2>
+      
       <p>A sustentabilidade deixou de representar apenas conformidade regulatória para tornar-se um fator estratégico de competitividade, inovação e geração de valor.</p>
       <p>Empresas que estruturam sua gestão ESG de forma consistente ampliam sua capacidade de acesso a mercados, investimentos, financiamento, novos negócios e cadeias produtivas cada vez mais exigentes quanto à transparência, responsabilidade socioambiental e governança.</p>
       <p>A Inove-ESG acredita que a transformação sustentável ocorre por meio da integração entre tecnologia, inovação, ciência, bioeconomia e gestão estratégica. Por isso, este pré-diagnóstico foi concebido como uma ferramenta de apoio à tomada de decisão e à construção de uma jornada contínua de evolução.</p>
@@ -1147,18 +933,24 @@
     {{FOOTER_HTML}}
   </div>
 
-  <div class="page final-page">
-    <div class="content">
-      <div class="final-bis-logo">
-        <img src="{{BIS_IMAGE}}" alt="BIS - Bioeconomic Integration System">
+  <!-- PÁGINA 9 / 10: PÁGINA FINAL -->
+  <div class="page final-report-page">
+    <div class="page-header">
+      <div class="header-logos-wrap">
+        <img src="{{BIS_IMAGE}}" alt="BIS" class="header-bis-logo" />
       </div>
-      
-      <h2 class="final-main-title">Obrigado por confiar na Inove-ESG.</h2>
+      <div class="header-bar-wrap">
+        <div class="header-bar-fill"></div>
+      </div>
+    </div>
+
+    <div class="content final-page-content">
+      <h1 class="final-main-title">Obrigado por confiar na Inove-ESG.</h1>
       <p class="final-sub-title">Continue sua jornada ESG com a Inove-ESG.</p>
       
       <p class="final-intro">Este pré-diagnóstico representa apenas a primeira etapa da evolução da sua organização. Conheça nossas soluções para acelerar sua maturidade ESG e fortalecer sua competitividade:</p>
       
-      <ol class="final-cta-list">
+      <ol class="final-solutions-list">
         <li><a href="https://www.inove-esg.com.br/#pricing">Diagnóstico ESG Completo com evidências</a></li>
         <li><a href="https://www.inove-esg.com.br/#pricing">Plano Estratégico ESG</a></li>
         <li><a href="https://www.inove-esg.com.br/#pricing">Rastreabilidade ESG e da Cadeia de Fornecedores</a></li>
@@ -1167,55 +959,78 @@
         <li><a href="https://www.inove-esg.com.br/#pricing">Capacitações e Mentorias</a></li>
       </ol>
 
-      <p class="final-closing">Agende uma reunião de devolutiva com nossa equipe e descubra como transformar este diagnóstico em um plano de ação para geração de valor e vantagem competitiva.</p>
+      <p class="final-callout">Agende uma reunião de devolutiva com nossa equipe e descubra como transformar este diagnóstico em um plano de ação para geração de valor e vantagem competitiva.</p>
 
-      <div class="final-contacts">
+      <div class="final-contacts-grid">
         <div class="contact-item">
-          <span class="contact-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="#2d2d2d" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-              <rect x="3.5" y="3.5" width="17" height="17" rx="5"/>
-              <circle cx="12" cy="12" r="4.2"/>
-              <circle cx="17.1" cy="6.9" r="1"/>
-            </svg>
-          </span>
+          <img src="{{ICON_INSTAGRAM}}" class="contact-icon-img" alt="" />
           <span>@inove-esg</span>
         </div>
         <div class="contact-item">
-          <span class="contact-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="#2d2d2d" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
-              <rect x="3" y="5.5" width="18" height="13" rx="1"/>
-              <path d="M4 7l8 6 8-6"/>
-            </svg>
-          </span>
-          <span>inove-esg@inove-esg.com.br</span>
+          <img src="{{ICON_EMAIL}}" class="contact-icon-img" alt="" />
+          <a href="mailto:inove-esg@inove-esg.com.br">inove-esg@inove-esg.com.br</a>
         </div>
         <div class="contact-item">
-          <span class="contact-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="#2d2d2d" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="12" cy="12" r="9"/>
-              <path d="M3.6 12h16.8"/>
-              <path d="M12 3c2.4 2.5 3.6 5.5 3.6 9s-1.2 6.5-3.6 9"/>
-              <path d="M12 3c-2.4 2.5-3.6 5.5-3.6 9s1.2 6.5 3.6 9"/>
-            </svg>
-          </span>
-          <span>www.inove-esg.com.br</span>
+          <img src="{{ICON_WEB}}" class="contact-icon-img" alt="" />
+          <a href="http://www.inove-esg.com.br/">www.inove-esg.com.br</a>
         </div>
         <div class="contact-item">
-          <span class="contact-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="#2d2d2d" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="12" cy="12" r="9"/>
-              <path d="M8.6 7.7c.3-.3.8-.4 1.2-.2l1.5 2c.2.3.2.8 0 1.1l-.8 1c.8 1.5 2 2.7 3.5 3.5l1-.8c.3-.2.8-.2 1.1 0l2 1.5c.3.3.4.8.2 1.2-.4.8-1.2 1.4-2.1 1.4-5.2 0-9.4-4.2-9.4-9.4 0-.9.6-1.7 1.8-2.3z"/>
-            </svg>
-          </span>
+          <img src="{{ICON_PHONE}}" class="contact-icon-img" alt="" />
           <span>(22) 99808-7323</span>
         </div>
       </div>
+    </div>
 
-      <div class="final-footer-banner">
-        <img src="{{LOGO_IMAGE}}" alt="INOVE ESG">
-        <span>Transformando sustentabilidade em inteligência estratégica, inovação e geração de valor.</span>
+    <div class="final-bottom-banner">
+      <div class="final-bottom-bar-left"></div>
+      <div class="final-bottom-logo-wrap">
+        <img src="{{FOOTER_BANNER_IMAGE}}" alt="INOVE ESG" class="final-bottom-logo" />
       </div>
+      <div class="final-bottom-bar-fill"></div>
     </div>
   </div>
+
+  <script>
+    (() => {
+      const page = document.querySelector(".page:has(.level-description-content)");
+      const content = page?.querySelector(".level-description-content");
+      const description = content?.querySelector(".pre-line");
+      if (!page || !content || !description) return;
+
+      const paragraphs = description.textContent
+        .split(/\n\s*\n/)
+        .map((text) => text.trim())
+        .filter(Boolean);
+      const paragraphNodes = paragraphs.map((text) => {
+        const paragraph = document.createElement("p");
+        paragraph.className = "narrative-paragraph";
+        paragraph.textContent = text;
+        return paragraph;
+      });
+      description.replaceWith(...paragraphNodes);
+
+      const pageRect = page.getBoundingClientRect();
+      const safeBottom = pageRect.bottom - (32 * pageRect.width) / 210;
+      const splitIndex = paragraphNodes.findIndex(
+        (paragraph) => paragraph.getBoundingClientRect().bottom > safeBottom
+      );
+      if (splitIndex < 0) return;
+
+      const continuation = document.createElement("div");
+      continuation.className = "page narrative-continuation-page";
+      const header = page.querySelector(".page-header");
+      const footer = page.querySelector(".page-footer");
+      if (header) continuation.appendChild(header.cloneNode(true));
+
+      const continuationContent = document.createElement("div");
+      continuationContent.className = "content level-description-content";
+      for (const paragraph of paragraphNodes.slice(splitIndex)) {
+        continuationContent.appendChild(paragraph);
+      }
+      continuation.appendChild(continuationContent);
+      if (footer) continuation.appendChild(footer.cloneNode(true));
+      page.after(continuation);
+    })();
+  </script>
 </body>
 </html>

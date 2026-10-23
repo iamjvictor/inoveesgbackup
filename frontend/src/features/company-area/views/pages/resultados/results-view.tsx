@@ -11,7 +11,7 @@ import { checkoutService } from "../../../services/checkout.service";
 import { DemandServiceDetailModal, type DemandServiceItemData } from "../../components/demand-service-detail-modal";
 import { useErrorModal } from "@/components/ui/error-modal-provider";
 import { useCompany } from "@/features/company-area/context/company-context";
-import { SectionHeading } from "../../components/section-heading";
+import { getEvidenceUploadDeadline } from "@/features/company-area/services/evidence-upload-window";
 import {
   Download,
   AlertTriangle,
@@ -141,11 +141,33 @@ function getMaturityLabel(level?: string | null) {
   }
 }
 
+function formatDiagnosticCompletionDate(value: string) {
+  return new Intl.DateTimeFormat("pt-BR", {
+    timeZone: "America/Sao_Paulo",
+    dateStyle: "short",
+    timeStyle: "short",
+  }).format(new Date(value));
+}
+
 export function ResultsView({ model, history = [] }: { model: ResultsViewModel; history?: DiagnosticHistoryItem[] }) {
   const { globalScore, globalProvenScore, isPreDiagnostic, axisScores, isSupplierOrg } = model;
   const hasVerifiedScore = globalProvenScore > 0;
-  const { company, hasEvidenceAccess } = useCompany();
+  const { company, hasEvidenceAccess, serviceAccess } = useCompany();
   const { showError } = useErrorModal();
+  const hasPurchasedFullDiagnostic = serviceAccess?.purchasedProductCodes?.some((code) =>
+    ["FULL_DIAGNOSTIC", "FULL_DIAGNOSTIC_PLUS"].includes(code.toUpperCase().replace(/-/g, "_")),
+  ) ?? false;
+  const evidenceDiagnosticKinds = hasPurchasedFullDiagnostic
+    ? ["FULL_DIAGNOSTIC"]
+    : ["PRE_DIAGNOSTIC", "FULL_DIAGNOSTIC"];
+  const completedEvidenceDiagnostic = hasEvidenceAccess
+    ? (company?.subjectDiagnostics ?? []).find((diagnostic) =>
+      evidenceDiagnosticKinds.includes(diagnostic.kind) && diagnostic.status === "COMPLETED" && diagnostic.completedAt,
+    )
+    : null;
+  const evidenceDeadline = completedEvidenceDiagnostic?.completedAt
+    ? getEvidenceUploadDeadline(completedEvidenceDiagnostic.completedAt)
+    : null;
 
   const [invites, setInvites] = useState<SupplierInvite[]>([]);
   const [loadingInvites, setLoadingInvites] = useState(true);
@@ -194,44 +216,18 @@ export function ResultsView({ model, history = [] }: { model: ResultsViewModel; 
   const handleDownload = async () => {
     console.log("[handleDownload] Botão de download clicado");
     const reportWindow = window.open("about:blank", "_blank");
-
-    if (reportWindow) {
-      reportWindow.document.write(`
-        <!doctype html>
-        <html lang="pt-BR">
-          <head><meta charset="utf-8"><title>Gerando relatório</title></head>
-          <body style="margin:0;display:flex;align-items:center;justify-content:center;min-height:100vh;background:#f8fafc;font-family:Arial,sans-serif;color:#334155">
-            <div style="text-align:center"><div style="font-size:18px;font-weight:700;margin-bottom:8px">Gerando relatório ESG</div><div style="font-size:14px;color:#64748b">Aguarde enquanto o PDF é preparado...</div></div>
-          </body>
-        </html>
-      `);
-      reportWindow.document.close();
+    if (!reportWindow) {
+      showError({ title: "Não foi possível abrir o relatório", message: "Permita pop-ups para este site e tente novamente." });
+      return;
     }
 
     try {
       setDownloading(true);
-    const token = "cookie-session";
-      console.log("[handleDownload] Token obtido do cookie:", token ? `${token.substring(0, 15)}...` : "NULO");
-      if (!token) {
-        reportWindow?.close();
-        showError({ title: "Sessão não encontrada", message: "Por favor, faça login novamente." });
-        return;
-      }
-      const blob = await diagnosticService.downloadReport(token);
-      console.log("[handleDownload] Report blob recebido com sucesso, tamanho:", blob.size);
-      const url = window.URL.createObjectURL(blob);
-      if (reportWindow) {
-        window.setTimeout(() => window.URL.revokeObjectURL(url), 60_000);
-        reportWindow.location.replace(url);
-      } else {
-        window.URL.revokeObjectURL(url);
-        showError({
-          title: "Não foi possível abrir o relatório",
-          message: "Permita pop-ups para este site e tente novamente.",
-        });
-      }
+      reportWindow.document.write("<p style='font:14px Arial,sans-serif;padding:24px'>Gerando relatório ESG...</p>");
+      reportWindow.document.close();
+      reportWindow.location.replace(diagnosticService.getReportUrl());
     } catch (err: unknown) {
-      reportWindow?.close();
+      reportWindow.close();
       console.error("[handleDownload] Erro capturado no download:", err);
       const apiError = err instanceof ApiError ? err : null;
       showError({
@@ -308,50 +304,16 @@ export function ResultsView({ model, history = [] }: { model: ResultsViewModel; 
 
   return (
     <div className="space-y-8">
-      {/* ── Header ── */}
-      <SectionHeading
-        eyebrow="Resultados"
-        title="Painel de Maturidade ESG"
-        description="Diagnóstico completo do desempenho ESG da sua empresa por eixo, evidências e recomendações."
-        action={
-          hasVerifiedScore ? (
-            <Button onClick={handleDownload} disabled={downloading} className="bg-emerald-600 hover:bg-emerald-700 text-white font-semibold gap-2 shadow-sm cursor-pointer">
-              {downloading ? (
-                <>
-                  <Loader2 className="w-4 h-4 animate-spin" /> Gerando...
-                </>
-              ) : (
-                <>
-                  <FileCheck className="w-4 h-4" /> Baixar Relatório
-                </>
-              )}
-            </Button>
-          ) : (
-            <Button onClick={handleDownload} disabled={downloading} className="bg-amber-600 hover:bg-amber-700 text-white font-semibold gap-2 shadow-sm cursor-pointer">
-              {downloading ? (
-                <>
-                  <Loader2 className="w-4 h-4 animate-spin" /> Gerando...
-                </>
-              ) : (
-                <>
-                  <Download className="w-4 h-4" /> Baixar Relatório
-                </>
-              )}
-            </Button>
-          )
-        }
-      />
-
       {/* ── Status Banner for pre-diagnostic ── */}
       {!hasVerifiedScore && (
         <div className="relative overflow-hidden rounded-2xl border border-amber-200 bg-amber-50/30 p-5 shadow-sm">
           <div className="absolute inset-0 bg-gradient-to-r from-amber-500/5 to-transparent pointer-events-none" />
           <div className="flex flex-col sm:flex-row sm:items-center gap-4">
-            <div className="flex items-center gap-3">
+            <div className="flex flex-1 items-start gap-3">
               <div className="p-2 rounded-lg bg-amber-100/80 border border-amber-200 shrink-0">
                 <AlertTriangle className="w-5 h-5 text-amber-700" />
               </div>
-              <div>
+              <div className="space-y-1">
                 <p className="text-sm font-semibold text-amber-900">
                   {isSupplierOrg
                     ? "Avaliação de Fornecedor — Sem evidências comprovadas"
@@ -364,13 +326,23 @@ export function ResultsView({ model, history = [] }: { model: ResultsViewModel; 
                     ? "Sua pontuação foi declarada mas ainda não passou por auditoria de conformidade."
                     : "Sua pontuação foi declarada mas ainda não foi verificada. Envie evidências para obter o Selo ESG."}
                 </p>
+                {completedEvidenceDiagnostic?.completedAt && evidenceDeadline && (
+                  <div className="pt-2 text-xs text-slate-700">
+                    <p>Diagnóstico concluído em: <span className="font-semibold">{formatDiagnosticCompletionDate(completedEvidenceDiagnostic.completedAt)}</span></p>
+                    <p>Prazo para envio de evidências: <span className="font-semibold">até {evidenceDeadline.label}</span></p>
+                  </div>
+                )}
               </div>
             </div>
-            {!isSupplierOrg && !hasEvidenceAccess && (
+            {!isSupplierOrg && hasEvidenceAccess && completedEvidenceDiagnostic?.completedAt ? (
+              <Button asChild type="button" size="sm" className="shrink-0 sm:ml-auto bg-amber-600 hover:bg-amber-700 text-white gap-1.5 text-xs font-semibold">
+                <Link href="/app/evidencias">Acessar evidências <ArrowRight className="w-3.5 h-3.5" /></Link>
+              </Button>
+            ) : !isSupplierOrg && !hasEvidenceAccess ? (
               <Button type="button" size="sm" onClick={() => { setStrategicCheckoutError(null); setIsStrategicDiagnosticModalOpen(true); }} className="shrink-0 ml-auto bg-amber-600 hover:bg-amber-700 text-white gap-1.5 text-xs font-semibold">
                 <Sparkles className="w-3.5 h-3.5" /> Comprovar Score
               </Button>
-            )}
+            ) : null}
           </div>
         </div>
       )}
@@ -378,9 +350,9 @@ export function ResultsView({ model, history = [] }: { model: ResultsViewModel; 
       {/* ── Score Cards ── */}
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {/* Global Score (Declarado) */}
-        <div className="sm:col-span-2 border border-slate-200 bg-white rounded-2xl p-6 flex flex-col sm:flex-row sm:items-center justify-between gap-6 shadow-sm">
+        <div className="sm:col-span-2 border border-slate-200 bg-white rounded-2xl p-6 flex flex-col sm:flex-row sm:items-stretch justify-between gap-6 shadow-sm">
           {/* Left Block: Score & Stars */}
-          <div className="flex flex-col items-center sm:items-start justify-center space-y-3 shrink-0">
+          <div className="flex flex-col items-center sm:items-start justify-between space-y-3 shrink-0">
             <div>
               <span className="text-[10px] font-extrabold uppercase tracking-wider text-slate-400 block mb-0.5 text-center sm:text-left">Pontuação Geral</span>
               <span className="text-4xl font-black text-slate-900 font-display block text-center sm:text-left">
@@ -410,29 +382,57 @@ export function ResultsView({ model, history = [] }: { model: ResultsViewModel; 
               </p>
             </div>
             
-            <div className="flex flex-wrap items-center gap-2 pt-2 border-t border-slate-100">
-              <span className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold border ${
-                hasVerifiedScore
-                  ? "bg-emerald-50 text-emerald-800 border-emerald-200" 
-                  : "bg-amber-50 text-amber-800 border-amber-200"
-              }`}>
-                {hasVerifiedScore ? (
+            <div className="flex flex-wrap items-center justify-between gap-2 pt-2 border-t border-slate-100">
+              <div className="flex flex-wrap items-center gap-2">
+                <span className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold border ${
+                  hasVerifiedScore
+                    ? "bg-emerald-50 text-emerald-800 border-emerald-200" 
+                    : "bg-amber-50 text-amber-800 border-amber-200"
+                }`}>
+                  {hasVerifiedScore ? (
+                    <>
+                      <CheckCircle2 className="w-2.5 h-2.5 text-emerald-600" /> Auditado
+                    </>
+                  ) : (
+                    <>
+                      <AlertTriangle className="w-2.5 h-2.5 text-amber-600" /> Declaratório
+                    </>
+                  )}
+                </span>
+                <span className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold border ${
+                  hasVerifiedScore
+                    ? "bg-emerald-50 text-emerald-800 border-emerald-200" 
+                    : "bg-red-50 text-red-700 border-red-200"
+                }`}>
+                  Confiança: {hasVerifiedScore ? "Alto" : "Baixo"}
+                </span>
+              </div>
+
+              {/* Botão Baixar compacto no canto inferior */}
+              <Button
+                onClick={handleDownload}
+                disabled={downloading}
+                size="sm"
+                className={`h-7 px-2.5 ${
+                  hasVerifiedScore
+                    ? "bg-emerald-600 hover:bg-emerald-700"
+                    : "bg-amber-600 hover:bg-amber-700"
+                } text-white font-semibold gap-1 text-[11px] shadow-xs cursor-pointer rounded-lg shrink-0 ml-auto`}
+              >
+                {downloading ? (
                   <>
-                    <CheckCircle2 className="w-2.5 h-2.5 text-emerald-600" /> Auditado
+                    <Loader2 className="w-3 h-3 animate-spin" /> Baixando...
+                  </>
+                ) : hasVerifiedScore ? (
+                  <>
+                    <FileCheck className="w-3 h-3" /> Baixar
                   </>
                 ) : (
                   <>
-                    <AlertTriangle className="w-2.5 h-2.5 text-amber-600" /> Declaratório
+                    <Download className="w-3 h-3" /> Baixar
                   </>
                 )}
-              </span>
-              <span className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold border ${
-                hasVerifiedScore
-                  ? "bg-emerald-50 text-emerald-800 border-emerald-200" 
-                  : "bg-red-50 text-red-700 border-red-200"
-              }`}>
-                Confiança: {hasVerifiedScore ? "Alto" : "Baixo"}
-              </span>
+              </Button>
             </div>
           </div>
         </div>

@@ -17,7 +17,6 @@ import {
   ChevronLeft,
   ChevronRight
 } from "lucide-react";
-import { AdminSectionHeading } from "@/features/admin/shared/components/admin-section-heading";
 import { AdminPagination } from "@/features/admin/shared/components/admin-pagination";
 import { AdminStatCard } from "@/features/admin/shared/components/admin-stat-card";
 import { AdminStatusBadge } from "@/features/admin/shared/components/admin-status-badge";
@@ -30,11 +29,77 @@ type Props = {
   onPageChange?: (page: number) => void;
 };
 
+type ConsultingAppointment = NonNullable<AdminClientSummary["consultingAppointments"]>[number];
+
+const CONSULTING_PLANS = [
+  "Pré-Diagnóstico ESG + Consultoria",
+  "Consultoria ESG — Call de 1 hora",
+  "Diagnóstico Estratégico ESG + Consultoria",
+];
+
+const STATUS_ORDER: Record<NonNullable<AdminClientSummary["consultingStatus"]>, number> = {
+  SCHEDULED: 0,
+  PENDING: 1,
+  COMPLETED: 2,
+  NO_SHOW: 3,
+  CANCELED: 4,
+};
+
+function scheduledTime(client: AdminClientSummary) {
+  const dates = (client.consultingAppointments ?? [])
+    .filter((appointment) => ["CONFIRMED", "REQUESTED"].includes(appointment.status) && appointment.startsAt)
+    .map((appointment) => new Date(appointment.startsAt!).getTime())
+    .filter(Number.isFinite);
+  if (dates.length === 0 && client.consultingStartsAt) dates.push(new Date(client.consultingStartsAt).getTime());
+  const now = Date.now();
+  const upcoming = Math.min(...dates.filter((date) => date >= now));
+  if (Number.isFinite(upcoming)) return upcoming;
+  const mostRecentPast = Math.max(...dates.filter((date) => date < now));
+  return Number.isFinite(mostRecentPast) ? Number.MAX_SAFE_INTEGER - mostRecentPast : Infinity;
+}
+
+function appointmentDisplayStatus(status: string): AdminClientSummary["consultingStatus"] {
+  if (status === "COMPLETED") return "COMPLETED";
+  if (status === "NO_SHOW") return "NO_SHOW";
+  if (status === "CANCELED") return "CANCELED";
+  return "SCHEDULED";
+}
+
+function displayAppointment(client: AdminClientSummary, appointment: ConsultingAppointment): AdminClientSummary {
+  const startsAt = appointment.startsAt;
+  return {
+    ...client,
+    consultingSelectedAppointmentId: appointment.id,
+    consultingStatus: appointmentDisplayStatus(appointment.status),
+    consultingStartsAt: startsAt,
+    consultingDate: startsAt ? new Date(startsAt).toLocaleString("pt-BR", {
+      dateStyle: "medium", timeStyle: "short", timeZone: "America/Sao_Paulo",
+    }) : null,
+  };
+}
+
+function mergeAppointment(client: AdminClientSummary, appointment: ConsultingAppointment): AdminClientSummary {
+  const appointments = [...(client.consultingAppointments ?? [])];
+  const index = appointments.findIndex((item) => item.id === appointment.id);
+  if (index >= 0) appointments[index] = appointment;
+  else appointments.push(appointment);
+  const now = Date.now();
+  const latest = appointments
+    .filter((item) => ["CONFIRMED", "REQUESTED"].includes(item.status) && item.startsAt && new Date(item.startsAt).getTime() >= now)
+    .sort((a, b) => new Date(a.startsAt!).getTime() - new Date(b.startsAt!).getTime())[0]
+    ?? appointments[appointments.length - 1];
+  return {
+    ...displayAppointment(client, latest),
+    consultingAppointments: appointments,
+    consultingSessionsUsed: appointments.filter((item) => ["REQUESTED", "CONFIRMED", "COMPLETED", "NO_SHOW"].includes(item.status)).length,
+  };
+}
+
 export function AdminConsultingView({ model, isLoading = false, onPageChange }: Props) {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedPlan, setSelectedPlan] = useState("ALL");
-  const [sortField, setSortField] = useState<"name" | "score">("score");
-  const [sortDirection, setSortDirection] = useState<"asc" | "desc">("desc");
+  const [sortField, setSortField] = useState<"name" | "score" | "status">("status");
+  const [sortDirection, setSortDirection] = useState<"asc" | "desc">("asc");
   
   // Local state to manage list of clients and reflect booking changes immediately
   const [localClients, setLocalClients] = useState<AdminClientSummary[]>(model.clients);
@@ -51,10 +116,15 @@ export function AdminConsultingView({ model, isLoading = false, onPageChange }: 
   const [bookingClient, setBookingClient] = useState<AdminClientSummary | null>(null);
   const [selectedBookingDay, setSelectedBookingDay] = useState<number | null>(null);
   const [selectedBookingTime, setSelectedBookingTime] = useState<string | null>(null);
+  const [bookingMeetingUrl, setBookingMeetingUrl] = useState("");
   const [isSuccess, setIsSuccess] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [detailsClient, setDetailsClient] = useState<AdminClientSummary | null>(null);
+  const [selectedAppointmentId, setSelectedAppointmentId] = useState<string | null>(null);
+  const [isEditingMeetingLink, setIsEditingMeetingLink] = useState(false);
+  const [meetingLinkDraft, setMeetingLinkDraft] = useState("");
+  const [isSavingMeetingLink, setIsSavingMeetingLink] = useState(false);
   const [isActionSubmitting, setIsActionSubmitting] = useState(false);
   const [actionError, setActionError] = useState<string | null>(null);
   const [isRescheduling, setIsRescheduling] = useState(false);
@@ -62,7 +132,7 @@ export function AdminConsultingView({ model, isLoading = false, onPageChange }: 
 
   // Extract unique plans dynamically from clients data
   const planOptions = useMemo(() => {
-    const plans = new Set(localClients.map((c) => c.plan));
+    const plans = new Set([...CONSULTING_PLANS, ...localClients.map((c) => c.plan)]);
     return [
       { value: "ALL", label: "Todos" },
       ...Array.from(plans).map((plan) => ({ value: plan, label: plan })),
@@ -77,6 +147,7 @@ export function AdminConsultingView({ model, isLoading = false, onPageChange }: 
       options: planOptions,
       selectedValue: selectedPlan,
       onValueChange: setSelectedPlan,
+      display: "select",
     },
   ];
 
@@ -110,6 +181,12 @@ export function AdminConsultingView({ model, isLoading = false, onPageChange }: 
   const dashboardYear = dashboardCalendarDate.getFullYear();
   const dashboardMonth = dashboardCalendarDate.getMonth();
 
+  const calendarAppointments = useMemo(() => localClients.flatMap((client) =>
+    (client.consultingAppointments ?? [])
+      .filter((appointment) => ["CONFIRMED", "COMPLETED", "NO_SHOW"].includes(appointment.status) && appointment.startsAt)
+      .map((appointment) => displayAppointment(client, appointment)),
+  ), [localClients]);
+
   const calendarDays = useMemo(() => {
     const today = new Date();
     const firstDay = new Date(dashboardYear, dashboardMonth, 1).getDay();
@@ -122,8 +199,7 @@ export function AdminConsultingView({ model, isLoading = false, onPageChange }: 
       days.push({ dayNum: null, isToday: false, isAppointment: false });
     }
 
-    const appointmentDays = localClients
-      .filter((client) => client.consultingStatus === "SCHEDULED" || client.consultingStatus === "COMPLETED")
+    const appointmentDays = calendarAppointments
       .map((client) => client.consultingStartsAt ? new Date(client.consultingStartsAt) : null)
       .filter((date): date is Date => date !== null && date.getMonth() === dashboardMonth && date.getFullYear() === dashboardYear)
       .map((date) => date.getDate());
@@ -137,7 +213,7 @@ export function AdminConsultingView({ model, isLoading = false, onPageChange }: 
     }
 
     return days;
-  }, [localClients, dashboardYear, dashboardMonth]);
+  }, [calendarAppointments, dashboardYear, dashboardMonth]);
 
   // Modal calendar computed values
   const modalMonthName = useMemo(() => {
@@ -169,39 +245,40 @@ export function AdminConsultingView({ model, isLoading = false, onPageChange }: 
   }, [modalYear, modalMonth]);
 
   const nextAppointment = useMemo(() => {
-    return localClients
-      .filter((client) => client.consultingStatus === "SCHEDULED" && client.consultingStartsAt)
+    const now = Date.now();
+    return calendarAppointments
+      .filter((client) => client.consultingStatus === "SCHEDULED" && client.consultingStartsAt && new Date(client.consultingStartsAt).getTime() >= now)
       .sort((a, b) => new Date(a.consultingStartsAt!).getTime() - new Date(b.consultingStartsAt!).getTime())[0] ?? null;
-  }, [localClients]);
+  }, [calendarAppointments]);
 
   const appointmentsForSelectedDay = useMemo(() => {
     if (selectedDayNum === null) return [];
-    return localClients.filter((client) => {
+    return calendarAppointments.filter((client) => {
       if (!client.consultingStartsAt) return false;
       const date = new Date(client.consultingStartsAt);
       return date.getDate() === selectedDayNum && 
              date.getMonth() === dashboardMonth && 
              date.getFullYear() === dashboardYear;
     });
-  }, [selectedDayNum, localClients, dashboardMonth, dashboardYear]);
+  }, [selectedDayNum, calendarAppointments, dashboardMonth, dashboardYear]);
 
-  const handleSort = (field: "name" | "score") => {
+  const handleSort = (field: "name" | "score" | "status") => {
     if (sortField === field) {
       setSortDirection((prev) => (prev === "asc" ? "desc" : "asc"));
     } else {
       setSortField(field);
-      setSortDirection(field === "name" ? "asc" : "desc");
+      setSortDirection(field === "score" ? "desc" : "asc");
     }
   };
 
   const handleClearFilters = () => {
     setSearchQuery("");
     setSelectedPlan("ALL");
-    setSortField("score");
-    setSortDirection("desc");
+    setSortField("status");
+    setSortDirection("asc");
   };
 
-  const showClearButton = searchQuery !== "" || selectedPlan !== "ALL" || sortField !== "score" || sortDirection !== "desc";
+  const showClearButton = searchQuery !== "" || selectedPlan !== "ALL" || sortField !== "status" || sortDirection !== "asc";
 
   // Filter and sort clients locally
   const filteredClients = useMemo(() => {
@@ -217,6 +294,15 @@ export function AdminConsultingView({ model, isLoading = false, onPageChange }: 
     });
 
     list.sort((a, b) => {
+      if (sortField === "status") {
+        const statusComparison = (STATUS_ORDER[a.consultingStatus ?? "PENDING"] - STATUS_ORDER[b.consultingStatus ?? "PENDING"]) * (sortDirection === "asc" ? 1 : -1);
+        if (statusComparison !== 0) return statusComparison;
+        if (a.consultingStatus === "SCHEDULED" && b.consultingStatus === "SCHEDULED") {
+          const timeComparison = scheduledTime(a) - scheduledTime(b);
+          if (Number.isFinite(timeComparison) && timeComparison !== 0) return timeComparison;
+        }
+        return a.tradeName.localeCompare(b.tradeName, "pt-BR");
+      }
       if (sortField === "score") {
         return sortDirection === "desc" ? b.score - a.score : a.score - b.score;
       }
@@ -237,6 +323,7 @@ export function AdminConsultingView({ model, isLoading = false, onPageChange }: 
     setModalCalendarDate(new Date());
     setSelectedBookingDay(null);
     setSelectedBookingTime(null);
+    setBookingMeetingUrl("");
     setIsSuccess(false);
     setErrorMsg(null);
   };
@@ -246,7 +333,12 @@ export function AdminConsultingView({ model, isLoading = false, onPageChange }: 
   };
 
   const handleOpenDetailsModal = (client: AdminClientSummary) => {
-    setDetailsClient(client);
+    const appointment = client.consultingAppointments?.find((item) => item.id === client.consultingSelectedAppointmentId)
+      ?? client.consultingAppointments?.at(-1);
+    setSelectedAppointmentId(appointment?.id ?? null);
+    setMeetingLinkDraft(appointment?.meetingUrl ?? "");
+    setIsEditingMeetingLink(false);
+    setDetailsClient(appointment ? displayAppointment(client, appointment) : client);
     setModalCalendarDate(new Date());
     setActionError(null);
     setIsRescheduling(false);
@@ -254,27 +346,43 @@ export function AdminConsultingView({ model, isLoading = false, onPageChange }: 
     setSelectedBookingTime(null);
   };
 
-  const updateLocalAppointment = (clientId: string, status: AdminClientSummary["consultingStatus"], startsAt?: string | null, orderId?: string) => {
+  const updateLocalAppointment = (clientId: string, appointment: ConsultingAppointment, orderId?: string) => {
     setLocalClients((prev) => prev.map((client) => {
       if (client.id !== clientId || (orderId && client.orderId !== orderId)) return client;
-
-      const date = startsAt ? new Date(startsAt) : null;
-      return {
-        ...client,
-        consultingStatus: status,
-        consultingStartsAt: startsAt ?? null,
-        consultingDate: date
-          ? date.toLocaleString("pt-BR", {
-              dateStyle: "medium",
-              timeStyle: "short",
-              timeZone: "America/Sao_Paulo",
-            })
-          : null,
-      };
+      return mergeAppointment(client, appointment);
     }));
   };
 
-  const handleAppointmentAction = async (action: "complete" | "cancel" | "reschedule") => {
+  const handleSaveMeetingLink = async () => {
+    if (!detailsClient || !selectedAppointmentId || !meetingLinkDraft.trim()) return;
+    setIsSavingMeetingLink(true);
+    setActionError(null);
+    try {
+      const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "/api";
+      const response = await fetch(`${API_URL}/admin/consultoria/${detailsClient.id}/meeting-link`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify({
+          orderId: detailsClient.orderId,
+          appointmentId: selectedAppointmentId,
+          meetingUrl: meetingLinkDraft.trim(),
+        }),
+      });
+      const appointment = await response.json().catch(() => ({}));
+      if (!response.ok) throw new Error(appointment.message ?? "Não foi possível atualizar o link.");
+      updateLocalAppointment(detailsClient.id, appointment, detailsClient.orderId);
+      setDetailsClient((current) => current ? displayAppointment(mergeAppointment(current, appointment), appointment) : current);
+      setMeetingLinkDraft(appointment.meetingUrl ?? "");
+      setIsEditingMeetingLink(false);
+    } catch (error) {
+      setActionError(error instanceof Error ? error.message : "Erro inesperado");
+    } finally {
+      setIsSavingMeetingLink(false);
+    }
+  };
+
+  const handleAppointmentAction = async (action: "complete" | "cancel" | "reschedule" | "no-show") => {
     if (!detailsClient) return;
     if (action === "reschedule" && (!selectedBookingDay || !selectedBookingTime)) return;
 
@@ -283,8 +391,9 @@ export function AdminConsultingView({ model, isLoading = false, onPageChange }: 
 
     try {
       const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "/api";
-      const body: { startsAt?: string; reason?: string; orderId?: string } = {
+      const body: { startsAt?: string; reason?: string; orderId?: string; appointmentId?: string } = {
         orderId: detailsClient.orderId,
+        appointmentId: selectedAppointmentId ?? undefined,
       };
 
       if (action === "reschedule") {
@@ -312,26 +421,8 @@ export function AdminConsultingView({ model, isLoading = false, onPageChange }: 
         throw new Error(appointment.message ?? "Não foi possível atualizar o agendamento.");
       }
 
-      const nextStatus = appointment.status === "COMPLETED"
-        ? "COMPLETED"
-        : appointment.status === "CANCELED"
-          ? "CANCELED"
-          : "SCHEDULED";
-      updateLocalAppointment(detailsClient.id, nextStatus, action === "cancel" ? null : appointment.startsAt, detailsClient.orderId);
-      setDetailsClient((current) => current ? {
-        ...current,
-        consultingStatus: nextStatus,
-        consultingStartsAt: action === "cancel" ? null : appointment.startsAt,
-        consultingDate: action === "cancel"
-          ? null
-          : appointment.startsAt
-            ? new Date(appointment.startsAt).toLocaleString("pt-BR", {
-                dateStyle: "medium",
-                timeStyle: "short",
-                timeZone: "America/Sao_Paulo",
-              })
-            : current.consultingDate,
-      } : current);
+      updateLocalAppointment(detailsClient.id, appointment, detailsClient.orderId);
+      setDetailsClient((current) => current ? displayAppointment(mergeAppointment(current, appointment), appointment) : current);
       setIsRescheduling(false);
       setSelectedBookingDay(null);
       setSelectedBookingTime(null);
@@ -343,7 +434,7 @@ export function AdminConsultingView({ model, isLoading = false, onPageChange }: 
   };
 
   const handleConfirmBooking = async () => {
-    if (!bookingClient || !selectedBookingDay || !selectedBookingTime) return;
+    if (!bookingClient || !selectedBookingDay || !selectedBookingTime || !bookingMeetingUrl.trim()) return;
     setIsSubmitting(true);
     setErrorMsg(null);
 
@@ -361,6 +452,7 @@ export function AdminConsultingView({ model, isLoading = false, onPageChange }: 
         body: JSON.stringify({
           startsAt: startsAtDate.toISOString(),
           orderId: bookingClient.orderId,
+          meetingUrl: bookingMeetingUrl.trim(),
         }),
       });
 
@@ -370,19 +462,10 @@ export function AdminConsultingView({ model, isLoading = false, onPageChange }: 
       }
 
       const appointment = await response.json();
-      const scheduledStatus = appointment.status === "CONFIRMED" || appointment.status === "REQUESTED"
-        ? "SCHEDULED"
-        : "PENDING";
-      const formattedDate = `${selectedBookingDay} de ${modalMonthName}, ${modalYear} às ${selectedBookingTime}`;
       setLocalClients((prev) =>
         prev.map((c) => {
           if (c.id === bookingClient.id && (!bookingClient.orderId || c.orderId === bookingClient.orderId)) {
-            return {
-              ...c,
-              consultingStatus: scheduledStatus,
-              consultingDate: formattedDate,
-              consultingStartsAt: startsAtDate.toISOString(),
-            };
+            return mergeAppointment(c, appointment);
           }
           return c;
         })
@@ -401,12 +484,6 @@ export function AdminConsultingView({ model, isLoading = false, onPageChange }: 
 
   return (
     <div className="space-y-8">
-      <AdminSectionHeading
-        eyebrow="Consultoria"
-        title="Consultoria"
-        description="Acompanhamento e agendamentos de reuniões com clientes do programa."
-      />
-
       {/* KPI Cards on Top: Próximo Agendamento e Calendário */}
       <section className="grid gap-6 md:grid-cols-2">
         {/* Card 1: Próximo Agendamento */}
@@ -578,7 +655,15 @@ export function AdminConsultingView({ model, isLoading = false, onPageChange }: 
                     )}
                   </div>
                 </th>
-                <th className="py-4 px-6 text-center">Status</th>
+                <th
+                  onClick={() => handleSort("status")}
+                  className="py-4 px-6 text-center cursor-pointer hover:bg-slate-100/50 hover:text-slate-600 transition-colors group"
+                >
+                  <div className="flex items-center justify-center gap-1.5">
+                    <span>Status</span>
+                    {sortField === "status" ? (sortDirection === "asc" ? <ArrowUp className="h-3.5 w-3.5 text-slate-600" /> : <ArrowDown className="h-3.5 w-3.5 text-slate-600" />) : <ArrowUpDown className="h-3.5 w-3.5 text-slate-300 opacity-0 group-hover:opacity-100 transition-opacity" />}
+                  </div>
+                </th>
                 <th className="py-4 px-6 text-right">Ação</th>
               </tr>
             </thead>
@@ -595,6 +680,7 @@ export function AdminConsultingView({ model, isLoading = false, onPageChange }: 
                 </tr>
               ) : (
                 filteredClients.map((client, idx) => {
+                  const hasAvailableSession = (client.consultingSessionsUsed ?? 0) < (client.consultingSessionLimit ?? 0);
                   return (
                     <tr key={`${client.id}-${client.plan}-${idx}`} className="hover:bg-slate-50/40 transition-colors">
                       {/* Company Cell */}
@@ -618,6 +704,7 @@ export function AdminConsultingView({ model, isLoading = false, onPageChange }: 
                         <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-50 border border-emerald-200 px-3 py-1 text-xs font-semibold text-emerald-700">
                           {client.plan}
                         </span>
+                        <span className="mt-1 block text-[11px] text-slate-500">{client.consultingSessionsUsed ?? 0}/{client.consultingSessionLimit ?? 0} consultoria(s) utilizadas</span>
                       </td>
 
                       {/* Score Cell */}
@@ -639,8 +726,8 @@ export function AdminConsultingView({ model, isLoading = false, onPageChange }: 
                       <td className="py-4 px-6 text-center">
                         <div className="flex flex-col items-center justify-center gap-1">
                           <AdminStatusBadge
-                            label={client.consultingStatus === 'COMPLETED' ? 'Realizado' : client.consultingStatus === 'SCHEDULED' ? 'Agendado' : client.consultingStatus === 'CANCELED' ? 'Cancelado' : 'Pendente'}
-                            tone={client.consultingStatus === 'COMPLETED' ? 'emerald' : client.consultingStatus === 'SCHEDULED' ? 'blue' : client.consultingStatus === 'CANCELED' ? 'rose' : 'amber'}
+                            label={client.consultingStatus === 'COMPLETED' ? 'Realizado' : client.consultingStatus === 'SCHEDULED' ? 'Agendado' : client.consultingStatus === 'NO_SHOW' ? 'Não compareceu' : client.consultingStatus === 'CANCELED' ? 'Cancelado' : 'Pendente'}
+                            tone={client.consultingStatus === 'COMPLETED' ? 'emerald' : client.consultingStatus === 'SCHEDULED' ? 'blue' : client.consultingStatus === 'NO_SHOW' ? 'amber' : client.consultingStatus === 'CANCELED' ? 'rose' : 'amber'}
                           />
                           {client.consultingStatus === 'SCHEDULED' && client.consultingDate && (
                             <span className="text-[10px] text-slate-500 font-medium mt-1">
@@ -652,22 +739,25 @@ export function AdminConsultingView({ model, isLoading = false, onPageChange }: 
 
                       {/* Action Button Cell */}
                       <td className="py-4 px-6 text-right">
-                        {client.consultingStatus === 'PENDING' ? (
+                        <div className="flex flex-wrap justify-end gap-2">
+                        {hasAvailableSession ? (
                           <button
                             onClick={() => handleOpenBookingModal(client)}
                             className="inline-flex items-center gap-1.5 rounded-xl bg-indigo-600 px-4 py-2 text-xs font-bold text-white shadow-sm hover:bg-indigo-700 transition-colors cursor-pointer"
                           >
                             <Calendar className="h-3.5 w-3.5" />
-                            <span>Agendar</span>
+                            <span>{(client.consultingSessionsUsed ?? 0) > 0 ? "Agendar próxima" : "Agendar"}</span>
                           </button>
-                        ) : (
+                        ) : null}
+                        {(client.consultingAppointments?.length ?? 0) > 0 ? (
                           <button
                             onClick={() => handleOpenDetailsModal(client)}
                             className="inline-flex items-center gap-1.5 rounded-xl bg-slate-950 px-4 py-2 text-xs font-bold text-white shadow-sm hover:bg-slate-800 transition-colors cursor-pointer"
                           >
-                            <span>{client.consultingStatus === 'CANCELED' ? 'Remarcar' : 'Visualizar'}</span>
+                            <span>Visualizar</span>
                           </button>
-                        )}
+                        ) : null}
+                        </div>
                       </td>
                     </tr>
                   );
@@ -887,6 +977,21 @@ export function AdminConsultingView({ model, isLoading = false, onPageChange }: 
                       </div>
                     </div>
                   )}
+                  <div className="mt-5 space-y-1.5">
+                    <label htmlFor="booking-meet-url" className="block text-xs font-bold uppercase tracking-wider text-slate-500">
+                      Link do Google Meet
+                    </label>
+                    <input
+                      id="booking-meet-url"
+                      type="url"
+                      required
+                      value={bookingMeetingUrl}
+                      onChange={(event) => setBookingMeetingUrl(event.target.value)}
+                      placeholder="https://meet.google.com/abc-defg-hij"
+                      className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-sm text-slate-800 outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/10"
+                    />
+                    <p className="text-[11px] text-slate-500">O cliente verá este link no agendamento.</p>
+                  </div>
                 </div>
 
                 {/* Footer Action Buttons */}
@@ -903,7 +1008,7 @@ export function AdminConsultingView({ model, isLoading = false, onPageChange }: 
                     </button>
                     <button
                       onClick={handleConfirmBooking}
-                      disabled={isSubmitting || !selectedBookingDay || !selectedBookingTime}
+                      disabled={isSubmitting || !selectedBookingDay || !selectedBookingTime || !bookingMeetingUrl.trim()}
                       className="px-5 py-2 text-xs font-bold text-white bg-indigo-600 hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed rounded-xl shadow-sm transition-colors cursor-pointer flex items-center gap-2"
                     >
                       {isSubmitting ? (
@@ -987,8 +1092,8 @@ export function AdminConsultingView({ model, isLoading = false, onPageChange }: 
                         </div>
                         <div className="shrink-0">
                           <AdminStatusBadge
-                            label={client.consultingStatus === 'COMPLETED' ? 'Realizado' : 'Agendado'}
-                            tone={client.consultingStatus === 'COMPLETED' ? 'emerald' : 'blue'}
+                            label={client.consultingStatus === 'COMPLETED' ? 'Realizado' : client.consultingStatus === 'NO_SHOW' ? 'Não compareceu' : 'Agendado'}
+                            tone={client.consultingStatus === 'COMPLETED' ? 'emerald' : client.consultingStatus === 'NO_SHOW' ? 'amber' : 'blue'}
                           />
                         </div>
                       </div>
@@ -1033,12 +1138,33 @@ export function AdminConsultingView({ model, isLoading = false, onPageChange }: 
               <p className="mt-1 text-xs text-slate-500">{detailsClient.legalName}</p>
             </div>
 
+            {(detailsClient.consultingAppointments?.length ?? 0) > 1 ? (
+              <div className="mt-5 flex flex-wrap gap-2" aria-label="Consultorias desta compra">
+                {detailsClient.consultingAppointments?.map((appointment, index) => (
+                  <button
+                    key={appointment.id}
+                    type="button"
+                    onClick={() => {
+                      setSelectedAppointmentId(appointment.id);
+                      setDetailsClient((current) => current ? displayAppointment(current, appointment) : current);
+                      setMeetingLinkDraft(appointment.meetingUrl ?? "");
+                      setIsEditingMeetingLink(false);
+                      setIsRescheduling(false);
+                    }}
+                    className={`rounded-xl border px-3 py-2 text-xs font-semibold ${selectedAppointmentId === appointment.id ? "border-indigo-500 bg-indigo-50 text-indigo-700" : "border-slate-200 text-slate-600 hover:bg-slate-50"}`}
+                  >
+                    Agendamento {index + 1} · {appointment.status === "COMPLETED" ? "Realizado" : appointment.status === "NO_SHOW" ? "Não compareceu" : appointment.status === "CANCELED" ? "Cancelado" : "Agendado"}
+                  </button>
+                ))}
+              </div>
+            ) : null}
+
             <div className="mt-6 grid gap-3 rounded-2xl border border-slate-100 bg-slate-50 p-4 text-sm">
               <div className="flex items-center justify-between gap-4">
                 <span className="text-slate-500">Status</span>
                 <AdminStatusBadge
-                  label={detailsClient.consultingStatus === "COMPLETED" ? "Realizado" : detailsClient.consultingStatus === "SCHEDULED" ? "Agendado" : detailsClient.consultingStatus === "CANCELED" ? "Cancelado" : "Pendente"}
-                  tone={detailsClient.consultingStatus === "COMPLETED" ? "emerald" : detailsClient.consultingStatus === "SCHEDULED" ? "blue" : detailsClient.consultingStatus === "CANCELED" ? "rose" : "amber"}
+                  label={detailsClient.consultingStatus === "COMPLETED" ? "Realizado" : detailsClient.consultingStatus === "SCHEDULED" ? "Agendado" : detailsClient.consultingStatus === "NO_SHOW" ? "Não compareceu" : detailsClient.consultingStatus === "CANCELED" ? "Cancelado" : "Pendente"}
+                  tone={detailsClient.consultingStatus === "COMPLETED" ? "emerald" : detailsClient.consultingStatus === "SCHEDULED" ? "blue" : detailsClient.consultingStatus === "NO_SHOW" ? "amber" : detailsClient.consultingStatus === "CANCELED" ? "rose" : "amber"}
                 />
               </div>
               <div className="flex items-center justify-between gap-4">
@@ -1049,7 +1175,43 @@ export function AdminConsultingView({ model, isLoading = false, onPageChange }: 
                 <span className="text-slate-500">Duração</span>
                 <span className="font-semibold text-slate-900">1 hora</span>
               </div>
+              <div className="flex items-center justify-between gap-4">
+                <span className="shrink-0 text-slate-500">Google Meet</span>
+                {!isEditingMeetingLink && detailsClient.consultingAppointments?.find((appointment) => appointment.id === selectedAppointmentId)?.meetingUrl ? (
+                  <a
+                    href={detailsClient.consultingAppointments.find((appointment) => appointment.id === selectedAppointmentId)!.meetingUrl!}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="max-w-[65%] truncate font-semibold text-indigo-700 hover:underline"
+                  >
+                    Abrir reunião
+                  </a>
+                ) : !isEditingMeetingLink ? (
+                  <span className="text-xs text-slate-400">Link não informado</span>
+                ) : null}
+              </div>
             </div>
+
+            {isEditingMeetingLink ? (
+              <div className="mt-4 space-y-2">
+                <label htmlFor="edit-meeting-link" className="block text-xs font-semibold text-slate-600">Link da reunião</label>
+                <input
+                  id="edit-meeting-link"
+                  type="url"
+                  required
+                  value={meetingLinkDraft}
+                  onChange={(event) => setMeetingLinkDraft(event.target.value)}
+                  placeholder="https://meet.google.com/..."
+                  className="w-full rounded-xl border border-slate-200 px-3 py-2 text-sm text-slate-800 outline-none focus:border-indigo-500"
+                />
+                <div className="flex justify-end gap-2">
+                  <button type="button" onClick={() => { setIsEditingMeetingLink(false); setMeetingLinkDraft(detailsClient.consultingAppointments?.find((item) => item.id === selectedAppointmentId)?.meetingUrl ?? ""); }} disabled={isSavingMeetingLink} className="rounded-lg px-3 py-2 text-xs font-semibold text-slate-500 hover:bg-slate-50">Voltar</button>
+                  <button type="button" onClick={handleSaveMeetingLink} disabled={isSavingMeetingLink || !meetingLinkDraft.trim()} className="rounded-lg bg-indigo-600 px-3 py-2 text-xs font-bold text-white hover:bg-indigo-700 disabled:opacity-50">
+                    {isSavingMeetingLink ? "Salvando..." : "Salvar link"}
+                  </button>
+                </div>
+              </div>
+            ) : null}
 
             {isRescheduling && (
               <div className="mt-5 space-y-4 rounded-2xl border border-indigo-100 bg-indigo-50/50 p-4">
@@ -1167,7 +1329,17 @@ export function AdminConsultingView({ model, isLoading = false, onPageChange }: 
               >
                 Fechar
               </button>
-              {(detailsClient.consultingStatus === "SCHEDULED" || detailsClient.consultingStatus === "CANCELED") && !isRescheduling && (
+              {!isEditingMeetingLink && ["REQUESTED", "CONFIRMED"].includes(detailsClient.consultingAppointments?.find((appointment) => appointment.id === selectedAppointmentId)?.status ?? "") && (
+                <button
+                  type="button"
+                  onClick={() => setIsEditingMeetingLink(true)}
+                  disabled={isActionSubmitting || isSavingMeetingLink}
+                  className="rounded-xl border border-indigo-200 px-4 py-2 text-xs font-bold text-indigo-700 hover:bg-indigo-50 disabled:opacity-50"
+                >
+                  {detailsClient.consultingAppointments?.find((appointment) => appointment.id === selectedAppointmentId)?.meetingUrl ? "Editar link" : "Inserir link"}
+                </button>
+              )}
+              {(detailsClient.consultingStatus === "SCHEDULED" || detailsClient.consultingStatus === "CANCELED") && !isRescheduling && !isEditingMeetingLink && (
                 <>
                   {detailsClient.consultingStatus === "SCHEDULED" && (
                     <button
@@ -1185,6 +1357,15 @@ export function AdminConsultingView({ model, isLoading = false, onPageChange }: 
                   >
                     Remarcar
                   </button>
+                  {detailsClient.consultingStatus === "SCHEDULED" && (
+                    <button
+                      onClick={() => handleAppointmentAction("no-show")}
+                      disabled={isActionSubmitting || !detailsClient.consultingStartsAt || new Date(detailsClient.consultingStartsAt).getTime() > Date.now()}
+                      className="rounded-xl border border-amber-200 px-4 py-2 text-xs font-bold text-amber-700 hover:bg-amber-50 disabled:opacity-50"
+                    >
+                      Não compareceu
+                    </button>
+                  )}
                   {detailsClient.consultingStatus === "SCHEDULED" && (
                     <button
                       onClick={() => handleAppointmentAction("complete")}

@@ -1,10 +1,12 @@
 import type { Request, Response } from "express";
 import { AdminService } from "../services/adminService.js";
+import { ConsultingService } from "../services/consultingService.js";
 import { AuthRepository } from "../../auth/repositories/authRepository.js";
 import { cache } from "../../../lib/cache.js";
 import { z } from "zod";
 
 const adminService = new AdminService();
+const consultingService = new ConsultingService();
 const authRepository = new AuthRepository();
 
 function parsePagination(request: Request, defaultLimit = 10) {
@@ -256,13 +258,13 @@ export class AdminController {
 
     try {
       const { id } = request.params;
-      const { startsAt, orderId } = request.body;
+      const { startsAt, meetingUrl, orderId } = request.body;
 
-      if (!id || !startsAt) {
-        return response.status(400).json({ message: "ID e data de agendamento são obrigatórios" });
+      if (!id || !startsAt || !meetingUrl) {
+        return response.status(400).json({ message: "ID, data e link do Google Meet são obrigatórios" });
       }
 
-      const data = await adminService.scheduleConsulting(id, startsAt, orderId);
+      const data = await consultingService.schedule(id, startsAt, meetingUrl, orderId);
       return response.status(200).json(data);
     } catch (error) {
       const message = error instanceof Error ? error.message : "Erro inesperado";
@@ -277,8 +279,32 @@ export class AdminController {
     if (!(await this.checkAdmin(request, response))) return;
 
     try {
-      const { orderId } = request.body ?? {};
-      const data = await adminService.completeConsulting(request.params.id, orderId);
+      const { orderId, appointmentId } = request.body ?? {};
+      const data = await consultingService.complete(request.params.id, orderId, appointmentId);
+      return response.status(200).json(data);
+    } catch (error) {
+      return response.status(400).json({ message: error instanceof Error ? error.message : "Erro inesperado" });
+    }
+  }
+
+  async markConsultingNoShow(request: Request, response: Response) {
+    if (!(await this.checkAdmin(request, response))) return;
+
+    try {
+      const { orderId, appointmentId } = request.body ?? {};
+      const data = await consultingService.markNoShow(request.params.id, orderId, appointmentId);
+      return response.status(200).json(data);
+    } catch (error) {
+      return response.status(400).json({ message: error instanceof Error ? error.message : "Erro inesperado" });
+    }
+  }
+
+  async updateConsultingMeetingLink(request: Request, response: Response) {
+    if (!(await this.checkAdmin(request, response))) return;
+
+    try {
+      const { orderId, appointmentId, meetingUrl } = request.body ?? {};
+      const data = await consultingService.updateMeetingLink(request.params.id, meetingUrl, orderId, appointmentId);
       return response.status(200).json(data);
     } catch (error) {
       return response.status(400).json({ message: error instanceof Error ? error.message : "Erro inesperado" });
@@ -289,8 +315,8 @@ export class AdminController {
     if (!(await this.checkAdmin(request, response))) return;
 
     try {
-      const { reason, orderId } = request.body ?? {};
-      const data = await adminService.cancelConsulting(request.params.id, reason, orderId);
+      const { reason, orderId, appointmentId } = request.body ?? {};
+      const data = await consultingService.cancel(request.params.id, reason, orderId, appointmentId);
       return response.status(200).json(data);
     } catch (error) {
       return response.status(400).json({ message: error instanceof Error ? error.message : "Erro inesperado" });
@@ -301,12 +327,12 @@ export class AdminController {
     if (!(await this.checkAdmin(request, response))) return;
 
     try {
-      const { startsAt, orderId } = request.body ?? {};
+      const { startsAt, orderId, appointmentId } = request.body ?? {};
       if (!startsAt) {
         return response.status(400).json({ message: "O novo horário é obrigatório" });
       }
 
-      const data = await adminService.rescheduleConsulting(request.params.id, startsAt, orderId);
+      const data = await consultingService.reschedule(request.params.id, startsAt, orderId, appointmentId);
       return response.status(200).json(data);
     } catch (error) {
       return response.status(400).json({ message: error instanceof Error ? error.message : "Erro inesperado" });

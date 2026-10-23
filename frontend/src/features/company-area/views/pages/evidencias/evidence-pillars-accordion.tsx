@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef, useState, type ChangeEvent, type DragEvent } from "react";
-import { ChevronDown, CloudUpload, FileText, Heart, Leaf, Recycle, Scale, Send, Trash2, Upload, X, type LucideIcon } from "lucide-react";
+import { ChevronDown, CloudUpload, FileText, Heart, Leaf, Recycle, Scale, Send, Trash2, Upload, X, Clock3, type LucideIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { EVIDENCE_DOCUMENTS_MOCK, type EvidenceDocumentMock, type EvidenceAxis } from "../../../models/evidence-documents.mock";
@@ -31,6 +31,8 @@ interface EvidencePillarsAccordionProps {
   draftsByGroup: EvidenceGroup;
   persistedByGroup: UploadedGroup;
   sendingByGroup: LoadingGroup;
+  canUpload: boolean;
+  uploadDeadline: string | null;
   onAddFiles: (groupCode: EvidenceGroupCode, documentType: string, files: FileList) => void;
   onRemoveFile: (groupCode: EvidenceGroupCode, fileId: string) => void;
   onClearGroup: (groupCode: EvidenceGroupCode) => void;
@@ -83,6 +85,8 @@ export function EvidencePillarsAccordion({
   draftsByGroup,
   persistedByGroup,
   sendingByGroup,
+  canUpload,
+  uploadDeadline,
   onAddFiles,
   onRemoveFile,
   onClearGroup,
@@ -90,9 +94,14 @@ export function EvidencePillarsAccordion({
 }: EvidencePillarsAccordionProps) {
   const [expandedPillar, setExpandedPillar] = useState<PillarId | null>(null);
   const [selectedDocument, setSelectedDocument] = useState<EvidenceDocumentMock | null>(null);
+  const [expiredNoticeOpen, setExpiredNoticeOpen] = useState(false);
   const inputRef = useRef<HTMLInputElement | null>(null);
 
   const handleSelectDocument = (document: EvidenceDocumentMock) => {
+    if (!canUpload) {
+      setExpiredNoticeOpen(true);
+      return;
+    }
     setSelectedDocument(document);
   };
 
@@ -241,6 +250,25 @@ export function EvidencePillarsAccordion({
         );
       })}
 
+      {expiredNoticeOpen ? (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/45 p-4" role="dialog" aria-modal="true" aria-labelledby="evidence-deadline-title">
+          <div className="w-full max-w-md rounded-3xl bg-white p-6 shadow-2xl">
+            <div className="flex items-start gap-4">
+              <span className="rounded-2xl bg-amber-100 p-3 text-amber-700"><Clock3 className="h-6 w-6" /></span>
+              <div>
+                <h2 id="evidence-deadline-title" className="text-xl font-semibold text-slate-900">Prazo de envio encerrado</h2>
+                <p className="mt-2 text-sm leading-6 text-slate-600">
+                  O período de 20 dias para enviar evidências terminou{uploadDeadline ? ` em ${uploadDeadline}` : ""}. Os documentos já enviados continuam disponíveis para consulta.
+                </p>
+              </div>
+            </div>
+            <div className="mt-6 flex justify-end">
+              <Button type="button" onClick={() => setExpiredNoticeOpen(false)}>Entendi</Button>
+            </div>
+          </div>
+        </div>
+      ) : null}
+
       {selectedDocument ? (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/45 p-4" role="dialog" aria-modal="true" aria-labelledby="evidence-document-title">
           <div className="w-full max-w-lg rounded-3xl bg-white p-6 shadow-2xl">
@@ -266,7 +294,7 @@ export function EvidencePillarsAccordion({
                 Selecione o documento solicitado. Após o envio, ele será encaminhado para análise e não poderá ser alterado.
               </p>
             </div>
-            <div
+            {canUpload ? <div
               onDragOver={(event) => event.preventDefault()}
               onDrop={handleFileDrop}
               className="mt-5 rounded-2xl border-2 border-dashed border-slate-300 bg-slate-50 px-5 py-7 text-center transition-colors hover:border-emerald-300 hover:bg-emerald-50/40"
@@ -275,8 +303,8 @@ export function EvidencePillarsAccordion({
               <p className="mt-2 text-sm font-medium text-slate-800">Arraste o arquivo para cá</p>
               <p className="mt-1 text-xs text-slate-500">ou selecione no seu computador · {selectedDocument.acceptedTypes.join(", ")}</p>
               <Button type="button" variant="outline" className="mt-4" onClick={() => inputRef.current?.click()}><Upload className="mr-2 h-4 w-4" />Selecionar documento</Button>
-            </div>
-            {selectedDraftFiles.length > 0 ? (
+            </div> : null}
+            {canUpload && selectedDraftFiles.length > 0 ? (
               <div className="mt-5 rounded-2xl border border-emerald-200 bg-emerald-50/60 p-4">
                 <p className="text-sm font-medium text-emerald-900">Documentos selecionados</p>
                 <div className="mt-2 space-y-2">
@@ -321,7 +349,7 @@ export function EvidencePillarsAccordion({
             ) : null}
             <input ref={inputRef} type="file" multiple className="hidden" accept={selectedDocument.acceptedTypes.map((type) => `.${type.toLowerCase()}`).join(",")} onChange={handleFileChange} />
             <div className="mt-6 flex justify-end gap-3">
-              {selectedDraftFiles.length > 0 ? (
+              {canUpload && selectedDraftFiles.length > 0 ? (
                 <>
                   <Button type="button" variant="ghost" onClick={() => onClearGroup(selectedDocument.groupCode)}>Limpar</Button>
                   <Button type="button" className="bg-emerald-600 text-white hover:bg-emerald-700" disabled={sendingByGroup[selectedDocument.groupCode]} onClick={handleSendSelectedGroup}><Send className="mr-2 h-4 w-4" />{sendingByGroup[selectedDocument.groupCode] ? "Enviando..." : "Enviar"}</Button>

@@ -73,9 +73,13 @@ export interface AdminClientSummary {
   evidencePending: number;
   supplierCoverage: string;
   activeUsers: number;
-  consultingStatus?: "PENDING" | "SCHEDULED" | "COMPLETED" | "CANCELED";
+  consultingStatus?: "PENDING" | "SCHEDULED" | "COMPLETED" | "CANCELED" | "NO_SHOW";
   consultingDate?: string | null;
   consultingStartsAt?: string | null;
+  consultingSessionLimit?: number;
+  consultingSessionsUsed?: number;
+  consultingAppointments?: Array<{ id: string; status: string; startsAt: string | null; endsAt: string | null; meetingUrl: string | null }>;
+  consultingSelectedAppointmentId?: string;
 }
 
 export interface AdminSupplierSummary {

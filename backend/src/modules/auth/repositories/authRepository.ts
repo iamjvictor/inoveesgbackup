@@ -104,6 +104,13 @@ export class AuthRepository {
     ]);
   }
 
+  async invalidateUserCachesForSupabaseUser(supabaseUserId: string) {
+    await Promise.all([
+      cache.delete(`auth:profile:v2:${supabaseUserId}`),
+      cache.delete(`auth:access:v1:${supabaseUserId}`),
+    ]);
+  }
+
   async createUserWithOrganization(input: CreateUserWithOrganizationInput) {
     return prisma.$transaction(
       async (transaction) => {

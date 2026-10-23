@@ -238,7 +238,7 @@ export class DiagnosticController {
       });
 
       const message = error instanceof Error ? error.message : "Erro ao enviar evidências";
-      const statusCode = message.includes("Assessoria de Evidências") ? 403 : 400;
+      const statusCode = /Assessoria de Evidências|diagnóstico autodeclarado|prazo de 20 dias/.test(message) ? 403 : 400;
       return response.status(statusCode).json({
         message,
       });
@@ -283,10 +283,20 @@ export class DiagnosticController {
         supabaseUserId,
       });
 
-      const pdfBuffer = await diagnosticService.generateReportPDF(supabaseUserId);
+      const { buffer: pdfBuffer, fileName } = await diagnosticService.generateReportPDF(supabaseUserId);
+
+      const asciiFileName = fileName
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .replace(/[^\w. -]/g, "")
+        .replace(/\s+/g, " ")
+        .trim();
 
       response.setHeader("Content-Type", "application/pdf");
-      response.setHeader("Content-Disposition", "inline; filename=\"relatorio-esg.pdf\"");
+      response.setHeader(
+        "Content-Disposition",
+        `inline; filename="${asciiFileName}"; filename*=UTF-8''${encodeURIComponent(fileName)}`
+      );
       response.setHeader("Content-Length", pdfBuffer.length);
 
       return response.status(200).send(pdfBuffer);

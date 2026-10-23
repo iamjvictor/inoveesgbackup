@@ -26,6 +26,9 @@ export interface AdminClientRow {
   totalCount: bigint | number;
   appointmentStatus: string | null;
   appointmentStartsAt: Date | null;
+  consultingSessionLimit?: number;
+  consultingSessionsUsed?: bigint | number;
+  consultingAppointmentsJson?: unknown;
 }
 
 export interface AdminSupplierRow {
@@ -1106,6 +1109,7 @@ export class AdminRepository {
         bs.name AS "businessSegmentName",
         p.name AS "planName",
         ord.id AS "orderId",
+        (CASE WHEN p.code = 'FULL_DIAGNOSTIC_PLUS' THEN 2 ELSE 1 END)::int AS "consultingSessionLimit",
         latest_diagnostic.status AS "diagnosticStatus",
         latest_diagnostic."updatedAt" AS "diagnosticUpdatedAt",
         latest_diagnostic."completedAt" AS "diagnosticCompletedAt",
@@ -1116,6 +1120,8 @@ export class AdminRepository {
         COALESCE(active_users.count, 0)::bigint AS "activeUsers",
         latest_appointment.status AS "appointmentStatus",
         latest_appointment."startsAt" AS "appointmentStartsAt",
+        COALESCE(consulting_sessions.used, 0)::bigint AS "consultingSessionsUsed",
+        consulting_sessions.appointments AS "consultingAppointmentsJson",
         COUNT(*) OVER()::bigint AS "totalCount"
       FROM organizations o
       INNER JOIN organization_roles org_role
@@ -1128,7 +1134,7 @@ export class AdminRepository {
         ON ord_item."orderId" = ord.id
       INNER JOIN products p 
         ON p.id = ord_item."productId"
-       AND p.code = 'PRE_DIAGNOSTIC_PLUS'
+       AND p.code IN ('PRE_DIAGNOSTIC_PLUS', 'CONSULTING_1H', 'FULL_DIAGNOSTIC_PLUS')
       LEFT JOIN business_segments bs
         ON bs.id = o."businessSegmentId"
       LEFT JOIN LATERAL (
@@ -1174,11 +1180,45 @@ export class AdminRepository {
         SELECT ca.status, ca."startsAt"
         FROM consulting_appointments ca
         WHERE ca."orderId" = ord.id
-        ORDER BY ca."createdAt" DESC
+        ORDER BY
+          CASE
+            WHEN ca.status IN ('CONFIRMED', 'REQUESTED') AND ca."startsAt" >= CURRENT_TIMESTAMP THEN 0
+            WHEN ca.status IN ('CONFIRMED', 'REQUESTED') THEN 1
+            ELSE 2
+          END,
+          CASE WHEN ca.status IN ('CONFIRMED', 'REQUESTED') AND ca."startsAt" >= CURRENT_TIMESTAMP THEN ca."startsAt" END ASC NULLS LAST,
+          CASE WHEN ca.status IN ('CONFIRMED', 'REQUESTED') AND ca."startsAt" < CURRENT_TIMESTAMP THEN ca."startsAt" END DESC NULLS LAST,
+          ca."createdAt" DESC
         LIMIT 1
       ) latest_appointment ON TRUE
+      LEFT JOIN LATERAL (
+        SELECT
+          COUNT(*) FILTER (WHERE ca.status IN ('REQUESTED', 'CONFIRMED', 'COMPLETED', 'NO_SHOW')) AS used,
+          COALESCE(jsonb_agg(jsonb_build_object(
+            'id', ca.id,
+            'status', ca.status,
+            'startsAt', to_char(ca."startsAt", 'YYYY-MM-DD"T"HH24:MI:SS.MS"Z"'),
+            'endsAt', to_char(ca."endsAt", 'YYYY-MM-DD"T"HH24:MI:SS.MS"Z"'),
+            'meetingUrl', ca."meetingUrl"
+          ) ORDER BY ca."createdAt" ASC) FILTER (WHERE ca.id IS NOT NULL), '[]'::jsonb) AS appointments
+        FROM consulting_appointments ca
+        WHERE ca."orderId" = ord.id
+      ) consulting_sessions ON TRUE
       WHERE o."archivedAt" IS NULL
-      ORDER BY o."createdAt" DESC
+      ORDER BY
+        CASE
+          WHEN latest_appointment.status IN ('CONFIRMED', 'REQUESTED') THEN 0
+          WHEN latest_appointment.status IS NULL THEN 1
+          WHEN latest_appointment.status = 'COMPLETED' THEN 2
+          WHEN latest_appointment.status = 'NO_SHOW' THEN 3
+          ELSE 4
+        END,
+        CASE WHEN latest_appointment."startsAt" >= CURRENT_TIMESTAMP THEN 0 ELSE 1 END,
+        CASE WHEN latest_appointment."startsAt" >= CURRENT_TIMESTAMP THEN latest_appointment."startsAt" END ASC NULLS LAST,
+        CASE WHEN latest_appointment."startsAt" < CURRENT_TIMESTAMP THEN latest_appointment."startsAt" END DESC NULLS LAST,
+        o."tradeName" ASC NULLS LAST,
+        o."legalName" ASC,
+        ord.id ASC
       LIMIT ${input.limit}
       OFFSET ${offset}
     `;

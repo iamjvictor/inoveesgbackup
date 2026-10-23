@@ -27,6 +27,8 @@ import { InviteRepository } from "../../invite/repositories/inviteRepository.js"
 import { generateESGReportPDF } from "./pdfGeneratorService.js";
 import { buildInitialEvidenceScoreRows } from "../../evidence/services/evidenceScore.js";
 import { getAgroEvidence } from "../../evidence/catalogs/agroEvidenceCatalog.js";
+import { getEvidenceUploadWindow } from "../../evidence/services/evidenceUploadWindow.js";
+import { invalidateCurrentDiagnosticCache } from "./diagnosticCache.js";
 
 const diagnosticRepository = new DiagnosticRepository();
 const authRepository = new AuthRepository();
@@ -86,12 +88,44 @@ type CalculatedDiagnosticScore = {
   maturityLevel: "NASCENT" | "DEVELOPING" | "ESTABLISHED" | "MANAGED" | "OPTIMIZED";
 };
 
+type DiagnosticScorePercentages = Pick<
+  CalculatedDiagnosticScore,
+  "overallScore" | "environmentalScore" | "bioeconomyCircularScore" | "socialScore" | "governanceScore"
+>;
+
+export function capPreDiagnosticScores<T extends DiagnosticScorePercentages>(
+  scores: T,
+  diagnosticKind: string,
+): T {
+  if (diagnosticKind !== "PRE_DIAGNOSTIC") return scores;
+
+  return Object.fromEntries(
+    Object.entries(scores).map(([key, score]) => [key, Math.min(score, 80)]),
+  ) as T;
+}
+
 export function hasEvidenceUploadAccess(productCodes: string[]): boolean {
   return productCodes.some((code) =>
-    ["ASSESSORIA_EVIDENCIAS", "ASSESSORIA_COMPLETA", "FULL_DIAGNOSTIC"].includes(
+    ["ASSESSORIA_EVIDENCIAS", "ASSESSORIA_COMPLETA", "FULL_DIAGNOSTIC", "FULL_DIAGNOSTIC_PLUS"].includes(
       code.trim().toUpperCase().replace(/-/g, "_"),
     ),
   );
+}
+
+export function getCurrentDiagnosticKinds(productCodes: string[]): ("PRE_DIAGNOSTIC" | "FULL_DIAGNOSTIC")[] {
+  const normalizedCodes = productCodes.map((code) => code.trim().toUpperCase().replace(/-/g, "_"));
+  return normalizedCodes.some((code) => ["FULL_DIAGNOSTIC", "FULL_DIAGNOSTIC_PLUS"].includes(code))
+    ? ["FULL_DIAGNOSTIC"]
+    : ["PRE_DIAGNOSTIC", "FULL_DIAGNOSTIC"];
+}
+
+export function getEvidenceDiagnosticKinds(productCodes: string[]): ("PRE_DIAGNOSTIC" | "FULL_DIAGNOSTIC")[] {
+  const normalizedCodes = productCodes.map((code) => code.trim().toUpperCase().replace(/-/g, "_"));
+  if (!hasEvidenceUploadAccess(normalizedCodes)) return [];
+
+  // Diagnóstico Estratégico inclui uma avaliação completa própria. Um pré-diagnóstico
+  // mais recente não pode substituir essa avaliação para liberar evidências.
+  return getCurrentDiagnosticKinds(normalizedCodes);
 }
 
 function toPrismaAxis(axis: DiagnosticResponseAxisInput): Axis {
@@ -657,6 +691,41 @@ export class DiagnosticService {
       throw new Error("Diagnóstico não pertence à sua empresa");
     }
 
+    const evidenceDiagnosticKinds = getEvidenceDiagnosticKinds(accessContext.purchasedProductCodes);
+    const latestDeclaration = await prisma.diagnostic.findFirst({
+      where: {
+        organizationId,
+        kind: { in: evidenceDiagnosticKinds },
+        status: { in: ["DRAFT", "ACTIVE", "COMPLETED"] },
+      },
+      select: { id: true, status: true, completedAt: true },
+      orderBy: { createdAt: "desc" },
+    });
+    if (latestDeclaration && latestDeclaration.status !== "COMPLETED") {
+      throw new Error("Conclua primeiro o diagnóstico autodeclarado para enviar evidências.");
+    }
+
+    let uploadWindowStartedAt: Date | null = null;
+    const hasFullDiagnostic = accessContext.purchasedProductCodes.some((code: string) =>
+      ["FULL_DIAGNOSTIC", "FULL_DIAGNOSTIC_PLUS"].includes(code.trim().toUpperCase().replace(/-/g, "_")),
+    );
+    if (hasFullDiagnostic) {
+      const completedDeclaration = latestDeclaration?.status === "COMPLETED" && latestDeclaration.completedAt
+        ? latestDeclaration
+        : null;
+      if (!completedDeclaration?.completedAt) {
+        throw new Error("Conclua primeiro o diagnóstico autodeclarado para enviar evidências.");
+      }
+      if (diagnostic.id !== completedDeclaration.id) {
+        throw new Error("Envie as evidências vinculadas ao diagnóstico autodeclarado concluído mais recente.");
+      }
+      const { canUpload } = getEvidenceUploadWindow(completedDeclaration.completedAt);
+      if (!canUpload) {
+        throw new Error("O prazo de 20 dias após a conclusão do diagnóstico para enviar evidências terminou.");
+      }
+      uploadWindowStartedAt = completedDeclaration.completedAt;
+    }
+
     const [organization, uploader] = await Promise.all([
       prisma.organization.findUnique({
         where: { id: organizationId },
@@ -796,6 +865,9 @@ export class DiagnosticService {
       });
 
       const saved = await prisma.$transaction(async (tx) => {
+        if (hasFullDiagnostic && !getEvidenceUploadWindow(uploadWindowStartedAt).canUpload) {
+          throw new Error("O prazo de 20 dias após a conclusão do diagnóstico para enviar evidências terminou.");
+        }
         const requestIdsByCode = new Map<string, string>();
 
         for (const file of uploadedFiles) {
@@ -933,7 +1005,7 @@ export class DiagnosticService {
         })),
       });
 
-      await cache.delete(`diagnostic:current:${organizationId}`);
+      await invalidateCurrentDiagnosticCache(organizationId);
       await cache.delete(`auth:profile:v2:${supabaseUserId}`);
 
       return {
@@ -1124,7 +1196,7 @@ export class DiagnosticService {
       createdNewDiagnostic: !currentDiagnostic,
     });
 
-    await cache.delete(`diagnostic:current:${organization.id}`);
+    await invalidateCurrentDiagnosticCache(organization.id);
 
     console.info("[diagnostic.service.startDiagnostic] Cache invalidated", {
       cacheKey: `diagnostic:current:${organization.id}`,
@@ -1173,7 +1245,7 @@ export class DiagnosticService {
     }
 
     // Invalidate cache
-    await cache.delete(`diagnostic:current:${diagnostic.organizationId}`);
+    await invalidateCurrentDiagnosticCache(diagnostic.organizationId);
 
     // Busca o pedido correspondente para atualizar
     const orders = await prisma.order.findMany({
@@ -1266,7 +1338,9 @@ export class DiagnosticService {
       throw new Error("Empresa não encontrada para o usuário atual");
     }
 
-    const cacheKey = `diagnostic:current:${organizationId}`;
+    const accessContext = await authRepository.getAccessContextBySupabaseUserId(supabaseUserId);
+    const diagnosticKinds = getCurrentDiagnosticKinds(accessContext?.purchasedProductCodes ?? []);
+    const cacheKey = `diagnostic:current:${organizationId}:${diagnosticKinds.join(",")}`;
     const cached = await cache.get<{ diagnostic: any; hasDiagnostic: boolean }>(cacheKey);
     if (cached !== undefined) {
       console.info("[diagnostic.service.getCurrentDiagnostic] Cache hit", {
@@ -1297,7 +1371,7 @@ export class DiagnosticService {
       cacheKey,
     });
 
-    const diagnostic = await diagnosticRepository.findCurrentByOrganizationId(organizationId);
+    const diagnostic = await diagnosticRepository.findCurrentByOrganizationId(organizationId, diagnosticKinds);
     const diagnosticWithEvidenceScores = mergeEvidenceScoresIntoDiagnostic(diagnostic);
     const transformedDiagnostic = isSupplierOrg ? transformSupplierDiagnosticPayload(diagnosticWithEvidenceScores) : diagnosticWithEvidenceScores;
 
@@ -1501,7 +1575,7 @@ export class DiagnosticService {
         organizationId,
         cacheKey: `diagnostic:current:${organizationId}`,
       });
-      await cache.delete(`diagnostic:current:${organizationId}`);
+      await invalidateCurrentDiagnosticCache(organizationId);
 
       return result;
     } catch (error) {
@@ -1539,6 +1613,10 @@ export class DiagnosticService {
       throw new Error("Diagnóstico não pertence à sua empresa");
     }
 
+    if (diagnostic.status === "COMPLETED") {
+      throw new Error("Este diagnóstico já foi concluído.");
+    }
+
     if (!responsibilityDeclarationAccepted) {
       console.error("[DiagnosticService.calculateScore] Responsabilidade não declarada pelo usuário", {
         diagnosticId,
@@ -1559,7 +1637,7 @@ export class DiagnosticService {
     const totalQuestions = questions.length;
 
     console.log(`[DiagnosticService.calculateScore] Invalidando cache do diagnóstico para a empresa ${organizationId}`);
-    await cache.delete(`diagnostic:current:${organizationId}`);
+    await invalidateCurrentDiagnosticCache(organizationId);
 
     // Buscar todas as respostas salvas do diagnóstico
     console.log(`[DiagnosticService.calculateScore] Buscando respostas no banco de dados para o diagnóstico ${diagnosticId}...`);
@@ -1609,14 +1687,18 @@ export class DiagnosticService {
       (socialRawScore * 0.3) +
       (governanceRawScore * 0.3);
 
-    const cappedOverallRawScore = Math.min(overallRawScore, 4.0);
+    const cappedOverallRawScore = diagnostic.kind === "PRE_DIAGNOSTIC"
+      ? Math.min(overallRawScore, 4.0)
+      : overallRawScore;
 
-    const environmentalScore = toPercentage(environmentalRawScore);
-    const bioeconomyCircularScore = toPercentage(bioeconomyCircularRawScore);
-    const socialScore = toPercentage(socialRawScore);
-    const governanceScore = toPercentage(governanceRawScore);
-
-    const overallScore = toPercentage(cappedOverallRawScore);
+    const cappedScores = capPreDiagnosticScores({
+      environmentalScore: toPercentage(environmentalRawScore),
+      bioeconomyCircularScore: toPercentage(bioeconomyCircularRawScore),
+      socialScore: toPercentage(socialRawScore),
+      governanceScore: toPercentage(governanceRawScore),
+      overallScore: toPercentage(cappedOverallRawScore),
+    }, diagnostic.kind);
+    const { environmentalScore, bioeconomyCircularScore, socialScore, governanceScore, overallScore } = cappedScores;
 
     let maturityLevel: CalculatedDiagnosticScore["maturityLevel"] = "NASCENT";
     if (cappedOverallRawScore >= 4.5) maturityLevel = "OPTIMIZED";
@@ -1692,7 +1774,7 @@ export class DiagnosticService {
     return diagnostics;
   }
 
-  async generateReportPDF(supabaseUserId: string): Promise<Buffer> {
+  async generateReportPDF(supabaseUserId: string): Promise<{ buffer: Buffer; fileName: string }> {
     console.info("[diagnostic.service.generateReportPDF] [STAGE 1] Iniciando geração de PDF do relatório", {
       supabaseUserId,
     });
@@ -1885,6 +1967,14 @@ export class DiagnosticService {
       pdfBufferLength: pdfBuffer.length,
     });
 
-    return pdfBuffer;
+    const safeCompanyName = (organization.legalName || organization.tradeName || "Minha Empresa")
+      .replace(/[<>:"/\\|?*\u0000-\u001f]/g, "")
+      .replace(/\s+/g, " ")
+      .trim() || "Minha Empresa";
+
+    return {
+      buffer: pdfBuffer,
+      fileName: `Diagnóstico Autodeclaravel - ${safeCompanyName}.pdf`,
+    };
   }
 }

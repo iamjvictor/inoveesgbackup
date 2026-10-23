@@ -107,14 +107,18 @@ export function CategoriesSection({ onCardAction, className }: CategoriesSection
 
   const handleBackToGrid = () => {
     setSelectedCategory(null);
+    const element = document.getElementById("categorias");
+    if (element) {
+      element.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
   };
 
   return (
     <section
       id="categorias"
       className={cn(
-        "relative overflow-hidden border-b border-border w-full transition-colors duration-500",
-        selectedCategory ? "bg-neutral-950 py-0" : "bg-gradient-to-b from-surface via-white to-surface py-10 md:py-14 lg:py-16",
+        "relative overflow-hidden border-b border-border w-full min-h-screen transition-colors duration-500 flex flex-col",
+        selectedCategory ? "bg-neutral-950 py-0" : "bg-gradient-to-b from-surface via-white to-surface py-16 sm:py-20 lg:py-24 justify-center",
         className
       )}
     >
@@ -135,6 +139,7 @@ export function CategoriesSection({ onCardAction, className }: CategoriesSection
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -16, filter: "blur(4px)" }}
             transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+            className="w-full flex-1 flex flex-col justify-center"
           >
             <Container>
               <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
@@ -241,14 +246,14 @@ export function CategoriesSection({ onCardAction, className }: CategoriesSection
             animate={{ opacity: 1 }}
             exit={{ opacity: 0, filter: "blur(4px)" }}
             transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
-            className="w-full min-h-[620px] lg:min-h-[680px] grid lg:grid-cols-12"
+            className="w-full flex-1 min-h-screen lg:min-h-screen grid lg:grid-cols-12"
           >
             {/* LADO ESQUERDO: Lista dos setores deslizando da esquerda */}
             <motion.div
               initial={{ opacity: 0, x: -35 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1], delay: 0.05 }}
-              className="lg:col-span-4 xl:col-span-4 2xl:col-span-3 p-6 sm:p-8 lg:p-10 xl:p-12 flex flex-col justify-between bg-surface/95 border-b lg:border-b-0 lg:border-r border-border"
+              className="lg:col-span-4 xl:col-span-4 2xl:col-span-3 p-6 sm:p-8 lg:p-10 xl:p-12 pt-24 sm:pt-28 lg:pt-28 pb-8 sm:pb-10 flex flex-col justify-between bg-surface/95 border-b lg:border-b-0 lg:border-r border-border h-full"
             >
               <div>
                 {/* Botão de retorno e controle */}
@@ -353,7 +358,7 @@ export function CategoriesSection({ onCardAction, className }: CategoriesSection
             </motion.div>
 
             {/* LADO DIREITO: Imagem de fundo cobrindo o quadrante até a borda da tela com transição por setor */}
-            <div className="relative lg:col-span-8 xl:col-span-8 2xl:col-span-9 flex flex-col justify-between overflow-hidden p-8 sm:p-10 md:p-12 lg:p-14 xl:p-16 bg-neutral-950 text-white min-h-[520px]">
+            <div className="relative lg:col-span-8 xl:col-span-8 2xl:col-span-9 flex flex-col justify-between overflow-hidden p-8 sm:p-10 md:p-12 lg:p-14 xl:p-16 pt-24 sm:pt-28 lg:pt-28 pb-8 sm:pb-10 lg:pb-12 bg-neutral-950 text-white min-h-[520px] lg:min-h-full h-full">
               <AnimatePresence mode="wait">
                 <motion.div
                   key={selectedCategory.id}

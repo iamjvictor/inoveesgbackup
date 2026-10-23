@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 
 import { Button } from "@/components/ui/button";
-import { SectionHeading } from "../../components/section-heading";
 import { ApiError, diagnosticService, type DiagnosticStartPayload } from "@/features/company-area/services/diagnostic.service";
 import { useErrorModal } from "@/components/ui/error-modal-provider";
 import {
@@ -150,42 +149,18 @@ export function DiagnosticOverviewView({ dbDiagnostic }: DiagnosticOverviewViewP
   const handleDownload = async () => {
     console.log("[handleDownload] Download do relatório a partir do painel de diagnóstico");
     const reportWindow = window.open("about:blank", "_blank");
-
-    if (reportWindow) {
-      reportWindow.document.write(`
-        <!doctype html>
-        <html lang="pt-BR">
-          <head><meta charset="utf-8"><title>Gerando relatório</title></head>
-          <body style="margin:0;display:flex;align-items:center;justify-content:center;min-height:100vh;background:#f8fafc;font-family:Arial,sans-serif;color:#334155">
-            <div style="text-align:center"><div style="font-size:18px;font-weight:700;margin-bottom:8px">Gerando relatório ESG</div><div style="font-size:14px;color:#64748b">Aguarde enquanto o PDF é preparado...</div></div>
-          </body>
-        </html>
-      `);
-      reportWindow.document.close();
+    if (!reportWindow) {
+      showError({ title: "Não foi possível abrir o relatório", message: "Permita pop-ups para este site e tente novamente." });
+      return;
     }
 
     try {
       setDownloading(true);
-    const token = "cookie-session";
-      if (!token) {
-        reportWindow?.close();
-        showError({ title: "Sessão não encontrada", message: "Por favor, faça login novamente." });
-        return;
-      }
-      const blob = await diagnosticService.downloadReport(token);
-      const url = window.URL.createObjectURL(blob);
-      if (reportWindow) {
-        window.setTimeout(() => window.URL.revokeObjectURL(url), 60_000);
-        reportWindow.location.replace(url);
-      } else {
-        window.URL.revokeObjectURL(url);
-        showError({
-          title: "Não foi possível abrir o relatório",
-          message: "Permita pop-ups para este site e tente novamente.",
-        });
-      }
+      reportWindow.document.write("<p style='font:14px Arial,sans-serif;padding:24px'>Gerando relatório ESG...</p>");
+      reportWindow.document.close();
+      reportWindow.location.replace(diagnosticService.getReportUrl());
     } catch (err: unknown) {
-      reportWindow?.close();
+      reportWindow.close();
       const apiError = err instanceof ApiError ? err : null;
       showError({
         code: apiError?.code,
@@ -349,13 +324,6 @@ export function DiagnosticOverviewView({ dbDiagnostic }: DiagnosticOverviewViewP
 
   return (
     <div className="space-y-8 animate-in fade-in duration-300">
-      {!isCompleted && (
-        <SectionHeading
-          eyebrow="Painel ESG"
-          title="Painel de Provas do Diagnóstico"
-          description="O diagnóstico está dividido em 4 provas independentes. Complete cada eixo para liberar o envio final."
-        />
-      )}
 
       {/* ── Status Banner for Completed Diagnostic ── */}
       {isCompleted && (

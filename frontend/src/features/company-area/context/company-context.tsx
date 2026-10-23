@@ -1,6 +1,6 @@
 "use client";
 
-import React, { createContext, useContext, useEffect, useState } from "react";
+import React, { createContext, useCallback, useContext, useEffect, useState } from "react";
 import { authService } from "@/features/auth/services/auth.service";
 import type { AuthAccessContext } from "@/features/auth/models/auth.types";
 
@@ -119,7 +119,7 @@ interface CompanyContextType {
   company: UserProfile["organizationUsers"][0]["organization"] | null;
   serviceAccess: AuthAccessContext | null;
   isLoading: boolean;
-  refreshProfile: () => Promise<void>;
+  refreshProfile: (forceFresh?: boolean) => Promise<void>;
   // Access Control Helpers
   hasActivePlan: boolean;
   isSupplierOnly: boolean;
@@ -142,11 +142,11 @@ export function CompanyProvider({ children }: { children: React.ReactNode }) {
   const [serviceAccess, setServiceAccess] = useState<AuthAccessContext | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
-  const fetchProfile = async () => {
+  const fetchProfile = useCallback(async (forceFresh = false) => {
     try {
       const [profileResult, accessResult] = await Promise.allSettled([
-        authService.getMe(),
-        authService.getAccessContext(),
+        authService.getMe(undefined, forceFresh),
+        authService.getAccessContext(undefined, forceFresh),
       ]);
 
       if (profileResult.status === "fulfilled") {
@@ -166,11 +166,11 @@ export function CompanyProvider({ children }: { children: React.ReactNode }) {
     } finally {
       setIsLoading(false);
     }
-  };
+  }, []);
 
   useEffect(() => {
-    fetchProfile();
-  }, []);
+    void fetchProfile();
+  }, [fetchProfile]);
 
   const company = user?.organizationUsers?.[0]?.organization || null;
   
@@ -193,7 +193,20 @@ export function CompanyProvider({ children }: { children: React.ReactNode }) {
     false;
 
   const hasAssessmentAccess = serviceAccess?.hasAssessmentAccess ?? false;
-  const hasEvidenceAccess = serviceAccess?.hasEvidenceAccess ?? false;
+  const hasPurchasedFullDiagnostic = serviceAccess?.purchasedProductCodes?.some((code) =>
+    ["FULL_DIAGNOSTIC", "FULL_DIAGNOSTIC_PLUS"].includes(code.toUpperCase().replace(/-/g, "_")),
+  ) ?? false;
+  const evidenceDiagnosticKinds = hasPurchasedFullDiagnostic
+    ? ["FULL_DIAGNOSTIC"]
+    : ["PRE_DIAGNOSTIC", "FULL_DIAGNOSTIC"];
+  const latestDeclaration = (company?.subjectDiagnostics ?? []).find((diagnostic) =>
+    evidenceDiagnosticKinds.includes(diagnostic.kind) &&
+    ["DRAFT", "ACTIVE", "COMPLETED"].includes(diagnostic.status),
+  );
+  const hasCompletedDeclaration = latestDeclaration?.status === "COMPLETED" && Boolean(latestDeclaration.completedAt);
+  const hasUnresolvedDeclaration = Boolean(latestDeclaration && latestDeclaration.status !== "COMPLETED");
+  const hasEvidenceAccess = (serviceAccess?.hasEvidenceAccess ?? false) &&
+    !hasUnresolvedDeclaration && hasCompletedDeclaration;
   const hasPreDiagnosticAccess = serviceAccess?.hasPreDiagnosticAccess ?? false;
   const consultingProductCodes = ["PRE_DIAGNOSTIC_PLUS", "DIAG_CONSULTORIA", "FULL_DIAGNOSTIC"];
   const hasConsultingAccess = serviceAccess?.purchasedProductCodes?.some((code) =>

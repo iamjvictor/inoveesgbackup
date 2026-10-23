@@ -21,7 +21,7 @@ export function AppSidebar() {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const pathname = usePathname();
   const { logout } = useAuthController();
-  const { user, company, isUnpaid, isSupplierOnly, hasOnlyPreDiagnostic, hasCompletedDiagnostic, hasEvidenceAccess, hasActivePlan, hasPreDiagnosticAccess, hasInviteAccess } = useCompany();
+  const { user, company, serviceAccess, isUnpaid, isSupplierOnly, hasOnlyPreDiagnostic, hasCompletedDiagnostic, hasEvidenceAccess, hasActivePlan, hasPreDiagnosticAccess, hasInviteAccess } = useCompany();
 
   const getInitials = (name: string) => {
     return name
@@ -238,7 +238,7 @@ export function AppSidebar() {
               const href = item.href === "/app" && isUnpaid && !isSupplierOnly
                 ? "/app/upgrade"
                 : (isLocked 
-                    ? (isUnpaid ? (isSupplierOnly ? "/app" : "/app/upgrade") : "/app/upgrade") 
+                    ? (isEvidenceRoute && serviceAccess?.hasEvidenceAccess ? "/app/diagnostico" : isUnpaid ? (isSupplierOnly ? "/app" : "/app/upgrade") : "/app/upgrade")
                     : item.href
                   );
 

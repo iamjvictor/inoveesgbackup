@@ -46,6 +46,7 @@ export function AdminConsultingPageClient() {
         eyebrow="Consultoria"
         title="Pré-Diagnóstico + Consultoria"
         description="Carregando a visão operacional de consultoria."
+        hideHeading
       />
     );
   }

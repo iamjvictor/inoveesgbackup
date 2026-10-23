@@ -5,7 +5,10 @@ import {
   buildEvidencePersistenceData,
   buildEvidenceRequirementData,
   hasEvidenceUploadAccess,
+  getEvidenceDiagnosticKinds,
+  getCurrentDiagnosticKinds,
   getDiagnosticQuestionsForSegment,
+  capPreDiagnosticScores,
 } from "./diagnosticService.js";
 import { infrastructureDiagnosticQuestions } from "../models/diagnosticModel.js";
 
@@ -92,6 +95,13 @@ test("evidence upload access requires the purchased evidence product", () => {
   assert.equal(hasEvidenceUploadAccess(["assessoria-evidencias"]), true);
 });
 
+test("full diagnostic purchases wait for the full diagnostic even if a pre-diagnostic is newer", () => {
+  assert.deepEqual(getEvidenceDiagnosticKinds(["FULL_DIAGNOSTIC_PLUS"]), ["FULL_DIAGNOSTIC"]);
+  assert.deepEqual(getEvidenceDiagnosticKinds(["PRE_DIAGNOSTIC_PLUS"]), []);
+  assert.deepEqual(getCurrentDiagnosticKinds(["FULL_DIAGNOSTIC_PLUS"]), ["FULL_DIAGNOSTIC"]);
+  assert.deepEqual(getCurrentDiagnosticKinds(["PRE_DIAGNOSTIC_PLUS"]), ["PRE_DIAGNOSTIC", "FULL_DIAGNOSTIC"]);
+});
+
 test("selects the infrastructure questionnaire by category, segment, or normalized name", () => {
   assert.strictEqual(
     getDiagnosticQuestionsForSegment("Infraestrutura", "INFRAESTRUTURA", "INFRAESTRUTURA")[0],
@@ -101,4 +111,23 @@ test("selects the infrastructure questionnaire by category, segment, or normaliz
     getDiagnosticQuestionsForSegment("infraestrutura", " infraestrutura ", " infraestrutura ")[0],
     infrastructureDiagnosticQuestions[0],
   );
+});
+
+test("caps every pre-diagnostic score at 80 while preserving other diagnostic scores", () => {
+  const scores = {
+    overallScore: 100,
+    environmentalScore: 91,
+    bioeconomyCircularScore: 90,
+    socialScore: 100,
+    governanceScore: 100,
+  };
+
+  assert.deepEqual(capPreDiagnosticScores(scores, "PRE_DIAGNOSTIC"), {
+    overallScore: 80,
+    environmentalScore: 80,
+    bioeconomyCircularScore: 80,
+    socialScore: 80,
+    governanceScore: 80,
+  });
+  assert.deepEqual(capPreDiagnosticScores(scores, "FULL_DIAGNOSTIC"), scores);
 });
