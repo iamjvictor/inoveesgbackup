@@ -1,0 +1,1032 @@
+{
+  "round_id": "qa-bioimpacto-20261104",
+  "continuation_started_at": "2026-11-05T00:39:21.858Z",
+  "planned_duration_minutes": 15,
+  "one_tab_context": true,
+  "cycles": [
+    {
+      "cycle": 1,
+      "at": "2026-11-05T00:39:33.759Z",
+      "route": "/app",
+      "name": "painel",
+      "viewport": "desktop",
+      "width": 1365,
+      "height": 768,
+      "duration_ms": 917,
+      "content_ready": false,
+      "overflow": false,
+      "scroll_width": 1350,
+      "final_path": "/app",
+      "loading_text": true,
+      "nav_error": null,
+      "screenshot": "continuation-01-painel-desktop.png"
+    },
+    {
+      "cycle": 2,
+      "at": "2026-11-05T00:40:33.763Z",
+      "route": "/app/evidencias",
+      "name": "evidencias",
+      "viewport": "tablet",
+      "width": 768,
+      "height": 1024,
+      "duration_ms": 906,
+      "content_ready": false,
+      "overflow": false,
+      "scroll_width": 753,
+      "final_path": "/app/evidencias",
+      "loading_text": true,
+      "nav_error": null,
+      "screenshot": "continuation-02-evidencias-tablet.png"
+    },
+    {
+      "cycle": 3,
+      "at": "2026-11-05T00:41:33.765Z",
+      "route": "/app/meus-servicos",
+      "name": "meus-servicos",
+      "viewport": "mobile",
+      "width": 390,
+      "height": 844,
+      "duration_ms": 1108,
+      "content_ready": false,
+      "overflow": false,
+      "scroll_width": 375,
+      "final_path": "/app/meus-servicos",
+      "loading_text": true,
+      "nav_error": null,
+      "screenshot": "continuation-03-meus-servicos-mobile.png"
+    },
+    {
+      "cycle": 4,
+      "at": "2026-11-05T00:42:33.770Z",
+      "route": "/app",
+      "name": "painel",
+      "viewport": "tablet",
+      "width": 768,
+      "height": 1024,
+      "duration_ms": 933,
+      "content_ready": false,
+      "overflow": false,
+      "scroll_width": 753,
+      "final_path": "/app",
+      "loading_text": true,
+      "nav_error": null,
+      "screenshot": "continuation-04-painel-tablet.png"
+    },
+    {
+      "cycle": 5,
+      "at": "2026-11-05T00:43:33.774Z",
+      "route": "/app/evidencias",
+      "name": "evidencias",
+      "viewport": "mobile",
+      "width": 390,
+      "height": 844,
+      "duration_ms": 883,
+      "content_ready": false,
+      "overflow": false,
+      "scroll_width": 375,
+      "final_path": "/app/evidencias",
+      "loading_text": true,
+      "nav_error": null,
+      "screenshot": "continuation-05-evidencias-mobile.png"
+    },
+    {
+      "cycle": 6,
+      "session": 1,
+      "at": "2026-11-05T00:45:26.653Z",
+      "route": "/app/meus-servicos",
+      "name": "meus-servicos",
+      "viewport": "desktop",
+      "width": 1365,
+      "height": 768,
+      "duration_ms": 3131,
+      "content_ready": true,
+      "loading_text": true,
+      "service_data_loading": true,
+      "overflow": false,
+      "scroll_width": 1350,
+      "final_path": "/app/meus-servicos",
+      "nav_error": null,
+      "screenshot": "continuation-06-meus-servicos-desktop.png"
+    },
+    {
+      "cycle": 7,
+      "session": 1,
+      "at": "2026-11-05T00:46:26.658Z",
+      "route": "/app",
+      "name": "painel",
+      "viewport": "mobile",
+      "width": 390,
+      "height": 844,
+      "duration_ms": 1493,
+      "content_ready": true,
+      "loading_text": false,
+      "service_data_loading": false,
+      "overflow": false,
+      "scroll_width": 375,
+      "final_path": "/app",
+      "nav_error": null,
+      "screenshot": "continuation-07-painel-mobile.png"
+    },
+    {
+      "cycle": 8,
+      "session": 1,
+      "at": "2026-11-05T00:47:26.661Z",
+      "route": "/app/evidencias",
+      "name": "evidencias",
+      "viewport": "desktop",
+      "width": 1365,
+      "height": 768,
+      "duration_ms": 1784,
+      "content_ready": true,
+      "loading_text": false,
+      "service_data_loading": false,
+      "overflow": false,
+      "scroll_width": 1350,
+      "final_path": "/app/evidencias",
+      "nav_error": null,
+      "screenshot": "continuation-08-evidencias-desktop.png"
+    },
+    {
+      "cycle": 9,
+      "session": 1,
+      "at": "2026-11-05T00:48:26.665Z",
+      "route": "/app/meus-servicos",
+      "name": "meus-servicos",
+      "viewport": "tablet",
+      "width": 768,
+      "height": 1024,
+      "duration_ms": 1707,
+      "content_ready": true,
+      "loading_text": true,
+      "service_data_loading": true,
+      "overflow": false,
+      "scroll_width": 753,
+      "final_path": "/app/meus-servicos",
+      "nav_error": null,
+      "screenshot": "continuation-09-meus-servicos-tablet.png"
+    },
+    {
+      "cycle": 10,
+      "session": 1,
+      "at": "2026-11-05T00:49:26.669Z",
+      "route": "/app",
+      "name": "painel",
+      "viewport": "desktop",
+      "width": 1365,
+      "height": 768,
+      "duration_ms": 14371,
+      "content_ready": false,
+      "loading_text": false,
+      "service_data_loading": false,
+      "overflow": false,
+      "scroll_width": 1350,
+      "final_path": "/",
+      "nav_error": "TimeoutError: locator.waitFor: Timeout 12000ms exceeded.\nCall log:\n\u001b[2m  - waiting for getByText('Olá, QA').first() to be visible\u001b[22m\n",
+      "screenshot": "continuation-10-painel-desktop.png"
+    },
+    {
+      "cycle": 11,
+      "session": 1,
+      "at": "2026-11-05T00:50:26.675Z",
+      "route": "/app/evidencias",
+      "name": "evidencias",
+      "viewport": "tablet",
+      "width": 768,
+      "height": 1024,
+      "duration_ms": 3825,
+      "content_ready": true,
+      "loading_text": false,
+      "service_data_loading": false,
+      "overflow": false,
+      "scroll_width": 753,
+      "final_path": "/app/evidencias",
+      "nav_error": null,
+      "screenshot": "continuation-11-evidencias-tablet.png"
+    },
+    {
+      "cycle": 12,
+      "session": 1,
+      "at": "2026-11-05T00:51:26.680Z",
+      "route": "/app/meus-servicos",
+      "name": "meus-servicos",
+      "viewport": "mobile",
+      "width": 390,
+      "height": 844,
+      "duration_ms": 1707,
+      "content_ready": true,
+      "loading_text": true,
+      "service_data_loading": true,
+      "overflow": false,
+      "scroll_width": 375,
+      "final_path": "/app/meus-servicos",
+      "nav_error": null,
+      "screenshot": "continuation-12-meus-servicos-mobile.png"
+    }
+  ],
+  "blocked_writes": [],
+  "api_responses": [
+    {
+      "cycle": 1,
+      "method": "POST",
+      "path": "/api/auth/login",
+      "status": 200,
+      "elapsed_ms": 8801,
+      "at": "2026-11-05T00:39:33.363Z"
+    },
+    {
+      "cycle": 1,
+      "method": "GET",
+      "path": "/api/auth/me/access",
+      "status": 200,
+      "elapsed_ms": 14,
+      "at": "2026-11-05T00:39:34.190Z"
+    },
+    {
+      "cycle": 2,
+      "method": "GET",
+      "path": "/api/auth/me",
+      "status": 200,
+      "elapsed_ms": 1680,
+      "at": "2026-11-05T00:39:35.851Z"
+    },
+    {
+      "cycle": 2,
+      "method": "GET",
+      "path": "/api/diagnostic/current",
+      "status": 200,
+      "elapsed_ms": 2789,
+      "at": "2026-11-05T00:39:38.756Z"
+    },
+    {
+      "cycle": 2,
+      "method": "GET",
+      "path": "/api/diagnostic/current",
+      "status": 200,
+      "elapsed_ms": 2772,
+      "at": "2026-11-05T00:39:38.763Z"
+    },
+    {
+      "cycle": 2,
+      "method": "GET",
+      "path": "/api/budget",
+      "status": 200,
+      "elapsed_ms": 782,
+      "at": "2026-11-05T00:39:39.547Z"
+    },
+    {
+      "cycle": 2,
+      "method": "GET",
+      "path": "/api/budget",
+      "status": 200,
+      "elapsed_ms": 822,
+      "at": "2026-11-05T00:39:39.589Z"
+    },
+    {
+      "cycle": 2,
+      "method": "GET",
+      "path": "/api/auth/me/access",
+      "status": 200,
+      "elapsed_ms": 7,
+      "at": "2026-11-05T00:40:34.155Z"
+    },
+    {
+      "cycle": 2,
+      "method": "GET",
+      "path": "/api/auth/me",
+      "status": 200,
+      "elapsed_ms": 464,
+      "at": "2026-11-05T00:40:34.612Z"
+    },
+    {
+      "cycle": 3,
+      "method": "GET",
+      "path": "/api/diagnostic/current",
+      "status": 200,
+      "elapsed_ms": 38,
+      "at": "2026-11-05T00:40:34.738Z"
+    },
+    {
+      "cycle": 3,
+      "method": "GET",
+      "path": "/api/diagnostic/current",
+      "status": 200,
+      "elapsed_ms": 40,
+      "at": "2026-11-05T00:40:34.777Z"
+    },
+    {
+      "cycle": 3,
+      "method": "GET",
+      "path": "/api/diagnostic/bioimpacto/history",
+      "status": 200,
+      "elapsed_ms": 2453,
+      "at": "2026-11-05T00:40:37.150Z"
+    },
+    {
+      "cycle": 3,
+      "method": "GET",
+      "path": "/api/diagnostic/bioimpacto/history",
+      "status": 200,
+      "elapsed_ms": 2622,
+      "at": "2026-11-05T00:40:37.354Z"
+    },
+    {
+      "cycle": 3,
+      "method": "GET",
+      "path": "/api/auth/me/access",
+      "status": 200,
+      "elapsed_ms": 23,
+      "at": "2026-11-05T00:41:34.195Z"
+    },
+    {
+      "cycle": 3,
+      "method": "GET",
+      "path": "/api/auth/me",
+      "status": 200,
+      "elapsed_ms": 429,
+      "at": "2026-11-05T00:41:34.598Z"
+    },
+    {
+      "cycle": 4,
+      "method": "GET",
+      "path": "/api/auth/me/access",
+      "status": 200,
+      "elapsed_ms": 3838,
+      "at": "2026-11-05T00:41:38.531Z"
+    },
+    {
+      "cycle": 4,
+      "method": "GET",
+      "path": "/api/invite/stats",
+      "status": 200,
+      "elapsed_ms": 4662,
+      "at": "2026-11-05T00:41:39.387Z"
+    },
+    {
+      "cycle": 4,
+      "method": "GET",
+      "path": "/api/invite/stats",
+      "status": 200,
+      "elapsed_ms": 4695,
+      "at": "2026-11-05T00:41:39.390Z"
+    },
+    {
+      "cycle": 4,
+      "method": "GET",
+      "path": "/api/budget",
+      "status": 200,
+      "elapsed_ms": 766,
+      "at": "2026-11-05T00:41:40.161Z"
+    },
+    {
+      "cycle": 4,
+      "method": "GET",
+      "path": "/api/budget",
+      "status": 200,
+      "elapsed_ms": 862,
+      "at": "2026-11-05T00:41:40.252Z"
+    },
+    {
+      "cycle": 4,
+      "method": "GET",
+      "path": "/api/auth/me",
+      "status": 200,
+      "elapsed_ms": 5625,
+      "at": "2026-11-05T00:41:40.344Z"
+    },
+    {
+      "cycle": 4,
+      "method": "GET",
+      "path": "/api/auth/me",
+      "status": 200,
+      "elapsed_ms": 6990,
+      "at": "2026-11-05T00:41:41.679Z"
+    },
+    {
+      "cycle": 4,
+      "method": "GET",
+      "path": "/api/invite/stats",
+      "status": 200,
+      "elapsed_ms": 28,
+      "at": "2026-11-05T00:41:41.740Z"
+    },
+    {
+      "cycle": 4,
+      "method": "GET",
+      "path": "/api/budget",
+      "status": 200,
+      "elapsed_ms": 392,
+      "at": "2026-11-05T00:41:42.162Z"
+    },
+    {
+      "cycle": 4,
+      "method": "GET",
+      "path": "/api/auth/me/access",
+      "status": 200,
+      "elapsed_ms": 8550,
+      "at": "2026-11-05T00:41:43.274Z"
+    },
+    {
+      "cycle": 4,
+      "method": "GET",
+      "path": "/api/invite/stats",
+      "status": 200,
+      "elapsed_ms": 15,
+      "at": "2026-11-05T00:41:43.319Z"
+    },
+    {
+      "cycle": 4,
+      "method": "GET",
+      "path": "/api/budget",
+      "status": 200,
+      "elapsed_ms": 780,
+      "at": "2026-11-05T00:41:44.111Z"
+    },
+    {
+      "cycle": 4,
+      "method": "GET",
+      "path": "/api/auth/me/access",
+      "status": 200,
+      "elapsed_ms": 9,
+      "at": "2026-11-05T00:42:34.215Z"
+    },
+    {
+      "cycle": 5,
+      "method": "GET",
+      "path": "/api/auth/me",
+      "status": 200,
+      "elapsed_ms": 710,
+      "at": "2026-11-05T00:42:34.912Z"
+    },
+    {
+      "cycle": 5,
+      "method": "GET",
+      "path": "/api/diagnostic/current",
+      "status": 200,
+      "elapsed_ms": 1661,
+      "at": "2026-11-05T00:42:36.654Z"
+    },
+    {
+      "cycle": 5,
+      "method": "GET",
+      "path": "/api/budget",
+      "status": 200,
+      "elapsed_ms": 418,
+      "at": "2026-11-05T00:42:37.075Z"
+    },
+    {
+      "cycle": 5,
+      "method": "GET",
+      "path": "/api/diagnostic/current",
+      "status": 200,
+      "elapsed_ms": 2750,
+      "at": "2026-11-05T00:42:37.720Z"
+    },
+    {
+      "cycle": 5,
+      "method": "GET",
+      "path": "/api/budget",
+      "status": 200,
+      "elapsed_ms": 467,
+      "at": "2026-11-05T00:42:38.196Z"
+    },
+    {
+      "cycle": 5,
+      "method": "GET",
+      "path": "/api/auth/me/access",
+      "status": 200,
+      "elapsed_ms": 11,
+      "at": "2026-11-05T00:43:34.260Z"
+    },
+    {
+      "cycle": 6,
+      "method": "POST",
+      "path": "/api/auth/login",
+      "status": 200,
+      "elapsed_ms": 1608,
+      "at": "2026-11-05T00:45:26.307Z",
+      "session": 1
+    },
+    {
+      "cycle": 6,
+      "method": "GET",
+      "path": "/api/auth/me/access",
+      "status": 200,
+      "elapsed_ms": 265,
+      "at": "2026-11-05T00:45:27.353Z",
+      "session": 1
+    },
+    {
+      "cycle": 6,
+      "method": "GET",
+      "path": "/api/auth/me",
+      "status": 200,
+      "elapsed_ms": 1828,
+      "at": "2026-11-05T00:45:28.913Z",
+      "session": 1
+    },
+    {
+      "cycle": 7,
+      "method": "GET",
+      "path": "/api/auth/me/access",
+      "status": 200,
+      "elapsed_ms": 3217,
+      "at": "2026-11-05T00:45:32.255Z",
+      "session": 1
+    },
+    {
+      "cycle": 7,
+      "method": "GET",
+      "path": "/api/invite/stats",
+      "status": 200,
+      "elapsed_ms": 4002,
+      "at": "2026-11-05T00:45:33.040Z",
+      "session": 1
+    },
+    {
+      "cycle": 7,
+      "method": "GET",
+      "path": "/api/budget",
+      "status": 200,
+      "elapsed_ms": 1559,
+      "at": "2026-11-05T00:45:34.601Z",
+      "session": 1
+    },
+    {
+      "cycle": 7,
+      "method": "GET",
+      "path": "/api/invite/stats",
+      "status": 200,
+      "elapsed_ms": 5963,
+      "at": "2026-11-05T00:45:35.037Z",
+      "session": 1
+    },
+    {
+      "cycle": 7,
+      "method": "GET",
+      "path": "/api/budget",
+      "status": 200,
+      "elapsed_ms": 407,
+      "at": "2026-11-05T00:45:35.446Z",
+      "session": 1
+    },
+    {
+      "cycle": 7,
+      "method": "GET",
+      "path": "/api/auth/me",
+      "status": 200,
+      "elapsed_ms": 7607,
+      "at": "2026-11-05T00:45:36.676Z",
+      "session": 1
+    },
+    {
+      "cycle": 7,
+      "method": "GET",
+      "path": "/api/auth/me",
+      "status": 200,
+      "elapsed_ms": 7951,
+      "at": "2026-11-05T00:45:36.985Z",
+      "session": 1
+    },
+    {
+      "cycle": 7,
+      "method": "GET",
+      "path": "/api/invite/stats",
+      "status": 200,
+      "elapsed_ms": 20,
+      "at": "2026-11-05T00:45:37.038Z",
+      "session": 1
+    },
+    {
+      "cycle": 7,
+      "method": "GET",
+      "path": "/api/budget",
+      "status": 200,
+      "elapsed_ms": 855,
+      "at": "2026-11-05T00:45:37.903Z",
+      "session": 1
+    },
+    {
+      "cycle": 7,
+      "method": "GET",
+      "path": "/api/auth/me/access",
+      "status": 200,
+      "elapsed_ms": 9413,
+      "at": "2026-11-05T00:45:38.484Z",
+      "session": 1
+    },
+    {
+      "cycle": 7,
+      "method": "GET",
+      "path": "/api/invite/stats",
+      "status": 200,
+      "elapsed_ms": 20,
+      "at": "2026-11-05T00:45:38.535Z",
+      "session": 1
+    },
+    {
+      "cycle": 7,
+      "method": "GET",
+      "path": "/api/budget",
+      "status": 200,
+      "elapsed_ms": 900,
+      "at": "2026-11-05T00:45:39.440Z",
+      "session": 1
+    },
+    {
+      "cycle": 7,
+      "method": "GET",
+      "path": "/api/auth/me/access",
+      "status": 200,
+      "elapsed_ms": 17,
+      "at": "2026-11-05T00:46:27.074Z",
+      "session": 1
+    },
+    {
+      "cycle": 7,
+      "method": "GET",
+      "path": "/api/auth/me",
+      "status": 200,
+      "elapsed_ms": 403,
+      "at": "2026-11-05T00:46:27.455Z",
+      "session": 1
+    },
+    {
+      "cycle": 8,
+      "method": "GET",
+      "path": "/api/diagnostic/current",
+      "status": 200,
+      "elapsed_ms": 2666,
+      "at": "2026-11-05T00:46:30.228Z",
+      "session": 1
+    },
+    {
+      "cycle": 8,
+      "method": "GET",
+      "path": "/api/diagnostic/current",
+      "status": 200,
+      "elapsed_ms": 3026,
+      "at": "2026-11-05T00:46:30.614Z",
+      "session": 1
+    },
+    {
+      "cycle": 8,
+      "method": "GET",
+      "path": "/api/budget",
+      "status": 200,
+      "elapsed_ms": 388,
+      "at": "2026-11-05T00:46:30.618Z",
+      "session": 1
+    },
+    {
+      "cycle": 8,
+      "method": "GET",
+      "path": "/api/budget",
+      "status": 200,
+      "elapsed_ms": 407,
+      "at": "2026-11-05T00:46:31.026Z",
+      "session": 1
+    },
+    {
+      "cycle": 8,
+      "method": "GET",
+      "path": "/api/auth/me/access",
+      "status": 200,
+      "elapsed_ms": 22,
+      "at": "2026-11-05T00:47:27.145Z",
+      "session": 1
+    },
+    {
+      "cycle": 8,
+      "method": "GET",
+      "path": "/api/auth/me",
+      "status": 200,
+      "elapsed_ms": 459,
+      "at": "2026-11-05T00:47:27.581Z",
+      "session": 1
+    },
+    {
+      "cycle": 8,
+      "method": "GET",
+      "path": "/api/diagnostic/current",
+      "status": 200,
+      "elapsed_ms": 37,
+      "at": "2026-11-05T00:47:27.708Z",
+      "session": 1
+    },
+    {
+      "cycle": 8,
+      "method": "GET",
+      "path": "/api/diagnostic/current",
+      "status": 200,
+      "elapsed_ms": 37,
+      "at": "2026-11-05T00:47:27.746Z",
+      "session": 1
+    },
+    {
+      "cycle": 9,
+      "method": "GET",
+      "path": "/api/diagnostic/bioimpacto/history",
+      "status": 200,
+      "elapsed_ms": 2470,
+      "at": "2026-11-05T00:47:30.136Z",
+      "session": 1
+    },
+    {
+      "cycle": 9,
+      "method": "GET",
+      "path": "/api/diagnostic/bioimpacto/history",
+      "status": 200,
+      "elapsed_ms": 2632,
+      "at": "2026-11-05T00:47:30.340Z",
+      "session": 1
+    },
+    {
+      "cycle": 9,
+      "method": "GET",
+      "path": "/api/auth/me/access",
+      "status": 200,
+      "elapsed_ms": 8,
+      "at": "2026-11-05T00:48:27.084Z",
+      "session": 1
+    },
+    {
+      "cycle": 9,
+      "method": "GET",
+      "path": "/api/auth/me",
+      "status": 200,
+      "elapsed_ms": 609,
+      "at": "2026-11-05T00:48:27.683Z",
+      "session": 1
+    },
+    {
+      "cycle": 10,
+      "method": "GET",
+      "path": "/api/auth/me",
+      "status": 200,
+      "elapsed_ms": 3539,
+      "at": "2026-11-05T00:48:31.308Z",
+      "session": 1
+    },
+    {
+      "cycle": 10,
+      "method": "GET",
+      "path": "/api/auth/me",
+      "status": 200,
+      "elapsed_ms": 3879,
+      "at": "2026-11-05T00:48:31.690Z",
+      "session": 1
+    },
+    {
+      "cycle": 10,
+      "method": "GET",
+      "path": "/api/invite/stats",
+      "status": 200,
+      "elapsed_ms": 4351,
+      "at": "2026-11-05T00:48:32.133Z",
+      "session": 1
+    },
+    {
+      "cycle": 10,
+      "method": "GET",
+      "path": "/api/invite/stats",
+      "status": 200,
+      "elapsed_ms": 4631,
+      "at": "2026-11-05T00:48:32.450Z",
+      "session": 1
+    },
+    {
+      "cycle": 10,
+      "method": "GET",
+      "path": "/api/budget",
+      "status": 200,
+      "elapsed_ms": 452,
+      "at": "2026-11-05T00:48:32.904Z",
+      "session": 1
+    },
+    {
+      "cycle": 10,
+      "method": "GET",
+      "path": "/api/budget",
+      "status": 200,
+      "elapsed_ms": 876,
+      "at": "2026-11-05T00:48:33.011Z",
+      "session": 1
+    },
+    {
+      "cycle": 10,
+      "method": "GET",
+      "path": "/api/auth/me/access",
+      "status": 200,
+      "elapsed_ms": 7958,
+      "at": "2026-11-05T00:48:35.775Z",
+      "session": 1
+    },
+    {
+      "cycle": 10,
+      "method": "GET",
+      "path": "/api/invite/stats",
+      "status": 200,
+      "elapsed_ms": 25,
+      "at": "2026-11-05T00:48:35.834Z",
+      "session": 1
+    },
+    {
+      "cycle": 10,
+      "method": "GET",
+      "path": "/api/budget",
+      "status": 200,
+      "elapsed_ms": 394,
+      "at": "2026-11-05T00:48:36.234Z",
+      "session": 1
+    },
+    {
+      "cycle": 10,
+      "method": "GET",
+      "path": "/api/auth/me/access",
+      "status": 200,
+      "elapsed_ms": 8844,
+      "at": "2026-11-05T00:48:36.617Z",
+      "session": 1
+    },
+    {
+      "cycle": 10,
+      "method": "GET",
+      "path": "/api/invite/stats",
+      "status": 200,
+      "elapsed_ms": 21,
+      "at": "2026-11-05T00:48:36.663Z",
+      "session": 1
+    },
+    {
+      "cycle": 10,
+      "method": "GET",
+      "path": "/api/budget",
+      "status": 200,
+      "elapsed_ms": 807,
+      "at": "2026-11-05T00:48:37.475Z",
+      "session": 1
+    },
+    {
+      "cycle": 10,
+      "method": "GET",
+      "path": "/api/auth/me/access",
+      "status": 200,
+      "elapsed_ms": 9,
+      "at": "2026-11-05T00:49:27.052Z",
+      "session": 1
+    },
+    {
+      "cycle": 10,
+      "method": "GET",
+      "path": "/api/auth/me",
+      "status": 500,
+      "elapsed_ms": 10059,
+      "at": "2026-11-05T00:49:37.098Z",
+      "session": 1
+    },
+    {
+      "cycle": 11,
+      "method": "GET",
+      "path": "/api/diagnostic/current",
+      "status": 503,
+      "elapsed_ms": 10025,
+      "at": "2026-11-05T00:49:47.216Z",
+      "session": 1
+    },
+    {
+      "cycle": 11,
+      "method": "GET",
+      "path": "/api/diagnostic/current",
+      "status": 503,
+      "elapsed_ms": 10016,
+      "at": "2026-11-05T00:49:47.243Z",
+      "session": 1
+    },
+    {
+      "cycle": 11,
+      "method": "GET",
+      "path": "/api/auth/me/access",
+      "status": 200,
+      "elapsed_ms": 22,
+      "at": "2026-11-05T00:50:27.178Z",
+      "session": 1
+    },
+    {
+      "cycle": 11,
+      "method": "GET",
+      "path": "/api/auth/me",
+      "status": 200,
+      "elapsed_ms": 413,
+      "at": "2026-11-05T00:50:27.568Z",
+      "session": 1
+    },
+    {
+      "cycle": 11,
+      "method": "GET",
+      "path": "/api/diagnostic/current",
+      "status": 200,
+      "elapsed_ms": 2053,
+      "at": "2026-11-05T00:50:29.691Z",
+      "session": 1
+    },
+    {
+      "cycle": 11,
+      "method": "GET",
+      "path": "/api/diagnostic/bioimpacto/history",
+      "status": 200,
+      "elapsed_ms": 2857,
+      "at": "2026-11-05T00:50:30.492Z",
+      "session": 1
+    },
+    {
+      "cycle": 12,
+      "method": "GET",
+      "path": "/api/diagnostic/bioimpacto/history",
+      "status": 200,
+      "elapsed_ms": 3716,
+      "at": "2026-11-05T00:50:31.378Z",
+      "session": 1
+    },
+    {
+      "cycle": 12,
+      "method": "GET",
+      "path": "/api/diagnostic/current",
+      "status": 200,
+      "elapsed_ms": 3894,
+      "at": "2026-11-05T00:50:31.560Z",
+      "session": 1
+    },
+    {
+      "cycle": 12,
+      "method": "GET",
+      "path": "/api/auth/me/access",
+      "status": 200,
+      "elapsed_ms": 8,
+      "at": "2026-11-05T00:51:27.070Z",
+      "session": 1
+    },
+    {
+      "cycle": 12,
+      "method": "GET",
+      "path": "/api/auth/me",
+      "status": 200,
+      "elapsed_ms": 621,
+      "at": "2026-11-05T00:51:27.681Z",
+      "session": 1
+    }
+  ],
+  "console_errors": [
+    {
+      "cycle": 10,
+      "message": "Failed to load resource: the server responded with a status of 500 (Internal Server Error)",
+      "session": 1
+    },
+    {
+      "cycle": 10,
+      "message": "Failed to fetch user profile: Error: \nInvalid `prisma.adminUser.findFirst()` invocation in\n/home/joaov/Documents/01_Projetos_Desenvolvimento/InoveESG/backend/src/modules/auth/repositories/authReposito",
+      "session": 1
+    },
+    {
+      "cycle": 11,
+      "message": "Failed to load resource: the server responded with a status of 503 (Service Unavailable)",
+      "session": 1
+    },
+    {
+      "cycle": 11,
+      "message": "Failed to load pre-diagnostic results: ApiError: O serviço está temporariamente indisponível. Tente novamente em instantes.\n    at request (http://localhost:3000/_next/static/chunks/src_0i.fv8l._.js:1",
+      "session": 1
+    },
+    {
+      "cycle": 11,
+      "message": "Failed to load resource: the server responded with a status of 503 (Service Unavailable)",
+      "session": 1
+    },
+    {
+      "cycle": 11,
+      "message": "Failed to load pre-diagnostic results: ApiError: O serviço está temporariamente indisponível. Tente novamente em instantes.\n    at request (http://localhost:3000/_next/static/chunks/src_0i.fv8l._.js:1",
+      "session": 1
+    }
+  ],
+  "page_errors": [],
+  "failed_requests": [],
+  "session_lost": false,
+  "isolated_sessions": [
+    {
+      "started_at": "2026-11-05T00:45:22.152Z",
+      "method": "one Chromium context/tab; one synthetic account login; non-login API writes blocked"
+    }
+  ],
+  "continuation_stopped_at": "2026-11-05T00:52:25Z",
+  "continuation_duration_minutes": 13,
+  "stop_reason": "Orchestrator directed stop after API 500/503 observations; no further authenticated calls",
+  "health_check": {
+    "at": "2026-11-05T00:52:25Z",
+    "method": "GET",
+    "path": "/api/health",
+    "status": 200,
+    "elapsed_seconds": 0.001863,
+    "result": {
+      "ok": true
+    }
+  }
+}

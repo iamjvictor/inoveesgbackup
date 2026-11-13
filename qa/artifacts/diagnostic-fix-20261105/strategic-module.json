@@ -1,0 +1,60 @@
+{
+  "error": "Error: Precondition mismatch: active diagnostic must have exactly one existing response; nothing submitted.",
+  "before": {
+    "status": 200,
+    "hasDiagnostic": true,
+    "diagnosticStatus": "ACTIVE",
+    "responseCount": 17,
+    "questionCount": 75,
+    "byAxis": {
+      "ENVIRONMENTAL": 17,
+      "BIOECONOMY_CIRCULAR": 14,
+      "SOCIAL": 21,
+      "GOVERNANCE": 23
+    }
+  },
+  "submit": null,
+  "blocked": [],
+  "events": [
+    {
+      "method": "POST",
+      "path": "/api/auth/login"
+    },
+    {
+      "method": "GET",
+      "path": "/api/auth/me"
+    },
+    {
+      "method": "GET",
+      "path": "/api/auth/me/access"
+    },
+    {
+      "method": "GET",
+      "path": "/api/auth/me"
+    },
+    {
+      "method": "GET",
+      "path": "/api/auth/me/access"
+    },
+    {
+      "method": "GET",
+      "path": "/api/diagnostic/current"
+    },
+    {
+      "method": "GET",
+      "path": "/api/diagnostic/current"
+    },
+    {
+      "method": "GET",
+      "path": "/api/diagnostic/current"
+    },
+    {
+      "method": "GET",
+      "path": "/api/consulting/current"
+    },
+    {
+      "method": "GET",
+      "path": "/api/budget"
+    }
+  ]
+}

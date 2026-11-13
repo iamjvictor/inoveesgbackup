@@ -1,0 +1,352 @@
+{
+  "frontend": {
+    "url": "http://localhost:3000",
+    "status": 200
+  },
+  "api": {
+    "url": "http://localhost:4000/api/health",
+    "status": 200,
+    "body": {
+      "ok": true
+    }
+  },
+  "browser": "Chromium via Playwright",
+  "apiRateLimit": "serialized >=1000ms between API request starts",
+  "authenticatedUserLabel": "QA Bioimpacto Sintético",
+  "emailMasked": "qa.b***@example.com",
+  "loginPath": "/app",
+  "apiResponses": [
+    {
+      "method": "POST",
+      "path": "/api/auth/login",
+      "status": 200,
+      "failed": false
+    },
+    {
+      "method": "GET",
+      "path": "/api/auth/me",
+      "status": 200,
+      "failed": false
+    },
+    {
+      "method": "GET",
+      "path": "/api/auth/me/access",
+      "status": 200,
+      "failed": false
+    },
+    {
+      "method": "GET",
+      "path": "/api/auth/me/access",
+      "status": 200,
+      "failed": false
+    },
+    {
+      "method": "GET",
+      "path": "/api/auth/me",
+      "status": 200,
+      "failed": false
+    },
+    {
+      "method": "GET",
+      "path": "/api/diagnostic/current",
+      "status": 200,
+      "failed": false
+    },
+    {
+      "method": "GET",
+      "path": "/api/diagnostic/current",
+      "status": 200,
+      "failed": false
+    },
+    {
+      "method": "GET",
+      "path": "/api/auth/me",
+      "status": 200,
+      "failed": false
+    },
+    {
+      "method": "GET",
+      "path": "/api/auth/me/access",
+      "status": 200,
+      "failed": false
+    },
+    {
+      "method": "GET",
+      "path": "/api/auth/me",
+      "status": 200,
+      "failed": false
+    },
+    {
+      "method": "GET",
+      "path": "/api/auth/me/access",
+      "status": 200,
+      "failed": false
+    },
+    {
+      "method": "GET",
+      "path": "/api/auth/me/access",
+      "status": 200,
+      "failed": false
+    },
+    {
+      "method": "GET",
+      "path": "/api/auth/me",
+      "status": 200,
+      "failed": false
+    },
+    {
+      "method": "GET",
+      "path": "/api/auth/me",
+      "status": 200,
+      "failed": false
+    },
+    {
+      "method": "GET",
+      "path": "/api/auth/me/access",
+      "status": 200,
+      "failed": false
+    },
+    {
+      "method": "GET",
+      "path": "/api/auth/me",
+      "status": 200,
+      "failed": false
+    },
+    {
+      "method": "GET",
+      "path": "/api/auth/me/access",
+      "status": 200,
+      "failed": false
+    },
+    {
+      "method": "GET",
+      "path": "/api/auth/me",
+      "status": 200,
+      "failed": false
+    },
+    {
+      "method": "GET",
+      "path": "/api/auth/me/access",
+      "status": 200,
+      "failed": false
+    },
+    {
+      "method": "GET",
+      "path": "/api/diagnostic/bioimpacto/history",
+      "status": 200,
+      "failed": false
+    },
+    {
+      "method": "GET",
+      "path": "/api/diagnostic/current",
+      "status": 200,
+      "failed": false
+    },
+    {
+      "method": "GET",
+      "path": "/api/diagnostic/bioimpacto/history",
+      "status": 200,
+      "failed": false
+    },
+    {
+      "method": "GET",
+      "path": "/api/diagnostic/current",
+      "status": 200,
+      "failed": false
+    },
+    {
+      "method": "GET",
+      "path": "/api/auth/me/access",
+      "status": 200,
+      "failed": false
+    },
+    {
+      "method": "GET",
+      "path": "/api/auth/me",
+      "status": 200,
+      "failed": false
+    },
+    {
+      "method": "GET",
+      "path": "/api/diagnostic/current",
+      "status": 200,
+      "failed": false
+    },
+    {
+      "method": "GET",
+      "path": "/api/diagnostic/history",
+      "status": 200,
+      "failed": false
+    },
+    {
+      "method": "GET",
+      "path": "/api/diagnostic/current",
+      "status": 200,
+      "failed": false
+    },
+    {
+      "method": "GET",
+      "path": "/api/diagnostic/history",
+      "status": 200,
+      "failed": false
+    },
+    {
+      "method": "GET",
+      "path": "/api/auth/me",
+      "status": 200,
+      "failed": false
+    },
+    {
+      "method": "GET",
+      "path": "/api/auth/me/access",
+      "status": 200,
+      "failed": false
+    },
+    {
+      "method": "GET",
+      "path": "/api/diagnostic/history",
+      "status": 200,
+      "failed": false
+    },
+    {
+      "method": "GET",
+      "path": "/api/diagnostic/current",
+      "status": 200,
+      "failed": false
+    },
+    {
+      "method": "GET",
+      "path": "/api/diagnostic/current",
+      "status": 200,
+      "failed": false
+    },
+    {
+      "method": "GET",
+      "path": "/api/diagnostic/history",
+      "status": 200,
+      "failed": false
+    },
+    {
+      "method": "GET",
+      "path": "/api/auth/me",
+      "status": 200,
+      "failed": false
+    },
+    {
+      "method": "GET",
+      "path": "/api/auth/me/access",
+      "status": 200,
+      "failed": false
+    },
+    {
+      "method": "GET",
+      "path": "/api/diagnostic/current",
+      "status": 200,
+      "failed": false
+    },
+    {
+      "method": "GET",
+      "path": "/api/diagnostic/current",
+      "status": 200,
+      "failed": false
+    },
+    {
+      "method": "GET",
+      "path": "/api/diagnostic/history",
+      "status": 200,
+      "failed": false
+    },
+    {
+      "method": "GET",
+      "path": "/api/diagnostic/history",
+      "status": 200,
+      "failed": false
+    },
+    {
+      "method": "GET",
+      "path": "/api/auth/me",
+      "status": 200,
+      "failed": false
+    },
+    {
+      "method": "GET",
+      "path": "/api/auth/me/access",
+      "status": 200,
+      "failed": false
+    },
+    {
+      "method": "GET",
+      "path": "/api/diagnostic/current",
+      "status": 200,
+      "failed": false
+    },
+    {
+      "method": "GET",
+      "path": "/api/diagnostic/current",
+      "status": 200,
+      "failed": false
+    }
+  ],
+  "screens": [
+    {
+      "name": "login",
+      "path": "/",
+      "horizontalOverflow": false
+    },
+    {
+      "name": "diagnostico-desktop",
+      "path": "/app/diagnostico",
+      "horizontalOverflow": false
+    },
+    {
+      "name": "diagnostico-tablet",
+      "path": "/app/diagnostico",
+      "horizontalOverflow": false
+    },
+    {
+      "name": "diagnostico-mobile",
+      "path": "/app/diagnostico",
+      "horizontalOverflow": false
+    },
+    {
+      "name": "evidencias-desktop",
+      "path": "/app/evidencias",
+      "horizontalOverflow": false
+    },
+    {
+      "name": "evidencias-tablet",
+      "path": "/app/evidencias",
+      "horizontalOverflow": false
+    },
+    {
+      "name": "evidencias-mobile",
+      "path": "/app/evidencias",
+      "horizontalOverflow": false
+    },
+    {
+      "name": "resultados-desktop",
+      "path": "/app/resultados",
+      "horizontalOverflow": false
+    },
+    {
+      "name": "resultados-tablet",
+      "path": "/app/resultados",
+      "horizontalOverflow": false
+    },
+    {
+      "name": "resultados-mobile",
+      "path": "/app/resultados",
+      "horizontalOverflow": false
+    }
+  ],
+  "consoleErrors": [],
+  "pageErrors": [],
+  "keyboard": {
+    "activeTag": "A",
+    "activeRole": null,
+    "activeLabel": "Área da Empresa",
+    "outline": "auto",
+    "outlineWidth": "1px"
+  },
+  "observation": "Captures for authenticated routes remained on loading/profile skeleton during the bounded capture wait; no conclusion about rendered page content or overflow is drawn from blank/loading captures."
+}

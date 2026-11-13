@@ -1,0 +1,22 @@
+{
+  "round_id": "qa-estrategico-20261104",
+  "captured_at": "2026-11-04T21:34:03-03:00",
+  "hosts": ["http://localhost:3000", "http://localhost:4000/api"],
+  "observed_responses": [
+    {"method":"GET","path":"/api/health","status":200,"count":1},
+    {"method":"POST","path":"/api/auth/login","status":200,"count":"confirmed in authenticated runs"},
+    {"method":"GET","path":"/api/auth/me","status":200,"count":"multiple"},
+    {"method":"GET","path":"/api/auth/me/access","status":200,"count":"multiple"},
+    {"method":"GET","path":"/api/diagnostic/current","status":200,"count":"multiple"},
+    {"method":"GET","path":"/api/diagnostic/bioimpacto/history","status":200,"count":"observed"},
+    {"method":"GET","path":"/api/invite/stats","status":200,"count":"multiple"},
+    {"method":"GET","path":"/api/budget","status":200,"count":"multiple"},
+    {"method":"GET","path":"/api/consulting/current","status":200,"count":"observed"},
+    {"method":"POST","path":"/api/diagnostic/start","status":200,"count":2,"context":"passive page mount, no questionnaire button clicked"}
+  ],
+  "blocked_requests": [
+    {"method":"POST","path":"/api/diagnostic/start","count":2,"status":"blocked by Playwright route guard before reaching API","context":"later evidence-route redirect to diagnostic page"}
+  ],
+  "failed_responses": [],
+  "secrets_persisted": false
+}

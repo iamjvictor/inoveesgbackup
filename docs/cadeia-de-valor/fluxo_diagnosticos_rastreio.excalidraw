@@ -1,0 +1,1417 @@
+{
+  "type": "excalidraw",
+  "version": 2,
+  "source": "excalidraw-cli",
+  "elements": [
+    {
+      "type": "rectangle",
+      "id": "zone_header",
+      "x": 60,
+      "y": 40,
+      "width": 1580,
+      "height": 90,
+      "backgroundColor": "#f8fafc",
+      "strokeColor": "#cbd5e1",
+      "roundness": {
+        "type": 3
+      },
+      "opacity": 80,
+      "roughness": 2
+    },
+    {
+      "type": "rectangle",
+      "id": "zone_entry",
+      "x": 60,
+      "y": 150,
+      "width": 320,
+      "height": 980,
+      "backgroundColor": "#dbe4ff",
+      "strokeColor": "#93c5fd",
+      "strokeWidth": 1,
+      "roundness": {
+        "type": 3
+      },
+      "opacity": 35,
+      "roughness": 2
+    },
+    {
+      "type": "rectangle",
+      "id": "zone_forms",
+      "x": 400,
+      "y": 150,
+      "width": 780,
+      "height": 980,
+      "backgroundColor": "#e5dbff",
+      "strokeColor": "#c4b5fd",
+      "strokeWidth": 1,
+      "roundness": {
+        "type": 3
+      },
+      "opacity": 25,
+      "roughness": 2
+    },
+    {
+      "type": "rectangle",
+      "id": "zone_evidence",
+      "x": 1200,
+      "y": 150,
+      "width": 440,
+      "height": 980,
+      "backgroundColor": "#d3f9d8",
+      "strokeColor": "#86efac",
+      "strokeWidth": 1,
+      "roundness": {
+        "type": 3
+      },
+      "opacity": 35,
+      "roughness": 2
+    },
+    {
+      "type": "text",
+      "id": "main_title",
+      "x": 80,
+      "y": 55,
+      "text": "INOVE ESG  —  Fluxo de Diagnósticos & Rastreio da Cadeia de Valor",
+      "fontSize": 24,
+      "strokeColor": "#0f172a",
+      "fontFamily": 1
+    },
+    {
+      "type": "text",
+      "id": "main_subtitle",
+      "x": 80,
+      "y": 92,
+      "text": "Regras de distribuição: Diagnóstico Geral (75 questões) vs. Avaliação de Risco para Fornecedores Agro (36 questões)",
+      "fontSize": 15,
+      "strokeColor": "#475569",
+      "fontFamily": 1
+    },
+    {
+      "type": "text",
+      "id": "lbl_z1",
+      "x": 80,
+      "y": 165,
+      "text": "1. ENTRADA NA PLATAFORMA",
+      "fontSize": 15,
+      "strokeColor": "#1e40af",
+      "fontFamily": 1
+    },
+    {
+      "type": "text",
+      "id": "lbl_z2",
+      "x": 420,
+      "y": 165,
+      "text": "2. CATEGORIZAÇÃO & FORMULÁRIOS",
+      "fontSize": 15,
+      "strokeColor": "#5b21b6",
+      "fontFamily": 1
+    },
+    {
+      "type": "text",
+      "id": "lbl_z3",
+      "x": 1220,
+      "y": 165,
+      "text": "3. EVIDÊNCIAS & RESULTADO",
+      "fontSize": 15,
+      "strokeColor": "#166534",
+      "fontFamily": 1
+    },
+    {
+      "type": "rectangle",
+      "id": "entry_direct",
+      "x": 80,
+      "y": 230,
+      "width": 280,
+      "height": 90,
+      "backgroundColor": "#a5d8ff",
+      "strokeColor": "#2563eb",
+      "roundness": {
+        "type": 3
+      },
+      "boundElements": [
+        {
+          "id": "entry_direct_label",
+          "type": "text"
+        }
+      ],
+      "roughness": 2
+    },
+    {
+      "type": "text",
+      "id": "entry_direct_label",
+      "x": 90,
+      "y": 240,
+      "width": 260,
+      "height": 70,
+      "text": "Cadastro Direto da Empresa\n(Empresa-Mãe ou Geral)\nSegmento = Categoria",
+      "fontSize": 14,
+      "fontFamily": 1,
+      "textAlign": "center",
+      "verticalAlign": "middle",
+      "containerId": "entry_direct",
+      "strokeColor": "#1e3a8a"
+    },
+    {
+      "type": "rectangle",
+      "id": "entry_invite",
+      "x": 80,
+      "y": 550,
+      "width": 280,
+      "height": 110,
+      "backgroundColor": "#ffd8a8",
+      "strokeColor": "#d97706",
+      "roundness": {
+        "type": 3
+      },
+      "boundElements": [
+        {
+          "id": "entry_invite_label",
+          "type": "text"
+        }
+      ],
+      "roughness": 2
+    },
+    {
+      "type": "text",
+      "id": "entry_invite_label",
+      "x": 90,
+      "y": 560,
+      "width": 260,
+      "height": 90,
+      "text": "Rastreio da Cadeia de Valor\n(Fornecedor Convidado pela Mãe)\nVerifica Categoria e Segmento\nno momento do Convite",
+      "fontSize": 14,
+      "fontFamily": 1,
+      "textAlign": "center",
+      "verticalAlign": "middle",
+      "containerId": "entry_invite",
+      "strokeColor": "#78350f"
+    },
+    {
+      "type": "diamond",
+      "id": "decide_category",
+      "x": 140,
+      "y": 380,
+      "width": 160,
+      "height": 110,
+      "backgroundColor": "#fff3bf",
+      "strokeColor": "#ca8a04",
+      "boundElements": [
+        {
+          "id": "decide_category_label",
+          "type": "text"
+        }
+      ],
+      "roundness": {
+        "type": 3
+      },
+      "roughness": 2
+    },
+    {
+      "type": "text",
+      "id": "decide_category_label",
+      "x": 150,
+      "y": 390,
+      "width": 140,
+      "height": 90,
+      "text": "Qual a\nCategoria?",
+      "fontSize": 15,
+      "fontFamily": 1,
+      "textAlign": "center",
+      "verticalAlign": "middle",
+      "containerId": "decide_category",
+      "strokeColor": "#713f12"
+    },
+    {
+      "type": "arrow",
+      "id": "arr_entry_direct",
+      "x": 220,
+      "y": 320,
+      "width": 0,
+      "height": 60,
+      "points": [
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          60
+        ]
+      ],
+      "endArrowhead": "arrow",
+      "startBinding": {
+        "elementId": "entry_direct",
+        "fixedPoint": [
+          0.5,
+          1
+        ]
+      },
+      "endBinding": {
+        "elementId": "decide_category",
+        "fixedPoint": [
+          0.5,
+          0
+        ]
+      },
+      "roughness": 2
+    },
+    {
+      "type": "arrow",
+      "id": "arr_entry_invite",
+      "x": 220,
+      "y": 550,
+      "width": 0,
+      "height": -60,
+      "points": [
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          -60
+        ]
+      ],
+      "endArrowhead": "arrow",
+      "startBinding": {
+        "elementId": "entry_invite",
+        "fixedPoint": [
+          0.5,
+          0
+        ]
+      },
+      "endBinding": {
+        "elementId": "decide_category",
+        "fixedPoint": [
+          0.5,
+          1
+        ]
+      },
+      "roughness": 2
+    },
+    {
+      "type": "rectangle",
+      "id": "cat_oil",
+      "x": 420,
+      "y": 210,
+      "width": 200,
+      "height": 70,
+      "backgroundColor": "#c3fae8",
+      "strokeColor": "#0d9488",
+      "roundness": {
+        "type": 3
+      },
+      "boundElements": [
+        {
+          "id": "cat_oil_label",
+          "type": "text"
+        }
+      ],
+      "roughness": 2
+    },
+    {
+      "type": "text",
+      "id": "cat_oil_label",
+      "x": 430,
+      "y": 220,
+      "width": 180,
+      "height": 50,
+      "text": "Categoria:\nÓLEO & GÁS\n(Sem divisão de segmento)",
+      "fontSize": 13,
+      "fontFamily": 1,
+      "textAlign": "center",
+      "verticalAlign": "middle",
+      "containerId": "cat_oil",
+      "strokeColor": "#134e4a"
+    },
+    {
+      "type": "rectangle",
+      "id": "form_oil",
+      "x": 670,
+      "y": 205,
+      "width": 240,
+      "height": 80,
+      "backgroundColor": "#ffffff",
+      "strokeColor": "#0d9488",
+      "strokeWidth": 2,
+      "roundness": {
+        "type": 3
+      },
+      "boundElements": [
+        {
+          "id": "form_oil_label",
+          "type": "text"
+        }
+      ],
+      "roughness": 2
+    },
+    {
+      "type": "text",
+      "id": "form_oil_label",
+      "x": 680,
+      "y": 215,
+      "width": 220,
+      "height": 60,
+      "text": "Diagnóstico Autodeclarável\nÓleo & Gás\n(75 QUESTÕES)",
+      "fontSize": 14,
+      "fontFamily": 1,
+      "textAlign": "center",
+      "verticalAlign": "middle",
+      "containerId": "form_oil",
+      "strokeColor": "#0f766e"
+    },
+    {
+      "type": "rectangle",
+      "id": "evid_oil",
+      "x": 940,
+      "y": 205,
+      "width": 220,
+      "height": 80,
+      "backgroundColor": "#f8fafc",
+      "strokeColor": "#64748b",
+      "roundness": {
+        "type": 3
+      },
+      "boundElements": [
+        {
+          "id": "evid_oil_label",
+          "type": "text"
+        }
+      ],
+      "roughness": 2
+    },
+    {
+      "type": "text",
+      "id": "evid_oil_label",
+      "x": 950,
+      "y": 215,
+      "width": 200,
+      "height": 60,
+      "text": "Upload de Evidências:\nLicenças ambientais,\nemissões, segurança ind.",
+      "fontSize": 12,
+      "fontFamily": 1,
+      "textAlign": "center",
+      "verticalAlign": "middle",
+      "containerId": "evid_oil",
+      "strokeColor": "#334155"
+    },
+    {
+      "type": "arrow",
+      "id": "arr_cat_oil",
+      "x": 300,
+      "y": 410,
+      "width": 120,
+      "height": -165,
+      "points": [
+        [
+          0,
+          0
+        ],
+        [
+          60,
+          -165
+        ],
+        [
+          120,
+          -165
+        ]
+      ],
+      "endArrowhead": "arrow",
+      "boundElements": [
+        {
+          "id": "arr_cat_oil_label",
+          "type": "text"
+        }
+      ],
+      "roughness": 2
+    },
+    {
+      "type": "text",
+      "id": "arr_cat_oil_label",
+      "x": 310,
+      "y": 420,
+      "width": 100,
+      "height": -185,
+      "text": "Óleo & Gás",
+      "fontSize": 12,
+      "fontFamily": 1,
+      "textAlign": "center",
+      "verticalAlign": "middle",
+      "containerId": "arr_cat_oil"
+    },
+    {
+      "type": "arrow",
+      "id": "arr_oil_form",
+      "x": 620,
+      "y": 245,
+      "width": 50,
+      "height": 0,
+      "points": [
+        [
+          0,
+          0
+        ],
+        [
+          50,
+          0
+        ]
+      ],
+      "endArrowhead": "arrow",
+      "roughness": 2
+    },
+    {
+      "type": "arrow",
+      "id": "arr_oil_evid",
+      "x": 910,
+      "y": 245,
+      "width": 30,
+      "height": 0,
+      "points": [
+        [
+          0,
+          0
+        ],
+        [
+          30,
+          0
+        ]
+      ],
+      "endArrowhead": "arrow",
+      "roughness": 2
+    },
+    {
+      "type": "rectangle",
+      "id": "cat_infra",
+      "x": 420,
+      "y": 360,
+      "width": 200,
+      "height": 70,
+      "backgroundColor": "#ffd8a8",
+      "strokeColor": "#ea580c",
+      "roundness": {
+        "type": 3
+      },
+      "boundElements": [
+        {
+          "id": "cat_infra_label",
+          "type": "text"
+        }
+      ],
+      "roughness": 2
+    },
+    {
+      "type": "text",
+      "id": "cat_infra_label",
+      "x": 430,
+      "y": 370,
+      "width": 180,
+      "height": 50,
+      "text": "Categoria:\nINFRAESTRUTURA\n(Sem divisão de segmento)",
+      "fontSize": 13,
+      "fontFamily": 1,
+      "textAlign": "center",
+      "verticalAlign": "middle",
+      "containerId": "cat_infra",
+      "strokeColor": "#7c2d12"
+    },
+    {
+      "type": "rectangle",
+      "id": "form_infra",
+      "x": 670,
+      "y": 355,
+      "width": 240,
+      "height": 80,
+      "backgroundColor": "#ffffff",
+      "strokeColor": "#ea580c",
+      "strokeWidth": 2,
+      "roundness": {
+        "type": 3
+      },
+      "boundElements": [
+        {
+          "id": "form_infra_label",
+          "type": "text"
+        }
+      ],
+      "roughness": 2
+    },
+    {
+      "type": "text",
+      "id": "form_infra_label",
+      "x": 680,
+      "y": 365,
+      "width": 220,
+      "height": 60,
+      "text": "Diagnóstico Autodeclarável\nInfraestrutura\n(75 QUESTÕES)",
+      "fontSize": 14,
+      "fontFamily": 1,
+      "textAlign": "center",
+      "verticalAlign": "middle",
+      "containerId": "form_infra",
+      "strokeColor": "#9a3412"
+    },
+    {
+      "type": "rectangle",
+      "id": "evid_infra",
+      "x": 940,
+      "y": 355,
+      "width": 220,
+      "height": 80,
+      "backgroundColor": "#f8fafc",
+      "strokeColor": "#64748b",
+      "roundness": {
+        "type": 3
+      },
+      "boundElements": [
+        {
+          "id": "evid_infra_label",
+          "type": "text"
+        }
+      ],
+      "roughness": 2
+    },
+    {
+      "type": "text",
+      "id": "evid_infra_label",
+      "x": 950,
+      "y": 365,
+      "width": 200,
+      "height": 60,
+      "text": "Upload de Evidências:\nGestão de resíduos, impacto\ncomunitário, obras",
+      "fontSize": 12,
+      "fontFamily": 1,
+      "textAlign": "center",
+      "verticalAlign": "middle",
+      "containerId": "evid_infra",
+      "strokeColor": "#334155"
+    },
+    {
+      "type": "arrow",
+      "id": "arr_cat_infra",
+      "x": 300,
+      "y": 435,
+      "width": 120,
+      "height": -40,
+      "points": [
+        [
+          0,
+          0
+        ],
+        [
+          60,
+          -40
+        ],
+        [
+          120,
+          -40
+        ]
+      ],
+      "endArrowhead": "arrow",
+      "boundElements": [
+        {
+          "id": "arr_cat_infra_label",
+          "type": "text"
+        }
+      ],
+      "roughness": 2
+    },
+    {
+      "type": "text",
+      "id": "arr_cat_infra_label",
+      "x": 310,
+      "y": 445,
+      "width": 100,
+      "height": -60,
+      "text": "Infraestrutura",
+      "fontSize": 12,
+      "fontFamily": 1,
+      "textAlign": "center",
+      "verticalAlign": "middle",
+      "containerId": "arr_cat_infra"
+    },
+    {
+      "type": "arrow",
+      "id": "arr_infra_form",
+      "x": 620,
+      "y": 395,
+      "width": 50,
+      "height": 0,
+      "points": [
+        [
+          0,
+          0
+        ],
+        [
+          50,
+          0
+        ]
+      ],
+      "endArrowhead": "arrow",
+      "roughness": 2
+    },
+    {
+      "type": "arrow",
+      "id": "arr_infra_evid",
+      "x": 910,
+      "y": 395,
+      "width": 30,
+      "height": 0,
+      "points": [
+        [
+          0,
+          0
+        ],
+        [
+          30,
+          0
+        ]
+      ],
+      "endArrowhead": "arrow",
+      "roughness": 2
+    },
+    {
+      "type": "rectangle",
+      "id": "cat_agro",
+      "x": 420,
+      "y": 550,
+      "width": 200,
+      "height": 80,
+      "backgroundColor": "#b2f2bb",
+      "strokeColor": "#16a34a",
+      "strokeWidth": 2,
+      "roundness": {
+        "type": 3
+      },
+      "boundElements": [
+        {
+          "id": "cat_agro_label",
+          "type": "text"
+        }
+      ],
+      "roughness": 2
+    },
+    {
+      "type": "text",
+      "id": "cat_agro_label",
+      "x": 430,
+      "y": 560,
+      "width": 180,
+      "height": 60,
+      "text": "Categoria:\nAGRO (AGRONEGÓCIO)\nTem Segmentos no Rastreio!",
+      "fontSize": 13,
+      "fontFamily": 1,
+      "textAlign": "center",
+      "verticalAlign": "middle",
+      "containerId": "cat_agro",
+      "strokeColor": "#14532d"
+    },
+    {
+      "type": "arrow",
+      "id": "arr_cat_agro",
+      "x": 300,
+      "y": 460,
+      "width": 120,
+      "height": 130,
+      "points": [
+        [
+          0,
+          0
+        ],
+        [
+          60,
+          130
+        ],
+        [
+          120,
+          130
+        ]
+      ],
+      "endArrowhead": "arrow",
+      "boundElements": [
+        {
+          "id": "arr_cat_agro_label",
+          "type": "text"
+        }
+      ],
+      "roughness": 2
+    },
+    {
+      "type": "text",
+      "id": "arr_cat_agro_label",
+      "x": 310,
+      "y": 470,
+      "width": 100,
+      "height": 110,
+      "text": "Agro",
+      "fontSize": 12,
+      "fontFamily": 1,
+      "textAlign": "center",
+      "verticalAlign": "middle",
+      "containerId": "arr_cat_agro"
+    },
+    {
+      "type": "diamond",
+      "id": "decide_agro_mode",
+      "x": 445,
+      "y": 680,
+      "width": 150,
+      "height": 100,
+      "backgroundColor": "#fff3bf",
+      "strokeColor": "#ca8a04",
+      "boundElements": [
+        {
+          "id": "decide_agro_mode_label",
+          "type": "text"
+        }
+      ],
+      "roundness": {
+        "type": 3
+      },
+      "roughness": 2
+    },
+    {
+      "type": "text",
+      "id": "decide_agro_mode_label",
+      "x": 455,
+      "y": 690,
+      "width": 130,
+      "height": 80,
+      "text": "Origem\nno Agro?",
+      "fontSize": 13,
+      "fontFamily": 1,
+      "textAlign": "center",
+      "verticalAlign": "middle",
+      "containerId": "decide_agro_mode",
+      "strokeColor": "#713f12"
+    },
+    {
+      "type": "arrow",
+      "id": "arr_agro_to_mode",
+      "x": 520,
+      "y": 630,
+      "width": 0,
+      "height": 50,
+      "points": [
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          50
+        ]
+      ],
+      "endArrowhead": "arrow",
+      "roughness": 2
+    },
+    {
+      "type": "rectangle",
+      "id": "form_agro_full",
+      "x": 670,
+      "y": 550,
+      "width": 240,
+      "height": 80,
+      "backgroundColor": "#ffffff",
+      "strokeColor": "#16a34a",
+      "strokeWidth": 2,
+      "roundness": {
+        "type": 3
+      },
+      "boundElements": [
+        {
+          "id": "form_agro_full_label",
+          "type": "text"
+        }
+      ],
+      "roughness": 2
+    },
+    {
+      "type": "text",
+      "id": "form_agro_full_label",
+      "x": 680,
+      "y": 560,
+      "width": 220,
+      "height": 60,
+      "text": "Diagnóstico Autodeclarável\nAgro Bioeconômico\n(75 QUESTÕES)",
+      "fontSize": 14,
+      "fontFamily": 1,
+      "textAlign": "center",
+      "verticalAlign": "middle",
+      "containerId": "form_agro_full",
+      "strokeColor": "#14532d"
+    },
+    {
+      "type": "rectangle",
+      "id": "evid_agro_full",
+      "x": 940,
+      "y": 550,
+      "width": 220,
+      "height": 80,
+      "backgroundColor": "#f8fafc",
+      "strokeColor": "#64748b",
+      "roundness": {
+        "type": 3
+      },
+      "boundElements": [
+        {
+          "id": "evid_agro_full_label",
+          "type": "text"
+        }
+      ],
+      "roughness": 2
+    },
+    {
+      "type": "text",
+      "id": "evid_agro_full_label",
+      "x": 950,
+      "y": 560,
+      "width": 200,
+      "height": 60,
+      "text": "Upload de Evidências:\nGovernança, balanço geral,\ncertificações sustentáveis",
+      "fontSize": 12,
+      "fontFamily": 1,
+      "textAlign": "center",
+      "verticalAlign": "middle",
+      "containerId": "evid_agro_full",
+      "strokeColor": "#334155"
+    },
+    {
+      "type": "arrow",
+      "id": "arr_agro_direct",
+      "x": 595,
+      "y": 710,
+      "width": 75,
+      "height": -120,
+      "points": [
+        [
+          0,
+          0
+        ],
+        [
+          40,
+          0
+        ],
+        [
+          40,
+          -120
+        ],
+        [
+          75,
+          -120
+        ]
+      ],
+      "endArrowhead": "arrow",
+      "boundElements": [
+        {
+          "id": "arr_agro_direct_label",
+          "type": "text"
+        }
+      ],
+      "roughness": 2
+    },
+    {
+      "type": "text",
+      "id": "arr_agro_direct_label",
+      "x": 605,
+      "y": 720,
+      "width": 55,
+      "height": -140,
+      "text": "Cadastro Direto",
+      "fontSize": 11,
+      "fontFamily": 1,
+      "textAlign": "center",
+      "verticalAlign": "middle",
+      "containerId": "arr_agro_direct"
+    },
+    {
+      "type": "arrow",
+      "id": "arr_agro_full_evid",
+      "x": 910,
+      "y": 590,
+      "width": 30,
+      "height": 0,
+      "points": [
+        [
+          0,
+          0
+        ],
+        [
+          30,
+          0
+        ]
+      ],
+      "endArrowhead": "arrow",
+      "roughness": 2
+    },
+    {
+      "type": "rectangle",
+      "id": "seg_agronegocio",
+      "x": 670,
+      "y": 720,
+      "width": 240,
+      "height": 95,
+      "backgroundColor": "#dcfce7",
+      "strokeColor": "#15803d",
+      "strokeWidth": 2,
+      "roundness": {
+        "type": 3
+      },
+      "boundElements": [
+        {
+          "id": "seg_agronegocio_label",
+          "type": "text"
+        }
+      ],
+      "roughness": 2
+    },
+    {
+      "type": "text",
+      "id": "seg_agronegocio_label",
+      "x": 680,
+      "y": 730,
+      "width": 220,
+      "height": 75,
+      "text": "Segmento: AGRONEGÓCIO\n(Produção / Fazendas / Campo)\nAvaliação de Risco Cadeia\n(36 QUESTÕES)",
+      "fontSize": 13,
+      "fontFamily": 1,
+      "textAlign": "center",
+      "verticalAlign": "middle",
+      "containerId": "seg_agronegocio",
+      "strokeColor": "#14532d"
+    },
+    {
+      "type": "rectangle",
+      "id": "evid_agronegocio",
+      "x": 940,
+      "y": 720,
+      "width": 220,
+      "height": 95,
+      "backgroundColor": "#f8fafc",
+      "strokeColor": "#15803d",
+      "roundness": {
+        "type": 3
+      },
+      "boundElements": [
+        {
+          "id": "evid_agronegocio_label",
+          "type": "text"
+        }
+      ],
+      "roughness": 2
+    },
+    {
+      "type": "text",
+      "id": "evid_agronegocio_label",
+      "x": 950,
+      "y": 730,
+      "width": 200,
+      "height": 75,
+      "text": "Upload de Evidências Agro:\nCAR (Cadastro Ambiental Rural),\nuso de defensivos, trabalho rural,\nconservação de APPs",
+      "fontSize": 11,
+      "fontFamily": 1,
+      "textAlign": "center",
+      "verticalAlign": "middle",
+      "containerId": "evid_agronegocio",
+      "strokeColor": "#334155"
+    },
+    {
+      "type": "rectangle",
+      "id": "seg_agroindustria",
+      "x": 670,
+      "y": 860,
+      "width": 240,
+      "height": 95,
+      "backgroundColor": "#dbeafe",
+      "strokeColor": "#1d4ed8",
+      "strokeWidth": 2,
+      "roundness": {
+        "type": 3
+      },
+      "boundElements": [
+        {
+          "id": "seg_agroindustria_label",
+          "type": "text"
+        }
+      ],
+      "roughness": 2
+    },
+    {
+      "type": "text",
+      "id": "seg_agroindustria_label",
+      "x": 680,
+      "y": 870,
+      "width": 220,
+      "height": 75,
+      "text": "Segmento: AGROINDÚSTRIA\n(Processamento / Maquinário)\nAvaliação de Risco Cadeia\n(36 QUESTÕES)",
+      "fontSize": 13,
+      "fontFamily": 1,
+      "textAlign": "center",
+      "verticalAlign": "middle",
+      "containerId": "seg_agroindustria",
+      "strokeColor": "#1e3a8a"
+    },
+    {
+      "type": "rectangle",
+      "id": "evid_agroindustria",
+      "x": 940,
+      "y": 860,
+      "width": 220,
+      "height": 95,
+      "backgroundColor": "#f8fafc",
+      "strokeColor": "#1d4ed8",
+      "roundness": {
+        "type": 3
+      },
+      "boundElements": [
+        {
+          "id": "evid_agroindustria_label",
+          "type": "text"
+        }
+      ],
+      "roughness": 2
+    },
+    {
+      "type": "text",
+      "id": "evid_agroindustria_label",
+      "x": 950,
+      "y": 870,
+      "width": 200,
+      "height": 75,
+      "text": "Upload de Evidências Agroind:\nTratamento de efluentes,\neficiência fabril, rastreio de\norigem de matéria-prima",
+      "fontSize": 11,
+      "fontFamily": 1,
+      "textAlign": "center",
+      "verticalAlign": "middle",
+      "containerId": "evid_agroindustria",
+      "strokeColor": "#334155"
+    },
+    {
+      "type": "arrow",
+      "id": "arr_to_agronegocio",
+      "x": 595,
+      "y": 730,
+      "width": 75,
+      "height": 35,
+      "points": [
+        [
+          0,
+          0
+        ],
+        [
+          40,
+          0
+        ],
+        [
+          40,
+          35
+        ],
+        [
+          75,
+          35
+        ]
+      ],
+      "endArrowhead": "arrow",
+      "boundElements": [
+        {
+          "id": "arr_to_agronegocio_label",
+          "type": "text"
+        }
+      ],
+      "roughness": 2
+    },
+    {
+      "type": "text",
+      "id": "arr_to_agronegocio_label",
+      "x": 605,
+      "y": 740,
+      "width": 55,
+      "height": 15,
+      "text": "Convite: Agronegócio",
+      "fontSize": 11,
+      "fontFamily": 1,
+      "textAlign": "center",
+      "verticalAlign": "middle",
+      "containerId": "arr_to_agronegocio"
+    },
+    {
+      "type": "arrow",
+      "id": "arr_to_agroindustria",
+      "x": 595,
+      "y": 750,
+      "width": 75,
+      "height": 155,
+      "points": [
+        [
+          0,
+          0
+        ],
+        [
+          40,
+          0
+        ],
+        [
+          40,
+          155
+        ],
+        [
+          75,
+          155
+        ]
+      ],
+      "endArrowhead": "arrow",
+      "boundElements": [
+        {
+          "id": "arr_to_agroindustria_label",
+          "type": "text"
+        }
+      ],
+      "roughness": 2
+    },
+    {
+      "type": "text",
+      "id": "arr_to_agroindustria_label",
+      "x": 605,
+      "y": 760,
+      "width": 55,
+      "height": 135,
+      "text": "Convite: Agroindústria",
+      "fontSize": 11,
+      "fontFamily": 1,
+      "textAlign": "center",
+      "verticalAlign": "middle",
+      "containerId": "arr_to_agroindustria"
+    },
+    {
+      "type": "arrow",
+      "id": "arr_seg_agroneg_evid",
+      "x": 910,
+      "y": 767,
+      "width": 30,
+      "height": 0,
+      "points": [
+        [
+          0,
+          0
+        ],
+        [
+          30,
+          0
+        ]
+      ],
+      "endArrowhead": "arrow",
+      "roughness": 2
+    },
+    {
+      "type": "arrow",
+      "id": "arr_seg_agroind_evid",
+      "x": 910,
+      "y": 907,
+      "width": 30,
+      "height": 0,
+      "points": [
+        [
+          0,
+          0
+        ],
+        [
+          30,
+          0
+        ]
+      ],
+      "endArrowhead": "arrow",
+      "roughness": 2
+    },
+    {
+      "type": "rectangle",
+      "id": "res_evidence_center",
+      "x": 1230,
+      "y": 320,
+      "width": 380,
+      "height": 140,
+      "backgroundColor": "#ffffff",
+      "strokeColor": "#16a34a",
+      "strokeWidth": 2,
+      "roundness": {
+        "type": 3
+      },
+      "boundElements": [
+        {
+          "id": "res_evidence_center_label",
+          "type": "text"
+        }
+      ],
+      "roughness": 2
+    },
+    {
+      "type": "text",
+      "id": "res_evidence_center_label",
+      "x": 1240,
+      "y": 330,
+      "width": 360,
+      "height": 120,
+      "text": "MÓDULO DE GESTÃO DE EVIDÊNCIAS\n• O fluxo de upload é padronizado na plataforma\n• Tipos de arquivo variam por Categoria/Segmento\n• Auditoria de conformidade dos documentos",
+      "fontSize": 13,
+      "fontFamily": 1,
+      "textAlign": "center",
+      "verticalAlign": "middle",
+      "containerId": "res_evidence_center",
+      "strokeColor": "#1e293b"
+    },
+    {
+      "type": "rectangle",
+      "id": "res_final_dashboard",
+      "x": 1230,
+      "y": 620,
+      "width": 380,
+      "height": 190,
+      "backgroundColor": "#c3fae8",
+      "strokeColor": "#059669",
+      "strokeWidth": 2,
+      "roundness": {
+        "type": 3
+      },
+      "boundElements": [
+        {
+          "id": "res_final_dashboard_label",
+          "type": "text"
+        }
+      ],
+      "roughness": 2
+    },
+    {
+      "type": "text",
+      "id": "res_final_dashboard_label",
+      "x": 1240,
+      "y": 630,
+      "width": 360,
+      "height": 170,
+      "text": "ENTREGA DE RESULTADOS ESG\n\n1. Diagnósticos Autodeclaráveis (75 Q):\n→ Score ESG Completo & Plano de Ação\n\n2. Rastreio Fornecedores Agro (36 Q):\n→ Matriz de Risco da Cadeia (Alto/Médio/Baixo)\n→ Visão Consolidada para Empresa-Mãe",
+      "fontSize": 13,
+      "fontFamily": 1,
+      "textAlign": "center",
+      "verticalAlign": "middle",
+      "containerId": "res_final_dashboard",
+      "strokeColor": "#064e3b"
+    },
+    {
+      "type": "arrow",
+      "id": "arr_evid_all_to_center",
+      "x": 1160,
+      "y": 390,
+      "width": 70,
+      "height": 0,
+      "points": [
+        [
+          0,
+          0
+        ],
+        [
+          70,
+          0
+        ]
+      ],
+      "endArrowhead": "arrow",
+      "boundElements": [
+        {
+          "id": "arr_evid_all_to_center_label",
+          "type": "text"
+        }
+      ],
+      "roughness": 2
+    },
+    {
+      "type": "text",
+      "id": "arr_evid_all_to_center_label",
+      "x": 1170,
+      "y": 400,
+      "width": 50,
+      "height": 40,
+      "text": "Submissão",
+      "fontSize": 11,
+      "fontFamily": 1,
+      "textAlign": "center",
+      "verticalAlign": "middle",
+      "containerId": "arr_evid_all_to_center"
+    },
+    {
+      "type": "arrow",
+      "id": "arr_evid_center_to_dash",
+      "x": 1420,
+      "y": 460,
+      "width": 0,
+      "height": 160,
+      "points": [
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          160
+        ]
+      ],
+      "endArrowhead": "arrow",
+      "boundElements": [
+        {
+          "id": "arr_evid_center_to_dash_label",
+          "type": "text"
+        }
+      ],
+      "roughness": 2
+    },
+    {
+      "type": "text",
+      "id": "arr_evid_center_to_dash_label",
+      "x": 1430,
+      "y": 470,
+      "width": 80,
+      "height": 140,
+      "text": "Cálculo de Maturidade / Risco",
+      "fontSize": 12,
+      "fontFamily": 1,
+      "textAlign": "center",
+      "verticalAlign": "middle",
+      "containerId": "arr_evid_center_to_dash"
+    },
+    {
+      "type": "rectangle",
+      "id": "box_rule_note",
+      "x": 80,
+      "y": 800,
+      "width": 280,
+      "height": 190,
+      "backgroundColor": "#fef3c7",
+      "strokeColor": "#d97706",
+      "roundness": {
+        "type": 3
+      },
+      "boundElements": [
+        {
+          "id": "box_rule_note_label",
+          "type": "text"
+        }
+      ],
+      "roughness": 2
+    },
+    {
+      "type": "text",
+      "id": "box_rule_note_label",
+      "x": 90,
+      "y": 810,
+      "width": 260,
+      "height": 170,
+      "text": "📌 REGRA DE NEGÓCIO CHAVE:\n\n• Óleo & Gás e Infraestrutura:\nNão têm divisão de segmento;\nrecebem o formulário completo (75Q).\n\n• Agro no Rastreio da Cadeia:\nO convite da Empresa-Mãe verifica\nse o fornecedor é Agronegócio ou\nAgroindústria e distribui a respectiva\nAvaliação de Risco enxuta (36Q).",
+      "fontSize": 12,
+      "fontFamily": 1,
+      "textAlign": "center",
+      "verticalAlign": "middle",
+      "containerId": "box_rule_note",
+      "strokeColor": "#78350f"
+    }
+  ],
+  "appState": {
+    "viewBackgroundColor": "#ffffff",
+    "gridSize": null
+  },
+  "files": {}
+}

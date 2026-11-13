@@ -1,0 +1,28 @@
+[
+  {
+    "scenario": "checkout_unauthenticated",
+    "http_status": 401,
+    "elapsed_ms": 80,
+    "response_body": {
+      "message": "No token provided"
+    }
+  },
+  {
+    "scenario": "webhook_invalid_signature_nonpayment",
+    "http_status": 200,
+    "elapsed_ms": 5,
+    "response_body": {
+      "received": true,
+      "ignored": true,
+      "reason": "evento-nao-relacionado-a-pagamento"
+    }
+  },
+  {
+    "scenario": "webhook_payment_missing_id",
+    "http_status": 400,
+    "elapsed_ms": 5,
+    "response_body": {
+      "message": "Webhook recebido sem paymentId"
+    }
+  }
+]

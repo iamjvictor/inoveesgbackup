@@ -1,0 +1,55 @@
+{
+  "round_id": "plano22-2026-11-04",
+  "started_at": "2026-11-04T20:00:00Z",
+  "finished_at": "2026-11-04T20:15:00Z",
+  "environment": {
+    "result": "PARTIAL_BLOCKED",
+    "frontend": {"url": "http://localhost:3000", "http_status": 200},
+    "backend_4000": {"url": "http://localhost:4000/api/health", "http_status": 200, "frontend_default_target": true, "configured_frontend_callback_host": "www.inove-esg.com.br"},
+    "backend_4001": {"health_local": "available", "playwright_request_routing": "verified", "frontend_callback_host": "f797-45-65-156-89.ngrok-free.app", "notification_url_host": "localhost"},
+    "mercado_pago": {"seller_profile_http": 200, "seller_tag_test_user": true, "checkout_host": "sandbox.mercadopago.com.br", "checkout_page_error": true, "buyer_test_used": false, "payment_submitted": false},
+    "browser": "Playwright Chromium headless"
+  },
+  "scenarios": [
+    {"id": "P22-01", "criteria": ["AC-001", "AC-002"], "status": "PASS", "details": "Card Bioimpacto Empresarial disponível, assinatura anual, perfil pequena empresa e R$ 38.000,00.", "artifacts": ["qa/artifacts/plano22/03-plan-card.png"]},
+    {"id": "P22-02", "criteria": ["AC-001", "AC-002"], "status": "PASS_PARTIAL", "details": "Detalhe correto e preferência criada pela UI; pedido BIOIMPACTO_EMPRESARIAL permanece PENDING_PAYMENT, total 3800000 centavos.", "artifacts": ["qa/artifacts/plano22/04-bioimpacto-detail.png"]},
+    {"id": "P22-03", "criteria": ["AC-004"], "status": "BLOCKED", "details": "Checkout host sandbox confirmado, mas Mercado Pago apresentou erro genérico com recurso HTTP 403 antes do formulário de pagamento.", "artifacts": ["qa/artifacts/plano22/05-checkout.png", "qa/artifacts/plano22/06-checkout-test-backend.png"]},
+    {"id": "P22-04", "criteria": ["AC-004"], "status": "FAIL", "details": "Backend 4000 gera back_urls para domínio de produção; preferência via 4001 usa túnel nas back_urls mas notification_url com host localhost.", "artifacts": []},
+    {"id": "P22-05", "criteria": ["AC-003"], "status": "BLOCKED", "details": "Sem pagamento PAID não foi possível validar liberação pós-compra; antes de comprar navegação Diagnóstico/Evidências estava bloqueada.", "artifacts": ["qa/artifacts/plano22/03-plan-card.png"]}
+  ],
+  "bugs": [
+    {"severity": "high", "title": "Backend 4000 usa callback de produção em checkout local", "file": "backend/.env:10", "reproduction": "Autenticar na UI local, selecionar Bioimpacto e criar preferência pelo backend padrão 4000; buildBackUrls deriva os callbacks de FRONTEND_URL.", "evidence": "processo 4000 sem override FRONTEND_URL; configuração local classificada como www.inove-esg.com.br.", "status": "reproduced_configuration"},
+    {"severity": "high", "title": "Backend 4001 notifica localhost, inacessível ao Mercado Pago", "file": "backend/src/config/env.ts:16", "reproduction": "Criar preferência pela rota Playwright redirecionada para 4001 e consultar preferência pela API Mercado Pago.", "evidence": "GET 200 retorna notification_url host localhost; túnel backend cadastrado responde 404 em /api/health.", "status": "reproduced_configuration"},
+    {"severity": "high_static", "title": "Valor externo de R$ 0,01 não tem guarda de sandbox nem validação de montante no webhook", "file": "backend/src/lib/mercadopago.ts:46", "reproduction": "Preferência Plano 2.2 consultada read-only: unit_price 0.01; pedido interno 3800000 centavos. Webhook aprova com status sem comparar total externo.", "evidence": "GET de preferência HTTP 200; inspeção estática do webhook em mercadopagoWebhookService.ts:78-88.", "status": "not_exercised"},
+    {"severity": "medium", "title": "Checkout sandbox retorna erro genérico/403", "file": "external Mercado Pago checkout", "reproduction": "Abrir URL sandbox da preferência pelo navegador Chromium; a página exibe Hubo un error accediendo a esta página.", "evidence": "qa/artifacts/plano22/06-checkout-test-backend.png", "status": "reproduced"}
+  ],
+  "blocked_items": [
+    "Formulário sandbox indisponível devido ao erro 403; comprador/cartão de teste não inseridos.",
+    "Callback inicial apontava para produção; teste interrompido e roteado a instância 4001 sem alterar servidores.",
+    "Notification URL da preferência de teste aponta a localhost; estado PAID e acesso pós-compra não verificáveis."
+  ],
+  "synthetic_accounts": [{"organization": "Empresa QA Bioimpacto", "email": "qa.bioimpact.1793822817256@example.com", "registration_http": 201, "login_http": 200, "password_or_personal_identifiers_in_report": false}],
+  "artifacts": [
+    "qa/artifacts/plano22/test-plan.md",
+    "qa/artifacts/plano22/01-initial.png",
+    "qa/artifacts/plano22/02-registration-step2.png",
+    "qa/artifacts/plano22/02-registration-step4.png",
+    "qa/artifacts/plano22/02-registration-result.png",
+    "qa/artifacts/plano22/03-plan-card.png",
+    "qa/artifacts/plano22/04-bioimpacto-detail.png",
+    "qa/artifacts/plano22/05-checkout.png",
+    "qa/artifacts/plano22/06-checkout-test-backend.png"
+  ],
+  "improvements": [
+    {"priority": "P1", "description": "Fixar frontend local no backend de teste e bloquear callbacks para www de produção."},
+    {"priority": "P1", "description": "Apontar BACKEND_URL para túnel ativo com health endpoint verificável."},
+    {"priority": "P1", "description": "Condicionar preço de R$ 0,01 a sandbox explícito e validar valor/moeda/referência no webhook antes de conceder acesso."},
+    {"priority": "P2", "description": "Resolver HTTP 403 do checkout sandbox e repetir o fluxo sem dados reais."}
+  ],
+  "next_actions": [
+    "Corrigir configuração BACKEND_URL no processo 4001 e validar o túnel de notificação.",
+    "Investigar o erro 403 de Checkout Pro sandbox.",
+    "Repetir compra usando comprador oficial somente após URLs de retorno/notificação e ambiente estarem corretos.",
+    "Após PAID confirmado por webhook, verificar diagnóstico e evidências na organização sintética."
+  ]
+}

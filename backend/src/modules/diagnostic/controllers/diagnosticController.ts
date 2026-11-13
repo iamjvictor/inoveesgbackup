@@ -2,6 +2,7 @@ import type { Request, Response } from "express";
 import { DiagnosticService } from "../services/diagnosticService.js";
 import { z } from "zod";
 import { getDatabaseErrorPayload, getDatabaseErrorStatusCode } from "../../../lib/databaseErrors.js";
+import { getBioimpactoHistory } from "../../evidence/services/bioimpactoHistory.js";
 
 const diagnosticService = new DiagnosticService();
 
@@ -28,6 +29,16 @@ const evidenceUploadSchema = z.object({
 });
 
 export class DiagnosticController {
+  constructor(private readonly service = diagnosticService) {}
+  async getBioimpactoHistory(request: Request, response: Response) {
+    const supabaseUserId = (request as any).user?.id;
+    if (!supabaseUserId) return response.status(401).json({ message: "Usuário não autenticado" });
+    try {
+      return response.status(200).json(await getBioimpactoHistory(supabaseUserId));
+    } catch (error) {
+      return response.status(500).json({ message: error instanceof Error ? error.message : "Erro ao consultar histórico" });
+    }
+  }
   async startDiagnostic(request: Request, response: Response) {
     const supabaseUserId = (request as any).user?.id;
 
@@ -131,7 +142,7 @@ export class DiagnosticController {
         supabaseUserId,
       });
 
-      const result = await diagnosticService.getCurrentDiagnostic(supabaseUserId);
+      const result = await this.service.getCurrentDiagnostic(supabaseUserId);
 
       return response.status(200).json(result);
     } catch (error) {

@@ -1,0 +1,108 @@
+{
+  "loginOk": true,
+  "currentStatus": 200,
+  "current": {
+    "hasDiagnostic": true,
+    "status": "ACTIVE",
+    "kind": "FULL_DIAGNOSTIC",
+    "responseCount": 0,
+    "questionCount": 75,
+    "segment": "Agronegócio"
+  },
+  "singleAnswerSave": {
+    "status": 200,
+    "success": true,
+    "savedOnly": true
+  },
+  "responses": [
+    {
+      "method": "POST",
+      "path": "/api/auth/login",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/auth/me/access",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/auth/me/access",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/auth/me",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/auth/me",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/diagnostic/current",
+      "status": 200,
+      "data": {
+        "hasDiagnostic": true,
+        "status": "ACTIVE",
+        "kind": "FULL_DIAGNOSTIC",
+        "count": 0,
+        "questionCount": 75,
+        "segment": "Agronegócio"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/diagnostic/current",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/auth/me/access",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/auth/me",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/diagnostic/current",
+      "status": 200,
+      "data": {
+        "hasDiagnostic": true,
+        "status": "ACTIVE",
+        "kind": "FULL_DIAGNOSTIC",
+        "count": 0,
+        "questionCount": 75,
+        "segment": "Agronegócio"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/diagnostic/current",
+      "status": 200,
+      "data": {
+        "hasDiagnostic": true,
+        "status": "ACTIVE",
+        "kind": "FULL_DIAGNOSTIC",
+        "count": 0,
+        "questionCount": 75,
+        "segment": "Agronegócio"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/api/diagnostic/48df6eaa-1c3d-47b5-bf78-583288fed09d/submit",
+      "status": 200
+    }
+  ],
+  "blockedWrites": [],
+  "postSubmitCalls": 1,
+  "consoleErrors": [],
+  "pageErrors": [],
+  "finalUrl": "http://localhost:3000/app/diagnostico/preencher?axis=E"
+}

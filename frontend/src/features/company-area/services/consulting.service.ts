@@ -14,7 +14,7 @@ export async function getConsultingAppointments(): Promise<{ appointment: Compan
     credentials: "include",
   });
 
-  const data = await response.json();
+  const data = await response.json().catch(() => ({}));
   if (!response.ok) {
     throw new Error(data?.message ?? "Erro ao carregar o agendamento");
   }

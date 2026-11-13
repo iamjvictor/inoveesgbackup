@@ -23,3 +23,17 @@ export function getEvidenceUploadWindow(completedAt: Date | string | null | unde
   const deadline = new Date(Date.UTC(year, month - 1, day + EVIDENCE_UPLOAD_DAYS + 1, 3));
   return { canUpload: now.getTime() >= completedTime && now.getTime() < deadline.getTime(), deadline };
 }
+
+/** Monthly evidence window for an active annual Bioimpacto Empresarial plan. */
+export function getBioimpactoEvidenceUploadWindow(paidAt: Date | string | null | undefined, now = new Date()) {
+  if (!paidAt) return { canUpload: false, expiresAt: null as Date | null };
+  const start = new Date(paidAt);
+  if (!Number.isFinite(start.getTime())) return { canUpload: false, expiresAt: null as Date | null };
+  const expiresAt = new Date(start);
+  expiresAt.setUTCFullYear(expiresAt.getUTCFullYear() + 1);
+  const { day } = getBusinessDate(now);
+  return {
+    canUpload: now.getTime() >= start.getTime() && now.getTime() < expiresAt.getTime() && day >= 1 && day <= 15,
+    expiresAt,
+  };
+}

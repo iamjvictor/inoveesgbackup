@@ -266,9 +266,29 @@ model User {
   assignedEvidenceRequests DiagnosticEvidenceRequest[] @relation("EvidenceRequestAssignee")
   uploadedEvidences        Evidence[]                  @relation("EvidenceUploader")
   evidenceReviews          EvidenceReview[]            @relation("EvidenceReviewer")
-  evidenceNotes            EvidenceNote[]               @relation("EvidenceNoteAuthor")
+  evidenceNotes            EvidenceNote[]              @relation("EvidenceNoteAuthor")
 
   @@map("users")
+}
+
+model EmailOutbox {
+  id                String    @id @default(uuid()) @db.Uuid
+  eventKey          String    @unique
+  eventType         String
+  recipient         String
+  payload           Json
+  status            String    @default("PENDING")
+  attempts          Int       @default(0)
+  nextAttemptAt     DateTime  @default(now())
+  leaseUntil        DateTime?
+  leaseToken        String?
+  providerMessageId String?
+  lastError         String?
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+
+  @@index([status, nextAttemptAt])
+  @@map("email_outbox")
 }
 
 model Organization {
@@ -463,7 +483,7 @@ model Service {
   basePriceCents         Int?
   currency               String                  @default("BRL")
   requiresApproval       Boolean                 @default(false)
-  durationMinutes       Int                     @default(60)
+  durationMinutes        Int                     @default(60)
   createdAt              DateTime                @default(now())
   updatedAt              DateTime                @updatedAt
   product                Product                 @relation(fields: [productId], references: [id], onDelete: Cascade)
@@ -868,20 +888,38 @@ model EvidenceNote {
 }
 
 model EvidenceScore {
-  id                    String   @id @default(uuid()) @db.Uuid
-  organizationId        String   @db.Uuid
+  id                    String       @id @default(uuid()) @db.Uuid
+  organizationId        String       @db.Uuid
   axis                  Axis
-  approvedPoints        Int      @default(0)
-  totalAvailablePoints  Int      @default(0)
-  provenScore           Decimal  @default(0) @db.Decimal(5, 2)
-  approvedEvidenceCount Int      @default(0)
-  createdAt             DateTime @default(now())
-  updatedAt             DateTime @updatedAt
+  approvedPoints        Int          @default(0)
+  totalAvailablePoints  Int          @default(0)
+  provenScore           Decimal      @default(0) @db.Decimal(5, 2)
+  approvedEvidenceCount Int          @default(0)
+  createdAt             DateTime     @default(now())
+  updatedAt             DateTime     @updatedAt
   organization          Organization @relation("OrganizationEvidenceScores", fields: [organizationId], references: [id], onDelete: Cascade)
 
   @@unique([organizationId, axis])
   @@index([organizationId])
   @@map("evidence_scores")
+}
+
+model BioimpactoWindowSnapshot {
+  id             String   @id @default(uuid()) @db.Uuid
+  organizationId String   @db.Uuid
+  orderId        String   @db.Uuid
+  windowNumber   Int
+  startsAt       DateTime
+  endsAt         DateTime
+  approved       Int      @default(0)
+  rejected       Int      @default(0)
+  pending        Int      @default(0)
+  score          Decimal? @db.Decimal(5, 2)
+  capturedAt     DateTime @default(now())
+
+  @@unique([orderId, windowNumber])
+  @@index([organizationId, orderId])
+  @@map("bioimpacto_window_snapshots")
 }
 
 model DiagnosticScore {
@@ -927,18 +965,18 @@ model DiagnosticReport {
 }
 
 model BudgetRequest {
-  id             String              @id @default(uuid()) @db.Uuid
-  organizationId String              @db.Uuid
-  productId      String              @db.Uuid
-  requestedByUserId String?          @db.Uuid
+  id                 String              @id @default(uuid()) @db.Uuid
+  organizationId     String              @db.Uuid
+  productId          String              @db.Uuid
+  requestedByUserId  String?             @db.Uuid
   proposedPriceCents Int?
-  months         Int?
-  status         BudgetRequestStatus @default(SOLICITADO)
-  createdAt      DateTime            @default(now())
-  updatedAt      DateTime            @updatedAt
-  organization   Organization        @relation(fields: [organizationId], references: [id], onDelete: Cascade)
-  product        Product             @relation(fields: [productId], references: [id], onDelete: Restrict)
-  requestedBy    User?               @relation("BudgetRequester", fields: [requestedByUserId], references: [id], onDelete: SetNull)
+  months             Int?
+  status             BudgetRequestStatus @default(SOLICITADO)
+  createdAt          DateTime            @default(now())
+  updatedAt          DateTime            @updatedAt
+  organization       Organization        @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  product            Product             @relation(fields: [productId], references: [id], onDelete: Restrict)
+  requestedBy        User?               @relation("BudgetRequester", fields: [requestedByUserId], references: [id], onDelete: SetNull)
 
   @@index([organizationId, requestedByUserId, status])
   @@map("budget_requests")

@@ -62,14 +62,20 @@ function resolveReference(payment: Awaited<ReturnType<typeof fetchMercadoPagoPay
 export class MercadoPagoWebhookService {
   async handleWebhook(body: MercadoPagoWebhookBody, headers: Record<string, unknown>): Promise<HandleWebhookResult> {
     const paymentId = extractPaymentId(body);
+    const eventType = `${body?.type ?? body?.topic ?? body?.action ?? "unknown"}`.slice(0, 100);
 
-    console.info("[mercadopago.webhook] Event received", {
-      headers,
-      body,
+    console.info("[mercadopago.webhook] Processing event", {
+      eventType,
       paymentId,
+      paymentIdPresent: Boolean(paymentId),
     });
 
     if (!isPaymentEvent(body)) {
+      console.info("[mercadopago.webhook] Event ignored", {
+        eventType,
+        paymentId,
+        reason: "evento-nao-relacionado-a-pagamento",
+      });
       return {
         received: true,
         ignored: true,
@@ -85,16 +91,11 @@ export class MercadoPagoWebhookService {
     const paymentStatus = (payment.status ?? "").toLowerCase();
     const reference = resolveReference(payment);
 
-    console.info("[mercadopago.webhook] Payment resolved", {
+    console.info("[mercadopago.webhook] Payment fetched", {
       paymentId: payment.id,
-      paymentStatus,
-      statusDetail: payment.status_detail,
-      transactionAmount: payment.transaction_amount,
-      currencyId: payment.currency_id,
-      dateCreated: payment.date_created,
-      dateApproved: payment.date_approved,
-      paymentTypeId: payment.payment_type_id,
-      reference,
+      paymentStatus: paymentStatus || "unknown",
+      orderId: reference.orderId,
+      externalReferencePresent: Boolean(reference.externalReference),
     });
 
     if (paymentStatus === "approved") {
@@ -102,30 +103,32 @@ export class MercadoPagoWebhookService {
         throw new Error("Pagamento aprovado, mas sem orderId no metadata");
       }
 
-      console.info("[mercadopago.webhook] Confirming order payment", {
-        orderId: reference.orderId,
+      const confirmation = await checkoutService.confirmPayment(reference.orderId, true);
+      console.info("[mercadopago.webhook] Order confirmation applied", {
         paymentId: payment.id,
+        paymentStatus,
+        orderId: reference.orderId,
+        orderStatus: confirmation?.status ?? "unknown",
       });
-
-      await checkoutService.confirmPayment(reference.orderId, true);
     } else if (["rejected", "cancelled", "refunded", "charged_back"].includes(paymentStatus)) {
       if (!reference.orderId) {
         throw new Error("Pagamento finalizado com falha, mas sem orderId no metadata");
       }
 
-      console.info("[mercadopago.webhook] Marking order payment as failed", {
+      const confirmation = await checkoutService.confirmPayment(reference.orderId, false);
+      console.info("[mercadopago.webhook] Order failure applied", {
+        paymentId: payment.id,
+        paymentStatus,
         orderId: reference.orderId,
-        paymentId: payment.id,
-        paymentStatus,
+        orderStatus: confirmation?.status ?? "unknown",
       });
-
-      await checkoutService.confirmPayment(reference.orderId, false);
     } else {
-      console.info("[mercadopago.webhook] Payment status not final, ignoring", {
+      console.info("[mercadopago.webhook] Payment ignored", {
         paymentId: payment.id,
-        paymentStatus,
+        paymentStatus: paymentStatus || "unknown",
+        orderId: reference.orderId,
+        reason: `status-${paymentStatus || "unknown"}`,
       });
-
       return {
         received: true,
         ignored: true,

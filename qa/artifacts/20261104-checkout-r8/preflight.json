@@ -1,0 +1,12 @@
+{
+  "round_id": "20261104-checkout-r8",
+  "local_frontend": {"url": "http://localhost:3000", "available": true},
+  "local_backend": {"url": "http://localhost:4000", "available": true},
+  "seller_test_identity": {"method": "GET /users/me", "http_status": 200, "test_user_tag_present": true},
+  "buyer_test_identity": {"source": "user-provided Mercado Pago test-account panel image and username", "confirmed_test_account": true, "credentials_recorded": false},
+  "app_test_account": {"synthetic_account_rows_seen": 2, "login_ui_http_status": 200, "auth_me_http_status": 200, "access_context_http_status": 200},
+  "product_selection": {"ui_product": "Pré-Diagnóstico ESG Autodeclarável", "product_code_mapping": "PRE_DIAGNOSTIC", "displayed_price_brl": 250.0, "detail_modal_opened": true},
+  "checkout_preference_created": false,
+  "payment_submitted": false,
+  "reason_blocked": "Configured FRONTEND_URL points to production; checkout return URLs would therefore target production"
+}

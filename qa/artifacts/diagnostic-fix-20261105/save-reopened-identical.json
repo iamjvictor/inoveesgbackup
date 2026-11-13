@@ -1,0 +1,207 @@
+{
+  "login": 200,
+  "error": "locator.waitFor: Timeout 7000ms exceeded.\nCall log:\n\u001b[2m  - waiting for getByRole('heading', { name: 'Prova Concluída!' }) to be visible\u001b[22m\n",
+  "network": [
+    {
+      "type": "request",
+      "ms": null,
+      "method": "POST",
+      "path": "/api/auth/login"
+    },
+    {
+      "type": "response",
+      "ms": null,
+      "method": "POST",
+      "path": "/api/auth/login",
+      "status": 200
+    },
+    {
+      "type": "request",
+      "ms": null,
+      "method": "GET",
+      "path": "/api/diagnostic/current"
+    },
+    {
+      "type": "request",
+      "ms": null,
+      "method": "GET",
+      "path": "/api/auth/me"
+    },
+    {
+      "type": "request",
+      "ms": null,
+      "method": "GET",
+      "path": "/api/auth/me/access"
+    },
+    {
+      "type": "request",
+      "ms": null,
+      "method": "GET",
+      "path": "/api/auth/me"
+    },
+    {
+      "type": "request",
+      "ms": null,
+      "method": "GET",
+      "path": "/api/auth/me/access"
+    },
+    {
+      "type": "response",
+      "ms": null,
+      "method": "GET",
+      "path": "/api/auth/me/access",
+      "status": 200
+    },
+    {
+      "type": "response",
+      "ms": null,
+      "method": "GET",
+      "path": "/api/diagnostic/current",
+      "status": 200
+    },
+    {
+      "type": "response",
+      "ms": null,
+      "method": "GET",
+      "path": "/api/auth/me/access",
+      "status": 200
+    },
+    {
+      "type": "response",
+      "ms": null,
+      "method": "GET",
+      "path": "/api/auth/me",
+      "status": 200
+    },
+    {
+      "type": "request",
+      "ms": null,
+      "method": "GET",
+      "path": "/api/diagnostic/current"
+    },
+    {
+      "type": "request",
+      "ms": null,
+      "method": "GET",
+      "path": "/api/diagnostic/current"
+    },
+    {
+      "type": "response",
+      "ms": null,
+      "method": "GET",
+      "path": "/api/diagnostic/current",
+      "status": 200
+    },
+    {
+      "type": "response",
+      "ms": null,
+      "method": "GET",
+      "path": "/api/diagnostic/current",
+      "status": 200
+    },
+    {
+      "type": "request",
+      "ms": null,
+      "method": "GET",
+      "path": "/api/consulting/current"
+    },
+    {
+      "type": "request",
+      "ms": null,
+      "method": "GET",
+      "path": "/api/consulting/current"
+    },
+    {
+      "type": "response",
+      "ms": null,
+      "method": "GET",
+      "path": "/api/auth/me",
+      "status": 200
+    },
+    {
+      "type": "response",
+      "ms": null,
+      "method": "GET",
+      "path": "/api/consulting/current",
+      "status": 200
+    },
+    {
+      "type": "request",
+      "ms": null,
+      "method": "GET",
+      "path": "/api/budget"
+    },
+    {
+      "type": "response",
+      "ms": null,
+      "method": "GET",
+      "path": "/api/consulting/current",
+      "status": 200
+    },
+    {
+      "type": "request",
+      "ms": null,
+      "method": "GET",
+      "path": "/api/budget"
+    },
+    {
+      "type": "response",
+      "ms": null,
+      "method": "GET",
+      "path": "/api/budget",
+      "status": 200
+    },
+    {
+      "type": "request",
+      "ms": null,
+      "method": "GET",
+      "path": "/api/auth/me"
+    },
+    {
+      "type": "request",
+      "ms": null,
+      "method": "GET",
+      "path": "/api/auth/me/access"
+    },
+    {
+      "type": "response",
+      "ms": null,
+      "method": "GET",
+      "path": "/api/auth/me/access",
+      "status": 200
+    },
+    {
+      "type": "response",
+      "ms": null,
+      "method": "GET",
+      "path": "/api/auth/me",
+      "status": 200
+    },
+    {
+      "type": "request",
+      "ms": null,
+      "method": "GET",
+      "path": "/api/diagnostic/current"
+    },
+    {
+      "type": "request",
+      "ms": null,
+      "method": "GET",
+      "path": "/api/diagnostic/current"
+    },
+    {
+      "type": "response",
+      "ms": null,
+      "method": "GET",
+      "path": "/api/diagnostic/current",
+      "status": 200
+    },
+    {
+      "type": "response",
+      "ms": null,
+      "method": "GET",
+      "path": "/api/diagnostic/current",
+      "status": 200
+    }
+  ]
+}

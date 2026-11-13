@@ -6,6 +6,20 @@ type BackUrls = {
   pending?: string;
 };
 
+export type MercadoPagoPayer = {
+  email?: string;
+  name?: string;
+  surname?: string;
+  identification?: {
+    type: string;
+    number: string;
+  };
+  phone?: {
+    area_code?: string;
+    number?: string;
+  };
+};
+
 type CreateMercadoPagoPreferenceParams = {
   title: string;
   unitPrice: number;
@@ -14,6 +28,7 @@ type CreateMercadoPagoPreferenceParams = {
   externalReference: string;
   metadata?: Record<string, unknown>;
   backUrls: BackUrls;
+  payer?: MercadoPagoPayer;
 };
 
 type MercadoPagoPreferenceResponse = {
@@ -43,8 +58,8 @@ export async function createMercadoPagoPreference(params: CreateMercadoPagoPrefe
     ? env.backendUrl
     : `https://${env.backendUrl}`;
   const notificationUrl = `${backendBaseUrl.replace(/\/$/, "")}/api/webhooks/mercadopago`;
-  const checkoutUnitPrice = 0.01;
-  const checkoutQuantity = 1;
+  const checkoutUnitPrice = params.unitPrice;
+  const checkoutQuantity = params.quantity ?? 1;
 
   console.info("[mercadopago.preference] Building preference URLs", {
     successUrl,
@@ -73,6 +88,7 @@ export async function createMercadoPagoPreference(params: CreateMercadoPagoPrefe
           description: params.description,
         },
       ],
+      payer: params.payer,
       external_reference: params.externalReference,
       back_urls: {
         success: successUrl,

@@ -1,0 +1,15 @@
+{
+  "round_id":"20261104-r3",
+  "started_at":"2026-11-04T13:15:00-03:00",
+  "finished_at":"2026-11-04T13:17:00-03:00",
+  "environment":{"frontend":{"host":"localhost:3000"},"browser":"Chromium headless, Playwright programmatic 1.64.1","commands":[{"command":"Playwright inspect signup validations without submit","result":"empty and invalid CPF blocked progression; local error visible; no /auth/register request"},{"command":"Playwright GET /recuperar-senha","result":"HTTP 200; recovery UI rendered; no /auth/recover request"},{"command":"First recovery navigation domcontentloaded","result":"browser timeout; retry with waitUntil=commit succeeded"}]},
+  "scenarios":[
+    {"id":"AC-006-signup-empty","name":"Empty registration step","status":"PASS","result":"next step disabled","evidence":["qa/artifacts/20261104-r3/signup-invalid.png"]},
+    {"id":"AC-006-signup-invalid-cpf","name":"Invalid CPF validation","status":"PASS","result":"visible error and next step disabled; no submit","evidence":["qa/artifacts/20261104-r3/signup-invalid.png"]},
+    {"id":"AC-006-recovery-ui","name":"Recovery UI loads","status":"PASS","result":"HTTP 200, no recovery request sent","evidence":["qa/artifacts/20261104-r3/recovery-empty.png"]}
+  ],
+  "bugs":[],"blocked_items":[],"synthetic_accounts":[],
+  "artifacts":["qa/artifacts/20261104-r3/signup-invalid.png","qa/artifacts/20261104-r3/recovery-empty.png","qa/logs/qa-explorer-2026-11-04.log"],
+  "improvements":[],
+  "next_actions":["Only submit recovery using controlled mailbox","Verify TEST- credentials before any checkout"]
+}

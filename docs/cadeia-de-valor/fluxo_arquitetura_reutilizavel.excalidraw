@@ -1,0 +1,993 @@
+{
+  "type": "excalidraw",
+  "version": 2,
+  "source": "excalidraw-cli",
+  "elements": [
+    {
+      "type": "rectangle",
+      "id": "header_bg",
+      "x": 50,
+      "y": 40,
+      "width": 1540,
+      "height": 100,
+      "backgroundColor": "#0f172a",
+      "strokeColor": "#334155",
+      "roundness": {
+        "type": 3
+      },
+      "opacity": 100,
+      "roughness": 2
+    },
+    {
+      "type": "text",
+      "id": "title_main",
+      "x": 80,
+      "y": 58,
+      "text": "INOVE ESG  —  Arquitetura de Fluxos: Autodeclarável vs. Rastreio da Cadeia",
+      "fontSize": 23,
+      "strokeColor": "#ffffff",
+      "fontFamily": 1
+    },
+    {
+      "type": "text",
+      "id": "title_sub",
+      "x": 80,
+      "y": 98,
+      "text": "Separação de Jornadas, Motores Reutilizáveis (Formulário & Evidências) e Regra Especial para Fornecedores Agro",
+      "fontSize": 14,
+      "strokeColor": "#94a3b8",
+      "fontFamily": 1
+    },
+    {
+      "type": "rectangle",
+      "id": "lane_autodeclaravel",
+      "x": 50,
+      "y": 160,
+      "width": 1540,
+      "height": 380,
+      "backgroundColor": "#dbe4ff",
+      "strokeColor": "#93c5fd",
+      "strokeWidth": 1.5,
+      "roundness": {
+        "type": 3
+      },
+      "opacity": 25,
+      "roughness": 2
+    },
+    {
+      "type": "text",
+      "id": "lane1_title",
+      "x": 80,
+      "y": 178,
+      "text": "JORNADA A: DIAGNÓSTICO AUTODECLARÁVEL (Maturidade da Própria Empresa)",
+      "fontSize": 16,
+      "strokeColor": "#1e40af",
+      "fontFamily": 1
+    },
+    {
+      "type": "rectangle",
+      "id": "node_cad_direto",
+      "x": 80,
+      "y": 230,
+      "width": 230,
+      "height": 100,
+      "backgroundColor": "#a5d8ff",
+      "strokeColor": "#2563eb",
+      "strokeWidth": 2,
+      "roundness": {
+        "type": 3
+      },
+      "boundElements": [
+        {
+          "id": "node_cad_direto_label",
+          "type": "text"
+        }
+      ],
+      "roughness": 2
+    },
+    {
+      "type": "text",
+      "id": "node_cad_direto_label",
+      "x": 90,
+      "y": 240,
+      "width": 210,
+      "height": 80,
+      "text": "Cadastro Direto\n(Empresa se cadastra)\nEscolhe Categoria:\n• Óleo & Gás\n• Infraestrutura\n• Agro (Bioeconomia)",
+      "fontSize": 13,
+      "fontFamily": 1,
+      "textAlign": "center",
+      "verticalAlign": "middle",
+      "containerId": "node_cad_direto",
+      "strokeColor": "#1e3a8a"
+    },
+    {
+      "type": "rectangle",
+      "id": "node_engine_75q",
+      "x": 390,
+      "y": 215,
+      "width": 380,
+      "height": 130,
+      "backgroundColor": "#ffffff",
+      "strokeColor": "#2563eb",
+      "strokeWidth": 2,
+      "roundness": {
+        "type": 3
+      },
+      "boundElements": [
+        {
+          "id": "node_engine_75q_label",
+          "type": "text"
+        }
+      ],
+      "roughness": 2
+    },
+    {
+      "type": "text",
+      "id": "node_engine_75q_label",
+      "x": 400,
+      "y": 225,
+      "width": 360,
+      "height": 110,
+      "text": "⚡ MOTOR REUTILIZÁVEL: AUTODECLARÁVEL\n(Interface, autosave e cálculo são IDÊNTICOS)\n\nInjeta dinamicamente as 75 questões da categoria:\n[1] Óleo & Gás: 75 questões\n[2] Infraestrutura: 75 questões\n[3] Agro Bioeconômico: 75 questões",
+      "fontSize": 12,
+      "fontFamily": 1,
+      "textAlign": "center",
+      "verticalAlign": "middle",
+      "containerId": "node_engine_75q",
+      "strokeColor": "#0f172a"
+    },
+    {
+      "type": "arrow",
+      "id": "arr_cad_to_engine",
+      "x": 310,
+      "y": 280,
+      "width": 80,
+      "height": 0,
+      "points": [
+        [
+          0,
+          0
+        ],
+        [
+          80,
+          0
+        ]
+      ],
+      "endArrowhead": "arrow",
+      "boundElements": [
+        {
+          "id": "arr_cad_to_engine_label",
+          "type": "text"
+        }
+      ],
+      "roughness": 2
+    },
+    {
+      "type": "text",
+      "id": "arr_cad_to_engine_label",
+      "x": 320,
+      "y": 290,
+      "width": 60,
+      "height": 40,
+      "text": "Inicia 75Q",
+      "fontSize": 11,
+      "fontFamily": 1,
+      "textAlign": "center",
+      "verticalAlign": "middle",
+      "containerId": "arr_cad_to_engine"
+    },
+    {
+      "type": "rectangle",
+      "id": "node_upload_shared",
+      "x": 860,
+      "y": 215,
+      "width": 360,
+      "height": 130,
+      "backgroundColor": "#ffffff",
+      "strokeColor": "#16a34a",
+      "strokeWidth": 2,
+      "roundness": {
+        "type": 3
+      },
+      "boundElements": [
+        {
+          "id": "node_upload_shared_label",
+          "type": "text"
+        }
+      ],
+      "roughness": 2
+    },
+    {
+      "type": "text",
+      "id": "node_upload_shared_label",
+      "x": 870,
+      "y": 225,
+      "width": 340,
+      "height": 110,
+      "text": "⚡ MÓDULO REUTILIZÁVEL: UPLOAD DE EVIDÊNCIAS\n(Mesmo sistema de arquivos, status e auditoria)\n\nCarrega o checklist documental da categoria:\n• Óleo & Gás: Licenças, emissões, segurança\n• Infra: Resíduos, impactos de obras\n• Agro: Balanço, governança, selos",
+      "fontSize": 12,
+      "fontFamily": 1,
+      "textAlign": "center",
+      "verticalAlign": "middle",
+      "containerId": "node_upload_shared",
+      "strokeColor": "#0f172a"
+    },
+    {
+      "type": "arrow",
+      "id": "arr_engine_to_upload",
+      "x": 770,
+      "y": 280,
+      "width": 90,
+      "height": 0,
+      "points": [
+        [
+          0,
+          0
+        ],
+        [
+          90,
+          0
+        ]
+      ],
+      "endArrowhead": "arrow",
+      "boundElements": [
+        {
+          "id": "arr_engine_to_upload_label",
+          "type": "text"
+        }
+      ],
+      "roughness": 2
+    },
+    {
+      "type": "text",
+      "id": "arr_engine_to_upload_label",
+      "x": 780,
+      "y": 290,
+      "width": 70,
+      "height": 40,
+      "text": "Evidências",
+      "fontSize": 11,
+      "fontFamily": 1,
+      "textAlign": "center",
+      "verticalAlign": "middle",
+      "containerId": "arr_engine_to_upload"
+    },
+    {
+      "type": "rectangle",
+      "id": "node_res_autodeclaravel",
+      "x": 1290,
+      "y": 225,
+      "width": 260,
+      "height": 110,
+      "backgroundColor": "#dcfce7",
+      "strokeColor": "#16a34a",
+      "strokeWidth": 2,
+      "roundness": {
+        "type": 3
+      },
+      "boundElements": [
+        {
+          "id": "node_res_autodeclaravel_label",
+          "type": "text"
+        }
+      ],
+      "roughness": 2
+    },
+    {
+      "type": "text",
+      "id": "node_res_autodeclaravel_label",
+      "x": 1300,
+      "y": 235,
+      "width": 240,
+      "height": 90,
+      "text": "RELATÓRIO DE MATURIDADE ESG\n• Score Geral ESG da Empresa\n• Radar por Pilares (E, S e G)\n• Plano de Ação Recomendado",
+      "fontSize": 12,
+      "fontFamily": 1,
+      "textAlign": "center",
+      "verticalAlign": "middle",
+      "containerId": "node_res_autodeclaravel",
+      "strokeColor": "#14532d"
+    },
+    {
+      "type": "arrow",
+      "id": "arr_upload_to_res1",
+      "x": 1220,
+      "y": 280,
+      "width": 70,
+      "height": 0,
+      "points": [
+        [
+          0,
+          0
+        ],
+        [
+          70,
+          0
+        ]
+      ],
+      "endArrowhead": "arrow",
+      "roughness": 2
+    },
+    {
+      "type": "rectangle",
+      "id": "badge_reutilizavel_1",
+      "x": 580,
+      "y": 380,
+      "width": 430,
+      "height": 55,
+      "backgroundColor": "#fef9c3",
+      "strokeColor": "#ca8a04",
+      "roundness": {
+        "type": 3
+      },
+      "boundElements": [
+        {
+          "id": "badge_reutilizavel_1_label",
+          "type": "text"
+        }
+      ],
+      "roughness": 2
+    },
+    {
+      "type": "text",
+      "id": "badge_reutilizavel_1_label",
+      "x": 590,
+      "y": 390,
+      "width": 410,
+      "height": 35,
+      "text": "💡 100% REUTILIZÁVEL: O motor de perguntas (75Q) e o upload são os\nmesmos componentes. Só muda a lista de questões e de documentos.",
+      "fontSize": 11,
+      "fontFamily": 1,
+      "textAlign": "center",
+      "verticalAlign": "middle",
+      "containerId": "badge_reutilizavel_1",
+      "strokeColor": "#713f12"
+    },
+    {
+      "type": "rectangle",
+      "id": "lane_rastreio",
+      "x": 50,
+      "y": 480,
+      "width": 1540,
+      "height": 660,
+      "backgroundColor": "#fdf4ff",
+      "strokeColor": "#f0abfc",
+      "strokeWidth": 1.5,
+      "roundness": {
+        "type": 3
+      },
+      "opacity": 25,
+      "roughness": 2
+    },
+    {
+      "type": "text",
+      "id": "lane2_title",
+      "x": 80,
+      "y": 498,
+      "text": "JORNADA B: RASTREIO DA CADEIA (Fornecedor Convidado pela Empresa-Mãe)",
+      "fontSize": 16,
+      "strokeColor": "#86198f",
+      "fontFamily": 1
+    },
+    {
+      "type": "rectangle",
+      "id": "node_convite_mae",
+      "x": 80,
+      "y": 550,
+      "width": 230,
+      "height": 110,
+      "backgroundColor": "#ffd8a8",
+      "strokeColor": "#d97706",
+      "strokeWidth": 2,
+      "roundness": {
+        "type": 3
+      },
+      "boundElements": [
+        {
+          "id": "node_convite_mae_label",
+          "type": "text"
+        }
+      ],
+      "roughness": 2
+    },
+    {
+      "type": "text",
+      "id": "node_convite_mae_label",
+      "x": 90,
+      "y": 560,
+      "width": 210,
+      "height": 90,
+      "text": "Convite de Fornecedor\n(Disparado pela Empresa-Mãe)\nO convite inspeciona:\n1. Categoria\n2. Segmento do Fornecedor",
+      "fontSize": 13,
+      "fontFamily": 1,
+      "textAlign": "center",
+      "verticalAlign": "middle",
+      "containerId": "node_convite_mae",
+      "strokeColor": "#78350f"
+    },
+    {
+      "type": "diamond",
+      "id": "decide_cat_convite",
+      "x": 380,
+      "y": 550,
+      "width": 150,
+      "height": 110,
+      "backgroundColor": "#fff3bf",
+      "strokeColor": "#ca8a04",
+      "boundElements": [
+        {
+          "id": "decide_cat_convite_label",
+          "type": "text"
+        }
+      ],
+      "roundness": {
+        "type": 3
+      },
+      "roughness": 2
+    },
+    {
+      "type": "text",
+      "id": "decide_cat_convite_label",
+      "x": 390,
+      "y": 560,
+      "width": 130,
+      "height": 90,
+      "text": "Categoria do\nFornecedor?",
+      "fontSize": 13,
+      "fontFamily": 1,
+      "textAlign": "center",
+      "verticalAlign": "middle",
+      "containerId": "decide_cat_convite",
+      "strokeColor": "#713f12"
+    },
+    {
+      "type": "arrow",
+      "id": "arr_convite_to_decide",
+      "x": 310,
+      "y": 605,
+      "width": 70,
+      "height": 0,
+      "points": [
+        [
+          0,
+          0
+        ],
+        [
+          70,
+          0
+        ]
+      ],
+      "endArrowhead": "arrow",
+      "roughness": 2
+    },
+    {
+      "type": "rectangle",
+      "id": "node_rastreio_og_infra",
+      "x": 620,
+      "y": 540,
+      "width": 260,
+      "height": 90,
+      "backgroundColor": "#c3fae8",
+      "strokeColor": "#0d9488",
+      "strokeWidth": 2,
+      "roundness": {
+        "type": 3
+      },
+      "boundElements": [
+        {
+          "id": "node_rastreio_og_infra_label",
+          "type": "text"
+        }
+      ],
+      "roughness": 2
+    },
+    {
+      "type": "text",
+      "id": "node_rastreio_og_infra_label",
+      "x": 630,
+      "y": 550,
+      "width": 240,
+      "height": 70,
+      "text": "ÓLEO & GÁS ou INFRAESTRUTURA\n• Não têm segmento adicional\n• Segmento = Categoria\n• Usam o Autodeclarável (75 Q)",
+      "fontSize": 12,
+      "fontFamily": 1,
+      "textAlign": "center",
+      "verticalAlign": "middle",
+      "containerId": "node_rastreio_og_infra",
+      "strokeColor": "#134e4a"
+    },
+    {
+      "type": "arrow",
+      "id": "arr_decide_to_oginfra",
+      "x": 530,
+      "y": 585,
+      "width": 90,
+      "height": 0,
+      "points": [
+        [
+          0,
+          0
+        ],
+        [
+          90,
+          0
+        ]
+      ],
+      "endArrowhead": "arrow",
+      "boundElements": [
+        {
+          "id": "arr_decide_to_oginfra_label",
+          "type": "text"
+        }
+      ],
+      "roughness": 2
+    },
+    {
+      "type": "text",
+      "id": "arr_decide_to_oginfra_label",
+      "x": 540,
+      "y": 595,
+      "width": 70,
+      "height": 40,
+      "text": "Óleo ou Infra",
+      "fontSize": 11,
+      "fontFamily": 1,
+      "textAlign": "center",
+      "verticalAlign": "middle",
+      "containerId": "arr_decide_to_oginfra"
+    },
+    {
+      "type": "rectangle",
+      "id": "node_rastreio_agro_branch",
+      "x": 360,
+      "y": 740,
+      "width": 190,
+      "height": 100,
+      "backgroundColor": "#bbf7d0",
+      "strokeColor": "#15803d",
+      "strokeWidth": 2.5,
+      "roundness": {
+        "type": 3
+      },
+      "boundElements": [
+        {
+          "id": "node_rastreio_agro_branch_label",
+          "type": "text"
+        }
+      ],
+      "roughness": 2
+    },
+    {
+      "type": "text",
+      "id": "node_rastreio_agro_branch_label",
+      "x": 370,
+      "y": 750,
+      "width": 170,
+      "height": 80,
+      "text": "★ CATEGORIA AGRO\n(Possui 2 Segmentos)\nO convite distribui conforme\no segmento específico:",
+      "fontSize": 12,
+      "fontFamily": 1,
+      "textAlign": "center",
+      "verticalAlign": "middle",
+      "containerId": "node_rastreio_agro_branch",
+      "strokeColor": "#14532d"
+    },
+    {
+      "type": "arrow",
+      "id": "arr_decide_to_agro",
+      "x": 455,
+      "y": 660,
+      "width": 0,
+      "height": 80,
+      "points": [
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          80
+        ]
+      ],
+      "endArrowhead": "arrow",
+      "boundElements": [
+        {
+          "id": "arr_decide_to_agro_label",
+          "type": "text"
+        }
+      ],
+      "roughness": 2
+    },
+    {
+      "type": "text",
+      "id": "arr_decide_to_agro_label",
+      "x": 465,
+      "y": 670,
+      "width": 80,
+      "height": 60,
+      "text": "Se Categoria Agro",
+      "fontSize": 11,
+      "fontFamily": 1,
+      "textAlign": "center",
+      "verticalAlign": "middle",
+      "containerId": "arr_decide_to_agro"
+    },
+    {
+      "type": "rectangle",
+      "id": "node_form_agronegocio",
+      "x": 620,
+      "y": 700,
+      "width": 260,
+      "height": 90,
+      "backgroundColor": "#ffffff",
+      "strokeColor": "#15803d",
+      "strokeWidth": 2,
+      "roundness": {
+        "type": 3
+      },
+      "boundElements": [
+        {
+          "id": "node_form_agronegocio_label",
+          "type": "text"
+        }
+      ],
+      "roughness": 2
+    },
+    {
+      "type": "text",
+      "id": "node_form_agronegocio_label",
+      "x": 630,
+      "y": 710,
+      "width": 240,
+      "height": 70,
+      "text": "Segmento: AGRONEGÓCIO\n(Produção / Fazendas / Campo)\n📋 Avaliação de Risco Cadeia\n(36 QUESTÕES ESPECÍFICAS)",
+      "fontSize": 12,
+      "fontFamily": 1,
+      "textAlign": "center",
+      "verticalAlign": "middle",
+      "containerId": "node_form_agronegocio",
+      "strokeColor": "#14532d"
+    },
+    {
+      "type": "arrow",
+      "id": "arr_agro_to_agroneg",
+      "x": 550,
+      "y": 770,
+      "width": 70,
+      "height": -25,
+      "points": [
+        [
+          0,
+          0
+        ],
+        [
+          35,
+          0
+        ],
+        [
+          35,
+          -25
+        ],
+        [
+          70,
+          -25
+        ]
+      ],
+      "endArrowhead": "arrow",
+      "boundElements": [
+        {
+          "id": "arr_agro_to_agroneg_label",
+          "type": "text"
+        }
+      ],
+      "roughness": 2
+    },
+    {
+      "type": "text",
+      "id": "arr_agro_to_agroneg_label",
+      "x": 560,
+      "y": 780,
+      "width": 50,
+      "height": -45,
+      "text": "Agronegócio",
+      "fontSize": 10,
+      "fontFamily": 1,
+      "textAlign": "center",
+      "verticalAlign": "middle",
+      "containerId": "arr_agro_to_agroneg"
+    },
+    {
+      "type": "rectangle",
+      "id": "node_form_agroindustria",
+      "x": 620,
+      "y": 820,
+      "width": 260,
+      "height": 90,
+      "backgroundColor": "#ffffff",
+      "strokeColor": "#1d4ed8",
+      "strokeWidth": 2,
+      "roundness": {
+        "type": 3
+      },
+      "boundElements": [
+        {
+          "id": "node_form_agroindustria_label",
+          "type": "text"
+        }
+      ],
+      "roughness": 2
+    },
+    {
+      "type": "text",
+      "id": "node_form_agroindustria_label",
+      "x": 630,
+      "y": 830,
+      "width": 240,
+      "height": 70,
+      "text": "Segmento: AGROINDÚSTRIA\n(Processamento / Maquinário / Ind.)\n📋 Avaliação de Risco Cadeia\n(36 QUESTÕES ESPECÍFICAS)",
+      "fontSize": 12,
+      "fontFamily": 1,
+      "textAlign": "center",
+      "verticalAlign": "middle",
+      "containerId": "node_form_agroindustria",
+      "strokeColor": "#1e3a8a"
+    },
+    {
+      "type": "arrow",
+      "id": "arr_agro_to_agroind",
+      "x": 550,
+      "y": 800,
+      "width": 70,
+      "height": 65,
+      "points": [
+        [
+          0,
+          0
+        ],
+        [
+          35,
+          0
+        ],
+        [
+          35,
+          65
+        ],
+        [
+          70,
+          65
+        ]
+      ],
+      "endArrowhead": "arrow",
+      "boundElements": [
+        {
+          "id": "arr_agro_to_agroind_label",
+          "type": "text"
+        }
+      ],
+      "roughness": 2
+    },
+    {
+      "type": "text",
+      "id": "arr_agro_to_agroind_label",
+      "x": 560,
+      "y": 810,
+      "width": 50,
+      "height": 45,
+      "text": "Agroindústria",
+      "fontSize": 10,
+      "fontFamily": 1,
+      "textAlign": "center",
+      "verticalAlign": "middle",
+      "containerId": "arr_agro_to_agroind"
+    },
+    {
+      "type": "rectangle",
+      "id": "node_evid_rastreio",
+      "x": 950,
+      "y": 660,
+      "width": 270,
+      "height": 180,
+      "backgroundColor": "#ffffff",
+      "strokeColor": "#16a34a",
+      "strokeWidth": 2,
+      "roundness": {
+        "type": 3
+      },
+      "boundElements": [
+        {
+          "id": "node_evid_rastreio_label",
+          "type": "text"
+        }
+      ],
+      "roughness": 2
+    },
+    {
+      "type": "text",
+      "id": "node_evid_rastreio_label",
+      "x": 960,
+      "y": 670,
+      "width": 250,
+      "height": 160,
+      "text": "⚡ MESMO MOTOR DE UPLOAD\n(Reutilizado para Fornecedores)\n\nChecklist ajustado por segmento:\n• Agronegócio: CAR, defensivos,\nconformidade trabalhista rural\n• Agroindústria: Efluentes,\nsegurança fabril, fornecedores",
+      "fontSize": 12,
+      "fontFamily": 1,
+      "textAlign": "center",
+      "verticalAlign": "middle",
+      "containerId": "node_evid_rastreio",
+      "strokeColor": "#0f172a"
+    },
+    {
+      "type": "arrow",
+      "id": "arr_oginfra_to_evid",
+      "x": 880,
+      "y": 585,
+      "width": 70,
+      "height": 100,
+      "points": [
+        [
+          0,
+          0
+        ],
+        [
+          35,
+          0
+        ],
+        [
+          35,
+          100
+        ],
+        [
+          70,
+          100
+        ]
+      ],
+      "endArrowhead": "arrow",
+      "roughness": 2
+    },
+    {
+      "type": "arrow",
+      "id": "arr_agroneg_to_evid",
+      "x": 880,
+      "y": 745,
+      "width": 70,
+      "height": 0,
+      "points": [
+        [
+          0,
+          0
+        ],
+        [
+          70,
+          0
+        ]
+      ],
+      "endArrowhead": "arrow",
+      "roughness": 2
+    },
+    {
+      "type": "arrow",
+      "id": "arr_agroind_to_evid",
+      "x": 880,
+      "y": 865,
+      "width": 70,
+      "height": -55,
+      "points": [
+        [
+          0,
+          0
+        ],
+        [
+          35,
+          0
+        ],
+        [
+          35,
+          -55
+        ],
+        [
+          70,
+          -55
+        ]
+      ],
+      "endArrowhead": "arrow",
+      "roughness": 2
+    },
+    {
+      "type": "rectangle",
+      "id": "node_res_rastreio",
+      "x": 1290,
+      "y": 680,
+      "width": 260,
+      "height": 140,
+      "backgroundColor": "#fce7f3",
+      "strokeColor": "#db2777",
+      "strokeWidth": 2,
+      "roundness": {
+        "type": 3
+      },
+      "boundElements": [
+        {
+          "id": "node_res_rastreio_label",
+          "type": "text"
+        }
+      ],
+      "roughness": 2
+    },
+    {
+      "type": "text",
+      "id": "node_res_rastreio_label",
+      "x": 1300,
+      "y": 690,
+      "width": 240,
+      "height": 120,
+      "text": "MATRIZ DE RISCO DA CADEIA\n(Visão para a Empresa-Mãe)\n• Classificação de Risco (A / M / B)\n• Evidências Auditadas do Fornecedor\n• Dashboard Consolidado de Escopo 3",
+      "fontSize": 12,
+      "fontFamily": 1,
+      "textAlign": "center",
+      "verticalAlign": "middle",
+      "containerId": "node_res_rastreio",
+      "strokeColor": "#831843"
+    },
+    {
+      "type": "arrow",
+      "id": "arr_evid_to_res2",
+      "x": 1220,
+      "y": 750,
+      "width": 70,
+      "height": 0,
+      "points": [
+        [
+          0,
+          0
+        ],
+        [
+          70,
+          0
+        ]
+      ],
+      "endArrowhead": "arrow",
+      "roughness": 2
+    },
+    {
+      "type": "rectangle",
+      "id": "box_summary_table",
+      "x": 80,
+      "y": 970,
+      "width": 1470,
+      "height": 140,
+      "backgroundColor": "#f8fafc",
+      "strokeColor": "#cbd5e1",
+      "strokeWidth": 1.5,
+      "roundness": {
+        "type": 3
+      },
+      "boundElements": [
+        {
+          "id": "box_summary_table_label",
+          "type": "text"
+        }
+      ],
+      "roughness": 2
+    },
+    {
+      "type": "text",
+      "id": "box_summary_table_label",
+      "x": 90,
+      "y": 980,
+      "width": 1450,
+      "height": 120,
+      "text": "QUADRO RESUMO DE ARQUITETURA & REUTILIZAÇÃO:\n\n1. O que é 100% REUTILIZÁVEL: O mecanismo de formulário e a esteira de upload de evidências são os mesmos em toda a plataforma.\n2. O que MUDA no Autodeclarável: O questionário tem 75 questões em todas as categorias (Óleo & Gás, Infraestrutura e Agro), mudando apenas o banco de perguntas.\n3. O que MUDA no Rastreio da Cadeia: Óleo e Infra continuam com 75Q. Já na categoria AGRO, o sistema inspeciona se é Agronegócio ou Agroindústria e distribui a Avaliação de Risco dedicada de 36 questões.",
+      "fontSize": 12,
+      "fontFamily": 1,
+      "textAlign": "center",
+      "verticalAlign": "middle",
+      "containerId": "box_summary_table",
+      "strokeColor": "#334155"
+    }
+  ],
+  "appState": {
+    "viewBackgroundColor": "#ffffff",
+    "gridSize": null
+  },
+  "files": {}
+}

@@ -4,7 +4,7 @@ import { z } from "zod";
 import { AuthService } from "../services/authService.js";
 import { validateCPF, validateCNPJ } from "../../../utils/cpfCnpjValidator.js";
 import { BUSINESS_CATEGORIES, BUSINESS_SEGMENTS } from "../../../config/businessCatalog.js";
-import { AUTH_COOKIE_NAME, getAdminCookieOptions, getAuthClearCookieOptions } from "../../../lib/authSession.js";
+import { AUTH_COOKIE_NAME, AUTH_MODE_COOKIE_NAME, getAdminCookieOptions, getAuthClearCookieOptions, readAuthMode } from "../../../lib/authSession.js";
 
 const authService = new AuthService();
 
@@ -197,6 +197,7 @@ export class AuthController {
       const input = loginSchema.parse(request.body);
       const result = await authService.login(input);
       response.cookie(AUTH_COOKIE_NAME, result.accessToken, getAdminCookieOptions());
+      response.cookie(AUTH_MODE_COOKIE_NAME, "client", getAdminCookieOptions());
 
       console.info("[auth.login] Request completed", {
         email: input.email,
@@ -245,6 +246,7 @@ export class AuthController {
       const input = loginSchema.parse(request.body);
       const result = await authService.adminLogin(input);
       response.cookie(AUTH_COOKIE_NAME, result.accessToken, getAdminCookieOptions());
+      response.cookie(AUTH_MODE_COOKIE_NAME, "admin", getAdminCookieOptions());
 
       console.info("[auth.adminLogin] Request completed", {
         email: input.email,
@@ -292,6 +294,7 @@ export class AuthController {
 
   async adminLogout(_request: Request, response: Response) {
     response.clearCookie(AUTH_COOKIE_NAME, getAuthClearCookieOptions());
+    response.clearCookie(AUTH_MODE_COOKIE_NAME, getAuthClearCookieOptions());
     return response.status(204).send();
   }
 
@@ -360,7 +363,7 @@ export class AuthController {
     }
 
     try {
-      const user = await authService.getMe(supabaseUserId, request.query.fresh === "true");
+      const user = await authService.getMe(supabaseUserId, request.query.fresh === "true", readAuthMode(request));
 
       if (!user) {
         return response.status(404).json({ message: "User not found" });

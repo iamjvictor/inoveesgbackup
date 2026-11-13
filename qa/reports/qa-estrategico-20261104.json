@@ -1,0 +1,76 @@
+{
+  "round_id": "qa-estrategico-20261104",
+  "started_at": "2026-11-04T21:20:42-03:00",
+  "finished_at": "2026-11-04T21:39:40-03:00",
+  "timezone": "America/Sao_Paulo",
+  "environment": {
+    "status": "PARTIAL",
+    "frontend": {"url": "http://localhost:3000", "status": "reachable"},
+    "api": {"base_url": "http://localhost:4000/api", "health_path": "/api/health", "health_status": 200},
+    "backend_data_hosts": "remote DATABASE_URL and SUPABASE_URL hosts present; values withheld",
+    "browser": "Playwright 1.64.1 / Chromium headless",
+    "payment_sandbox": "BLOCKED; sandbox flag true but Mercado Pago public key did not have TEST- prefix; checkout not accessed",
+    "request_limit": "point-in-time exploratory browsing only; no load testing"
+  },
+  "scenarios": [
+    {"id":"QA-001","name":"Login sintético","status":"PASS","steps":"Abrir login e autenticar com a conta sintética autorizada.","evidence":"POST /api/auth/login 200; GET /api/auth/me e /api/auth/me/access 200."},
+    {"id":"QA-002","name":"Painel","status":"PASS","steps":"Abrir /app após autenticação.","evidence":"dashboard-desktop.png; leituras autenticadas retornaram 200."},
+    {"id":"QA-003","name":"Meus Serviços","status":"PASS","steps":"Abrir /app/meus-servicos.","evidence":"app-meus-servicos-desktop.png; UI mostrou um serviço estratégico ativo e ação Acessar."},
+    {"id":"QA-004","name":"Diagnóstico 0/75","status":"PARTIAL","steps":"Abrir /app/diagnostico sem clicar nas provas.","evidence":"app-diagnostico-desktop.png; duas chamadas POST /api/diagnostic/start 200; UI 0/75."},
+    {"id":"QA-005","name":"Evidências","status":"BLOCKED","steps":"Acessar /app/evidencias; a rota redirecionou para /app/diagnostico.","evidence":"evidence-desktop.png, tablet-evidence.png, mobile-evidence.png; guard bloqueou duas chamadas POST antes da API."},
+    {"id":"QA-006","name":"Resultados","status":"BLOCKED","steps":"Não acessar; código redireciona diagnóstico incompleto para rota que chama POST start.","evidence":"Inspeção somente leitura de frontend/src/app/(app)/app/resultados/page.tsx."},
+    {"id":"QA-007","name":"Meus Serviços tablet/mobile autenticado","status":"BLOCKED","steps":"Captura desktop autenticada válida; reautenticação posterior não emitiu requisição de login e capturas com modal foram descartadas.","evidence":"app-meus-servicos-desktop.png."},
+    {"id":"QA-008","name":"Responsividade diagnóstico","status":"FAIL_TABLET_PASS_PARTIAL_MOBILE","steps":"Verificar diagnóstico em 1365x768, 768x1024 e 390x844.","evidence":"app-diagnostico-desktop.png; tablet-final.png; mobile-final.png."},
+    {"id":"QA-009","name":"Teclado e foco","status":"PARTIAL","steps":"Percorrer 16 controles com Tab na tela de diagnóstico.","evidence":"Foco passou por navegação, links de eixo e controles; auditoria completa não executada."}
+  ],
+  "bugs": [
+    {"id":"BUG-001","severity":"HIGH","classification":"product","title":"Página de diagnóstico envia POST em montagem e pode criar rascunho","steps":["Autenticar","Abrir /app/diagnostico sem ação nos botões"],"actual":"Duas chamadas POST /api/diagnostic/start retornaram 200.","expected":"Carregar estado sem alterar dados até ação explícita.","technical_hypothesis":"DiagnosticOverviewView usa useEffect para chamar startDiagnostic; backend cria draft quando não há diagnóstico aberto. Estado persistido resultante não foi confirmado.","evidence":["qa/artifacts/qa-estrategico-20261104/network-evidence.json","qa/artifacts/qa-estrategico-20261104/app-diagnostico-desktop.png"]},
+    {"id":"BUG-002","severity":"MEDIUM","classification":"product","title":"Grade de diagnóstico corta cartões no tablet","steps":["Autenticar","Abrir diagnóstico","Definir viewport 768x1024"],"actual":"Duas colunas excedem a largura interna do painel após a sidebar e conteúdo da segunda coluna fica recortado; document.scrollWidth não mostra overflow horizontal.","expected":"Todos os cartões, estados e botões visíveis na largura disponível.","technical_hypothesis":"Breakpoint mantém duas colunas com sidebar aberta sem largura interna suficiente.","evidence":["qa/artifacts/qa-estrategico-20261104/tablet-final.png"]}
+  ],
+  "blocked_items": [
+    {"id":"BLK-001","item":"Evidências","reason":"Redireciona para diagnóstico; efeito da página tenta POST start. O guard interceptou antes da API."},
+    {"id":"BLK-002","item":"Resultados","reason":"Código redireciona diagnóstico não concluído para rota que chama POST start; não navegar por segurança."},
+    {"id":"BLK-003","item":"Meus Serviços tablet/mobile autenticado","reason":"Tentativa final de reautenticação não emitiu requisição de login; capturas inválidas descartadas."},
+    {"id":"BLK-004","item":"Checkout","reason":"Fora do escopo; chave MP não classificada TEST-."}
+  ],
+  "synthetic_accounts": [{"email":"qa.estrategico.***@example.com","login_status":"success in authenticated runs","password_stored":false}],
+  "artifacts": [
+    "qa/artifacts/qa-estrategico-20261104/network-evidence.json",
+    "qa/artifacts/qa-estrategico-20261104/desktop-inicial.png",
+    "qa/artifacts/qa-estrategico-20261104/dashboard-desktop.png",
+    "qa/artifacts/qa-estrategico-20261104/app-meus-servicos-desktop.png",
+    "qa/artifacts/qa-estrategico-20261104/app-diagnostico-desktop.png",
+    "qa/artifacts/qa-estrategico-20261104/tablet-final.png",
+    "qa/artifacts/qa-estrategico-20261104/mobile-final.png",
+    "qa/artifacts/qa-estrategico-20261104/evidence-desktop.png",
+    "qa/artifacts/qa-estrategico-20261104/tablet-evidence.png",
+    "qa/artifacts/qa-estrategico-20261104/mobile-evidence.png"
+  ],
+  "improvements": [
+    {"priority":"P1","title":"Não iniciar diagnóstico em efeito de montagem; carregar perguntas por leitura não mutável."},
+    {"priority":"P2","title":"Usar uma coluna ou colapsar sidebar em tablet quando a largura interna não comportar duas colunas."}
+  ],
+  "next_actions": [
+    "Confirmar estado do draft no banco antes de retomar a conta sintética.",
+    "Corrigir e validar o carregamento do diagnóstico sem mutação antes de repetir Evidências/Resultados.",
+    "Corrigir grade tablet e repetir em 768x1024; capturar Meus Serviços em todos os viewports autenticados.",
+    "Manter checkout bloqueado até credenciais TEST- comprovadas e autorização específica."
+  ],
+  "continuations": [
+    {
+      "continuation_id": "qa-estrategico-20261104-continuacao-1",
+      "started_at": "2026-11-04T21:38:23-03:00",
+      "finished_at": "2026-11-04T21:39:40-03:00",
+      "requested_limit_minutes": 15,
+      "status": "BLOCKED",
+      "browser": "isolated Playwright context; no authenticated context persisted from prior run",
+      "attempted_login": {"count":1,"api_request_emitted":false,"login_status":null,"final_path":"/"},
+      "guard": {"non_login_mutations_blocked":0,"protected_pages_opened":false},
+      "scenarios": [
+        {"name":"Painel / Meus Serviços refresh/navigation on desktop/tablet/mobile","status":"NOT_RUN","reason":"No authenticated session; stopped after one login attempt emitted no API request."}
+      ],
+      "new_artifacts": [],
+      "next_action": "Resume only with a persistent authenticated context; do not repeat login in this continuation."
+    }
+  ]
+}

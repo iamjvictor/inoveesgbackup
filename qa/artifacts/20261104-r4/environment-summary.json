@@ -1,0 +1,11 @@
+{
+  "frontend": {"origin": "http://localhost:3000", "status": 200},
+  "backend": {"origin": "http://localhost:4000", "health_path": "/api/health", "status": 200},
+  "additional_qa_backend": {"origin": "http://localhost:4001", "started_for_captured_logs": true, "stopped": true},
+  "database": {"host_class": "remote Supabase test project", "owner_confirmed_test": true, "host_value": "redacted"},
+  "supabase": {"host_class": "remote Supabase test project", "owner_confirmed_test": true, "host_value": "redacted"},
+  "mercado_pago_credentials": {"public_key_present": true, "access_token_present": true, "raw_values_recorded": false, "sandbox_flag": true},
+  "mercado_pago_account_verification": {"method": "GET /users/me", "http_status": 200, "test_user_tag_present": true, "generated_test_nickname_pattern": true, "user_id_recorded": false, "email_recorded": false},
+  "browser": {"tool": "Playwright", "engine": "Chromium", "headless": true, "launch_argument": "--no-sandbox"},
+  "load_test": false
+}

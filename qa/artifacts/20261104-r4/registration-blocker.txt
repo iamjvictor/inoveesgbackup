@@ -1,0 +1,6 @@
+Cadastro sintético enviado ao backend local de QA (porta 4001) em ambiente Supabase de teste confirmado pelo proprietário.
+POST /api/auth/register: HTTP 500, 4.4 s.
+Causa observada no log do backend: a transação Prisma falha ao inserir em public.email_outbox porque a tabela não existe no banco de teste.
+O serviço chamou a exclusão do usuário temporário criado no Supabase Auth. Login subsequente do primeiro identificador sintético: HTTP 401.
+Nenhuma migration foi aplicada. A migration aditiva já existente para email_outbox permanece pendente neste ambiente.
+Identificadores, senha, CPF, CNPJ, UUID e tokens omitidos.

@@ -1,0 +1,20 @@
+{
+  "round_id": "20261104-checkout-r7",
+  "started_at": "2026-11-04",
+  "finished_at": "2026-11-04",
+  "environment": {"frontend_local": "available", "backend_local": "available", "seller_test_identity": "confirmed_by_users_me_test_user_tag", "buyer_test_identity": "unavailable"},
+  "scenarios": [
+    {"id": "local-preflight", "status": "passed"},
+    {"id": "seller-test-identity", "status": "passed", "http_status": 200},
+    {"id": "buyer-test-identity", "status": "blocked", "reason": "No verified buyer account or credentials in existing QA artifacts"},
+    {"id": "ui-purchase-checkout", "status": "blocked", "reason": "Buyer test account unavailable"},
+    {"id": "sandbox-payment", "status": "blocked", "reason": "No payment submitted without verified buyer"},
+    {"id": "return-order-webhook", "status": "blocked", "reason": "No transaction"}
+  ],
+  "bugs": [],
+  "blocked_items": ["Provide/access an existing Mercado Pago test buyer account and any verification code locally to QA"],
+  "synthetic_accounts": {"buyer_created": false, "buyer_credentials_recorded": false},
+  "artifacts": ["qa/test-plan-checkout-r7.md", "qa/artifacts/20261104-checkout-r7/preflight.json"],
+  "improvements": [],
+  "next_actions": ["Repeat UI purchase after a buyer test account is available"]
+}

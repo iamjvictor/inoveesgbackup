@@ -1,0 +1,222 @@
+{
+  "health": 200,
+  "loginSucceeded": true,
+  "current": [
+    {
+      "method": "GET",
+      "path": "/api/diagnostic/current",
+      "status": 200,
+      "diagnostic": {
+        "hasDiagnostic": true,
+        "idPresent": true,
+        "status": "COMPLETED",
+        "kind": "FULL_DIAGNOSTIC",
+        "responseCount": 75,
+        "questionCount": 75
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/diagnostic/current",
+      "status": 200,
+      "diagnostic": {
+        "hasDiagnostic": true,
+        "idPresent": true,
+        "status": "COMPLETED",
+        "kind": "FULL_DIAGNOSTIC",
+        "responseCount": 75,
+        "questionCount": 75
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/diagnostic/current",
+      "status": 200,
+      "diagnostic": {
+        "hasDiagnostic": true,
+        "idPresent": true,
+        "status": "COMPLETED",
+        "kind": "FULL_DIAGNOSTIC",
+        "responseCount": 75,
+        "questionCount": 75
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/diagnostic/current",
+      "status": 200,
+      "diagnostic": {
+        "hasDiagnostic": true,
+        "idPresent": true,
+        "status": "COMPLETED",
+        "kind": "FULL_DIAGNOSTIC",
+        "responseCount": 75,
+        "questionCount": 75
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/diagnostic/current",
+      "status": 200,
+      "diagnostic": {
+        "hasDiagnostic": true,
+        "idPresent": true,
+        "status": "COMPLETED",
+        "kind": "FULL_DIAGNOSTIC",
+        "responseCount": 75,
+        "questionCount": 75
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/diagnostic/current",
+      "status": 200,
+      "diagnostic": {
+        "hasDiagnostic": true,
+        "idPresent": true,
+        "status": "COMPLETED",
+        "kind": "FULL_DIAGNOSTIC",
+        "responseCount": 75,
+        "questionCount": 75
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/diagnostic/current",
+      "status": 200,
+      "diagnostic": {
+        "hasDiagnostic": true,
+        "idPresent": true,
+        "status": "COMPLETED",
+        "kind": "FULL_DIAGNOSTIC",
+        "responseCount": 75,
+        "questionCount": 75
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/diagnostic/current",
+      "status": 200,
+      "diagnostic": {
+        "hasDiagnostic": true,
+        "idPresent": true,
+        "status": "COMPLETED",
+        "kind": "FULL_DIAGNOSTIC",
+        "responseCount": 75,
+        "questionCount": 75
+      }
+    }
+  ],
+  "startPosts": [],
+  "submitPosts": [],
+  "blocked": [],
+  "errors": [],
+  "visual": [
+    {
+      "viewport": "desktop",
+      "text": "Área da Empresa\nPainel\nMeus Serviços\nDiagnóstico\nEvidências\nCadeia\nResultados\nRanking\nQB\n\nQA Bioimpacto Sintético\n\nQA Bioimpacto\n\nSair\nPontuação Geral: 93%\nBaixar Relatório PDF\nVer Resultados Detalhados\nAmbiental\nEIXO E\n•\n17/17 QUESTÕES\nNota: 99%\n\nAvalia a pegada ecológica, eficiência energética, recursos hídricos, resíduos e emissões de carbono.\n\n99%\nProva Finalizada\nBioeconomia Circular\nEIXO B\n•\n14/14 QUESTÕES\nNota: 88%\n\nMapeia a circularidade de materiais, reaproveitamento de coprodutos e sustentabilidade da cadeia.\n\n88%\nProva Finalizada\nSocial\nEIXO S\n•\n21/21 QUESTÕES\nNota: 95%\n\nExamina a saúde ocupacional, direitos humanos, diversidade, relações comunitárias e segurança do trabalho.\n\n95%\nProva Finalizada\nGovernança\nEIXO G\n•\n23/23 QUESTÕES\nNota: 91%\n\nMede o canal de ética, compliance legal, transparência corporativa e práticas de conselho consultivo.\n\n91%\nProva Finalizada",
+      "layout": {
+        "width": 1365,
+        "scrollWidth": 1350,
+        "cardRects": [
+          {
+            "left": 328,
+            "right": 807,
+            "width": 479,
+            "viewport": 1365
+          },
+          {
+            "left": 831,
+            "right": 1310,
+            "width": 479,
+            "viewport": 1365
+          },
+          {
+            "left": 328,
+            "right": 807,
+            "width": 479,
+            "viewport": 1365
+          },
+          {
+            "left": 831,
+            "right": 1310,
+            "width": 479,
+            "viewport": 1365
+          }
+        ]
+      }
+    },
+    {
+      "viewport": "tablet",
+      "text": "Área da Empresa\nPainel\nMeus Serviços\nDiagnóstico\nEvidências\nCadeia\nResultados\nRanking\nQB\n\nQA Bioimpacto Sintético\n\nQA Bioimpacto\n\nSair\nPontuação Geral: 93%\nBaixar Relatório PDF\nVer Resultados Detalhados\nAmbiental\nEIXO E\n•\n17/17 QUESTÕES\nNota: 99%\n\nAvalia a pegada ecológica, eficiência energética, recursos hídricos, resíduos e emissões de carbono.\n\n99%\nProva Finalizada\nBioeconomia Circular\nEIXO B\n•\n14/14 QUESTÕES\nNota: 88%\n\nMapeia a circularidade de materiais, reaproveitamento de coprodutos e sustentabilidade da cadeia.\n\n88%\nProva Finalizada\nSocial\nEIXO S\n•\n21/21 QUESTÕES\nNota: 95%\n\nExamina a saúde ocupacional, direitos humanos, diversidade, relações comunitárias e segurança do trabalho.\n\n95%\nProva Finalizada\nGovernança\nEIXO G\n•\n23/23 QUESTÕES\nNota: 91%\n\nMede o canal de ética, compliance legal, transparência corporativa e práticas de conselho consultivo.\n\n91%\nProva Finalizada",
+      "layout": {
+        "width": 768,
+        "scrollWidth": 753,
+        "cardRects": [
+          {
+            "left": 320,
+            "right": 721,
+            "width": 401,
+            "viewport": 768
+          },
+          {
+            "left": 320,
+            "right": 721,
+            "width": 401,
+            "viewport": 768
+          },
+          {
+            "left": 320,
+            "right": 721,
+            "width": 401,
+            "viewport": 768
+          },
+          {
+            "left": 320,
+            "right": 721,
+            "width": 401,
+            "viewport": 768
+          }
+        ]
+      }
+    },
+    {
+      "viewport": "mobile",
+      "text": "Área da Empresa\nQA Bioimpacto\nÁrea da Empresa\nPainel\nMeus Serviços\nDiagnóstico\nEvidências\nCadeia\nResultados\nRanking\nQB\n\nQA Bioimpacto Sintético\n\nQA Bioimpacto\n\nSair\nPontuação Geral: 93%\nBaixar Relatório PDF\nVer Resultados Detalhados\nAmbiental\nEIXO E\n•\n17/17 QUESTÕES\nNota: 99%\n\nAvalia a pegada ecológica, eficiência energética, recursos hídricos, resíduos e emissões de carbono.\n\n99%\nProva Finalizada\nBioeconomia Circular\nEIXO B\n•\n14/14 QUESTÕES\nNota: 88%\n\nMapeia a circularidade de materiais, reaproveitamento de coprodutos e sustentabilidade da cadeia.\n\n88%\nProva Finalizada\nSocial\nEIXO S\n•\n21/21 QUESTÕES\nNota: 95%\n\nExamina a saúde ocupacional, direitos humanos, diversidade, relações comunitárias e segurança do trabalho.\n\n95%\nProva Finalizada\nGovernança\nEIXO G\n•\n23/23 QUESTÕES\nNota: 91%\n\nMede o canal de ética, compliance legal, transparência corporativa e práticas de conselho consultivo.\n\n91%\nProva Finalizada",
+      "layout": {
+        "width": 390,
+        "scrollWidth": 375,
+        "cardRects": [
+          {
+            "left": 16,
+            "right": 359,
+            "width": 343,
+            "viewport": 390
+          },
+          {
+            "left": 16,
+            "right": 359,
+            "width": 343,
+            "viewport": 390
+          },
+          {
+            "left": 16,
+            "right": 359,
+            "width": 343,
+            "viewport": 390
+          },
+          {
+            "left": 16,
+            "right": 359,
+            "width": 343,
+            "viewport": 390
+          }
+        ]
+      }
+    }
+  ],
+  "fill": {
+    "url": "http://localhost:3000/app/diagnostico",
+    "text": "Área da Empresa\nQA Bioimpacto\nÁrea da Empresa\nPainel\nMeus Serviços\nDiagnóstico\nEvidências\nCadeia\nResultados\nRanking\nQB\n\nQA Bioimpacto Sintético\n\nQA Bioimpacto\n\nSair\nPontuação Geral: 93%\nBaixar Relatório PDF\nVer Resultados Detalhados\nAmbiental\nEIXO E\n•\n17/17 QUESTÕES\nNota: 99%\n\nAvalia a pegada ecológica, eficiência energética, recursos hídricos, resíduos e emissões de carbono.\n\n99%\nProva Finalizada\nBioeconomia Circular\nEIXO B\n•\n14/14 QUESTÕES\nNota: 88%\n\nMapeia a circularidade de materiais, reaproveitamento de coprodutos e sustentabilidade da cadeia.\n\n88%\nProva Finalizada\nSocial\nEIXO S\n•\n21/21 QUESTÕES\nNota: 95%\n\nExamina a saúde ocupacional, direitos humanos, diversidade, relações comunitárias e segurança do trabalho.\n\n95%\nProva Finalizada\nGovernança\nEIXO G\n•\n23/23 QUESTÕES\nNota: 91%\n\nMede o canal de ética, compliance legal, transparência corporativa e práticas de conselho consultivo.\n\n91%\nProva Finalizada"
+  }
+}

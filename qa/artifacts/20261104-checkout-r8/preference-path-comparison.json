@@ -1,0 +1,20 @@
+{
+  "round_id": "20261104-checkout-r8",
+  "source": "GET https://api.mercadopago.com/checkout/preferences/{id}",
+  "http_status": 200,
+  "preference_id_recorded": false,
+  "seller_test_identity": "test_user",
+  "product_code": "PRE_DIAGNOSTIC",
+  "metadata_order_id_recorded": false,
+  "item": {"quantity": 1, "unit_price_brl": 0.01, "currency": "BRL"},
+  "init_point": {"host": "www.mercadopago.com.br", "path": "/checkout/v1/redirect"},
+  "sandbox_init_point": {"host": "sandbox.mercadopago.com.br", "path": "/checkout/v1/redirect"},
+  "back_urls": {
+    "success": {"host": "f797-45-65-156-89.ngrok-free.app", "path": "/app/checkout/success"},
+    "failure": {"host": "f797-45-65-156-89.ngrok-free.app", "path": "/app/checkout/success"},
+    "pending": {"host": "f797-45-65-156-89.ngrok-free.app", "path": "/app/checkout/success"}
+  },
+  "notification_url": {"host": "localhost", "port": 4001, "path": "/api/webhooks/mercadopago", "externally_reachable": false},
+  "sandbox_checkout_browser_status": 403,
+  "live_init_point_observation": "Headed Chrome navigated to www.mercadopago.com.br/login/identification and displayed identifier form; no buyer credentials entered and no payment submitted"
+}

@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { X, Eye, EyeOff } from "lucide-react";
+import { X, Eye, EyeOff, AlertCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { useAuthController } from "@/features/auth/controllers/use-auth.controller";
@@ -167,7 +167,10 @@ export function AuthModal({ isOpen, onClose, defaultTab = "login" }: AuthModalPr
             </div>
 
             {errorMessage && activeTab === "login" && (
-              <p className="text-xs text-red-500 text-center font-medium">{errorMessage}</p>
+              <div className="flex items-center gap-2 rounded-xl border border-red-200 bg-red-50/90 p-3 text-xs font-medium text-red-700 shadow-sm">
+                <AlertCircle className="size-4 shrink-0 text-red-500" />
+                <span className="flex-1 text-left">{errorMessage}</span>
+              </div>
             )}
 
             <Button 

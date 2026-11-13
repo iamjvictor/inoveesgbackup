@@ -1,0 +1,310 @@
+{
+  "status": {
+    "elapsed_ms": 12390,
+    "url": "http://localhost:3000/app/upgrade",
+    "text": "edores · faturamento não informado\n\nINVESTIMENTO\nR$ 38.000,00\nValor anual conforme cadastro\nMicroempresa\nDESTAQUES INCLUSOS:\nEnvio de evidências do dia 1 ao 15 de cada mês\nAnálise e propostas de melhoria ESG\n7 relatórios e 7 reuniões ao longo do ano\nComprar agora\nServiços sob Demanda\n\nSoluções pontuais adicionais para contratação imediata\n\nDiagnóstico Autodeclarável\n\nAutodeclaração ágil de maturidade ESG e relatório inicial.\n\nR$ 250,00\nComprar\nRECOMENDADO\nDiagnóstico + Consultoria\n\nDiagnóstico autodeclarável com 1h de sessão estratégica ao vivo.\n\nR$ 500,00\nComprar\nConsultoria ESG (1h)\n\nCall individual de orientação técnica e estratégica para decisões ESG.\n\nR$ 300,00\nComprar\nAvaliação de Fornecedores\n\nMapeamento e matriz de risco ESG na sua cadeia de suprimentos.\n\nA partir de R$ 50\nComprar\nEM BREVE\nCapacitação ESG\n\nTreinamento especializado para a equipe com certificação inclusa.\n\nSob Orçamento\nSolicitar\nEM BREVE\nLivro Bioeconomia & ESG\n\nGuia exclusivo para sua jornada em versão física ou digital.\n\nR$ 41,90\nComprar\nEM BREVE\nConfidencialidade LGPD: dados e documentos criptografados sob sigilo contratual.\nSuporte Especializado: equipe técnica para personalizar escopos e tirar dúvidas.",
+    "upgrade": {
+      "url": "/app/upgrade",
+      "text": "tório com selo de verificação InoveESG\nComprar agora\nRECOMENDADO\nDIAGNÓSTICO + AÇÃO\nEM BREVE\nDiagnóstico + Consultoria\n\nDiagnóstico aprofundado com suporte estratégico ao vivo para plano de ação.\n\nINVESTIMENTO\nSob Orçamento\nPersonalizado\nDESTAQUES INCLUSOS:\nTudo do Diagnóstico Estratégico\n2h de Sessão Estratégica Ao Vivo\nApoio Técnico à Tomada de Decisão\nEm Breve\nEM BREVE\nBIOIMPACTO EMPRESARIAL\nDISPONÍVEL\nBioimpacto Empresarial\n\nDiagnóstico Estratégico ESG e acompanhamento por 1 ano, com análise contínua de evidências e riscos.\n\nPerfil: Microempresa · 1 a 5 · fornecedores não informados fornecedores · faturamento não informado\n\nINVESTIMENTO\nR$ 38.000,00\nValor anual conforme cadastro\nMicroempresa\nDESTAQUES INCLUSOS:\nEnvio de evidências do dia 1 ao 15 de cada mês\nAnálise e propostas de melhoria ESG\n7 relatórios e 7 reuniões ao longo do ano\nComprar agora\nServiços sob Demanda\n\nSoluções pontuais adicionais para contratação imediata\n\nDiagnóstico Autodeclarável\n\nAutodeclaração ágil de maturidade ESG e relatório inicial.\n\nR$ 250,00\nComprar\nRECOMENDADO\nDiagnóstico + Consultoria\n\nDiagnóstico autodeclarável com 1h de sessão estratégica ao vivo.\n\nR$ 500,00\nComprar\nConsultoria ESG (1h)\n\nCall individual de orientação técnica e estratégica para decisões ESG.\n\nR$ 300,00\nComprar\nAvaliação de Fornecedores\n\nMapeamento e matriz de risco ESG na sua cadeia de suprimentos.\n\nA partir de R$ 50\nComprar\nEM BREVE\nCapacitação ESG\n\nTreinamento especializado para a equipe com certificação inclusa.\n\nSob Orçamento\nSolicitar\nEM BREVE\nLivro Bioeconomia & ESG\n\nGuia exclusivo para sua jornada em versão física ou digital.\n\nR$ 41,90\nComprar\nEM BREVE\nConfidencialidade LGPD: dados e documentos criptografados sob sigilo contratual.\nSuporte Especializado: equipe técnica para personalizar escopos e tirar dúvidas.",
+      "headings": [
+        "Planos de Assessoria",
+        "Diagnóstico Estratégico ESG",
+        "Diagnóstico + Consultoria",
+        "Bioimpacto Empresarial",
+        "Serviços sob Demanda",
+        "Diagnóstico Autodeclarável",
+        "Diagnóstico + Consultoria",
+        "Consultoria ESG (1h)",
+        "Avaliação de Fornecedores",
+        "Capacitação ESG",
+        "Livro Bioeconomia & ESG"
+      ],
+      "buttons": [
+        "",
+        "Sair",
+        "Comprar agora",
+        "Em Breve",
+        "Comprar agora",
+        "Comprar",
+        "Comprar",
+        "Comprar",
+        "Comprar",
+        "Solicitar",
+        "Comprar",
+        ""
+      ]
+    }
+  },
+  "events": [
+    {
+      "type": "request",
+      "method": "POST",
+      "path": "/api/auth/login",
+      "body": {
+        "fields": []
+      },
+      "at": 1793813158054
+    },
+    {
+      "type": "response",
+      "method": "POST",
+      "path": "/api/auth/login",
+      "status": 200,
+      "message": "",
+      "elapsed_ms": 1540,
+      "at": 1793813159595
+    },
+    {
+      "type": "request",
+      "method": "GET",
+      "path": "/api/auth/me",
+      "body": {
+        "fields": []
+      },
+      "at": 1793813159714
+    },
+    {
+      "type": "request",
+      "method": "GET",
+      "path": "/api/auth/me/access",
+      "body": {
+        "fields": []
+      },
+      "at": 1793813159714
+    },
+    {
+      "type": "request",
+      "method": "GET",
+      "path": "/api/auth/me",
+      "body": {
+        "fields": []
+      },
+      "at": 1793813159715
+    },
+    {
+      "type": "request",
+      "method": "GET",
+      "path": "/api/auth/me/access",
+      "body": {
+        "fields": []
+      },
+      "at": 1793813159715
+    },
+    {
+      "type": "response",
+      "method": "GET",
+      "path": "/api/auth/me/access",
+      "status": 200,
+      "message": "",
+      "elapsed_ms": 641,
+      "at": 1793813160355
+    },
+    {
+      "type": "response",
+      "method": "GET",
+      "path": "/api/auth/me/access",
+      "status": 200,
+      "message": "",
+      "elapsed_ms": 642,
+      "at": 1793813160356
+    },
+    {
+      "type": "response",
+      "method": "GET",
+      "path": "/api/auth/me",
+      "status": 200,
+      "message": "",
+      "elapsed_ms": 899,
+      "at": 1793813160613
+    },
+    {
+      "type": "request",
+      "method": "GET",
+      "path": "/api/diagnostic/current",
+      "body": {
+        "fields": []
+      },
+      "at": 1793813160628
+    },
+    {
+      "type": "request",
+      "method": "GET",
+      "path": "/api/diagnostic/current",
+      "body": {
+        "fields": []
+      },
+      "at": 1793813160653
+    },
+    {
+      "type": "request",
+      "method": "GET",
+      "path": "/api/checkout/catalog-prices",
+      "body": {
+        "fields": []
+      },
+      "at": 1793813160773
+    },
+    {
+      "type": "request",
+      "method": "GET",
+      "path": "/api/checkout/catalog-prices",
+      "body": {
+        "fields": []
+      },
+      "at": 1793813160773
+    },
+    {
+      "type": "response",
+      "method": "GET",
+      "path": "/api/auth/me",
+      "status": 200,
+      "message": "",
+      "elapsed_ms": 1119,
+      "at": 1793813160833
+    },
+    {
+      "type": "request",
+      "method": "GET",
+      "path": "/api/budget",
+      "body": {
+        "fields": []
+      },
+      "at": 1793813161206
+    },
+    {
+      "type": "response",
+      "method": "GET",
+      "path": "/api/diagnostic/current",
+      "status": 200,
+      "message": "",
+      "elapsed_ms": 580,
+      "at": 1793813161208
+    },
+    {
+      "type": "request",
+      "method": "GET",
+      "path": "/api/budget",
+      "body": {
+        "fields": []
+      },
+      "at": 1793813161209
+    },
+    {
+      "type": "response",
+      "method": "GET",
+      "path": "/api/diagnostic/current",
+      "status": 200,
+      "message": "",
+      "elapsed_ms": 581,
+      "at": 1793813161209
+    },
+    {
+      "type": "response",
+      "method": "GET",
+      "path": "/api/checkout/catalog-prices",
+      "status": 200,
+      "message": "",
+      "elapsed_ms": 771,
+      "at": 1793813161544
+    },
+    {
+      "type": "response",
+      "method": "GET",
+      "path": "/api/checkout/catalog-prices",
+      "status": 200,
+      "message": "",
+      "elapsed_ms": 1177,
+      "at": 1793813161950
+    },
+    {
+      "type": "response",
+      "method": "GET",
+      "path": "/api/budget",
+      "status": 200,
+      "message": "",
+      "elapsed_ms": 759,
+      "at": 1793813161965
+    },
+    {
+      "type": "response",
+      "method": "GET",
+      "path": "/api/budget",
+      "status": 200,
+      "message": "",
+      "elapsed_ms": 1136,
+      "at": 1793813162342
+    },
+    {
+      "type": "request",
+      "method": "GET",
+      "path": "/api/auth/me",
+      "body": {
+        "fields": []
+      },
+      "at": 1793813170479
+    },
+    {
+      "type": "request",
+      "method": "GET",
+      "path": "/api/auth/me/access",
+      "body": {
+        "fields": []
+      },
+      "at": 1793813170480
+    },
+    {
+      "type": "response",
+      "method": "GET",
+      "path": "/api/auth/me/access",
+      "status": 200,
+      "message": "",
+      "elapsed_ms": 10769,
+      "at": 1793813170483
+    },
+    {
+      "type": "response",
+      "method": "GET",
+      "path": "/api/auth/me",
+      "status": 200,
+      "message": "",
+      "elapsed_ms": 11205,
+      "at": 1793813170919
+    },
+    {
+      "type": "request",
+      "method": "GET",
+      "path": "/api/checkout/catalog-prices",
+      "body": {
+        "fields": []
+      },
+      "at": 1793813170930
+    },
+    {
+      "type": "request",
+      "method": "GET",
+      "path": "/api/checkout/catalog-prices",
+      "body": {
+        "fields": []
+      },
+      "at": 1793813170945
+    },
+    {
+      "type": "response",
+      "method": "GET",
+      "path": "/api/checkout/catalog-prices",
+      "status": 200,
+      "message": "",
+      "elapsed_ms": 10911,
+      "at": 1793813171684
+    },
+    {
+      "type": "response",
+      "method": "GET",
+      "path": "/api/checkout/catalog-prices",
+      "status": 200,
+      "message": "",
+      "elapsed_ms": 11310,
+      "at": 1793813172083
+    }
+  ]
+}

@@ -5,7 +5,7 @@ const temporarilyUnavailableDemandServiceIds = new Set([
 ]);
 
 export function isDemandServiceAvailable(serviceId: string) {
-  return !temporarilyUnavailableDemandServiceIds.has(serviceId);
+  return serviceId === "bioimpacto-empresarial" || !temporarilyUnavailableDemandServiceIds.has(serviceId);
 }
 
 export function shouldShowComingSoonOverlay(isAvailable: boolean) {

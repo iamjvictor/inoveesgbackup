@@ -22,6 +22,7 @@ interface Subscription {
   id: string;
   status: string;
   renewalAt: string | null;
+  endsAt?: string | null;
   plan: {
     priceCents: number;
     product: {
@@ -99,6 +100,9 @@ interface UserProfile {
       redesSociais?: string | null;
       naturezaJuridica?: string | null;
       porte?: string | null;
+      size?: string | null;
+      numberOfSuppliers?: string | null;
+      annualRevenue?: string | null;
       tempoOperacao?: string | null;
       alcanceMercado?: string | null;
       site?: string | null;
@@ -175,7 +179,7 @@ export function CompanyProvider({ children }: { children: React.ReactNode }) {
   const company = user?.organizationUsers?.[0]?.organization || null;
   
   // Logic helpers
-  const activeSubscriptions = company?.subscriptions?.filter(s => s.status === "ACTIVE") || [];
+  const activeSubscriptions = company?.subscriptions?.filter(s => s.status === "ACTIVE" && (!s.endsAt || new Date(s.endsAt).getTime() > Date.now())) || [];
   const hasActivePlan = activeSubscriptions.length > 0;
   
   const roles = company?.roles?.map(r => r.role) || [];
@@ -194,7 +198,7 @@ export function CompanyProvider({ children }: { children: React.ReactNode }) {
 
   const hasAssessmentAccess = serviceAccess?.hasAssessmentAccess ?? false;
   const hasPurchasedFullDiagnostic = serviceAccess?.purchasedProductCodes?.some((code) =>
-    ["FULL_DIAGNOSTIC", "FULL_DIAGNOSTIC_PLUS"].includes(code.toUpperCase().replace(/-/g, "_")),
+    ["FULL_DIAGNOSTIC", "FULL_DIAGNOSTIC_PLUS", "BIOIMPACTO_EMPRESARIAL"].includes(code.toUpperCase().replace(/-/g, "_")),
   ) ?? false;
   const evidenceDiagnosticKinds = hasPurchasedFullDiagnostic
     ? ["FULL_DIAGNOSTIC"]
@@ -208,7 +212,12 @@ export function CompanyProvider({ children }: { children: React.ReactNode }) {
   const hasEvidenceAccess = (serviceAccess?.hasEvidenceAccess ?? false) &&
     !hasUnresolvedDeclaration && hasCompletedDeclaration;
   const hasPreDiagnosticAccess = serviceAccess?.hasPreDiagnosticAccess ?? false;
-  const consultingProductCodes = ["PRE_DIAGNOSTIC_PLUS", "DIAG_CONSULTORIA", "FULL_DIAGNOSTIC"];
+  const consultingProductCodes = [
+    "PRE_DIAGNOSTIC_PLUS",
+    "DIAG_CONSULTORIA",
+    "FULL_DIAGNOSTIC",
+    "FULL_DIAGNOSTIC_PLUS",
+  ];
   const hasConsultingAccess = serviceAccess?.purchasedProductCodes?.some((code) =>
     consultingProductCodes.includes(code.toUpperCase()),
   ) ?? company?.orders?.some((order) =>

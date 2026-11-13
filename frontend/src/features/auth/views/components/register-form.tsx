@@ -178,6 +178,29 @@ export function RegisterForm({ refCode, initialEmail, submitButtonText = "Criar 
     businessSegmentCode !== "" &&
     specificActivity.trim().length >= 2;
 
+  const step2MissingFields = [
+    ...(companyName.trim().length < 2 ? ["Razão Social"] : []),
+    ...(tradeName.trim().length < 2 ? ["Nome Fantasia"] : []),
+    ...(!isCnpjValid ? ["CNPJ válido"] : []),
+    ...(addressLine1.trim().length < 2 ? ["Endereço"] : []),
+    ...(addressNumber.trim().length < 1 ? ["Número"] : []),
+    ...(country.trim().length < 2 ? ["País"] : []),
+    ...(state.trim().length < 2 ? ["Estado / UF"] : []),
+    ...(city.trim().length < 2 ? ["Cidade"] : []),
+    ...(!naturezaJuridica ? ["Natureza Jurídica"] : []),
+    ...(!porte ? ["Porte da Empresa"] : []),
+    ...(!size ? ["Número de Colaboradores"] : []),
+    ...(!tempoOperacao ? ["Tempo de Operação"] : []),
+    ...(!alcanceMercado ? ["Alcance de Mercado"] : []),
+    ...(!businessCategoryCode ? ["Categoria de Negócio"] : []),
+    ...(!businessSegmentCode ? ["Segmento de Atuação"] : []),
+    ...(specificActivity.trim().length < 2 ? ["Atividade Específica"] : []),
+  ];
+  const step2FieldClass = (field: string) =>
+    step2MissingFields.includes(field)
+      ? "!border-red-500 !bg-red-50 focus:!border-red-600 focus:!ring-red-500/30"
+      : "";
+
   const isStep3Valid = esgJaPossui.length > 0 && esgInteresse.length > 0;
 
   const isStep4Valid =
@@ -470,7 +493,7 @@ export function RegisterForm({ refCode, initialEmail, submitButtonText = "Criar 
                   value={companyName}
                   onChange={(e) => setCompanyName(e.target.value)}
                   placeholder="Razão Social da empresa"
-                  className="h-11 w-full rounded-xl border border-slate-200 bg-white/50 px-3 text-sm outline-none transition focus:border-emerald-500/50 focus:ring-2 focus:ring-emerald-500/20"
+                  className={cn("h-11 w-full rounded-xl border border-slate-200 bg-white/50 px-3 text-sm outline-none transition focus:border-emerald-500/50 focus:ring-2 focus:ring-emerald-500/20", step2FieldClass("Razão Social"))}
                 />
               </div>
               <div className="space-y-1.5">
@@ -484,7 +507,7 @@ export function RegisterForm({ refCode, initialEmail, submitButtonText = "Criar 
                   value={tradeName}
                   onChange={(e) => setTradeName(e.target.value)}
                   placeholder="Nome Fantasia da empresa"
-                  className="h-11 w-full rounded-xl border border-slate-200 bg-white/50 px-3 text-sm outline-none transition focus:border-emerald-500/50 focus:ring-2 focus:ring-emerald-500/20"
+                  className={cn("h-11 w-full rounded-xl border border-slate-200 bg-white/50 px-3 text-sm outline-none transition focus:border-emerald-500/50 focus:ring-2 focus:ring-emerald-500/20", step2FieldClass("Nome Fantasia"))}
                 />
               </div>
             </div>
@@ -511,6 +534,7 @@ export function RegisterForm({ refCode, initialEmail, submitButtonText = "Criar 
                     (errorMessage && errorMessage.toLowerCase().includes("cnpj")) || (cnpj.replace(/\D/g, "").length === 14 && !isCnpjValid)
                       ? "border-red-300 focus:border-red-500"
                       : "border-slate-200 focus:border-emerald-500/50"
+                    ,step2FieldClass("CNPJ válido")
                   )}
                 />
                 {cnpj.replace(/\D/g, "").length === 14 && !isCnpjValid && (
@@ -522,11 +546,11 @@ export function RegisterForm({ refCode, initialEmail, submitButtonText = "Criar 
               </div>
               <div className="space-y-1.5">
                 <label htmlFor="addressLine1" className="text-xs font-medium text-slate-700">Endereço *</label>
-                <input id="addressLine1" type="text" required value={addressLine1} onChange={(e) => setAddressLine1(e.target.value)} placeholder="Rua, avenida, rodovia..." className="h-11 w-full rounded-xl border border-slate-200 bg-white/50 px-3 text-sm outline-none transition focus:border-emerald-500/50 focus:ring-2 focus:ring-emerald-500/20" />
+                <input id="addressLine1" type="text" required value={addressLine1} onChange={(e) => setAddressLine1(e.target.value)} placeholder="Rua, avenida, rodovia..." className={cn("h-11 w-full rounded-xl border border-slate-200 bg-white/50 px-3 text-sm outline-none transition focus:border-emerald-500/50 focus:ring-2 focus:ring-emerald-500/20", step2FieldClass("Endereço"))} />
               </div>
               <div className="space-y-1.5">
                 <label htmlFor="addressNumber" className="text-xs font-medium text-slate-700">Número *</label>
-                <input id="addressNumber" type="text" required value={addressNumber} onChange={(e) => setAddressNumber(e.target.value)} placeholder="Ex: 120" className="h-11 w-full rounded-xl border border-slate-200 bg-white/50 px-3 text-sm outline-none transition focus:border-emerald-500/50 focus:ring-2 focus:ring-emerald-500/20" />
+                <input id="addressNumber" type="text" required value={addressNumber} onChange={(e) => setAddressNumber(e.target.value)} placeholder="Ex: 120" className={cn("h-11 w-full rounded-xl border border-slate-200 bg-white/50 px-3 text-sm outline-none transition focus:border-emerald-500/50 focus:ring-2 focus:ring-emerald-500/20", step2FieldClass("Número"))} />
               </div>
             </div>
 
@@ -538,21 +562,21 @@ export function RegisterForm({ refCode, initialEmail, submitButtonText = "Criar 
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
               <div className="space-y-1.5">
                 <label htmlFor="country" className="text-xs font-medium text-slate-700">País *</label>
-                <select id="country" required value={country} onChange={(e) => { setCountry(e.target.value); setState(""); setCity(""); }} className="h-11 w-full rounded-xl border border-slate-200 bg-white/50 px-3 text-sm outline-none transition focus:border-emerald-500/50 focus:ring-2 focus:ring-emerald-500/20">
+                <select id="country" required value={country} onChange={(e) => { setCountry(e.target.value); setState(""); setCity(""); }} className={cn("h-11 w-full rounded-xl border border-slate-200 bg-white/50 px-3 text-sm outline-none transition focus:border-emerald-500/50 focus:ring-2 focus:ring-emerald-500/20", step2FieldClass("País"))}>
                   <option value="">Selecione...</option>
                   {Country.getAllCountries().map((item) => <option key={item.isoCode} value={item.isoCode}>{item.name}</option>)}
                 </select>
               </div>
               <div className="space-y-1.5">
                 <label htmlFor="state" className="text-xs font-medium text-slate-700">Estado / UF *</label>
-                <select id="state" required disabled={!country} value={state} onChange={(e) => { setState(e.target.value); setCity(""); }} className="h-11 w-full rounded-xl border border-slate-200 bg-white/50 px-3 text-sm outline-none transition focus:border-emerald-500/50 focus:ring-2 focus:ring-emerald-500/20 disabled:opacity-50">
+                <select id="state" required disabled={!country} value={state} onChange={(e) => { setState(e.target.value); setCity(""); }} className={cn("h-11 w-full rounded-xl border border-slate-200 bg-white/50 px-3 text-sm outline-none transition focus:border-emerald-500/50 focus:ring-2 focus:ring-emerald-500/20 disabled:opacity-50", step2FieldClass("Estado / UF"))}>
                   <option value="">Selecione...</option>
                   {State.getStatesOfCountry(country).map((item) => <option key={item.isoCode} value={item.isoCode}>{item.name} ({item.isoCode})</option>)}
                 </select>
               </div>
               <div className="space-y-1.5">
                 <label htmlFor="city" className="text-xs font-medium text-slate-700">Cidade *</label>
-                <select id="city" required disabled={!country || !state} value={city} onChange={(e) => setCity(e.target.value)} className="h-11 w-full rounded-xl border border-slate-200 bg-white/50 px-3 text-sm outline-none transition focus:border-emerald-500/50 focus:ring-2 focus:ring-emerald-500/20 disabled:opacity-50">
+                <select id="city" required disabled={!country || !state} value={city} onChange={(e) => setCity(e.target.value)} className={cn("h-11 w-full rounded-xl border border-slate-200 bg-white/50 px-3 text-sm outline-none transition focus:border-emerald-500/50 focus:ring-2 focus:ring-emerald-500/20 disabled:opacity-50", step2FieldClass("Cidade"))}>
                   <option value="">Selecione...</option>
                   {City.getCitiesOfState(country, state).map((item) => <option key={`${item.name}-${item.stateCode}`} value={item.name}>{item.name}</option>)}
                 </select>
@@ -589,7 +613,7 @@ export function RegisterForm({ refCode, initialEmail, submitButtonText = "Criar 
                   required
                   value={naturezaJuridica}
                   onChange={(e) => setNaturezaJuridica(e.target.value)}
-                  className="h-11 w-full rounded-xl border border-slate-200 bg-white/50 px-3 text-sm outline-none transition focus:border-emerald-500/50 focus:ring-2 focus:ring-emerald-500/20"
+                  className={cn("h-11 w-full rounded-xl border border-slate-200 bg-white/50 px-3 text-sm outline-none transition focus:border-emerald-500/50 focus:ring-2 focus:ring-emerald-500/20", step2FieldClass("Natureza Jurídica"))}
                 >
                   <option value="">Selecione...</option>
                   <option value="MEI">MEI</option>
@@ -615,7 +639,7 @@ export function RegisterForm({ refCode, initialEmail, submitButtonText = "Criar 
                   required
                   value={porte}
                   onChange={(e) => setPorte(e.target.value)}
-                  className="h-11 w-full rounded-xl border border-slate-200 bg-white/50 px-3 text-sm outline-none transition focus:border-emerald-500/50 focus:ring-2 focus:ring-emerald-500/20"
+                  className={cn("h-11 w-full rounded-xl border border-slate-200 bg-white/50 px-3 text-sm outline-none transition focus:border-emerald-500/50 focus:ring-2 focus:ring-emerald-500/20", step2FieldClass("Porte da Empresa"))}
                 >
                   <option value="">Selecione...</option>
                   <option value="MEI">MEI</option>
@@ -634,7 +658,7 @@ export function RegisterForm({ refCode, initialEmail, submitButtonText = "Criar 
                   required
                   value={size}
                   onChange={(e) => setSize(e.target.value)}
-                  className="h-11 w-full rounded-xl border border-slate-200 bg-white/50 px-3 text-sm outline-none transition focus:border-emerald-500/50 focus:ring-2 focus:ring-emerald-500/20"
+                  className={cn("h-11 w-full rounded-xl border border-slate-200 bg-white/50 px-3 text-sm outline-none transition focus:border-emerald-500/50 focus:ring-2 focus:ring-emerald-500/20", step2FieldClass("Número de Colaboradores"))}
                 >
                   <option value="">Selecione...</option>
                   <option value="1 a 5">1 a 5 colaboradores</option>
@@ -656,7 +680,7 @@ export function RegisterForm({ refCode, initialEmail, submitButtonText = "Criar 
                   required
                   value={tempoOperacao}
                   onChange={(e) => setTempoOperacao(e.target.value)}
-                  className="h-11 w-full rounded-xl border border-slate-200 bg-white/50 px-3 text-sm outline-none transition focus:border-emerald-500/50 focus:ring-2 focus:ring-emerald-500/20"
+                  className={cn("h-11 w-full rounded-xl border border-slate-200 bg-white/50 px-3 text-sm outline-none transition focus:border-emerald-500/50 focus:ring-2 focus:ring-emerald-500/20", step2FieldClass("Tempo de Operação"))}
                 >
                   <option value="">Selecione...</option>
                   <option value="Menos de 1 ano">Menos de 1 ano</option>
@@ -674,7 +698,7 @@ export function RegisterForm({ refCode, initialEmail, submitButtonText = "Criar 
                   required
                   value={alcanceMercado}
                   onChange={(e) => setAlcanceMercado(e.target.value)}
-                  className="h-11 w-full rounded-xl border border-slate-200 bg-white/50 px-3 text-sm outline-none transition focus:border-emerald-500/50 focus:ring-2 focus:ring-emerald-500/20"
+                  className={cn("h-11 w-full rounded-xl border border-slate-200 bg-white/50 px-3 text-sm outline-none transition focus:border-emerald-500/50 focus:ring-2 focus:ring-emerald-500/20", step2FieldClass("Alcance de Mercado"))}
                 >
                   <option value="">Selecione...</option>
                   <option value="Local">Local</option>
@@ -701,7 +725,7 @@ export function RegisterForm({ refCode, initialEmail, submitButtonText = "Criar 
                     setIndustrySegment("");
                     setSpecificActivity("");
                   }}
-                  className="h-11 w-full rounded-xl border border-slate-200 bg-white/50 px-3 text-sm outline-none transition focus:border-emerald-500/50 focus:ring-2 focus:ring-emerald-500/20"
+                  className={cn("h-11 w-full rounded-xl border border-slate-200 bg-white/50 px-3 text-sm outline-none transition focus:border-emerald-500/50 focus:ring-2 focus:ring-emerald-500/20", step2FieldClass("Categoria de Negócio"))}
                 >
                   <option value="">Selecione...</option>
                   {BUSINESS_CATEGORIES.map((cat) => (
@@ -726,7 +750,7 @@ export function RegisterForm({ refCode, initialEmail, submitButtonText = "Criar 
                     setIndustrySegment(segName);
                     setSpecificActivity("");
                   }}
-                  className="h-11 w-full rounded-xl border border-slate-200 bg-white/50 px-3 text-sm outline-none transition focus:border-emerald-500/50 focus:ring-2 focus:ring-emerald-500/20 disabled:opacity-50"
+                  className={cn("h-11 w-full rounded-xl border border-slate-200 bg-white/50 px-3 text-sm outline-none transition focus:border-emerald-500/50 focus:ring-2 focus:ring-emerald-500/20 disabled:opacity-50", step2FieldClass("Segmento de Atuação"))}
                 >
                   <option value="">Selecione...</option>
                   {businessCategoryCode &&
@@ -750,7 +774,7 @@ export function RegisterForm({ refCode, initialEmail, submitButtonText = "Criar 
                   value={specificActivity}
                   onChange={(e) => setSpecificActivity(e.target.value)}
                   placeholder="Digite a atividade específica"
-                  className="h-11 w-full rounded-xl border border-slate-200 bg-white/50 px-3 text-sm outline-none transition focus:border-emerald-500/50 focus:ring-2 focus:ring-emerald-500/20"
+                  className={cn("h-11 w-full rounded-xl border border-slate-200 bg-white/50 px-3 text-sm outline-none transition focus:border-emerald-500/50 focus:ring-2 focus:ring-emerald-500/20", step2FieldClass("Atividade Específica"))}
                 />
               </div>
             )}
@@ -794,6 +818,13 @@ export function RegisterForm({ refCode, initialEmail, submitButtonText = "Criar 
                 </select>
               </div>
             </div>
+
+            {!isStep2Valid && (
+              <div role="alert" aria-live="polite" className="rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-xs leading-relaxed text-red-800">
+                <span className="font-semibold">Faltam campos obrigatórios.</span>{" "}
+                Preencha ou corrija: {step2MissingFields.join(", ")}.
+              </div>
+            )}
 
             <div className="flex gap-4 pt-4">
               <Button

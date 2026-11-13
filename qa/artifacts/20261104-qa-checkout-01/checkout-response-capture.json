@@ -1,0 +1,358 @@
+{
+  "service": "Pré-Diagnóstico ESG Autodeclarável",
+  "price_brl": 250,
+  "productCode": "PRE_DIAGNOSTIC",
+  "final_url": {
+    "origin": "https://sandbox.mercadopago.com.br",
+    "path": "/checkout/v1/redirect",
+    "query": "[redacted]"
+  },
+  "provider_page_text": "Mercado Libre - Donde comprar y vender de todo\n\n\nHubo un error accediendo a esta pagina...\nIr a la página principal",
+  "provider_navigation": {
+    "type": "provider_response",
+    "method": "GET",
+    "url": {
+      "origin": "https://sandbox.mercadopago.com.br",
+      "path": "/checkout/v1/redirect",
+      "query": "[redacted]"
+    },
+    "status": 403,
+    "elapsed_ms": 184,
+    "navigation": true,
+    "content_type": "text/html",
+    "timing_anchor": "provider GET response"
+  },
+  "events": [
+    {
+      "type": "request",
+      "method": "POST",
+      "url": {
+        "origin": "http://localhost:4000",
+        "path": "/api/auth/login",
+        "query": "[redacted]"
+      },
+      "body": {
+        "keys": []
+      },
+      "at": -4801
+    },
+    {
+      "type": "api_response",
+      "method": "POST",
+      "url": {
+        "origin": "http://localhost:4000",
+        "path": "/api/auth/login",
+        "query": "[redacted]"
+      },
+      "status": 200,
+      "elapsed_ms": 1473,
+      "data": {
+        "response_keys": [
+          "user",
+          "expiresIn"
+        ]
+      },
+      "at": -3245
+    },
+    {
+      "type": "request",
+      "method": "GET",
+      "url": {
+        "origin": "http://localhost:4000",
+        "path": "/api/auth/me",
+        "query": "[redacted]"
+      },
+      "body": {
+        "keys": []
+      },
+      "at": -3121
+    },
+    {
+      "type": "request",
+      "method": "GET",
+      "url": {
+        "origin": "http://localhost:4000",
+        "path": "/api/auth/me/access",
+        "query": "[redacted]"
+      },
+      "body": {
+        "keys": []
+      },
+      "at": -3119
+    },
+    {
+      "type": "request",
+      "method": "GET",
+      "url": {
+        "origin": "http://localhost:4000",
+        "path": "/api/auth/me",
+        "query": "[redacted]"
+      },
+      "body": {
+        "keys": []
+      },
+      "at": -3119
+    },
+    {
+      "type": "request",
+      "method": "GET",
+      "url": {
+        "origin": "http://localhost:4000",
+        "path": "/api/auth/me/access",
+        "query": "[redacted]"
+      },
+      "body": {
+        "keys": []
+      },
+      "at": -3117
+    },
+    {
+      "type": "api_response",
+      "method": "GET",
+      "url": {
+        "origin": "http://localhost:4000",
+        "path": "/api/auth/me/access",
+        "query": "[redacted]"
+      },
+      "status": 200,
+      "elapsed_ms": 716,
+      "data": {
+        "response_keys": [
+          "organizationId",
+          "roles",
+          "effectiveRole",
+          "hasCompanyRole",
+          "hasSupplierRole",
+          "isSupplierOnly",
+          "purchasedServices",
+          "purchasedProductCodes",
+          "hasInvitePack",
+          "hasAssessmentAccess",
+          "hasEvidenceAccess",
+          "hasPreDiagnosticAccess"
+        ]
+      },
+      "at": -2400
+    },
+    {
+      "type": "api_response",
+      "method": "GET",
+      "url": {
+        "origin": "http://localhost:4000",
+        "path": "/api/auth/me/access",
+        "query": "[redacted]"
+      },
+      "status": 200,
+      "elapsed_ms": 716,
+      "data": {
+        "response_keys": [
+          "organizationId",
+          "roles",
+          "effectiveRole",
+          "hasCompanyRole",
+          "hasSupplierRole",
+          "isSupplierOnly",
+          "purchasedServices",
+          "purchasedProductCodes",
+          "hasInvitePack",
+          "hasAssessmentAccess",
+          "hasEvidenceAccess",
+          "hasPreDiagnosticAccess"
+        ]
+      },
+      "at": -2399
+    },
+    {
+      "type": "request",
+      "method": "GET",
+      "url": {
+        "origin": "http://localhost:4000",
+        "path": "/api/auth/me",
+        "query": "[redacted]"
+      },
+      "body": {
+        "keys": []
+      },
+      "at": -2135
+    },
+    {
+      "type": "request",
+      "method": "GET",
+      "url": {
+        "origin": "http://localhost:4000",
+        "path": "/api/auth/me/access",
+        "query": "[redacted]"
+      },
+      "body": {
+        "keys": []
+      },
+      "at": -2134
+    },
+    {
+      "type": "api_response",
+      "method": "GET",
+      "url": {
+        "origin": "http://localhost:4000",
+        "path": "/api/auth/me/access",
+        "query": "[redacted]"
+      },
+      "status": 200,
+      "elapsed_ms": 1,
+      "data": {
+        "response_keys": [
+          "organizationId",
+          "roles",
+          "effectiveRole",
+          "hasCompanyRole",
+          "hasSupplierRole",
+          "isSupplierOnly",
+          "purchasedServices",
+          "purchasedProductCodes",
+          "hasInvitePack",
+          "hasAssessmentAccess",
+          "hasEvidenceAccess",
+          "hasPreDiagnosticAccess"
+        ]
+      },
+      "at": -2130
+    },
+    {
+      "type": "api_response",
+      "method": "GET",
+      "url": {
+        "origin": "http://localhost:4000",
+        "path": "/api/auth/me",
+        "query": "[redacted]"
+      },
+      "status": 200,
+      "elapsed_ms": 448,
+      "data": {
+        "status": "ACTIVE",
+        "response_keys": [
+          "id",
+          "supabaseUserId",
+          "email",
+          "fullName",
+          "phone",
+          "cpf",
+          "cargoFuncao",
+          "grauParticipacao",
+          "status",
+          "lastLoginAt",
+          "createdAt",
+          "updatedAt",
+          "organizationUsers"
+        ]
+      },
+      "at": -1592
+    },
+    {
+      "type": "request",
+      "method": "GET",
+      "url": {
+        "origin": "http://localhost:4000",
+        "path": "/api/checkout/catalog-prices",
+        "query": "[redacted]"
+      },
+      "body": {
+        "keys": []
+      },
+      "at": -1576
+    },
+    {
+      "type": "request",
+      "method": "GET",
+      "url": {
+        "origin": "http://localhost:4000",
+        "path": "/api/checkout/catalog-prices",
+        "query": "[redacted]"
+      },
+      "body": {
+        "keys": []
+      },
+      "at": -1555
+    },
+    {
+      "type": "api_response",
+      "method": "GET",
+      "url": {
+        "origin": "http://localhost:4000",
+        "path": "/api/checkout/catalog-prices",
+        "query": "[redacted]"
+      },
+      "status": 200,
+      "elapsed_ms": 913,
+      "data": {
+        "response_keys": [
+          "prices"
+        ]
+      },
+      "at": -662
+    },
+    {
+      "type": "api_response",
+      "method": "GET",
+      "url": {
+        "origin": "http://localhost:4000",
+        "path": "/api/checkout/catalog-prices",
+        "query": "[redacted]"
+      },
+      "status": 200,
+      "elapsed_ms": 1403,
+      "data": {
+        "response_keys": [
+          "prices"
+        ]
+      },
+      "at": -126
+    },
+    {
+      "type": "request",
+      "method": "POST",
+      "url": {
+        "origin": "http://localhost:4000",
+        "path": "/api/checkout/preference",
+        "query": "[redacted]"
+      },
+      "body": {
+        "productCode": "PRE_DIAGNOSTIC",
+        "quantity": 1,
+        "keys": [
+          "productCode",
+          "quantity"
+        ]
+      },
+      "at": 96
+    },
+    {
+      "type": "provider_response",
+      "method": "GET",
+      "url": {
+        "origin": "https://sandbox.mercadopago.com.br",
+        "path": "/checkout/v1/redirect",
+        "query": "[redacted]"
+      },
+      "status": 403,
+      "elapsed_ms": 184,
+      "navigation": true,
+      "content_type": "text/html",
+      "at": 3966
+    },
+    {
+      "type": "api_response",
+      "method": "POST",
+      "url": {
+        "origin": "http://localhost:4000",
+        "path": "/api/checkout/preference",
+        "query": "[redacted]"
+      },
+      "status": 201,
+      "elapsed_ms": 3684,
+      "data": {
+        "parse_failed": true
+      },
+      "at": 3976
+    }
+  ],
+  "click_to_sandbox_response_ms": 3966
+}

@@ -1,0 +1,59 @@
+{
+  "responses": [
+    {
+      "method": "POST",
+      "path": "/api/auth/login",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/auth/me/access",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/auth/me",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/auth/me/access",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/auth/me",
+      "status": 200
+    }
+  ],
+  "blockedWrites": [],
+  "consoleErrors": [],
+  "pageErrors": [],
+  "screens": [
+    {
+      "viewport": "desktop",
+      "path": "/app/meus-servicos",
+      "text": "Área da Empresa\nPainel\nMeus Serviços\nDiagnóstico\nEvidências\nCadeia\nResultados\nRanking\nQB\n\nQA Bioimpacto Sintético\n\nQA Bioimpacto\n\nSair\nECOSSISTEMA INOVEESG\nMeus Serviços\n\nGerencie seus serviços contratados, materiais adicionais e solicitações de propostas.\n\nAdquirir Novos Serviços\nÁREA DO CLIENTE\nMeus Serviços\n0 Ativos\n\nBuscando seus serviços contratados...\n\nAcompanhar Orçamentos\n\nSolicitações de cotações comerciais sem compromisso de pacotes e diagnósticos corporativos.\n\nNenhuma solicitação pendente\n\nAdicione planos corporativos ao carrinho e solicite uma proposta.",
+      "width": 1365,
+      "scrollWidth": 1350,
+      "height": 768
+    },
+    {
+      "viewport": "tablet",
+      "path": "/app/meus-servicos",
+      "text": "Carregando seu perfil...",
+      "width": 768,
+      "scrollWidth": 753,
+      "height": 1024
+    },
+    {
+      "viewport": "mobile",
+      "path": "/app/meus-servicos",
+      "text": "Área da Empresa\nQA Bioimpacto\nÁrea da Empresa\nPainel\nMeus Serviços\nDiagnóstico\nEvidências\nCadeia\nResultados\nRanking\nQB\n\nQA Bioimpacto Sintético\n\nQA Bioimpacto\n\nSair\nECOSSISTEMA INOVEESG\nMeus Serviços\n\nGerencie seus serviços contratados, materiais adicionais e solicitações de propostas.\n\nAdquirir Novos Serviços\nÁREA DO CLIENTE\nMeus Serviços\n0 Ativos\n\nBuscando seus serviços contratados...\n\nAcompanhar Orçamentos\n\nSolicitações de cotações comerciais sem compromisso de pacotes e diagnósticos corporativos.\n\nNenhuma solicitação pendente\n\nAdicione planos corporativos ao carrinho e solicite uma proposta.",
+      "width": 390,
+      "scrollWidth": 375,
+      "height": 950
+    }
+  ],
+  "localStorageAfter": []
+}

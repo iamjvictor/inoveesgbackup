@@ -2,11 +2,16 @@
 
 
 import { Suspense, useEffect, useState } from "react";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { DiagnosticRunView } from "@/features/company-area/views/pages/diagnostico/diagnostic-run-view";
 import { Button } from "@/components/ui/button";
-import { diagnosticService, type DiagnosticStartPayload } from "@/features/company-area/services/diagnostic.service";
+import {
+  diagnosticService,
+  getDiagnosticAnswerOverrides,
+  parseDiagnosticAnswerDraft,
+  type DiagnosticStartPayload,
+} from "@/features/company-area/services/diagnostic.service";
 
 type DiagnosticRunModel = {
   questions: Array<{
@@ -80,6 +85,7 @@ function mapPayloadToRunModel(
 }
 
 function DiagnosticRunContent() {
+  const router = useRouter();
   const searchParams = useSearchParams();
   const diagnosticIdFromUrl = searchParams.get("id");
   const axisFromUrl = searchParams.get("axis");
@@ -89,55 +95,67 @@ function DiagnosticRunContent() {
   const [resolvedDiagnosticId, setResolvedDiagnosticId] = useState<string | null>(diagnosticIdFromUrl);
   const [model, setModel] = useState<DiagnosticRunModel | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [isRedirecting, setIsRedirecting] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [blockedByConsultoria, setBlockedByConsultoria] = useState(false);
+  const [showDiagnosticBackLink, setShowDiagnosticBackLink] = useState(false);
 
   useEffect(() => {
     async function loadDiagnostic() {
       try {
-        let payload: DiagnosticStartPayload | null = null;
-
-        if (typeof window !== "undefined") {
-          const cached = window.sessionStorage.getItem(DIAGNOSTIC_START_CACHE_KEY);
-          if (cached) {
-            try {
-              const parsed = JSON.parse(cached) as DiagnosticStartPayload;
-              if (!diagnosticIdFromUrl || parsed.diagnosticId === diagnosticIdFromUrl) {
-                payload = parsed;
-              }
-            } catch {
-              window.sessionStorage.removeItem(DIAGNOSTIC_START_CACHE_KEY);
-            }
+        const current = await diagnosticService.getCurrentDiagnostic("cookie-session");
+        if (current.diagnostic?.status === "COMPLETED") {
+          setIsRedirecting(true);
+          if (typeof window !== "undefined") {
+            window.sessionStorage.removeItem(DIAGNOSTIC_START_CACHE_KEY);
+            window.sessionStorage.removeItem(`inoveesg:diagnostic-answers-${current.diagnostic.id}`);
           }
+          router.replace("/app/diagnostico");
+          return;
+        }
+        if (!current.hasDiagnostic || !current.diagnostic) {
+          setShowDiagnosticBackLink(true);
+          setError("Nenhum diagnóstico ativo encontrado. Volte à página de diagnóstico e inicie uma avaliação.");
+          return;
+        }
+        if (diagnosticIdFromUrl && current.diagnostic.id !== diagnosticIdFromUrl) {
+          setShowDiagnosticBackLink(true);
+          setError("Este link não corresponde ao diagnóstico atual. Volte à página de diagnóstico.");
+          return;
         }
 
-        if (!payload) {
-    const token = "cookie-session";
-          if (!token) {
-            setError("Nenhum token de autenticação encontrado.");
-            return;
-          }
-
-          payload = await diagnosticService.startDiagnostic(token);
-          if (typeof window !== "undefined") {
-            window.sessionStorage.setItem(DIAGNOSTIC_START_CACHE_KEY, JSON.stringify(payload));
-          }
+        const payload: DiagnosticStartPayload = {
+          diagnosticId: current.diagnostic.id,
+          industrySegment: current.industrySegment || "Geral",
+          questions: current.questions ?? [],
+        };
+        if (typeof window !== "undefined") {
+          window.sessionStorage.setItem(DIAGNOSTIC_START_CACHE_KEY, JSON.stringify(payload));
         }
 
         // Carregar respostas salvas do sessionStorage
         let savedAnswers: Record<string, string> = {};
         if (typeof window !== "undefined" && payload.diagnosticId) {
           const saved = window.sessionStorage.getItem(`inoveesg:diagnostic-answers-${payload.diagnosticId}`);
-          if (saved) {
-            try {
-              savedAnswers = JSON.parse(saved);
-            } catch (e) {
-              console.error("Erro ao parsear respostas salvas:", e);
-            }
-          }
+          savedAnswers = getDiagnosticAnswerOverrides(parseDiagnosticAnswerDraft(saved));
         }
 
-        setModel(mapPayloadToRunModel(payload, axisFromUrl, savedAnswers));
+        const persistedAnswers = Object.fromEntries(
+          (current.diagnostic.responses ?? []).map((response) => [
+            `q-${response.questionOrder}`,
+            response.answerText ?? "",
+          ])
+        );
+
+        // Server answers restore saved work on a new browser session. Local
+        // answers win for keys present in sessionStorage so unsaved edits made
+        // in the current session are not discarded on a reload/navigation.
+        setModel(
+          mapPayloadToRunModel(payload, axisFromUrl, {
+            ...persistedAnswers,
+            ...savedAnswers,
+          })
+        );
         setResolvedDiagnosticId(payload.diagnosticId);
       } catch (err) {
         console.error("Failed to load diagnostic questions:", err);
@@ -150,9 +168,9 @@ function DiagnosticRunContent() {
     }
 
     loadDiagnostic();
-  }, [diagnosticIdFromUrl, axisFromUrl]);
+  }, [diagnosticIdFromUrl, axisFromUrl, router]);
 
-  if (isLoading) {
+  if (isLoading || isRedirecting) {
     return (
       <div className="flex h-96 items-center justify-center">
         <div className="size-8 animate-spin rounded-full border-4 border-emerald-600 border-t-transparent" />
@@ -163,8 +181,13 @@ function DiagnosticRunContent() {
   if (error) {
     return (
       <div className="mx-auto max-w-xl rounded-3xl border border-slate-200 bg-white p-6 text-center shadow-sm">
-        <p className="text-lg font-semibold text-slate-900">Não foi possível iniciar o diagnóstico</p>
+        <p className="text-lg font-semibold text-slate-900">{showDiagnosticBackLink ? "Diagnóstico indisponível" : "Não foi possível abrir o diagnóstico"}</p>
         <p className="mt-2 text-sm text-slate-600">{error}</p>
+        {showDiagnosticBackLink && (
+          <Button asChild className="mt-5 rounded-xl bg-emerald-600 text-white hover:bg-emerald-700">
+            <Link href="/app/diagnostico">Voltar ao diagnóstico</Link>
+          </Button>
+        )}
         {blockedByConsultoria && (
           <div className="mt-5 flex flex-col gap-3 sm:flex-row sm:justify-center">
             <Button asChild className="rounded-xl bg-emerald-600 text-white hover:bg-emerald-700">

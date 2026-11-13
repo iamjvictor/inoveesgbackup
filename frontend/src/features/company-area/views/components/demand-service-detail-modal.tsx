@@ -29,8 +29,8 @@ export interface DemandServiceItemData {
   name: string;
   description: string;
   priceFormatted: string | null;
-  productCode?: "PRE_DIAGNOSTIC" | "PRE_DIAGNOSTIC_PLUS" | "FULL_DIAGNOSTIC" | "FULL_DIAGNOSTIC_PLUS" | "CONSULTING_1H" | "LIVRO_ESG";
-  detailVariant?: "strategic-diagnostic";
+  productCode?: "PRE_DIAGNOSTIC" | "PRE_DIAGNOSTIC_PLUS" | "FULL_DIAGNOSTIC" | "FULL_DIAGNOSTIC_PLUS" | "CONSULTING_1H" | "LIVRO_ESG" | "BIOIMPACTO_EMPRESARIAL";
+  detailVariant?: "strategic-diagnostic" | "bioimpacto-empresarial";
   installmentLabel?: string;
   fullPriceLabel?: string;
   type: string;
@@ -85,6 +85,7 @@ export function DemandServiceDetailModal({
   const isConsulting = service.id === "consulting-1h" || service.productCode === "CONSULTING_1H";
   const isBook = service.id === "livro-esg" || service.productCode === "LIVRO_ESG";
   const isStrategicDiagnostic = service.detailVariant === "strategic-diagnostic" || service.productCode === "FULL_DIAGNOSTIC";
+  const isBioimpacto = service.detailVariant === "bioimpacto-empresarial" || service.productCode === "BIOIMPACTO_EMPRESARIAL";
 
   const IconComponent = service.icon || (isStrategicDiagnostic ? ShieldCheck : isPreDiag ? Zap : isPreDiagPlus ? Users : isBook ? BookOpen : Users);
 
@@ -115,7 +116,7 @@ export function DemandServiceDetailModal({
             <div className="space-y-1">
               <div className="flex items-center gap-2 flex-wrap">
                 <span className="text-[10px] font-extrabold uppercase tracking-wider px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200/80">
-                  {isStrategicDiagnostic ? "Serviço 02 · Verificação Estratégica" : isPreDiagPlus ? "Pacote Recomendado" : isPreDiag ? "Serviço Autodeclarável" : "Serviço Especializado"}
+                  {isBioimpacto ? "Plano anual · 12 meses" : isStrategicDiagnostic ? "Serviço 02 · Verificação Estratégica" : isPreDiagPlus ? "Pacote Recomendado" : isPreDiag ? "Serviço Autodeclarável" : "Serviço Especializado"}
                 </span>
                 {service.badge && (
                   <span className="inline-flex items-center gap-1 text-[10px] font-bold px-2 py-0.5 rounded-full bg-amber-50 text-amber-700 border border-amber-200">
@@ -127,6 +128,7 @@ export function DemandServiceDetailModal({
 
               <h2 id="modal-service-title" className="text-lg sm:text-xl font-bold font-display text-slate-900 leading-snug">
                 {isStrategicDiagnostic && "Diagnóstico Estratégico ESG"}
+                {isBioimpacto && "Bioimpacto Empresarial"}
                 {isPreDiag && "Pré-Diagnóstico ESG Autodeclarável"}
                 {isPreDiagPlus && "Pré-Diagnóstico ESG + Consultoria Estratégica"}
                 {isConsulting && "Consultoria ESG Estratégica (1 hora)"}
@@ -136,6 +138,7 @@ export function DemandServiceDetailModal({
 
               <p className="text-xs text-slate-500 leading-relaxed max-w-lg">
                 {isStrategicDiagnostic && "Relatório completo de maturidade ESG, análise de evidências, pontos críticos e plano de evolução com selo de verificação InoveESG."}
+                {isBioimpacto && "Acompanhamento ESG durante um ano, com ciclos mensais de envio e análise de evidências, reuniões estratégicas e relatórios de evolução."}
                 {isPreDiag && "Avaliação ágil, objetiva e 100% autodeclarável para mapear a maturidade da sua empresa sem a burocracia de upload de evidências nesta etapa."}
                 {isPreDiagPlus && "A combinação estratégica ideal: questionário de maturidade ESG autodeclarável somado a 1 hora de sessão ao vivo individual com consultor especialista."}
                 {isConsulting && "Sessão individual de consultoria com especialista sênior para sanar dúvidas, priorizar planos de ação e destravar tomadas de decisão."}
@@ -204,6 +207,28 @@ export function DemandServiceDetailModal({
 
               <div className="rounded-2xl border border-amber-200 bg-amber-50/70 p-3.5 text-[11px] leading-relaxed text-amber-900">
                 <strong>Prazo importante:</strong> o upload pode ser alterado somente durante os 20 dias iniciais. Depois desse prazo, os documentos enviados ficam bloqueados para análise.
+              </div>
+            </>
+          )}
+
+          {isBioimpacto && (
+            <>
+              <div className="grid gap-3 sm:grid-cols-2">
+                {[
+                  [FileText, "Diagnóstico Estratégico ESG", "Questionário, análise de evidências e avaliação do nível de maturidade da empresa."],
+                  [ShieldCheck, "Análise mensal de evidências", "Envie evidências entre os dias 1 e 15 de cada mês. A equipe InoveESG analisa cada remessa e aprova, invalida ou registra observações."],
+                  [Users, "7 reuniões estratégicas", "Encontros previstos nos meses 1, 3, 5, 7, 8, 10 e 12 para acompanhar prioridades e evolução."],
+                  [Award, "7 relatórios de evolução", "Relatórios nos meses 1, 3, 5, 7, 8, 10 e 12. O relatório final consolida maturidade, melhorias, evidências e principais problemas ESG, com assinaturas e selo de verificação."],
+                ].map(([Icon, title, description]) => {
+                  const FeatureIcon = Icon as React.ComponentType<{ className?: string }>;
+                  return <div key={title as string} className="rounded-2xl border border-emerald-100 bg-emerald-50/60 p-3.5 flex items-start gap-2.5">
+                    <div className="rounded-xl bg-emerald-600 p-2 text-white shrink-0"><FeatureIcon className="h-4 w-4" /></div>
+                    <div><h4 className="font-bold text-slate-800 text-xs mb-1">{title as string}</h4><p className="text-[11px] text-slate-600 leading-relaxed">{description as string}</p></div>
+                  </div>;
+                })}
+              </div>
+              <div className="rounded-2xl border border-emerald-200 bg-emerald-50/70 p-4 text-xs text-emerald-950">
+                <strong>Como funciona:</strong> após a contratação, responda ao diagnóstico e envie evidências mensalmente do dia 1 ao 15. A equipe analisa cada ciclo e conduz o acompanhamento durante 12 meses.
               </div>
             </>
           )}
@@ -496,7 +521,11 @@ export function DemandServiceDetailModal({
             <span className="text-[10px] uppercase font-bold text-slate-400 tracking-wider">
               Investimento:
             </span>
-            {isStrategicDiagnostic ? (
+            {isBioimpacto ? (
+              <>
+                <span className="text-xl sm:text-2xl font-extrabold font-display text-emerald-700">{displayPrice}</span>
+              </>
+            ) : isStrategicDiagnostic ? (
               <div className="flex flex-col">
                 <span className="text-xl sm:text-2xl font-extrabold font-display text-emerald-700">
                   {includeConsulting ? strategicDiagnosticPricing.combinedInstallments : service.installmentLabel ?? strategicDiagnosticPricing.installments}
@@ -537,7 +566,7 @@ export function DemandServiceDetailModal({
                 </>
               ) : (
                 <>
-                  <span>{isStrategicDiagnostic ? "Comprar agora" : "Comprar Agora"}</span>
+                  <span>{isBioimpacto ? "Contratar plano anual" : isStrategicDiagnostic ? "Comprar agora" : "Comprar Agora"}</span>
                   <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" />
                 </>
               )}

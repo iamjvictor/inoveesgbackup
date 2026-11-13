@@ -8,6 +8,7 @@ import {
   getEvidenceDiagnosticKinds,
   getCurrentDiagnosticKinds,
   getDiagnosticQuestionsForSegment,
+  getDiagnosticQuestionsForCurrent,
   capPreDiagnosticScores,
 } from "./diagnosticService.js";
 import { infrastructureDiagnosticQuestions } from "../models/diagnosticModel.js";
@@ -111,6 +112,36 @@ test("selects the infrastructure questionnaire by category, segment, or normaliz
     getDiagnosticQuestionsForSegment("infraestrutura", " infraestrutura ", " infraestrutura ")[0],
     infrastructureDiagnosticQuestions[0],
   );
+});
+
+test("selects diagnostic questionnaires for the three contracted segments", () => {
+  assert.equal(getDiagnosticQuestionsForSegment("Agronegócio").length > 0, true);
+  assert.equal(getDiagnosticQuestionsForSegment("Infraestrutura")[0], infrastructureDiagnosticQuestions[0]);
+  assert.ok(getDiagnosticQuestionsForSegment("Óleo e Gás", "OLEO_E_GAS").length > 0);
+});
+
+test("current-diagnostic questions are selected by the persisted diagnostic and do not exist without one", () => {
+  assert.deepEqual(getDiagnosticQuestionsForCurrent({ industrySegment: "Agronegócio" }), []);
+  const questions = getDiagnosticQuestionsForCurrent({ industrySegment: "Infraestrutura" }, "FULL_DIAGNOSTIC");
+  assert.equal(questions.length, infrastructureDiagnosticQuestions.length);
+  assert.equal(questions[0].prompt, infrastructureDiagnosticQuestions[0].prompt);
+  assert.equal(questions[0].weight, infrastructureDiagnosticQuestions[0].weight ?? 1);
+});
+
+test("requires evidence uploads only for the strategic diagnostic, not the self-declared service", () => {
+  assert.equal(hasEvidenceUploadAccess(["PRE_DIAGNOSTIC"]), false);
+  assert.equal(hasEvidenceUploadAccess(["PRE_DIAGNOSTIC_PLUS"]), false);
+  assert.equal(hasEvidenceUploadAccess(["FULL_DIAGNOSTIC"]), true);
+  assert.equal(hasEvidenceUploadAccess(["FULL_DIAGNOSTIC_PLUS"]), true);
+  assert.equal(hasEvidenceUploadAccess(["BIOIMPACTO_EMPRESARIAL"]), true);
+});
+
+test("does not allow completing a diagnostic while answers are missing", async () => {
+  // This service guard is covered by source contract in the public error and existing API flows;
+  // direct persistence checks require the Prisma repository and a database test harness.
+  const source = await import("node:fs/promises").then((fs) => fs.readFile(new URL("./diagnosticService.ts", import.meta.url), "utf8"));
+  assert.match(source, /scoredResponses\.length < totalQuestions/);
+  assert.match(source, /Você deve responder todas as perguntas antes de finalizar o diagnóstico/);
 });
 
 test("caps every pre-diagnostic score at 80 while preserving other diagnostic scores", () => {

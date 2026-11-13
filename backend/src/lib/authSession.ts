@@ -1,6 +1,7 @@
 import type { Request } from "express";
 
 export const AUTH_COOKIE_NAME = "inoveesg_token";
+export const AUTH_MODE_COOKIE_NAME = "inoveesg_auth_mode";
 const SESSION_MAX_AGE_MS = 60 * 60 * 1000;
 
 export function getAdminCookieOptions(isProduction = process.env.NODE_ENV === "production") {
@@ -26,4 +27,8 @@ export function readAuthToken(request: Pick<Request, "headers"> & { headersRaw?:
   const authorization = request.headers.authorization;
   if (authorization?.startsWith("Bearer ")) return authorization.slice(7).trim() || undefined;
   return readCookie(request.headers.cookie ?? request.headersRaw, AUTH_COOKIE_NAME);
+}
+
+export function readAuthMode(request: Pick<Request, "headers"> & { headersRaw?: string }): "client" | "admin" {
+  return readCookie(request.headers.cookie ?? request.headersRaw, AUTH_MODE_COOKIE_NAME) === "admin" ? "admin" : "client";
 }

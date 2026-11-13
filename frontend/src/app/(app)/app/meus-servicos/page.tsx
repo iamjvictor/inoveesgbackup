@@ -68,7 +68,7 @@ export default function MeusServicosPage() {
     });
   }, [companyLoading, company?.id, refreshProfile]);
 
-  // Carrega serviços comprados e solicitações de orçamento do localStorage & Banco de Dados
+  // Serviços contratados vêm do perfil atualizado pelo backend; orçamentos locais continuam preservados.
   useEffect(() => {
     if (companyLoading || !company) return;
 
@@ -78,12 +78,10 @@ export default function MeusServicosPage() {
       const companyId = company.id;
 
       try {
-        const purchasedStr = localStorage.getItem(`inoveesg_purchased_services_${companyId}`);
+        // Remove compras antigas em cache para que pedidos cancelados não continuem aparecendo como ativos.
+        localStorage.removeItem(`inoveesg_purchased_services_${companyId}`);
         const requestedStr = localStorage.getItem(`inoveesg_requested_budgets_${companyId}`);
 
-        if (purchasedStr) {
-          localPurchased = JSON.parse(purchasedStr);
-        }
         if (requestedStr) {
           setRequestedBudgets(JSON.parse(requestedStr));
         }
@@ -91,63 +89,23 @@ export default function MeusServicosPage() {
         console.error("Erro ao carregar dados locais do painel de serviços:", e);
       }
 
-      // Usa o contexto carregado no login como fonte principal dos serviços comprados
-      if (serviceAccess?.purchasedServices?.length) {
-        serviceAccess.purchasedServices.forEach((service) => {
-          const exists = localPurchased.some((s) => s.id === service.serviceId);
-          if (!exists) {
-            localPurchased.push({
-              id: service.serviceId,
-              name: service.name,
-              description: service.description || "",
-              priceFormatted: `R$ ${(service.unitPriceCents / 100).toFixed(2).replace(".", ",")}`,
-              purchasedAt: service.purchasedAt,
-              status: "ATIVO",
-            });
-          }
-        });
-      }
-
-      if (company.orders) {
-        const paidOrders = company.orders.filter((o) => o.status === "PAID");
-        paidOrders.forEach((order) => {
-          order.items?.forEach((item) => {
-            if (!item.product) return;
-            if (item.product.code === "INVITE_PACK") return; // Tratado separadamente pelas estatísticas de convites
-
-            const serviceId = item.product.code === "PRE_DIAGNOSTIC" ? "pre-diag" : 
-                             item.product.code === "PRE_DIAGNOSTIC_PLUS" ? "pre-diag-plus" : 
-                             item.product.code === "LIVRO_ESG" ? "livro-esg" : 
-                             item.product.code.toLowerCase().replace(/_/g, "-");
-
-            const exists = localPurchased.some((s) => s.id === serviceId);
-            if (!exists) {
-              let name = item.product.name;
-              let description = item.product.description || "";
-              
-              if (item.product.code === "PRE_DIAGNOSTIC") {
-                name = "Diagnóstico Autodeclarável";
-                description = "Diagnóstico de sustentabilidade corporativa focado em responder ao questionário inicial e acessar a nota de maturidade.";
-              } else if (item.product.code === "PRE_DIAGNOSTIC_PLUS") {
-                name = "Diagnóstico Autodeclarável + Consultoria";
-                description = "Diagnóstico de sustentabilidade corporativa focado em responder ao questionário inicial, acessar a nota de maturidade e 1h de consultoria.";
-              } else if (item.product.code === "LIVRO_ESG") {
-                name = "Livro Bioeconomia & ESG";
-                description = "Livro digital Bioeconomia & ESG.";
-              }
-
-              localPurchased.push({
-                id: serviceId,
-                name,
-                description,
-                priceFormatted: `R$ ${(item.unitPriceCents / 100).toFixed(2).replace(".", ",")}`,
-                purchasedAt: order.paidAt || order.createdAt,
-                status: "ATIVO"
-              });
-            }
+      // O access context inclui somente pedidos pagos e filtra o Bioimpacto após um ano.
+      // Agrupar pelo serviceId mantém um cartão por produto, mesmo com compras repetidas.
+      const servicesById = new Map<string, PurchasedService>();
+      for (const service of serviceAccess?.purchasedServices ?? []) {
+        if (service.productCode === "INVITE_PACK") continue;
+        if (!servicesById.has(service.serviceId)) {
+          servicesById.set(service.serviceId, {
+            id: service.serviceId,
+            name: service.name,
+            description: service.description || "",
+            priceFormatted: `R$ ${(service.unitPriceCents / 100).toFixed(2).replace(".", ",")}`,
+            purchasedAt: service.purchasedAt,
+            status: "ATIVO",
           });
-        });
+        }
       }
+      localPurchased.push(...servicesById.values());
 
       // Consulta o saldo real de convites e orçamentos no banco de dados
     const token = "cookie-session";

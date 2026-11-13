@@ -1,0 +1,34 @@
+{
+  "created": true,
+  "http_status": 201,
+  "init_point": {
+    "domain": "www.mercadopago.com.br",
+    "path": "/checkout/v1/redirect",
+    "scheme": "https:"
+  },
+  "sandbox_init_point": {
+    "domain": "sandbox.mercadopago.com.br",
+    "path": "/checkout/v1/redirect",
+    "scheme": "https:"
+  },
+  "notification_url_configured": false,
+  "sandbox_domain_verified": true,
+  "checkout_open": {
+    "http_status": 403,
+    "elapsed_ms": 1890,
+    "final_url": {
+      "domain": "sandbox.mercadopago.com.br",
+      "path": "/checkout/v1/redirect",
+      "scheme": "https:"
+    },
+    "error": null,
+    "blocked_external_domains": [
+      {
+        "domain": "http2.mlstatic.com",
+        "path": "/ui/navigation/2.3.5/mercadolibre/navigation.css"
+      }
+    ],
+    "title": "",
+    "body_text": "Mercado Libre - Donde comprar y vender de todo \nHubo un error accediendo a esta pagina...\nIr a la página principal"
+  }
+}

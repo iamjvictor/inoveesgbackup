@@ -4,7 +4,7 @@ import React, { useState, useEffect, Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 
 import { Button } from "@/components/ui/button";
-import { CreditCard, QrCode, ShieldCheck, Loader2, CheckCircle2, XCircle } from "lucide-react";
+import { CreditCard, QrCode, Loader2, CheckCircle2, XCircle } from "lucide-react";
 import { diagnosticService } from "@/features/company-area/services/diagnostic.service";
 import { inviteService } from "@/features/company-area/services/invite.service";
 
@@ -59,12 +59,16 @@ function CheckoutSimulateContent() {
       }
       
       if (status === "success") {
-        router.push("/app/checkout/success");
+        const verifiedOrderId = orderId && !orderId.startsWith("fake-") ? orderId : null;
+        const successUrl = verifiedOrderId
+          ? `/app/checkout/success?orderId=${encodeURIComponent(verifiedOrderId)}`
+          : "/app/checkout/success";
+        router.push(successUrl);
       } else {
         router.push("/app/checkout/failure");
       }
-    } catch (err: any) {
-      setError(err?.message ?? "Falha ao processar o pagamento simulado.");
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : "Falha ao processar o pagamento simulado.");
       setLoading(false);
     }
   };

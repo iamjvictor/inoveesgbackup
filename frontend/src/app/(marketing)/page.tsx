@@ -506,7 +506,7 @@ function HomeContent() {
                       </ul>
                     </div>
                     <div className="flex justify-between items-center mt-2 border-t border-gray-100 pt-2">
-                      <span className="font-bold text-sm text-foreground">R$ 500</span>
+                      <span className="font-bold text-sm text-foreground">R$ 550</span>
                       <button 
                         onClick={handlePlanClick}
                         className="bg-accent text-accent-foreground hover:bg-accent/90 border-0 font-bold text-xs h-auto py-1.5 px-3 flex justify-center items-center whitespace-nowrap rounded-full"

@@ -1,0 +1,35 @@
+{
+  "round_id": "20261104-r5",
+  "attempts": [
+    {
+      "entry": "authenticated Playwright browser fetch",
+      "method": "POST",
+      "path": "/api/checkout/preference",
+      "product_code": "PRE_DIAGNOSTIC_PLUS",
+      "requested_price_brl": 500,
+      "quantity": 1,
+      "application_response_http": 400,
+      "elapsed_ms": 5828
+    },
+    {
+      "entry": "UI flow /app/upgrade > Comprar on Pré-Diagnóstico ESG Autodeclarável > Comprar Agora",
+      "method": "POST",
+      "path": "/api/checkout/preference",
+      "product_code": "PRE_DIAGNOSTIC",
+      "displayed_price_brl": 250,
+      "quantity": 1,
+      "sandbox_provider_unit_price_brl": 0.01,
+      "application_response_http": 400,
+      "elapsed_ms": 5751,
+      "ui_error_shown": true
+    }
+  ],
+  "provider_error_class": "auto_return invalid; back_url.success must be defined",
+  "preference_created": false,
+  "checkout_url_returned": false,
+  "sandbox_checkout_opened": false,
+  "payment_submitted": false,
+  "synthetic_organization_persisted_orders_after_attempt": 0,
+  "synthetic_organization_persisted_diagnostics_after_attempt": 0,
+  "backend_effect": "Pending local diagnostic/order records were rolled back after Mercado Pago rejected the preference."
+}

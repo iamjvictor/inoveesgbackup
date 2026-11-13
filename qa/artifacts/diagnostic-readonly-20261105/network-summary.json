@@ -1,0 +1,222 @@
+{
+  "front": "http://localhost:3000",
+  "backendHealth": 200,
+  "finalUrl": "http://localhost:3000/app/diagnostico/preencher",
+  "loginAuthenticated": true,
+  "diagnosticVisible": true,
+  "diagnosticText": "Área da Empresa\nPainel\nMeus Serviços\nDiagnóstico\nEvidências\nCadeia\nResultados\nRanking\nQB\n\nQA Bioimpacto Sintético\n\nQA Bioimpacto\n\nSair\nPontuação Geral: 93%\nBaixar Relatório PDF\nVer Resultados Detalhados\nAmbiental\nEIXO E\n•\n17/17 QUESTÕES\nNota: 99%\n\nAvalia a pegada ecológica, eficiência energética, recursos hídricos, resíduos e emissões de carbono.\n\n99%\nProva Finalizada\nBioeconomia Circular\nEIXO B\n•\n14/14 QUESTÕES\nNota: 88%\n\nMapeia a circularidade de materiais, reaproveitamento de coprodutos e sustentabilidade da cadeia.\n\n88%\nProva Finalizada\nSocial\nEIXO S\n•\n21/21 QUESTÕES\nNota: 95%\n\nExamina a saúde ocupacional, direitos humanos, diversidade, relações comunitárias e segurança do trabalho.\n\n95%\nProva Finalizada\nGovernança\nEIXO G\n•\n23/23 QUESTÕES\nNota: 91%\n\nMede o canal de ética, compliance legal, transparência corporativa e práticas de conselho consultivo.\n\n91%\nProva Finalizada",
+  "fillRouteText": "Área da Empresa\nPainel\nMeus Serviços\nDiagnóstico\nEvidências\nCadeia\nResultados\nRanking\nQB\n\nQA Bioimpacto Sintético\n\nQA Bioimpacto\n\nSair\n\nDIAGNÓSTICO ESG\n\nPreenchimento do questionário\n\nResponda uma questão por vez. Selecione uma opção para avançar ou use os botões abaixo para navegar.\n\n0/75 perguntas respondidas\nEtapa 1/75\nPERGUNTA 1\nEixo E\nA empresa possui licenças ambientais válidas?\n\nSelecione a alternativa que melhor representa a situação atual da empresa.\n\nInexistente (A prática não existe, não é discutida ou nunca foi implementada)\nInicial (Existem ações pontuais ou informais, mas sem padronização ou acompanhamento)\nParcialmente Implementado (A prática está implementada em parte da empresa, com algum controle ou monitoramento)\nEstruturado (A prática é formalizada, aplicada de forma consistente e monitorada regularmente)\nAvançado / Estratégico (A prática é integrada à estratégia da empresa, possui metas, indicadores, melhoria contínua e/ou envolve cadeia de valor)\nVoltar\nPróxima pergunta\n\nVocê deve responder a todas as 75 perguntas para concluir o diagnóstico.",
+  "currentCalls": [
+    {
+      "method": "GET",
+      "path": "/api/diagnostic/current",
+      "status": 200,
+      "data": {
+        "hasDiagnostic": true,
+        "kind": "FULL_DIAGNOSTIC",
+        "status": "COMPLETED",
+        "responses": 75,
+        "questions": 75,
+        "industrySegment": "Agronegócio"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/diagnostic/current",
+      "status": 200,
+      "data": {
+        "hasDiagnostic": true,
+        "kind": "FULL_DIAGNOSTIC",
+        "status": "COMPLETED",
+        "responses": 75,
+        "questions": 75,
+        "industrySegment": "Agronegócio"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/diagnostic/current",
+      "status": 200,
+      "data": {
+        "hasDiagnostic": true,
+        "kind": "FULL_DIAGNOSTIC",
+        "status": "COMPLETED",
+        "responses": 75,
+        "questions": 75,
+        "industrySegment": "Agronegócio"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/diagnostic/current",
+      "status": 200,
+      "data": {
+        "hasDiagnostic": true,
+        "kind": "FULL_DIAGNOSTIC",
+        "status": "COMPLETED",
+        "responses": 75,
+        "questions": 75,
+        "industrySegment": "Agronegócio"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/diagnostic/current",
+      "status": 200,
+      "data": {
+        "hasDiagnostic": true,
+        "kind": "FULL_DIAGNOSTIC",
+        "status": "COMPLETED",
+        "responses": 75,
+        "questions": 75,
+        "industrySegment": "Agronegócio"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/diagnostic/current",
+      "status": 200,
+      "data": {
+        "hasDiagnostic": true,
+        "kind": "FULL_DIAGNOSTIC",
+        "status": "COMPLETED",
+        "responses": 75,
+        "questions": 75,
+        "industrySegment": "Agronegócio"
+      }
+    }
+  ],
+  "startCalls": [],
+  "blockedWrites": [],
+  "consoleErrors": [],
+  "pageErrors": [],
+  "responses": [
+    {
+      "method": "POST",
+      "path": "/api/auth/login",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/auth/me/access",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/auth/me/access",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/auth/me",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/auth/me",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/diagnostic/current",
+      "status": 200,
+      "data": {
+        "hasDiagnostic": true,
+        "kind": "FULL_DIAGNOSTIC",
+        "status": "COMPLETED",
+        "responses": 75,
+        "questions": 75,
+        "industrySegment": "Agronegócio"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/diagnostic/current",
+      "status": 200,
+      "data": {
+        "hasDiagnostic": true,
+        "kind": "FULL_DIAGNOSTIC",
+        "status": "COMPLETED",
+        "responses": 75,
+        "questions": 75,
+        "industrySegment": "Agronegócio"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/auth/me/access",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/auth/me",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/diagnostic/current",
+      "status": 200,
+      "data": {
+        "hasDiagnostic": true,
+        "kind": "FULL_DIAGNOSTIC",
+        "status": "COMPLETED",
+        "responses": 75,
+        "questions": 75,
+        "industrySegment": "Agronegócio"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/diagnostic/current",
+      "status": 200,
+      "data": {
+        "hasDiagnostic": true,
+        "kind": "FULL_DIAGNOSTIC",
+        "status": "COMPLETED",
+        "responses": 75,
+        "questions": 75,
+        "industrySegment": "Agronegócio"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/auth/me/access",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/auth/me",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/diagnostic/current",
+      "status": 200,
+      "data": {
+        "hasDiagnostic": true,
+        "kind": "FULL_DIAGNOSTIC",
+        "status": "COMPLETED",
+        "responses": 75,
+        "questions": 75,
+        "industrySegment": "Agronegócio"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/diagnostic/current",
+      "status": 200,
+      "data": {
+        "hasDiagnostic": true,
+        "kind": "FULL_DIAGNOSTIC",
+        "status": "COMPLETED",
+        "responses": 75,
+        "questions": 75,
+        "industrySegment": "Agronegócio"
+      }
+    }
+  ],
+  "screenshots": [
+    "02-diagnostico-desktop.png",
+    "03-preencher.png"
+  ]
+}

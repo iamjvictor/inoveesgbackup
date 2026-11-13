@@ -27,8 +27,13 @@ import { InviteRepository } from "../../invite/repositories/inviteRepository.js"
 import { generateESGReportPDF } from "./pdfGeneratorService.js";
 import { buildInitialEvidenceScoreRows } from "../../evidence/services/evidenceScore.js";
 import { getAgroEvidence } from "../../evidence/catalogs/agroEvidenceCatalog.js";
-import { getEvidenceUploadWindow } from "../../evidence/services/evidenceUploadWindow.js";
+import { getEvidenceUploadWindow, getBioimpactoEvidenceUploadWindow } from "../../evidence/services/evidenceUploadWindow.js";
 import { invalidateCurrentDiagnosticCache } from "./diagnosticCache.js";
+import { assertDiagnosticStartAccess, startOrReuseOpenDiagnostic } from "./diagnosticStartTransaction.js";
+import { assertDiagnosticCanBeEdited } from "./diagnosticEditGuard.js";
+import { withDiagnosticMutationLock } from "./diagnosticMutationLock.js";
+import { createDiagnosticResponseBatchUpsert } from "./diagnosticResponseBatch.js";
+import { retryTransientDiagnosticTransaction } from "./retryTransientDiagnosticTransaction.js";
 
 const diagnosticRepository = new DiagnosticRepository();
 const authRepository = new AuthRepository();
@@ -106,7 +111,7 @@ export function capPreDiagnosticScores<T extends DiagnosticScorePercentages>(
 
 export function hasEvidenceUploadAccess(productCodes: string[]): boolean {
   return productCodes.some((code) =>
-    ["ASSESSORIA_EVIDENCIAS", "ASSESSORIA_COMPLETA", "FULL_DIAGNOSTIC", "FULL_DIAGNOSTIC_PLUS"].includes(
+    ["ASSESSORIA_EVIDENCIAS", "ASSESSORIA_COMPLETA", "FULL_DIAGNOSTIC", "FULL_DIAGNOSTIC_PLUS", "BIOIMPACTO_EMPRESARIAL"].includes(
       code.trim().toUpperCase().replace(/-/g, "_"),
     ),
   );
@@ -114,7 +119,7 @@ export function hasEvidenceUploadAccess(productCodes: string[]): boolean {
 
 export function getCurrentDiagnosticKinds(productCodes: string[]): ("PRE_DIAGNOSTIC" | "FULL_DIAGNOSTIC")[] {
   const normalizedCodes = productCodes.map((code) => code.trim().toUpperCase().replace(/-/g, "_"));
-  return normalizedCodes.some((code) => ["FULL_DIAGNOSTIC", "FULL_DIAGNOSTIC_PLUS"].includes(code))
+  return normalizedCodes.some((code) => ["FULL_DIAGNOSTIC", "FULL_DIAGNOSTIC_PLUS", "BIOIMPACTO_EMPRESARIAL"].includes(code))
     ? ["FULL_DIAGNOSTIC"]
     : ["PRE_DIAGNOSTIC", "FULL_DIAGNOSTIC"];
 }
@@ -276,6 +281,23 @@ export function getDiagnosticQuestionsForSegment(
   return agroDiagnosticQuestions;
 }
 
+export function getDiagnosticQuestionsForCurrent(
+  organization: {
+    industrySegment?: string | null;
+    businessSegmentCode?: string | null;
+    businessCategoryCode?: string | null;
+  },
+  diagnosticKind?: string | null,
+) {
+  if (!diagnosticKind) return [];
+  return getDiagnosticQuestionsForSegment(
+    organization.industrySegment,
+    organization.businessSegmentCode,
+    organization.businessCategoryCode,
+    diagnosticKind,
+  ).map((question) => ({ ...question, weight: question.weight ?? 1 }));
+}
+
 function getDiagnosticSelectionKind(params: {
   hasSupplierRole: boolean;
   hasCompanyRole: boolean;
@@ -299,26 +321,6 @@ function buildQuestionWeightLookup(questions: DiagnosticQuestion[]): DiagnosticQ
       question.weight ?? 1,
     ])
   );
-}
-
-function escapeSqlLiteral(value: string) {
-  return value.replace(/'/g, "''");
-}
-
-function sqlLiteral(value: string | number | boolean | null | undefined) {
-  if (value === null || value === undefined) {
-    return "NULL";
-  }
-
-  if (typeof value === "number") {
-    return Number.isFinite(value) ? String(value) : "NULL";
-  }
-
-  if (typeof value === "boolean") {
-    return value ? "TRUE" : "FALSE";
-  }
-
-  return `'${escapeSqlLiteral(value)}'`;
 }
 
 function mapGroupCodeToEvidenceCategory(groupCode: EvidenceGroupCode): EvidenceCategory {
@@ -706,9 +708,10 @@ export class DiagnosticService {
     }
 
     let uploadWindowStartedAt: Date | null = null;
+    const bioimpactoPurchase = accessContext.purchasedServices.find((service: { productCode: string }) => service.productCode === "BIOIMPACTO_EMPRESARIAL");
     const hasFullDiagnostic = accessContext.purchasedProductCodes.some((code: string) =>
       ["FULL_DIAGNOSTIC", "FULL_DIAGNOSTIC_PLUS"].includes(code.trim().toUpperCase().replace(/-/g, "_")),
-    );
+    ) || Boolean(bioimpactoPurchase);
     if (hasFullDiagnostic) {
       const completedDeclaration = latestDeclaration?.status === "COMPLETED" && latestDeclaration.completedAt
         ? latestDeclaration
@@ -719,9 +722,13 @@ export class DiagnosticService {
       if (diagnostic.id !== completedDeclaration.id) {
         throw new Error("Envie as evidências vinculadas ao diagnóstico autodeclarado concluído mais recente.");
       }
-      const { canUpload } = getEvidenceUploadWindow(completedDeclaration.completedAt);
+      const { canUpload } = bioimpactoPurchase
+        ? getBioimpactoEvidenceUploadWindow(bioimpactoPurchase.purchasedAt)
+        : getEvidenceUploadWindow(completedDeclaration.completedAt);
       if (!canUpload) {
-        throw new Error("O prazo de 20 dias após a conclusão do diagnóstico para enviar evidências terminou.");
+        throw new Error(bioimpactoPurchase
+          ? "O envio de evidências do Plano 2.2 fica aberto entre os dias 1 e 15 de cada mês durante a vigência anual."
+          : "O prazo de 20 dias após a conclusão do diagnóstico para enviar evidências terminou.");
       }
       uploadWindowStartedAt = completedDeclaration.completedAt;
     }
@@ -865,8 +872,12 @@ export class DiagnosticService {
       });
 
       const saved = await prisma.$transaction(async (tx) => {
-        if (hasFullDiagnostic && !getEvidenceUploadWindow(uploadWindowStartedAt).canUpload) {
-          throw new Error("O prazo de 20 dias após a conclusão do diagnóstico para enviar evidências terminou.");
+        if (hasFullDiagnostic && !(bioimpactoPurchase
+          ? getBioimpactoEvidenceUploadWindow(bioimpactoPurchase.purchasedAt)
+          : getEvidenceUploadWindow(uploadWindowStartedAt)).canUpload) {
+          throw new Error(bioimpactoPurchase
+            ? "O envio de evidências do Plano 2.2 fica aberto entre os dias 1 e 15 de cada mês durante a vigência anual."
+            : "O prazo de 20 dias após a conclusão do diagnóstico para enviar evidências terminou.");
         }
         const requestIdsByCode = new Map<string, string>();
 
@@ -1039,15 +1050,23 @@ export class DiagnosticService {
     }
   }
 
-  private async saveCalculatedScore(diagnosticId: string, score: CalculatedDiagnosticScore) {
+  private async saveCalculatedScore(tx: Prisma.TransactionClient, diagnosticId: string, supabaseUserId: string, score: CalculatedDiagnosticScore) {
     console.log("[DiagnosticService.saveCalculatedScore] Salvando score calculado no banco", {
       diagnosticId,
       score,
     });
 
-    const t0 = Date.now();
-    const result = await prisma.$transaction(async (tx) => {
-      const diagnosticScore = await tx.diagnosticScore.upsert({
+    const completion = await tx.diagnostic.updateMany({
+      where: { id: diagnosticId, status: { not: "COMPLETED" } },
+      data: {
+        status: "COMPLETED",
+        completedAt: new Date(),
+        responsibilityDeclarationAccepted: true,
+      },
+    });
+    if (completion.count !== 1) throw new Error("Este diagnóstico já foi concluído.");
+
+    const diagnosticScore = await tx.diagnosticScore.upsert({
         where: { diagnosticId },
         update: {
           overallScore: score.overallScore,
@@ -1067,26 +1086,27 @@ export class DiagnosticService {
           governanceScore: score.governanceScore,
           maturityLevel: score.maturityLevel,
         },
-      });
+    });
 
-      await tx.diagnostic.update({
-        where: { id: diagnosticId },
-        data: {
-          status: "COMPLETED",
-          completedAt: new Date(),
-          responsibilityDeclarationAccepted: true,
-        },
-      });
-
-      return diagnosticScore;
+    const [diagnostic, recipient] = await Promise.all([
+      tx.diagnostic.findUniqueOrThrow({ where: { id: diagnosticId }, select: { kind: true } }),
+      tx.user.findUnique({ where: { supabaseUserId }, select: { email: true, fullName: true } }),
+    ]);
+    if (!recipient) throw new Error("Usuário não encontrado para registrar a conclusão do diagnóstico");
+    await tx.emailOutbox.create({
+      data: {
+        eventKey: `diagnostic-completed:${diagnosticId}`,
+        eventType: "DIAGNOSTIC_COMPLETED",
+        recipient: recipient.email,
+        payload: { name: recipient.fullName ?? "", diagnosticKind: diagnostic.kind },
+      },
     });
 
     console.log("[DiagnosticService.saveCalculatedScore] Score salvo com sucesso", {
       diagnosticId,
-      durationMs: Date.now() - t0,
     });
 
-    return result;
+    return diagnosticScore;
   }
 
   async startDiagnostic(supabaseUserId: string): Promise<DiagnosticStartPayload> {
@@ -1108,11 +1128,23 @@ export class DiagnosticService {
     const hasCompanyRole = organization.roles?.some((r: any) => r.role === "COMPANY") ?? false;
     const isSupplierOrg = hasSupplierRole && !hasCompanyRole;
 
-    const currentDiagnostic = await diagnosticRepository.findOpenByOrganizationId(organization.id);
-    const kind = getDiagnosticSelectionKind({
+    // Serialize start requests by organization. The lookup and insert must share
+    // this transaction so concurrent requests cannot both create a draft.
+    const accessContext = buildAuthAccessContext(profile);
+    const hasPreDiagnosticAccess = accessContext?.hasPreDiagnosticAccess ?? false;
+    assertDiagnosticStartAccess(hasCompanyRole, hasPreDiagnosticAccess);
+    const consultoriaAccess = hasConsultoriaAccess(profile);
+    const kind = getDiagnosticSelectionKind({ hasSupplierRole, hasCompanyRole });
+    const { diagnostic, createdNewDiagnostic } = await startOrReuseOpenDiagnostic(prisma, {
+      organizationId: organization.id,
+      kind,
+      consultoriaAccess,
+    });
+
+    const resolvedKind = getDiagnosticSelectionKind({
       hasSupplierRole,
       hasCompanyRole,
-      persistedDiagnosticKind: currentDiagnostic?.kind,
+      persistedDiagnosticKind: diagnostic.kind,
     });
 
     const industrySegment = normalizeIndustrySegment(organization.industrySegment);
@@ -1120,10 +1152,9 @@ export class DiagnosticService {
       organization.industrySegment,
       organization.businessSegment?.code,
       organization.businessCategory?.code,
-      kind
+      resolvedKind
     );
     const resolvedIndustrySegment = industrySegment ?? organization.industrySegment ?? "Geral";
-    const consultoriaAccess = hasConsultoriaAccess(profile);
 
     console.info("[diagnostic.service.startDiagnostic] Organization resolved", {
       supabaseUserId,
@@ -1158,42 +1189,13 @@ export class DiagnosticService {
       consultoriaAccess,
     });
 
-    const latestCompletedDiagnostic = currentDiagnostic
-      ? null
-      : await diagnosticRepository.findLatestCompletedByOrganizationId(organization.id);
-
-    const accessContext = buildAuthAccessContext(profile);
-    const hasPreDiagnosticAccess = accessContext?.hasPreDiagnosticAccess ?? false;
-
-    if (hasCompanyRole && !hasPreDiagnosticAccess) {
-      console.warn("[diagnostic.service.startDiagnostic] Access blocked: company has not purchased pre-diagnostic or any subscription", {
-        organizationId: organization.id,
-      });
-      throw new Error("Você precisa adquirir o Pré-Diagnóstico ou um plano de assessoria para iniciar a avaliação.");
-    }
-
-    if (!currentDiagnostic && latestCompletedDiagnostic && !consultoriaAccess) {
-      console.warn("[diagnostic.service.startDiagnostic] Refill blocked without consultoria access", {
-        organizationId: organization.id,
-        latestCompletedDiagnosticId: latestCompletedDiagnostic.id,
-      });
-      throw new Error("Você já concluiu este diagnóstico. Para refazer, contrate um plano de consultoria.");
-    }
-
-    const diagnostic =
-      currentDiagnostic ?? (await diagnosticRepository.createDraftDiagnostic(
-        organization.id,
-        `Diagnóstico ESG - ${resolvedIndustrySegment}`,
-        kind
-      ));
-
     console.info("[diagnostic.service.startDiagnostic] Diagnostic session ready", {
       organizationId: organization.id,
       diagnosticId: diagnostic.id,
       persistedDiagnosticKind: diagnostic.kind,
       diagnosticStatus: diagnostic.status,
-      reusedExistingDiagnostic: !!currentDiagnostic,
-      createdNewDiagnostic: !currentDiagnostic,
+      reusedExistingDiagnostic: !createdNewDiagnostic,
+      createdNewDiagnostic,
     });
 
     await invalidateCurrentDiagnosticCache(organization.id);
@@ -1341,6 +1343,14 @@ export class DiagnosticService {
     const accessContext = await authRepository.getAccessContextBySupabaseUserId(supabaseUserId);
     const diagnosticKinds = getCurrentDiagnosticKinds(accessContext?.purchasedProductCodes ?? []);
     const cacheKey = `diagnostic:current:${organizationId}:${diagnosticKinds.join(",")}`;
+    const industrySegment = normalizeIndustrySegment(organization.industrySegment) ?? organization.industrySegment ?? "Geral";
+    const toQuestionPayload = (selectedDiagnostic: { kind: string } | null) => {
+      return getDiagnosticQuestionsForCurrent({
+        industrySegment: organization.industrySegment,
+        businessSegmentCode: organization.businessSegment?.code,
+        businessCategoryCode: organization.businessCategory?.code,
+      }, selectedDiagnostic?.kind);
+    };
     const cached = await cache.get<{ diagnostic: any; hasDiagnostic: boolean }>(cacheKey);
     if (cached !== undefined) {
       console.info("[diagnostic.service.getCurrentDiagnostic] Cache hit", {
@@ -1363,6 +1373,8 @@ export class DiagnosticService {
       return {
         diagnostic: transformedCachedDiagnostic,
         hasDiagnostic: cached.hasDiagnostic,
+        questions: toQuestionPayload(cached.diagnostic),
+        industrySegment,
       };
     }
 
@@ -1398,6 +1410,8 @@ export class DiagnosticService {
     return {
       diagnostic: transformedDiagnostic,
       hasDiagnostic: !!diagnostic,
+      questions: toQuestionPayload(diagnostic),
+      industrySegment,
     };
   }
 
@@ -1420,6 +1434,7 @@ export class DiagnosticService {
       responsesCount: responsesInput.length,
     });
 
+    const organizationLookupStartedAt = Date.now();
     const organizationId = await authRepository.findOrganizationIdBySupabaseUserId(supabaseUserId);
 
     if (!organizationId) {
@@ -1429,31 +1444,11 @@ export class DiagnosticService {
       throw new Error("Empresa não encontrada para o usuário atual");
     }
 
-    const diagnostic = await diagnosticRepository.findById(diagnosticId);
-    if (!diagnostic) {
-      console.error("[diagnostic.service.saveResponses] Diagnostic not found", {
-        diagnosticId,
-      });
-      throw new Error("Diagnóstico não encontrado");
-    }
-
-    if (diagnostic.organizationId !== organizationId) {
-      console.error("[diagnostic.service.saveResponses] Diagnostic does not belong to organization", {
-        diagnosticId,
-        diagnosticOrganizationId: diagnostic.organizationId,
-        organizationId,
-      });
-      throw new Error("Diagnóstico não pertence à sua empresa");
-    }
-
+    const organizationLookupDurationMs = Date.now() - organizationLookupStartedAt;
+    const profileLookupStartedAt = Date.now();
     const profile = await authRepository.findBySupabaseUserId(supabaseUserId);
     const organization = profile?.organizationUsers?.[0]?.organization;
-    const questionWeightLookup = buildQuestionWeightLookup(getDiagnosticQuestionsForSegment(
-      organization?.industrySegment,
-      organization?.businessSegment?.code,
-      organization?.businessCategory?.code,
-      diagnostic.kind
-    ));
+    const profileLookupDurationMs = Date.now() - profileLookupStartedAt;
 
     console.info("[diagnostic.service.saveResponses] Starting database transaction", {
       organizationId,
@@ -1461,8 +1456,23 @@ export class DiagnosticService {
       responsesCount: responsesInput.length,
     });
     const t0 = Date.now();
+    let transactionAttempts = 0;
     try {
-      const result = await prisma.$transaction(async (tx) => {
+      const result = await retryTransientDiagnosticTransaction((attempt) => {
+        transactionAttempts = attempt;
+        return withDiagnosticMutationLock(prisma, diagnosticId, async (tx) => {
+        // Lock and validate the diagnostic inside the same transaction as the
+        // upserts. This closes the race with completion: if completion commits
+        // first, this query sees COMPLETED and rejects; otherwise completion
+        // waits until these edits commit.
+        const diagnosticKind = await assertDiagnosticCanBeEdited(tx, diagnosticId, organizationId);
+        const questionWeightLookup = buildQuestionWeightLookup(getDiagnosticQuestionsForSegment(
+          organization?.industrySegment,
+          organization?.businessSegment?.code,
+          organization?.businessCategory?.code,
+          diagnosticKind
+        ));
+
         const responsesToUpsert = responsesInput.map((res) => {
           let score: number | null = null;
 
@@ -1494,74 +1504,59 @@ export class DiagnosticService {
           };
         });
 
-        console.info("[diagnostic.service.saveResponses] Creating response batch", {
+        // PostgreSQL rejects a multi-row ON CONFLICT statement if the same
+        // diagnostic/question key occurs twice. The old sequential upserts
+        // applied the last value, so dedupe by questionOrder with last value winning.
+        const responsesByOrder = new Map<number, (typeof responsesToUpsert)[number]>();
+        for (const response of responsesToUpsert) responsesByOrder.set(response.questionOrder, response);
+        const uniqueResponses = [...responsesByOrder.values()];
+
+        console.info("[diagnostic.service.saveResponses] Writing response batch", {
           diagnosticId,
-          responsesCount: responsesToUpsert.length,
+          submittedResponses: responsesInput.length,
+          uniqueResponses: uniqueResponses.length,
+          queryCount: 1,
+          attempt,
+        });
+        const batchStartedAt = Date.now();
+        await tx.$executeRaw(createDiagnosticResponseBatchUpsert(uniqueResponses.map((response) => ({
+          ...response,
+          id: randomUUID(),
+        }))));
+        console.info("[diagnostic.service.saveResponses] Response batch written", {
+          diagnosticId,
+          responsesCount: uniqueResponses.length,
+          durationMs: Date.now() - batchStartedAt,
+          attempt,
         });
 
-        for (const [index, responseData] of responsesToUpsert.entries()) {
-          const responseId = randomUUID();
-          console.info("[diagnostic.service.saveResponses] Creating response row", {
-            diagnosticId,
-            index,
-            questionCode: responseData.questionCode,
-            questionOrder: responseData.questionOrder,
-            axis: responseData.axis,
-          });
-
-          const upsertSql = `
-            INSERT INTO "diagnostic_responses" (
-              "id",
-              "diagnosticId",
-              "questionCode",
-              "questionOrder",
-              "axis",
-              "questionText",
-              "questionType",
-              "answerText",
-              "score",
-              "weight",
-              "answeredAt",
-              "updatedAt"
-            )
-            VALUES (
-              ${sqlLiteral(responseId)}::uuid,
-              ${sqlLiteral(diagnosticId)}::uuid,
-              ${sqlLiteral(responseData.questionCode)},
-              ${sqlLiteral(responseData.questionOrder)},
-              ${sqlLiteral(responseData.axis)},
-              ${sqlLiteral(responseData.questionText)},
-              ${sqlLiteral(responseData.questionType)},
-              ${sqlLiteral(responseData.answerText)},
-              ${sqlLiteral(responseData.score)},
-              ${sqlLiteral(Number(responseData.weight))},
-              NOW(),
-              NOW()
-            )
-            ON CONFLICT ("diagnosticId", "questionOrder") DO UPDATE SET
-              "questionCode" = EXCLUDED."questionCode",
-              "axis" = EXCLUDED."axis",
-              "questionText" = EXCLUDED."questionText",
-              "questionType" = EXCLUDED."questionType",
-              "answerText" = EXCLUDED."answerText",
-              "score" = EXCLUDED."score",
-              "weight" = EXCLUDED."weight",
-              "answeredAt" = EXCLUDED."answeredAt",
-              "updatedAt" = NOW()
-          `;
-
-          await tx.$executeRawUnsafe(upsertSql);
-        }
-
+        const readbackStartedAt = Date.now();
         const saved = await tx.diagnosticResponse.findMany({
           where: { diagnosticId },
           orderBy: { questionOrder: "asc" },
         });
+        console.info("[diagnostic.service.saveResponses] Response readback completed", {
+          diagnosticId,
+          responsesCount: saved.length,
+          durationMs: Date.now() - readbackStartedAt,
+          attempt,
+        });
 
         return saved;
+        });
       }, {
-        maxWait: 15_000,
-        timeout: 60_000,
+        onRetry: (error, failedAttempt) => {
+          const candidate = error as { code?: unknown; meta?: { code?: unknown } };
+          const code = typeof candidate?.code === "string"
+            ? candidate.code
+            : typeof candidate?.meta?.code === "string" ? candidate.meta.code : "unknown";
+          console.warn("[diagnostic.service.saveResponses] Retrying transient transaction", {
+            diagnosticId,
+            failedAttempt,
+            nextAttempt: failedAttempt + 1,
+            code,
+          });
+        },
       });
 
       console.info("[diagnostic.service.saveResponses] Transaction completed", {
@@ -1569,13 +1564,21 @@ export class DiagnosticService {
         diagnosticId,
         durationMs: Date.now() - t0,
         savedResponses: result.length,
+        transactionAttempts,
+        organizationLookupDurationMs,
+        profileLookupDurationMs,
       });
 
       console.info("[diagnostic.service.saveResponses] Invalidating cache after successful save", {
         organizationId,
         cacheKey: `diagnostic:current:${organizationId}`,
       });
+      const cacheInvalidationStartedAt = Date.now();
       await invalidateCurrentDiagnosticCache(organizationId);
+      console.info("[diagnostic.service.saveResponses] Cache invalidated", {
+        diagnosticId,
+        durationMs: Date.now() - cacheInvalidationStartedAt,
+      });
 
       return result;
     } catch (error) {
@@ -1590,32 +1593,26 @@ export class DiagnosticService {
   }
 
   async calculateScore(supabaseUserId: string, diagnosticId: string, responsibilityDeclarationAccepted: boolean) {
+    const organizationId = await authRepository.findOrganizationIdBySupabaseUserId(supabaseUserId);
+    if (!organizationId) throw new Error("Empresa não encontrada para o usuário atual");
+
+    // Keep one database transaction and the same per-diagnostic lock used by
+    // saveResponses from response read through score/status persistence.
+    const result = await withDiagnosticMutationLock(prisma, diagnosticId, async (tx) => {
+      return this.calculateScoreWithMutationLock(tx, supabaseUserId, diagnosticId, organizationId, responsibilityDeclarationAccepted);
+    });
+    await invalidateCurrentDiagnosticCache(organizationId);
+    await cache.delete(`auth:profile:v2:${supabaseUserId}`);
+    return result;
+  }
+
+  private async calculateScoreWithMutationLock(tx: Prisma.TransactionClient, supabaseUserId: string, diagnosticId: string, organizationId: string, responsibilityDeclarationAccepted: boolean) {
     console.log(`[DiagnosticService.calculateScore] Início do cálculo de score:`, {
       supabaseUserId,
       diagnosticId,
     });
 
-    const organizationId = await authRepository.findOrganizationIdBySupabaseUserId(supabaseUserId);
-
-    if (!organizationId) {
-      console.error(`[DiagnosticService.calculateScore] Erro: Empresa não encontrada para o usuário ${supabaseUserId}`);
-      throw new Error("Empresa não encontrada para o usuário atual");
-    }
-
-    const diagnostic = await diagnosticRepository.findById(diagnosticId);
-    if (!diagnostic) {
-      console.error(`[DiagnosticService.calculateScore] Erro: Diagnóstico ${diagnosticId} não encontrado`);
-      throw new Error("Diagnóstico não encontrado");
-    }
-
-    if (diagnostic.organizationId !== organizationId) {
-      console.error(`[DiagnosticService.calculateScore] Erro: Diagnóstico ${diagnosticId} (Org: ${diagnostic.organizationId}) não pertence à empresa do usuário (Org: ${organizationId})`);
-      throw new Error("Diagnóstico não pertence à sua empresa");
-    }
-
-    if (diagnostic.status === "COMPLETED") {
-      throw new Error("Este diagnóstico já foi concluído.");
-    }
+    const diagnosticKind = await assertDiagnosticCanBeEdited(tx, diagnosticId, organizationId);
 
     if (!responsibilityDeclarationAccepted) {
       console.error("[DiagnosticService.calculateScore] Responsabilidade não declarada pelo usuário", {
@@ -1631,17 +1628,14 @@ export class DiagnosticService {
       organization?.industrySegment,
       organization?.businessSegment?.code,
       organization?.businessCategory?.code,
-      diagnostic.kind
+      diagnosticKind
     );
     const questionWeightLookup = buildQuestionWeightLookup(questions);
     const totalQuestions = questions.length;
 
-    console.log(`[DiagnosticService.calculateScore] Invalidando cache do diagnóstico para a empresa ${organizationId}`);
-    await invalidateCurrentDiagnosticCache(organizationId);
-
     // Buscar todas as respostas salvas do diagnóstico
     console.log(`[DiagnosticService.calculateScore] Buscando respostas no banco de dados para o diagnóstico ${diagnosticId}...`);
-    const savedResponses = await prisma.diagnosticResponse.findMany({
+    const savedResponses = await tx.diagnosticResponse.findMany({
       where: { diagnosticId },
     });
 
@@ -1687,7 +1681,7 @@ export class DiagnosticService {
       (socialRawScore * 0.3) +
       (governanceRawScore * 0.3);
 
-    const cappedOverallRawScore = diagnostic.kind === "PRE_DIAGNOSTIC"
+    const cappedOverallRawScore = diagnosticKind === "PRE_DIAGNOSTIC"
       ? Math.min(overallRawScore, 4.0)
       : overallRawScore;
 
@@ -1697,7 +1691,7 @@ export class DiagnosticService {
       socialScore: toPercentage(socialRawScore),
       governanceScore: toPercentage(governanceRawScore),
       overallScore: toPercentage(cappedOverallRawScore),
-    }, diagnostic.kind);
+    }, diagnosticKind);
     const { environmentalScore, bioeconomyCircularScore, socialScore, governanceScore, overallScore } = cappedScores;
 
     let maturityLevel: CalculatedDiagnosticScore["maturityLevel"] = "NASCENT";
@@ -1724,7 +1718,7 @@ export class DiagnosticService {
     console.log(`[DiagnosticService.calculateScore] Salvando scores e atualizando diagnóstico...`);
     const t0 = Date.now();
     try {
-      const diagnosticScore = await this.saveCalculatedScore(diagnosticId, {
+      const diagnosticScore = await this.saveCalculatedScore(tx, diagnosticId, supabaseUserId, {
         overallScore,
         environmentalScore,
         bioeconomyCircularScore,
@@ -1745,9 +1739,6 @@ export class DiagnosticService {
       };
 
       console.log(`[DiagnosticService.calculateScore] Sucesso! Scores salvos e diagnóstico atualizado em ${Date.now() - t0}ms`);
-
-      // Invalidate cached auth profile to update diagnostic status instantly in layout/context
-      await cache.delete(`auth:profile:v2:${supabaseUserId}`);
 
       return result;
     } catch (error) {

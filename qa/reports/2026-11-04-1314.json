@@ -1,0 +1,16 @@
+{
+  "round_id":"20261104-r2",
+  "started_at":"2026-11-04T13:14:00-03:00",
+  "finished_at":"2026-11-04T13:15:00-03:00",
+  "environment":{"frontend":{"host":"localhost:3000"},"browser":"Chromium headless, Playwright programmatic 1.64.1","network":"no 5xx observed","commands":[{"command":"Playwright FAQ click at 375x812","result":"answer expanded; scrollWidth 360"},{"command":"Open login and press Tab","result":"focus moved to page link outside modal"}]},
+  "scenarios":[
+    {"id":"AC-006-faq","name":"FAQ expansion","status":"PASS","evidence":["qa/artifacts/20261104-r2/mobile-faq.png"]},
+    {"id":"AC-006-mobile","name":"375x812 responsive layout","status":"PASS","result":"scrollWidth 360, no horizontal overflow observed","evidence":["qa/artifacts/20261104-r2/mobile-faq.png"]},
+    {"id":"AC-006-keyboard","name":"Keyboard focus in login modal","status":"FAIL","severity":"low","result":"Tab focus moves outside modal to homepage link","evidence":["qa/artifacts/20261104-r2/login-keyboard.png"]}
+  ],
+  "bugs":[{"severity":"low","title":"Login modal lacks initial/focus-contained keyboard flow","steps":["open homepage","activate Login","press Tab"],"hypothesis":"missing initial focus and focus trap","evidence":"qa/artifacts/20261104-r2/login-keyboard.png"}],
+  "blocked_items":[],"synthetic_accounts":[],
+  "artifacts":["qa/artifacts/20261104-r2/mobile-faq.png","qa/artifacts/20261104-r2/login-keyboard.png","qa/logs/qa-explorer-2026-11-04.log"],
+  "improvements":[{"priority":"low","item":"Focus modal on open, contain and restore focus on close"}],
+  "next_actions":["Validate keyboard focus flow after fix","Keep checkout blocked until both MP variables are confirmed TEST-"]
+}

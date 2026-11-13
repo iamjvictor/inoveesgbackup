@@ -1,0 +1,340 @@
+{
+  "capturedAt": "2026-11-05T12:54:04.822Z",
+  "loginUrl": "http://localhost:3000/app",
+  "api": [
+    {
+      "status": 200,
+      "url": "/api/auth/login"
+    },
+    {
+      "status": 200,
+      "url": "/api/auth/me/access"
+    },
+    {
+      "status": 200,
+      "url": "/api/auth/me/access"
+    },
+    {
+      "status": 200,
+      "url": "/api/auth/me"
+    },
+    {
+      "status": 200,
+      "url": "/api/diagnostic/current"
+    },
+    {
+      "status": 200,
+      "url": "/api/diagnostic/current"
+    },
+    {
+      "status": 200,
+      "url": "/api/auth/me"
+    },
+    {
+      "status": 200,
+      "url": "/api/auth/me/access"
+    },
+    {
+      "status": 200,
+      "url": "/api/auth/me"
+    },
+    {
+      "status": 200,
+      "url": "/api/diagnostic/current"
+    },
+    {
+      "status": 200,
+      "url": "/api/diagnostic/current"
+    }
+  ],
+  "measurements": [
+    {
+      "name": "tablet",
+      "url": "http://localhost:3000/app/diagnostico",
+      "viewport": {
+        "width": 768,
+        "height": 1024
+      },
+      "documentWidth": 753,
+      "bodyStart": "Área da Empresa\nPainel\nMeus Serviços\nDiagnóstico\nEvidências\nCadeia\nResultados\nRanking\nQB\n\nQA Bioimpacto Sintético\n\nQA Bioimpacto\n\nSair\nPontuação Geral: 93%\nBaixar Relatório PDF\nVer Resultados Detalhados\nAmbiental\nEIXO E\n•\n17/17 QUESTÕES\nNota: 99%\n\nAvalia a pegada ecológica, eficiência energética, recursos hídricos, resíduos e emissões de carbono.\n\n99%\nProva Finalizada\nBioeconomia Circular\nEIXO B\n•\n14/14 QUESTÕES\nNota: 88%\n\nMapeia a circularidade de materiais, reaproveitamento de coprodutos e sus",
+      "button": {
+        "text": "Baixar Relatório PDF",
+        "rect": {
+          "x": 353,
+          "y": 125,
+          "left": 353,
+          "right": 688,
+          "width": 335,
+          "height": 48
+        },
+        "clippedAtViewport": false,
+        "display": "flex",
+        "overflowX": "visible"
+      },
+      "banner": {
+        "text": "Pontuação Geral: 93%\nBaixar Relatório PDF\nVer Resultados Detalhados",
+        "rect": {
+          "x": 320,
+          "y": 32,
+          "left": 320,
+          "right": 721,
+          "width": 401,
+          "height": 234
+        },
+        "clippedAtViewport": false,
+        "display": "block",
+        "overflowX": "hidden"
+      },
+      "cards": [
+        {
+          "text": "Ambiental\nEIXO E\n•\n17/17 QUESTÕES\nNota: 99%\n\nAvalia a pegada ecológica, eficiência energética, recursos hídricos, resídu",
+          "rect": {
+            "x": 320,
+            "y": 298,
+            "left": 320,
+            "right": 721,
+            "width": 401,
+            "height": 299
+          },
+          "clippedAtViewport": false,
+          "display": "flex",
+          "overflowX": "visible"
+        },
+        {
+          "text": "Bioeconomia Circular\nEIXO B\n•\n14/14 QUESTÕES\nNota: 88%\n\nMapeia a circularidade de materiais, reaproveitamento de coprodu",
+          "rect": {
+            "x": 320,
+            "y": 613,
+            "left": 320,
+            "right": 721,
+            "width": 401,
+            "height": 323
+          },
+          "clippedAtViewport": false,
+          "display": "flex",
+          "overflowX": "visible"
+        },
+        {
+          "text": "Social\nEIXO S\n•\n21/21 QUESTÕES\nNota: 95%\n\nExamina a saúde ocupacional, direitos humanos, diversidade, relações comunitár",
+          "rect": {
+            "x": 320,
+            "y": 952,
+            "left": 320,
+            "right": 721,
+            "width": 401,
+            "height": 323
+          },
+          "clippedAtViewport": false,
+          "display": "flex",
+          "overflowX": "visible"
+        },
+        {
+          "text": "Governança\nEIXO G\n•\n23/23 QUESTÕES\nNota: 91%\n\nMede o canal de ética, compliance legal, transparência corporativa e práti",
+          "rect": {
+            "x": 320,
+            "y": 1291,
+            "left": 320,
+            "right": 721,
+            "width": 401,
+            "height": 323
+          },
+          "clippedAtViewport": false,
+          "display": "flex",
+          "overflowX": "visible"
+        }
+      ]
+    },
+    {
+      "name": "desktop",
+      "url": "http://localhost:3000/app/diagnostico",
+      "viewport": {
+        "width": 1365,
+        "height": 900
+      },
+      "documentWidth": 1350,
+      "bodyStart": "Área da Empresa\nPainel\nMeus Serviços\nDiagnóstico\nEvidências\nCadeia\nResultados\nRanking\nQB\n\nQA Bioimpacto Sintético\n\nQA Bioimpacto\n\nSair\nPontuação Geral: 93%\nBaixar Relatório PDF\nVer Resultados Detalhados\nAmbiental\nEIXO E\n•\n17/17 QUESTÕES\nNota: 99%\n\nAvalia a pegada ecológica, eficiência energética, recursos hídricos, resíduos e emissões de carbono.\n\n99%\nProva Finalizada\nBioeconomia Circular\nEIXO B\n•\n14/14 QUESTÕES\nNota: 88%\n\nMapeia a circularidade de materiais, reaproveitamento de coprodutos e sus",
+      "button": {
+        "text": "Baixar Relatório PDF",
+        "rect": {
+          "x": 790.421875,
+          "y": 65,
+          "left": 790.421875,
+          "right": 1006.5625,
+          "width": 216.140625,
+          "height": 48
+        },
+        "clippedAtViewport": false,
+        "display": "flex",
+        "overflowX": "visible"
+      },
+      "banner": {
+        "text": "Pontuação Geral: 93%\nBaixar Relatório PDF\nVer Resultados Detalhados",
+        "rect": {
+          "x": 328,
+          "y": 32,
+          "left": 328,
+          "right": 1310,
+          "width": 982,
+          "height": 114
+        },
+        "clippedAtViewport": false,
+        "display": "block",
+        "overflowX": "hidden"
+      },
+      "cards": [
+        {
+          "text": "Ambiental\nEIXO E\n•\n17/17 QUESTÕES\nNota: 99%\n\nAvalia a pegada ecológica, eficiência energética, recursos hídricos, resídu",
+          "rect": {
+            "x": 328,
+            "y": 178,
+            "left": 328,
+            "right": 807,
+            "width": 479,
+            "height": 299
+          },
+          "clippedAtViewport": false,
+          "display": "flex",
+          "overflowX": "visible"
+        },
+        {
+          "text": "Bioeconomia Circular\nEIXO B\n•\n14/14 QUESTÕES\nNota: 88%\n\nMapeia a circularidade de materiais, reaproveitamento de coprodu",
+          "rect": {
+            "x": 831,
+            "y": 178,
+            "left": 831,
+            "right": 1310,
+            "width": 479,
+            "height": 299
+          },
+          "clippedAtViewport": false,
+          "display": "flex",
+          "overflowX": "visible"
+        },
+        {
+          "text": "Social\nEIXO S\n•\n21/21 QUESTÕES\nNota: 95%\n\nExamina a saúde ocupacional, direitos humanos, diversidade, relações comunitár",
+          "rect": {
+            "x": 328,
+            "y": 501,
+            "left": 328,
+            "right": 807,
+            "width": 479,
+            "height": 299
+          },
+          "clippedAtViewport": false,
+          "display": "flex",
+          "overflowX": "visible"
+        },
+        {
+          "text": "Governança\nEIXO G\n•\n23/23 QUESTÕES\nNota: 91%\n\nMede o canal de ética, compliance legal, transparência corporativa e práti",
+          "rect": {
+            "x": 831,
+            "y": 501,
+            "left": 831,
+            "right": 1310,
+            "width": 479,
+            "height": 299
+          },
+          "clippedAtViewport": false,
+          "display": "flex",
+          "overflowX": "visible"
+        }
+      ]
+    },
+    {
+      "name": "mobile",
+      "url": "http://localhost:3000/app/diagnostico",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "documentWidth": 375,
+      "bodyStart": "Área da Empresa\nQA Bioimpacto\nÁrea da Empresa\nPainel\nMeus Serviços\nDiagnóstico\nEvidências\nCadeia\nResultados\nRanking\nQB\n\nQA Bioimpacto Sintético\n\nQA Bioimpacto\n\nSair\nPontuação Geral: 93%\nBaixar Relatório PDF\nVer Resultados Detalhados\nAmbiental\nEIXO E\n•\n17/17 QUESTÕES\nNota: 99%\n\nAvalia a pegada ecológica, eficiência energética, recursos hídricos, resíduos e emissões de carbono.\n\n99%\nProva Finalizada\nBioeconomia Circular\nEIXO B\n•\n14/14 QUESTÕES\nNota: 88%\n\nMapeia a circularidade de materiais, reapro",
+      "button": {
+        "text": "Baixar Relatório PDF",
+        "rect": {
+          "x": 41,
+          "y": 161,
+          "left": 41,
+          "right": 334,
+          "width": 293,
+          "height": 48
+        },
+        "clippedAtViewport": false,
+        "display": "flex",
+        "overflowX": "visible"
+      },
+      "banner": {
+        "text": "Pontuação Geral: 93%\nBaixar Relatório PDF\nVer Resultados Detalhados",
+        "rect": {
+          "x": 16,
+          "y": 80,
+          "left": 16,
+          "right": 359,
+          "width": 343,
+          "height": 214
+        },
+        "clippedAtViewport": false,
+        "display": "block",
+        "overflowX": "hidden"
+      },
+      "cards": [
+        {
+          "text": "Ambiental\nEIXO E\n•\n17/17 QUESTÕES\nNota: 99%\n\nAvalia a pegada ecológica, eficiência energética, recursos hídricos, resídu",
+          "rect": {
+            "x": 16,
+            "y": 326,
+            "left": 16,
+            "right": 359,
+            "width": 343,
+            "height": 321.25
+          },
+          "clippedAtViewport": false,
+          "display": "flex",
+          "overflowX": "visible"
+        },
+        {
+          "text": "Bioeconomia Circular\nEIXO B\n•\n14/14 QUESTÕES\nNota: 88%\n\nMapeia a circularidade de materiais, reaproveitamento de coprodu",
+          "rect": {
+            "x": 16,
+            "y": 663.25,
+            "left": 16,
+            "right": 359,
+            "width": 343,
+            "height": 333.25
+          },
+          "clippedAtViewport": false,
+          "display": "flex",
+          "overflowX": "visible"
+        },
+        {
+          "text": "Social\nEIXO S\n•\n21/21 QUESTÕES\nNota: 95%\n\nExamina a saúde ocupacional, direitos humanos, diversidade, relações comunitár",
+          "rect": {
+            "x": 16,
+            "y": 1012.5,
+            "left": 16,
+            "right": 359,
+            "width": 343,
+            "height": 321.25
+          },
+          "clippedAtViewport": false,
+          "display": "flex",
+          "overflowX": "visible"
+        },
+        {
+          "text": "Governança\nEIXO G\n•\n23/23 QUESTÕES\nNota: 91%\n\nMede o canal de ética, compliance legal, transparência corporativa e práti",
+          "rect": {
+            "x": 16,
+            "y": 1349.75,
+            "left": 16,
+            "right": 359,
+            "width": 343,
+            "height": 321.25
+          },
+          "clippedAtViewport": false,
+          "display": "flex",
+          "overflowX": "visible"
+        }
+      ]
+    }
+  ]
+}

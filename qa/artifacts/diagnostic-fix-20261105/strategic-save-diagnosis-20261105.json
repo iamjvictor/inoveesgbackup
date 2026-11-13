@@ -1,0 +1,252 @@
+{
+  "capturedAt": "2026-11-05T12:58:53.233Z",
+  "precondition": {
+    "httpStatus": 200,
+    "diagnosticId": "48df6eaa-1c3d-47b5-bf78-583288fed09d",
+    "status": "ACTIVE",
+    "responseCount": 17,
+    "questionCount": 75,
+    "axisQuestions": [
+      {
+        "number": 1,
+        "hasAnswerField": false,
+        "answerLength": null,
+        "hasAnswerTextField": false,
+        "answerTextLength": null
+      },
+      {
+        "number": 2,
+        "hasAnswerField": false,
+        "answerLength": null,
+        "hasAnswerTextField": false,
+        "answerTextLength": null
+      },
+      {
+        "number": 3,
+        "hasAnswerField": false,
+        "answerLength": null,
+        "hasAnswerTextField": false,
+        "answerTextLength": null
+      },
+      {
+        "number": 4,
+        "hasAnswerField": false,
+        "answerLength": null,
+        "hasAnswerTextField": false,
+        "answerTextLength": null
+      },
+      {
+        "number": 5,
+        "hasAnswerField": false,
+        "answerLength": null,
+        "hasAnswerTextField": false,
+        "answerTextLength": null
+      },
+      {
+        "number": 6,
+        "hasAnswerField": false,
+        "answerLength": null,
+        "hasAnswerTextField": false,
+        "answerTextLength": null
+      },
+      {
+        "number": 7,
+        "hasAnswerField": false,
+        "answerLength": null,
+        "hasAnswerTextField": false,
+        "answerTextLength": null
+      },
+      {
+        "number": 8,
+        "hasAnswerField": false,
+        "answerLength": null,
+        "hasAnswerTextField": false,
+        "answerTextLength": null
+      },
+      {
+        "number": 9,
+        "hasAnswerField": false,
+        "answerLength": null,
+        "hasAnswerTextField": false,
+        "answerTextLength": null
+      },
+      {
+        "number": 10,
+        "hasAnswerField": false,
+        "answerLength": null,
+        "hasAnswerTextField": false,
+        "answerTextLength": null
+      },
+      {
+        "number": 11,
+        "hasAnswerField": false,
+        "answerLength": null,
+        "hasAnswerTextField": false,
+        "answerTextLength": null
+      },
+      {
+        "number": 12,
+        "hasAnswerField": false,
+        "answerLength": null,
+        "hasAnswerTextField": false,
+        "answerTextLength": null
+      },
+      {
+        "number": 13,
+        "hasAnswerField": false,
+        "answerLength": null,
+        "hasAnswerTextField": false,
+        "answerTextLength": null
+      },
+      {
+        "number": 14,
+        "hasAnswerField": false,
+        "answerLength": null,
+        "hasAnswerTextField": false,
+        "answerTextLength": null
+      },
+      {
+        "number": 15,
+        "hasAnswerField": false,
+        "answerLength": null,
+        "hasAnswerTextField": false,
+        "answerTextLength": null
+      },
+      {
+        "number": 16,
+        "hasAnswerField": false,
+        "answerLength": null,
+        "hasAnswerTextField": false,
+        "answerTextLength": null
+      },
+      {
+        "number": 17,
+        "hasAnswerField": false,
+        "answerLength": null,
+        "hasAnswerTextField": false,
+        "answerTextLength": null
+      }
+    ]
+  },
+  "initialUi": "Área da Empresa\nPainel\nMeus Serviços\nDiagnóstico\nEvidências\nCadeia\nResultados\nRanking\nQE\n\nQA Estratégico ESG\n\nQA Estratégico 1793826552956\n\nSair\n\nDIAGNÓSTICO ESG\n\nPreenchimento do questionário\n\nResponda uma questão por vez. Selecione uma opção para avançar ou use os botões abaixo para navegar.\n\n0/17 perguntas respondidas\nEtapa 1/17\nPERGUNTA 1\nEixo E\nA empresa possui licenças ambientais válidas?\n\nSelecione a alternativa que melhor representa a situação atual da empresa.\n\nInexistente (A prática não existe, não é discutida ou nunca foi implementada)\nInicial (Existem ações pontuais ou informais, mas sem padronização ou acompanhamento)\nParcialmente Implementado (A prática está implementada em parte da empresa, com algum controle ou monitoramento)\nEstruturado (A prática é formalizada, aplicada de forma consistente e monitorada regularmente)\nAvançado / Estratégico (A prática é integrada à estratégia da empresa, possui metas, indicadores, melhoria contínua e/ou envolve cadeia de valor)\nVoltar\nPróxima pergunta\n\nVocê deve responder a todas as 17 perguntas para concluir o diagnóstico.",
+  "currentUrl": "http://localhost:3000/app/diagnostico/preencher?axis=E",
+  "apiEvents": [
+    {
+      "kind": "request",
+      "atMs": 1944,
+      "method": "POST",
+      "path": "/api/auth/login"
+    },
+    {
+      "kind": "response",
+      "atMs": 3270,
+      "status": 200,
+      "method": "POST",
+      "path": "/api/auth/login"
+    },
+    {
+      "kind": "request",
+      "atMs": 3373,
+      "method": "GET",
+      "path": "/api/diagnostic/current"
+    },
+    {
+      "kind": "request",
+      "atMs": 3465,
+      "method": "GET",
+      "path": "/api/auth/me"
+    },
+    {
+      "kind": "request",
+      "atMs": 3465,
+      "method": "GET",
+      "path": "/api/auth/me/access"
+    },
+    {
+      "kind": "request",
+      "atMs": 3465,
+      "method": "GET",
+      "path": "/api/auth/me"
+    },
+    {
+      "kind": "request",
+      "atMs": 3466,
+      "method": "GET",
+      "path": "/api/auth/me/access"
+    },
+    {
+      "kind": "response",
+      "atMs": 4173,
+      "status": 200,
+      "method": "GET",
+      "path": "/api/auth/me/access"
+    },
+    {
+      "kind": "response",
+      "atMs": 4174,
+      "status": 200,
+      "method": "GET",
+      "path": "/api/diagnostic/current"
+    },
+    {
+      "kind": "response",
+      "atMs": 4174,
+      "status": 200,
+      "method": "GET",
+      "path": "/api/auth/me/access"
+    },
+    {
+      "kind": "request",
+      "atMs": 4334,
+      "method": "GET",
+      "path": "/api/auth/me"
+    },
+    {
+      "kind": "request",
+      "atMs": 4335,
+      "method": "GET",
+      "path": "/api/auth/me/access"
+    },
+    {
+      "kind": "response",
+      "atMs": 4337,
+      "status": 200,
+      "method": "GET",
+      "path": "/api/auth/me/access"
+    },
+    {
+      "kind": "response",
+      "atMs": 4783,
+      "status": 200,
+      "method": "GET",
+      "path": "/api/auth/me"
+    },
+    {
+      "kind": "request",
+      "atMs": 4828,
+      "method": "GET",
+      "path": "/api/diagnostic/current"
+    },
+    {
+      "kind": "request",
+      "atMs": 4847,
+      "method": "GET",
+      "path": "/api/diagnostic/current"
+    },
+    {
+      "kind": "response",
+      "atMs": 4848,
+      "status": 200,
+      "method": "GET",
+      "path": "/api/diagnostic/current"
+    },
+    {
+      "kind": "response",
+      "atMs": 4872,
+      "status": 200,
+      "method": "GET",
+      "path": "/api/diagnostic/current"
+    }
+  ],
+  "note": "Stopped before any write: UI did not load completed module screen."
+}

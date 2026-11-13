@@ -1,0 +1,17 @@
+{
+  "round_id": "20261104-r5",
+  "account": "qa-***@example.net",
+  "signup": { "http_status": 201, "elapsed_ms": 7000, "ui_redirect_path": "/app" },
+  "ui_login": { "http_status": 200, "elapsed_ms": 1415 },
+  "login_logout_check": {
+    "login_http_status": 200,
+    "login_elapsed_ms": 1629,
+    "logout_http_status": 204,
+    "logout_elapsed_ms": 10,
+    "get_me_after_logout_http_status": 401,
+    "get_me_after_logout_elapsed_ms": 10
+  },
+  "outbox": { "event_type": "WELCOME", "status": "PENDING", "attempts": 0 },
+  "synthetic_account_created": true,
+  "password_or_full_identifiers_recorded": false
+}

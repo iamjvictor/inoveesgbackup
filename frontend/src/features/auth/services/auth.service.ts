@@ -7,36 +7,72 @@ import type {
   RegisterResponse,
 } from "../models/auth.types";
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "/api";
+function resolveApiUrl(): string {
+  const envUrl = (process.env.NEXT_PUBLIC_API_URL ?? "/api").trim().replace(/\/+$/, "");
+  return envUrl.endsWith("/api") ? envUrl : `${envUrl}/api`;
+}
 
-  async function request<T>(path: string, init: RequestInit): Promise<T> {
-  const response = await fetch(`${API_URL}${path}`, {
-    ...init,
-    credentials: "include",
-    headers: {
-      "Content-Type": "application/json",
-      ...(init.headers ?? {}),
-    },
-  });
+const API_URL = resolveApiUrl();
+
+async function request<T>(path: string, init: RequestInit): Promise<T> {
+  let response: Response;
+  try {
+    response = await fetch(`${API_URL}${path}`, {
+      ...init,
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+        ...(init.headers ?? {}),
+      },
+    });
+  } catch {
+    throw new Error("Não foi possível conectar ao servidor. Verifique sua conexão e tente novamente.");
+  }
 
   if (response.status === 401) {
     const isAuthAction = path === "/auth/login" || path === "/auth/admin/login" || path === "/auth/register";
     if (!isAuthAction) {
       if (typeof window !== "undefined") {
-        void fetch(`${API_URL}/auth/logout`, { method: "POST", credentials: "include" });
+        void fetch(`${API_URL}/auth/logout`, { method: "POST", credentials: "include" }).catch(() => undefined);
         window.location.href = "/?auth=true";
         return new Promise(() => {});
       }
     }
   }
 
-  const data = await response.json();
+  const contentType = response.headers.get("content-type") ?? "";
+  let data: any = null;
 
-  if (!response.ok) {
-    throw new Error(data?.message ?? "Request failed");
+  if (contentType.includes("application/json")) {
+    data = await response.json().catch(() => null);
+  } else {
+    const text = await response.text().catch(() => "");
+    if (text && (text.startsWith("{") || text.startsWith("["))) {
+      try {
+        data = JSON.parse(text);
+      } catch {
+        data = null;
+      }
+    }
   }
 
-  return data as T;
+  if (!response.ok) {
+    if (response.status === 404) {
+      throw new Error(data?.message ?? "Serviço de autenticação temporariamente indisponível (404).");
+    }
+    if (response.status === 401) {
+      throw new Error(data?.message ?? "E-mail ou senha incorretos.");
+    }
+    if (response.status === 403) {
+      throw new Error(data?.message ?? "Acesso não autorizado.");
+    }
+    if (response.status >= 500) {
+      throw new Error(data?.message ?? "Erro interno no servidor. Tente novamente em alguns instantes.");
+    }
+    throw new Error(data?.message ?? `Falha na requisição (${response.status})`);
+  }
+
+  return (data ?? {}) as T;
 }
 
 export const authService = {

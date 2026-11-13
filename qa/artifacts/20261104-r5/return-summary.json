@@ -1,0 +1,27 @@
+{
+  "round_id": "20261104-r5",
+  "payment_or_preference_existed": false,
+  "routes": [
+    {
+      "path": "/app/checkout/success",
+      "http_status": 200,
+      "elapsed_ms": 2080,
+      "visible_state": "Pagamento Confirmado / Aprovado",
+      "screenshot": "return-success.png"
+    },
+    {
+      "path": "/app/checkout/failure",
+      "http_status": 200,
+      "elapsed_ms": 1718,
+      "visible_state": "Pagamento Recusado",
+      "screenshot": "return-failure.png"
+    }
+  ],
+  "runtime_error": {
+    "message": "Maximum update depth exceeded",
+    "reported_source_location": "frontend/src/features/company-area/context/cart-context.tsx:45",
+    "observed_during_success_return": true,
+    "hypothesis": "CheckoutSuccessPage depends on clearCart, which is recreated each CartProvider render; clearCart sets a fresh empty array, causing the effect to repeat."
+  },
+  "remote_payment_state_changed": false
+}

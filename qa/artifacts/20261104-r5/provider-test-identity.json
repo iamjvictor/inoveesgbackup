@@ -1,0 +1,10 @@
+{
+  "round_id": "20261104-r5",
+  "source": "Authenticated GET /users/me using configured Mercado Pago access credential; response inspected in memory and reduced to booleans.",
+  "http_status": 200,
+  "seller_tagged_test_user": true,
+  "seller_nickname_test_pattern": true,
+  "credential_prefixes": { "public_key": "APP_USR", "access_token": "APP_USR" },
+  "buyer_test_account_confirmed": false,
+  "no_credential_or_account_identifier_recorded": true
+}

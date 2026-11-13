@@ -1,0 +1,345 @@
+{
+  "consoleErrors": [],
+  "pageErrors": [],
+  "requests": [
+    {
+      "method": "POST",
+      "path": "/api/auth/login",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/auth/me",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/auth/me/access",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/auth/me/access",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/auth/me",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/diagnostic/current",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/diagnostic/current",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/auth/me",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/auth/me/access",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/auth/me",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/auth/me/access",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/auth/me/access",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/auth/me",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/auth/me",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/auth/me/access",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/auth/me",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/auth/me/access",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/auth/me",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/auth/me/access",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/diagnostic/bioimpacto/history",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/diagnostic/current",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/diagnostic/bioimpacto/history",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/diagnostic/current",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/auth/me/access",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/auth/me",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/diagnostic/current",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/diagnostic/history",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/diagnostic/current",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/diagnostic/history",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/auth/me",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/auth/me/access",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/diagnostic/history",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/diagnostic/current",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/diagnostic/current",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/diagnostic/history",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/auth/me",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/auth/me/access",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/diagnostic/current",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/diagnostic/current",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/diagnostic/history",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/diagnostic/history",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/auth/me",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/auth/me/access",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/diagnostic/current",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/diagnostic/current",
+      "status": 200
+    }
+  ],
+  "visits": [
+    {
+      "name": "login",
+      "url": "/?auth=true",
+      "finalUrl": "/",
+      "title": "Inove ESG",
+      "text": "Categorias\nProblema\nFeatures\nProva social\nPlanos\nFAQ\n\nINOVE-ESG\n\nRastreabilidade e Impacto ESG que o Mercado Exige.\n\nDa origem ao produto final, a Inove ESG centraliza processos, fornecedores e indicadores em uma plataforma completa de gestão de cadeia de produção. Rastreabilidade, conformidade e critérios ESG integrados — tudo que sua operação precisa para funcionar bem e ser comprovada quando o mercado exigir. Simples para o dia a dia, sólido para quem precisa crescer com transparência e credibilidade.\n\nConheça nossas soluções\nFale com nossos especialistas.\n\nAtendimento via WhatsApp • Resposta rápida • Sem compromisso\n\nPainel de maturidade ESG\nLive\nAmbiental\n72%\nSocial\n64%\nGovernança\n58%\nSETOR ESPECIALIZADO\nAgronegócio\n\nAgroindústria e Produção Rural\n\nPILARES EM DESTAQUE\n\nRastreabilidade de fornecedores e origens agrícolas\nMonitoramento contra desmatamento e sobreposição de áreas\nEvidências preparadas para auditorias, bancos e certificações\nVer detalhes e soluções\nSETOR ESPECIALIZADO\nInfraestrutura\n\nObras, Concessões e Engenharia\n\nPILARES EM DESTAQUE\n\nAcompanhamento centralizado de licenças e condicionantes\nGovernança e homologação preventiva de subcontratados\nConformidade exigida em editais, licitações e fundos de investimento\nVer detalhes e soluções\nSETOR ESPECIALIZADO\nÓleo e Gás\n\nCadeia de Fornecedores, Upstream & Downstream\n\nPILARES EM DESTAQUE\n\nInventário e acompanhamento de emissões e transição energética\nMitigação de riscos operacionais e segurança de alta criticidade\nQualificação e comprovação documental perante grandes contratantes\nVer detalhes e soluções\nElimine os Gargalos que Travam sua Operação ESG\n\nEntraves comuns que reduzem velocidade e impacto, com o benefício direto de resolver cada um.\n\nFalta de rastreamento da cadeia produtiva\n\nPoucos conseguem med",
+      "scrollWidth": 1350,
+      "innerWidth": 1365,
+      "overflow": false
+    },
+    {
+      "name": "diagnostico-desktop",
+      "url": "/app/diagnostico",
+      "finalUrl": "/app/diagnostico",
+      "title": "Inove ESG",
+      "text": "Carregando seu perfil...",
+      "scrollWidth": 1350,
+      "innerWidth": 1365,
+      "overflow": false
+    },
+    {
+      "name": "diagnostico-tablet",
+      "url": "/app/diagnostico",
+      "finalUrl": "/app/diagnostico",
+      "title": "Inove ESG",
+      "text": "Carregando seu perfil...",
+      "scrollWidth": 753,
+      "innerWidth": 768,
+      "overflow": false
+    },
+    {
+      "name": "diagnostico-mobile",
+      "url": "/app/diagnostico",
+      "finalUrl": "/app/diagnostico",
+      "title": "Inove ESG",
+      "text": "Carregando seu perfil...",
+      "scrollWidth": 375,
+      "innerWidth": 390,
+      "overflow": false
+    },
+    {
+      "name": "evidencias-desktop",
+      "url": "/app/evidencias",
+      "finalUrl": "/app/evidencias",
+      "title": "Inove ESG",
+      "text": "Carregando seu perfil...",
+      "scrollWidth": 1350,
+      "innerWidth": 1365,
+      "overflow": false
+    },
+    {
+      "name": "evidencias-tablet",
+      "url": "/app/evidencias",
+      "finalUrl": "/app/evidencias",
+      "title": "Inove ESG",
+      "text": "Carregando seu perfil...",
+      "scrollWidth": 753,
+      "innerWidth": 768,
+      "overflow": false
+    },
+    {
+      "name": "evidencias-mobile",
+      "url": "/app/evidencias",
+      "finalUrl": "/app/evidencias",
+      "title": "Inove ESG",
+      "text": "Área da Empresa\nQA Bioimpacto\nÁrea da Empresa\nPainel\nMeus Serviços\nDiagnóstico\nEvidências\nCadeia\nResultados\nRanking\nQB\n\nQA Bioimpacto Sintético\n\nQA Bioimpacto\n\nSair",
+      "scrollWidth": 375,
+      "innerWidth": 390,
+      "overflow": false
+    },
+    {
+      "name": "resultados-desktop",
+      "url": "/app/resultados",
+      "finalUrl": "/app/resultados",
+      "title": "Inove ESG",
+      "text": "Área da Empresa\nPainel\nMeus Serviços\nDiagnóstico\nEvidências\nCadeia\nResultados\nRanking\nQB\n\nQA Bioimpacto Sintético\n\nQA Bioimpacto\n\nSair",
+      "scrollWidth": 1350,
+      "innerWidth": 1365,
+      "overflow": false
+    },
+    {
+      "name": "resultados-tablet",
+      "url": "/app/resultados",
+      "finalUrl": "/app/resultados",
+      "title": "Inove ESG",
+      "text": "Área da Empresa\nPainel\nMeus Serviços\nDiagnóstico\nEvidências\nCadeia\nResultados\nRanking\nQB\n\nQA Bioimpacto Sintético\n\nQA Bioimpacto\n\nSair",
+      "scrollWidth": 753,
+      "innerWidth": 768,
+      "overflow": false
+    },
+    {
+      "name": "resultados-mobile",
+      "url": "/app/resultados",
+      "finalUrl": "/app/resultados",
+      "title": "Inove ESG",
+      "text": "Área da Empresa\nQA Bioimpacto\nÁrea da Empresa\nPainel\nMeus Serviços\nDiagnóstico\nEvidências\nCadeia\nResultados\nRanking\nQB\n\nQA Bioimpacto Sintético\n\nQA Bioimpacto\n\nSair",
+      "scrollWidth": 375,
+      "innerWidth": 390,
+      "overflow": false
+    }
+  ],
+  "checks": [],
+  "login": {
+    "path": "/app",
+    "visibleText": "Área da Empresa\nPainel\nMeus Serviços\nDiagnóstico\nEvidências\nCadeia\nResultados\nRanking\nQB\n\nQA Bioimpacto Sintético\n\nQA Bioimpacto\n\nSair\nOlá, QA! 👋"
+  },
+  "keyboard": {
+    "activeTag": "A",
+    "activeRole": null,
+    "activeLabel": "Área da Empresa",
+    "outline": "auto",
+    "outlineWidth": "1px"
+  }
+}

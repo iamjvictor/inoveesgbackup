@@ -188,6 +188,21 @@ export class BudgetService {
       pending: `${env.frontendUrl}/app/meus-servicos?pending=true&budgetId=${budget.id}`,
     };
 
+    const user = await prisma.user.findUnique({
+      where: { supabaseUserId },
+      select: { email: true, fullName: true, cpf: true },
+    });
+    const names = (user?.fullName || "").trim().split(/\s+/);
+    const cleanCpf = (user?.cpf || "").replace(/\D/g, "");
+    const payer = user?.email
+      ? {
+          email: user.email,
+          name: names[0] || undefined,
+          surname: names.length > 1 ? names.slice(1).join(" ") : undefined,
+          ...(cleanCpf.length === 11 ? { identification: { type: "CPF", number: cleanCpf } } : {}),
+        }
+      : undefined;
+
     const { checkoutUrl } = await createMercadoPagoPreference({
       title: budget.product.name,
       description: `Pagamento da proposta para o serviço: ${budget.product.name}`,
@@ -199,6 +214,7 @@ export class BudgetService {
         organizationId,
         budgetRequestId: budget.id,
       },
+      payer,
       backUrls,
     });
 

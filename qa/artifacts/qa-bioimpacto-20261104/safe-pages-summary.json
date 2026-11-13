@@ -1,0 +1,194 @@
+{
+  "responses": [
+    {
+      "method": "POST",
+      "path": "/api/auth/login",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/auth/me/access",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/auth/me/access",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/auth/me",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/auth/me/access",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/auth/me",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/auth/me/access",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/auth/me",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/diagnostic/current",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/diagnostic/current",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/auth/me/access",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/auth/me",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/diagnostic/current",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/diagnostic/current",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/diagnostic/bioimpacto/history",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/auth/me/access",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/auth/me",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/diagnostic/current",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/diagnostic/current",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/diagnostic/bioimpacto/history",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/diagnostic/bioimpacto/history",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/auth/me/access",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/auth/me",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/diagnostic/current",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/diagnostic/current",
+      "status": 200
+    }
+  ],
+  "blockedWrites": [],
+  "consoleErrors": [],
+  "pageErrors": [],
+  "screens": [
+    {
+      "page": "painel",
+      "viewport": "desktop",
+      "path": "/app",
+      "text": "Carregando seu perfil...",
+      "width": 1365,
+      "scrollWidth": 1350,
+      "height": 768
+    },
+    {
+      "page": "painel",
+      "viewport": "tablet",
+      "path": "/app",
+      "text": "Área da Empresa\nPainel\nMeus Serviços\nDiagnóstico\nEvidências\nCadeia\nResultados\nRanking\nQB\n\nQA Bioimpacto Sintético\n\nQA Bioimpacto\n\nSair\nOlá, QA! 👋",
+      "width": 768,
+      "scrollWidth": 753,
+      "height": 1024
+    },
+    {
+      "page": "painel",
+      "viewport": "mobile",
+      "path": "/app",
+      "text": "Área da Empresa\nQA Bioimpacto\nÁrea da Empresa\nPainel\nMeus Serviços\nDiagnóstico\nEvidências\nCadeia\nResultados\nRanking\nQB\n\nQA Bioimpacto Sintético\n\nQA Bioimpacto\n\nSair\nOlá, QA! 👋",
+      "width": 390,
+      "scrollWidth": 375,
+      "height": 844
+    },
+    {
+      "page": "evidencias",
+      "viewport": "desktop",
+      "path": "/app/evidencias",
+      "text": "Área da Empresa\nPainel\nMeus Serviços\nDiagnóstico\nEvidências\nCadeia\nResultados\nRanking\nQB\n\nQA Bioimpacto Sintético\n\nQA Bioimpacto\n\nSair\n\nDESEMPENHO COMPROVADO\n\nPontuação calculada a partir das evidências aprovadas.\n\nICEB\n\n0/100\n\nNÍVEL ATUAL\n\nNível 1 · Elementar\n\nNOTA DECLARADA\n\n93/100\n\nConsulte acima o histórico e a contagem regressiva da próxima janela de evidências.\n\nAMBIENTAL (E)\n\n0%\n\nNota comprovada\n\nNão comprovada\nNota declarada\n99%\nBIOECONOMIA (B)\n\n0%\n\nNota comprovada\n\nNão comprovada\nNota declarada\n88%\nSOCIAL (S)\n\n0%\n\nNota comprovada\n\nNão comprovada\nNota declarada\n95%\nGOVERNANÇA (G)\n\n0%\n\nNota comprovada\n\nNão comprovada\nNota declarada\n91%\nE\nAmbiental\nAgronegócio · Agroindústria\n0% comprovada\nB\nBioeconomia\nAgronegócio · Agroindústria\n0% comprovada\nS\nSocial\nAgronegócio · Agroindústria\n0% comprovada\nG\nGovernança\nAgronegócio · Agroindústria\n0% comprovada",
+      "width": 1365,
+      "scrollWidth": 1350,
+      "height": 813
+    },
+    {
+      "page": "evidencias",
+      "viewport": "tablet",
+      "path": "/app/evidencias",
+      "text": "Área da Empresa\nPainel\nMeus Serviços\nDiagnóstico\nEvidências\nCadeia\nResultados\nRanking\nQB\n\nQA Bioimpacto Sintético\n\nQA Bioimpacto\n\nSair\n\nDESEMPENHO COMPROVADO\n\nPontuação calculada a partir das evidências aprovadas.\n\nICEB\n\n0/100\n\nNÍVEL ATUAL\n\nNível 1 · Elementar\n\nNOTA DECLARADA\n\n93/100\n\nConsulte acima o histórico e a contagem regressiva da próxima janela de evidências.\n\nAMBIENTAL (E)\n\n0%\n\nNota comprovada\n\nNão comprovada\nNota declarada\n99%\nBIOECONOMIA (B)\n\n0%\n\nNota comprovada\n\nNão comprovada\nNota declarada\n88%\nSOCIAL (S)\n\n0%\n\nNota comprovada\n\nNão comprovada\nNota declarada\n95%\nGOVERNANÇA (G)\n\n0%\n\nNota comprovada\n\nNão comprovada\nNota declarada\n91%\nE\nAmbiental\nAgronegócio · Agroindústria\n0% comprovada\nB\nBioeconomia\nAgronegócio · Agroindústria\n0% comprovada\nS\nSocial\nAgronegócio · Agroindústria\n0% comprovada\nG\nGovernança\nAgronegócio · Agroindústria\n0% comprovada",
+      "width": 768,
+      "scrollWidth": 753,
+      "height": 1183
+    },
+    {
+      "page": "evidencias",
+      "viewport": "mobile",
+      "path": "/app/evidencias",
+      "text": "Área da Empresa\nQA Bioimpacto\nÁrea da Empresa\nPainel\nMeus Serviços\nDiagnóstico\nEvidências\nCadeia\nResultados\nRanking\nQB\n\nQA Bioimpacto Sintético\n\nQA Bioimpacto\n\nSair\n\nDESEMPENHO COMPROVADO\n\nPontuação calculada a partir das evidências aprovadas.\n\nICEB\n\n0/100\n\nNÍVEL ATUAL\n\nNível 1 · Elementar\n\nNOTA DECLARADA\n\n93/100\n\nHistórico de evidências\n\nVigência até 04/11/2027. Cada janela abre do dia 1 ao 15.\n\nJANELA FECHA EM\n\n11d 02h 32m 28s\n\nEnvie suas evidências até o dia 15.\n\nJANELA 1 · ABERTA\n\n01 de nov. de 2026 a 15 de nov. de 2026\n\nAté dia 15 · 12 dias restantes\n\n0 aprovadas · 0 rejeitadas · 0 pendentes\n\nPontuação: em análise\n\nJANELA 2 · PREVISTA\n\n01 de dez. de 2026 a 15 de dez. de 2026\n\nAguardando esta janela\n\nPontuação: em análise\n\nJANELA 3 · PREVISTA\n\n01 de jan. de 2027 a 15 de jan. de 2027\n\nAguardando esta janela\n\nPontuação: em análise\n\nJANELA 4 · PREVISTA\n\n01 de fev. de 2027 a 15 de fev. de 2027\n\nAguardando esta janela\n\nPontuação: em análise\n\nJANELA 5 · PREVISTA\n\n01 de mar. de 2027 a 15 de mar. de 2027\n\nAguardando esta janela\n\nPontuação: em análise\n\nJANELA 6 · PREVISTA\n\n01 de abr. de 2027 a 15 de abr. de 2027\n\nAguardando esta janela\n\nPontuação: em análise\n\nJANELA 7 · PREVISTA\n\n01 de mai. de 2027 a 15 de mai. de 2027\n\nAguardando esta janela\n\nPontuação: em análise\n\nJANELA 8 · PREVISTA\n\n01 de jun. de 2027 a 15 de jun. de 2027\n\nAguardando esta janela\n\nPontuação: em análise\n\nJANELA 9 · PREVISTA\n\n01 de jul. de 2027 a 15 de jul. de 2027\n\nAguardando esta janela\n\nPontuação: em análise\n\nJANELA 10 · PREVISTA\n\n01 de ago. de 2027 a 15 de ago. de 2027\n\nAguardando esta janela\n\nPontuação: em",
+      "width": 390,
+      "scrollWidth": 375,
+      "height": 2024
+    }
+  ],
+  "focus": {
+    "tag": "A",
+    "label": "Área da Empresa\nQA Bioimpacto",
+    "outline": "auto",
+    "width": "1px"
+  }
+}

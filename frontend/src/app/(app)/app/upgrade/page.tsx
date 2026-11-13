@@ -1,11 +1,13 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { CircleCheck, Sparkles, ShieldCheck, ArrowRight, ArrowLeft, Users, Zap, GraduationCap, Rocket, Loader2, Clock, LockKeyhole } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { CircleCheck, Sparkles, ShieldCheck, ArrowRight, ArrowLeft, Users, Zap, GraduationCap, Rocket, Loader2, Clock, Clock3, Ban, XCircle, AlertTriangle, LockKeyhole } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useCart, CartItem } from "@/features/company-area/context/cart-context";
 import { BudgetModal } from "@/features/company-area/views/components/budget-modal";
-import { checkoutService } from "@/features/company-area/services/checkout.service";
+import { checkoutService, type CheckoutOrder } from "@/features/company-area/services/checkout.service";
+import { useCompany } from "@/features/company-area/context/company-context";
 import { canRequestUpgradeBudget } from "@/features/company-area/access/upgrade-access";
 import { strategicDiagnosticPricing } from "./strategic-diagnostic-pricing";
 
@@ -56,19 +58,15 @@ const upgradePlans: UpgradePlan[] = [
     ]
   },
   {
-    id: "assessoria-completa",
-    name: "Assessoria ESG Contínua",
-    description: "Gestão contínua 360°, auditoria periódica e rastreabilidade da cadeia.",
-    focus: "Gestão Corporativa 360°",
+    id: "bioimpacto-empresarial",
+    name: "Bioimpacto Empresarial",
+    description: "Diagnóstico Estratégico ESG e acompanhamento por 1 ano, com análise contínua de evidências e riscos.",
+    focus: "Bioimpacto Empresarial",
     price: 0,
     priceFormatted: "Sob Orçamento",
     type: "SUBSCRIPTION",
     requiresBudget: true,
-    features: [
-      "Auditoria e Sessões Mensais",
-      "Painel de Rastreabilidade de Fornecedores",
-      "Suporte Prioritário e Relatório GRI/SASB"
-    ]
+    features: ["Envio de evidências do dia 1 ao 15 de cada mês", "Análise e propostas de melhoria ESG", "7 relatórios e 7 reuniões ao longo do ano"]
   }
 ];
 
@@ -77,8 +75,8 @@ interface DemandServiceItem {
   name: string;
   description: string;
   priceFormatted: string | null;
-  productCode?: "PRE_DIAGNOSTIC" | "PRE_DIAGNOSTIC_PLUS" | "FULL_DIAGNOSTIC" | "FULL_DIAGNOSTIC_PLUS" | "CONSULTING_1H" | "LIVRO_ESG";
-  detailVariant?: "strategic-diagnostic";
+  productCode?: "PRE_DIAGNOSTIC" | "PRE_DIAGNOSTIC_PLUS" | "FULL_DIAGNOSTIC" | "FULL_DIAGNOSTIC_PLUS" | "CONSULTING_1H" | "LIVRO_ESG" | "BIOIMPACTO_EMPRESARIAL";
+  detailVariant?: "strategic-diagnostic" | "bioimpacto-empresarial";
   installmentLabel?: string;
   fullPriceLabel?: string;
   type: string;
@@ -152,6 +150,8 @@ const demandServices: DemandServiceItem[] = [
 ];
 
 export default function UpgradePage() {
+  const router = useRouter();
+  const { company } = useCompany();
   const { addItem, clearCart } = useCart();
   const [isBudgetOpen, setIsBudgetOpen] = useState(false);
   const [isInviteModalOpen, setIsInviteModalOpen] = useState(false);
@@ -159,6 +159,67 @@ export default function UpgradePage() {
   const [assessoriaMonths, setAssessoriaMonths] = useState<6 | 12>(12);
   const [catalogPrices, setCatalogPrices] = useState<Record<string, number>>({});
   const [catalogPriceError, setCatalogPriceError] = useState(false);
+
+  const [pendingOrder, setPendingOrder] = useState<CheckoutOrder | null>(null);
+  const [openPendingModal, setOpenPendingModal] = useState<CheckoutOrder | null>(null);
+  const [isCancelingPending, setIsCancelingPending] = useState(false);
+  const [pendingAction, setPendingAction] = useState<(() => Promise<void>) | null>(null);
+
+  const checkPendingOrder = async () => {
+    try {
+      const order = await checkoutService.getPendingOrder();
+      setPendingOrder(order);
+      return order;
+    } catch {
+      return null;
+    }
+  };
+
+  useEffect(() => {
+    void checkPendingOrder();
+  }, []);
+
+  const handleCancelPendingOrder = async (orderId: string) => {
+    setIsCancelingPending(true);
+    try {
+      await checkoutService.cancelOrder(orderId);
+      setPendingOrder(null);
+      setOpenPendingModal(null);
+      try {
+        localStorage.removeItem("inoveesg_pending_purchase");
+      } catch {
+        /* ignore */
+      }
+    } catch (err) {
+      console.error("Erro ao cancelar compra:", err);
+    } finally {
+      setIsCancelingPending(false);
+    }
+  };
+
+  const handleCancelExistingAndProceed = async () => {
+    if (!openPendingModal) return;
+    setIsCancelingPending(true);
+    try {
+      await checkoutService.cancelOrder(openPendingModal.id);
+      setPendingOrder(null);
+      setOpenPendingModal(null);
+      try {
+        localStorage.removeItem("inoveesg_pending_purchase");
+      } catch {
+        /* ignore */
+      }
+      if (pendingAction) {
+        const action = pendingAction;
+        setPendingAction(null);
+        await action();
+      }
+    } catch (err) {
+      console.error("Erro ao cancelar compra anterior:", err);
+    } finally {
+      setIsCancelingPending(false);
+    }
+  };
 
   useEffect(() => {
     let isCurrent = true;
@@ -203,6 +264,49 @@ export default function UpgradePage() {
       months: plan.id === "assessoria-completa" ? assessoriaMonths : undefined
     });
     setIsBudgetOpen(true);
+  };
+
+  const handleBioimpactoClick = (plan: UpgradePlan) => {
+    setDetailModalError(null);
+    setSelectedDetailService({
+      id: plan.id,
+      name: plan.name,
+      description: plan.description ?? "",
+      priceFormatted: plan.priceFormatted,
+      productCode: "BIOIMPACTO_EMPRESARIAL",
+      detailVariant: "bioimpacto-empresarial",
+      type: plan.type,
+      requiresBudget: false,
+      icon: ShieldCheck,
+    });
+    setIsDetailModalOpen(true);
+  };
+
+  const handleBioimpactoCheckout = async (service: DemandServiceItemData) => {
+    setCheckoutLoadingId(service.id);
+    setDetailModalError(null);
+    try {
+      const activeOrder = await checkPendingOrder();
+      if (activeOrder) {
+        setPendingAction(() => () => handleBioimpactoCheckout(service));
+        setOpenPendingModal(activeOrder);
+        setCheckoutLoadingId(null);
+        return;
+      }
+
+      localStorage.setItem("inoveesg_pending_purchase", JSON.stringify([{
+        id: service.id,
+        name: service.name,
+        description: service.description,
+        priceFormatted: getDisplayPrice(service),
+      }]));
+      const response = await checkoutService.createPreference("cookie-session", "BIOIMPACTO_EMPRESARIAL");
+      if (!response.checkoutUrl) throw new Error("Não foi possível iniciar a compra do plano.");
+      window.location.href = response.checkoutUrl;
+    } catch (error) {
+      setDetailModalError(error instanceof Error ? error.message : "Não foi possível iniciar a compra.");
+      setCheckoutLoadingId(null);
+    }
   };
 
   const handleStrategicDiagnosticClick = (plan: UpgradePlan) => {
@@ -259,6 +363,14 @@ export default function UpgradePage() {
         throw new Error("Sessão expirada. Por favor, faça login novamente.");
       }
 
+      const activeOrder = await checkPendingOrder();
+      if (activeOrder) {
+        setPendingAction(() => () => handleExecuteCheckout(service, includeConsulting));
+        setOpenPendingModal(activeOrder);
+        setCheckoutLoadingId(null);
+        return;
+      }
+
       // Salva o produto pendente no localStorage para a página de sucesso registrar no "Meus Serviços"
       const pendingItem = {
         id: service.id,
@@ -300,6 +412,54 @@ export default function UpgradePage() {
   return (
     <div className="space-y-6 pb-8 pt-2 animate-in fade-in duration-300 max-w-7xl mx-auto px-4 sm:px-6">
       
+      {/* Alerta de compra em aberto */}
+      {pendingOrder && (
+        <div className="rounded-2xl border border-amber-200 bg-amber-50/90 p-4 sm:p-5 shadow-sm flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 animate-in fade-in duration-200">
+          <div className="flex items-start gap-3">
+            <div className="p-2 rounded-xl bg-amber-100 text-amber-700 shrink-0 mt-0.5">
+              <Clock3 className="h-5 w-5" />
+            </div>
+            <div>
+              <div className="flex items-center gap-2">
+                <span className="text-[10px] font-bold uppercase tracking-wider text-amber-800 bg-amber-200/70 px-2 py-0.5 rounded-md">
+                  Pagamento Pendente
+                </span>
+                <span className="text-xs text-amber-700 font-mono">
+                  #{pendingOrder.id.slice(0, 8)}
+                </span>
+              </div>
+              <h2 className="text-sm font-bold text-amber-950 mt-1">
+                Você possui uma compra em aberto
+              </h2>
+              <p className="text-xs text-amber-800 mt-0.5">
+                Item: <strong>{pendingOrder.items[0]?.name ?? "Serviço"}</strong> • Valor: <strong>{new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" }).format(pendingOrder.totalCents / 100)}</strong>
+              </p>
+            </div>
+          </div>
+          <div className="flex items-center gap-2.5 w-full sm:w-auto shrink-0">
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              onClick={() => handleCancelPendingOrder(pendingOrder.id)}
+              disabled={isCancelingPending}
+              className="flex-1 sm:flex-none h-9 text-xs font-semibold text-red-600 border-red-200 hover:bg-red-50 hover:text-red-700 rounded-xl"
+            >
+              {isCancelingPending ? <Loader2 className="h-3.5 w-3.5 animate-spin mr-1.5" /> : <Ban className="h-3.5 w-3.5 mr-1.5" />}
+              Cancelar compra
+            </Button>
+            <Button
+              type="button"
+              size="sm"
+              onClick={() => router.push(`/app/checkout/pending?orderId=${pendingOrder.id}`)}
+              className="flex-1 sm:flex-none h-9 text-xs font-semibold bg-amber-600 hover:bg-amber-700 text-white rounded-xl shadow-xs"
+            >
+              Ver pedido / Pagar <ArrowRight className="ml-1.5 h-3.5 w-3.5" />
+            </Button>
+          </div>
+        </div>
+      )}
+
       {/* Seção 1: Planos de Assessoria (Compactos e Otimizados) */}
       <div className="space-y-4">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1">
@@ -351,11 +511,19 @@ export default function UpgradePage() {
 
                   <h3 className="text-base font-bold text-slate-800 font-display tracking-tight">{plan.name}</h3>
                   <p className="text-xs text-slate-500 leading-snug mt-1 min-h-[32px]">{plan.description}</p>
+                  {plan.id === "bioimpacto-empresarial" && (
+                    <p className="text-[10px] text-slate-500 mt-1">Perfil: {company?.porte ?? "não informado"} · {company?.size ?? "colaboradores não informados"} · {company?.numberOfSuppliers ?? "fornecedores não informados"} fornecedores · faturamento {company?.annualRevenue ?? "não informado"}</p>
+                  )}
 
                   <div className="border-t border-slate-100 pt-2.5 mt-2.5 mb-3 flex items-center justify-between">
                     <div>
                       <span className="text-[9px] text-slate-400 font-bold block uppercase tracking-wider">Investimento</span>
-                      {plan.id === "diag-estrat" ? (
+                      {plan.id === "bioimpacto-empresarial" ? (
+                        <>
+                          <span className="text-base font-extrabold text-emerald-700 font-display block leading-tight">{catalogPrices.BIOIMPACTO_EMPRESARIAL !== undefined ? new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" }).format(catalogPrices.BIOIMPACTO_EMPRESARIAL / 100) : "Preço indisponível"}</span>
+                          <span className="text-[10px] text-slate-500 block">Valor anual conforme cadastro</span>
+                        </>
+                      ) : plan.id === "diag-estrat" ? (
                         <>
                           <span className="text-base font-extrabold text-emerald-700 font-display block leading-tight">{strategicDiagnosticPricing.installments}</span>
                           <span className="text-[10px] font-medium text-slate-500 block mt-0.5">{strategicDiagnosticPricing.fullPrice}</span>
@@ -393,9 +561,7 @@ export default function UpgradePage() {
                         </button>
                       </div>
                     ) : (
-                      <span className="text-[10px] text-emerald-700 font-medium bg-emerald-50 border border-emerald-100/60 px-2 py-0.5 rounded-md">
-                        Personalizado
-                      </span>
+                      <span className="text-[10px] text-emerald-700 font-medium bg-emerald-50 border border-emerald-100/60 px-2 py-0.5 rounded-md">{plan.id === "bioimpacto-empresarial" ? company?.porte ?? "Perfil pendente" : "Personalizado"}</span>
                     )}
                   </div>
 
@@ -414,11 +580,13 @@ export default function UpgradePage() {
 
                 <div className="pt-2.5 border-t border-slate-100 mt-auto">
                   <Button
-                    disabled={!isBudgetAvailable}
+                    disabled={!isBudgetAvailable || (plan.id === "bioimpacto-empresarial" && catalogPrices.BIOIMPACTO_EMPRESARIAL === undefined)}
                     onClick={() => {
                       if (!isBudgetAvailable) return;
                       if (plan.id === "diag-estrat") {
                         handleStrategicDiagnosticClick(plan);
+                      } else if (plan.id === "bioimpacto-empresarial") {
+                        handleBioimpactoClick(plan);
                       } else {
                         handleOpenBudget(plan);
                       }
@@ -426,7 +594,7 @@ export default function UpgradePage() {
                     className={`w-full rounded-xl h-9 font-bold text-xs flex items-center justify-center gap-1.5 shadow-none ${isBudgetAvailable ? "bg-emerald-600 text-white hover:bg-emerald-700" : "bg-slate-100 text-slate-400 border border-slate-200/80 cursor-not-allowed hover:bg-slate-100 disabled:opacity-85"}`}
                   >
                     {isBudgetAvailable ? <ArrowRight className="h-3.5 w-3.5" /> : <Clock className="h-3.5 w-3.5 text-slate-400" />}
-                    {isBudgetAvailable ? plan.id === "diag-estrat" ? "Comprar agora" : "Solicitar Orçamento" : "Em Breve"}
+                    {isBudgetAvailable ? plan.id === "diag-estrat" || plan.id === "bioimpacto-empresarial" ? "Comprar agora" : "Solicitar Orçamento" : "Em Breve"}
                   </Button>
                 </div>
 
@@ -566,10 +734,79 @@ export default function UpgradePage() {
         }}
         service={selectedDetailService}
         displayPrice={selectedDetailService ? getDisplayPrice(selectedDetailService) : ""}
-        onConfirmCheckout={handleExecuteCheckout}
+        onConfirmCheckout={(service, includeConsulting) => service.id === "bioimpacto-empresarial"
+          ? handleBioimpactoCheckout(service)
+          : handleExecuteCheckout(service, includeConsulting)}
         isLoading={checkoutLoadingId !== null}
         error={detailModalError}
       />
+
+      {/* Modal de Alerta de Pedido Pendente ao Tentar Comprar Novamente */}
+      {openPendingModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm animate-in fade-in duration-200">
+          <div className="relative w-full max-w-md rounded-3xl border border-slate-100 bg-white p-7 text-center shadow-2xl space-y-4">
+            <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-amber-100 text-amber-700">
+              <Clock3 className="h-7 w-7" />
+            </div>
+
+            <div className="space-y-1.5">
+              <h3 className="text-xl font-bold text-slate-900">Você possui uma compra em aberto</h3>
+              <p className="text-xs text-slate-600">
+                Identificamos que sua empresa já possui um pedido aguardando confirmação de pagamento:
+              </p>
+            </div>
+
+            <div className="rounded-2xl border border-slate-100 bg-slate-50 p-4 text-left text-xs space-y-2">
+              <div className="flex justify-between">
+                <span className="text-slate-500">Item</span>
+                <span className="font-semibold text-slate-800">{openPendingModal.items[0]?.name ?? "Serviço"}</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-slate-500">Valor</span>
+                <span className="font-bold text-slate-900">
+                  {new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" }).format(openPendingModal.totalCents / 100)}
+                </span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-slate-500">Pedido</span>
+                <span className="font-mono text-slate-600">{openPendingModal.id.slice(0, 8)}...</span>
+              </div>
+            </div>
+
+            <p className="text-xs text-slate-500 leading-relaxed">
+              Você pode concluir o pagamento do pedido existente ou cancelá-lo no sistema para iniciar a nova contratação.
+            </p>
+
+            <div className="space-y-2 pt-2">
+              <Button
+                type="button"
+                onClick={() => router.push(`/app/checkout/pending?orderId=${openPendingModal.id}`)}
+                className="w-full h-11 rounded-xl bg-amber-600 hover:bg-amber-700 text-white font-semibold"
+              >
+                Concluir pagamento do pedido em aberto
+              </Button>
+              <Button
+                type="button"
+                variant="outline"
+                disabled={isCancelingPending}
+                onClick={handleCancelExistingAndProceed}
+                className="w-full h-11 rounded-xl border-red-200 text-red-600 hover:bg-red-50 hover:text-red-700 font-semibold"
+              >
+                {isCancelingPending ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Ban className="mr-2 h-4 w-4" />}
+                Cancelar pedido anterior e continuar
+              </Button>
+              <Button
+                type="button"
+                variant="ghost"
+                onClick={() => setOpenPendingModal(null)}
+                className="w-full h-10 rounded-xl text-slate-500 hover:text-slate-700 text-xs"
+              >
+                Voltar aos planos
+              </Button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

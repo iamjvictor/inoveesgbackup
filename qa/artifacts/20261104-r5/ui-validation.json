@@ -1,0 +1,29 @@
+{
+  "round_id": "20261104-r5",
+  "playwright": "1.64.1, Chromium headless",
+  "backend_mutations": false,
+  "signup": {
+    "empty_step_next_disabled": true,
+    "invalid_synthetic_cpf_error_visible": true,
+    "invalid_cpf_next_disabled": true,
+    "screenshots": [
+      "signup-empty-validation.png",
+      "signup-invalid-cpf.png"
+    ]
+  },
+  "login_modal_keyboard": {
+    "modal_open": true,
+    "first_tab_focus_tag": "A",
+    "first_tab_focus_inside_modal": false,
+    "screenshot": "login-modal-tab-focus.png"
+  },
+  "mobile": {
+    "viewport_width": 375,
+    "document_scroll_width": 360,
+    "body_scroll_width": 360,
+    "horizontal_overflow": false,
+    "faq_opened": true,
+    "faq_answer_visible": true,
+    "screenshot": "mobile-faq.png"
+  }
+}

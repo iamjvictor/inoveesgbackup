@@ -35,3 +35,10 @@ test("first and last infrastructure questions preserve the functional source tex
   assert.match(infrastructureDiagnosticQuestions[0].prompt, /licenças, autorizações e requisitos ambientais/i);
   assert.match(infrastructureDiagnosticQuestions[74].prompt, /redução de emissões, resíduos, consumo de recursos/i);
 });
+
+test("self-declared questionnaire has usable weighted answer choices", () => {
+  const weights = infrastructureDiagnosticQuestions.map((question) => question.weight ?? 1);
+  assert.ok(weights.every((weight) => Number.isFinite(weight) && weight > 0));
+  assert.ok(weights.some((weight) => weight !== 1), "weighted score must use configured question weights");
+  assert.ok(infrastructureDiagnosticQuestions.every((question) => question.options.length >= 2));
+});

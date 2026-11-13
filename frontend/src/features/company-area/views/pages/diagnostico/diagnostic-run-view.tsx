@@ -5,7 +5,11 @@ import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import type { getDiagnosticRunViewModel } from "../../../controllers/diagnostic.controller";
-import { diagnosticService } from "../../../services/diagnostic.service";
+import {
+  diagnosticService,
+  getDiagnosticAnswerOverrides,
+  parseDiagnosticAnswerDraft,
+} from "../../../services/diagnostic.service";
 import { useCompany } from "@/features/company-area/context/company-context";
 import { useErrorModal } from "@/components/ui/error-modal-provider";
 import { ApiError } from "../../../services/diagnostic.service";
@@ -36,20 +40,23 @@ export function DiagnosticRunView({
   const [selectedOption, setSelectedOption] = useState<{ questionId: string; option: string } | null>(null);
   const [declarationAccepted, setDeclarationAccepted] = useState(false);
   const [showReview, setShowReview] = useState(false);
+  const [editedQuestionIds, setEditedQuestionIds] = useState<string[]>(() => {
+    if (typeof window === "undefined") return [];
+    const draft = parseDiagnosticAnswerDraft(
+      window.sessionStorage.getItem(`inoveesg:diagnostic-answers-${diagnosticId}`)
+    );
+    return draft.editedQuestionIds;
+  });
   const advanceTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const router = useRouter();
 
   const [answers, setAnswers] = useState<Record<string, string>>(() => {
     let saved: Record<string, string> = {};
     if (typeof window !== "undefined") {
-      const cached = window.sessionStorage.getItem(`inoveesg:diagnostic-answers-${diagnosticId}`);
-      if (cached) {
-        try {
-          saved = JSON.parse(cached);
-        } catch (e) {
-          console.error("Erro ao carregar respostas temporarias:", e);
-        }
-      }
+      const draft = parseDiagnosticAnswerDraft(
+        window.sessionStorage.getItem(`inoveesg:diagnostic-answers-${diagnosticId}`)
+      );
+      saved = getDiagnosticAnswerOverrides(draft);
     }
     // Pre-populate with database answers for the current model questions if not already in saved
     model.questions.forEach((q) => {
@@ -86,9 +93,12 @@ export function DiagnosticRunView({
   // Persistir respostas no sessionStorage sempre que mudarem
   useEffect(() => {
     if (typeof window !== "undefined") {
-      window.sessionStorage.setItem(`inoveesg:diagnostic-answers-${diagnosticId}`, JSON.stringify(answers));
+      window.sessionStorage.setItem(
+        `inoveesg:diagnostic-answers-${diagnosticId}`,
+        JSON.stringify({ version: 2, answers, editedQuestionIds })
+      );
     }
-  }, [answers, diagnosticId]);
+  }, [answers, diagnosticId, editedQuestionIds]);
 
   const handleRadioChange = (questionId: string, value: string) => {
     if (advanceTimerRef.current) {
@@ -100,6 +110,7 @@ export function DiagnosticRunView({
     }
 
     setSelectedOption({ questionId, option: value });
+    setEditedQuestionIds((previous) => previous.includes(questionId) ? previous : [...previous, questionId]);
     setAnswers((prev) => ({
       ...prev,
       [questionId]: value,
@@ -125,6 +136,7 @@ export function DiagnosticRunView({
       setDeclarationAccepted(false);
     }
 
+    setEditedQuestionIds((previous) => previous.includes(questionId) ? previous : [...previous, questionId]);
     setAnswers((prev) => ({
       ...prev,
       [questionId]: value,

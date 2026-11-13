@@ -1,0 +1,127 @@
+{
+  "round_id": "diagnostic-readonly-20261105",
+  "started_at": "2026-11-04T23:13:18-03:00",
+  "finished_at": "2026-11-04T23:45:26-03:00",
+  "environment": {
+    "frontend": {
+      "url": "http://localhost:3000",
+      "status": 200
+    },
+    "backend": {
+      "url": "http://localhost:4000/api/health",
+      "status": 200
+    },
+    "browser": "Playwright Chromium headless",
+    "target_account": "qa.b***@example.com",
+    "mutations": "login only; no diagnostic start/submit, checkout, or answers"
+  },
+  "scenarios": [
+    {
+      "id": "LOGIN",
+      "name": "Login sintético",
+      "status": "PASS",
+      "evidence": "POST /api/auth/login 200; GET /api/auth/me and /api/auth/me/access 200"
+    },
+    {
+      "id": "CURRENT",
+      "name": "Open diagnostic page and load completed diagnostic",
+      "status": "FAIL",
+      "evidence": "Six GET /api/diagnostic/current responses HTTP 400; no POST /api/diagnostic/start"
+    },
+    {
+      "id": "FILL",
+      "name": "Open fill route read-only",
+      "status": "FAIL",
+      "evidence": "GET current HTTP 400; no start or submit POST; no answers changed"
+    },
+    {
+      "id": "CURRENT-RETEST",
+      "name": "Diagnóstico concluído Bioimpacto após bind fix",
+      "status": "PASS",
+      "evidence": "6 GET /api/diagnostic/current 200; FULL_DIAGNOSTIC COMPLETED, 75 answers/75 questions; UI score 93%; POST start count zero"
+    },
+    {
+      "id": "FILL-COMPLETED",
+      "name": "Abrir preenchimento para diagnóstico concluído",
+      "status": "FAIL",
+      "evidence": "UI mostra 0/75 apesar de GET current conter 75 persisted answers; nenhuma resposta foi enviada"
+    },
+    {
+      "id": "STRATEGIC-PARTIAL-SAVE",
+      "name": "Salvar uma resposta parcial no diagnóstico Estratégico ativo",
+      "status": "PASS",
+      "evidence": "Precondition active and 0 rows; POST submit finalize=false with one row returned 200 savedOnly; read-only DB confirmation active with exactly one response"
+    }
+  ],
+  "bugs": [
+    {
+      "id": "BUG-ROUTE-BINDING",
+      "severity": "HIGH",
+      "classification": "product",
+      "title": "GET current diagnostic controller callback loses this context",
+      "reproduction": "Login; open /app/diagnostico; GET /api/diagnostic/current returns HTTP 400",
+      "actual": "Sanitized response: Cannot read properties of undefined (reading 'service')",
+      "hypothesis": "The controller method uses this.service but Express route registers the method unbound.",
+      "evidence": [
+        "qa/artifacts/diagnostic-readonly-20261105/network-summary.json",
+        "qa/artifacts/diagnostic-readonly-20261105/02-diagnostico-desktop.png",
+        "qa/artifacts/diagnostic-readonly-20261105/03-preencher.png"
+      ]
+    },
+    {
+      "id": "BUG-COMPLETED-EDIT",
+      "severity": "HIGH",
+      "classification": "product risk confirmed by code inspection; not exercised on completed account",
+      "title": "Partial save endpoint permits updates to completed diagnostics",
+      "reproduction": "Open /app/diagnostico/preencher for completed Bioimpacto: UI shows 0/75. Backend saveResponses has no COMPLETED guard and upserts by diagnosticId/questionOrder. The endpoint was not called against this account.",
+      "actual": "UI ignores server persisted answers; service path can upsert/overwrite completed responses. calculateScore blocks completed, but partial save path does not.",
+      "evidence": [
+        "qa/artifacts/diagnostic-readonly-20261105/network-summary.json",
+        "qa/artifacts/diagnostic-readonly-20261105/02-diagnostico-desktop.png",
+        "qa/artifacts/diagnostic-readonly-20261105/03-preencher.png",
+        "backend/src/modules/diagnostic/services/diagnosticService.ts:1440",
+        "backend/src/modules/diagnostic/services/diagnosticService.ts:1652"
+      ]
+    }
+  ],
+  "blocked_items": [
+    {
+      "item": "Confirm completed diagnostic and questions in UI",
+      "reason": "GET current fails 400; did not click start to avoid altering existing diagnostic"
+    },
+    {
+      "item": "Salvar/modificar respostas do Bioimpacto concluído",
+      "reason": "Preservei as 75 respostas; o código demonstra risco de overwrite, então não enviei escrita a esse diagnóstico."
+    }
+  ],
+  "synthetic_accounts": [
+    {
+      "email": "qa.b***@example.com",
+      "login_status": "success",
+      "password_stored": false
+    }
+  ],
+  "artifacts": [
+    "qa/artifacts/diagnostic-readonly-20261105/network-summary.json",
+    "qa/artifacts/diagnostic-readonly-20261105/02-diagnostico-desktop.png",
+    "qa/artifacts/diagnostic-readonly-20261105/03-preencher.png",
+    "qa/artifacts/diagnostic-readonly-20261105/04-preencher-snapshot.txt",
+    "qa/artifacts/diagnostic-readonly-20261105/strategic-single-answer.json",
+    "qa/artifacts/diagnostic-readonly-20261105/strategic-fill-before.png",
+    "qa/artifacts/diagnostic-readonly-20261105/strategic-fill-after.png"
+  ],
+  "improvements": [
+    {
+      "priority": "P1",
+      "title": "Bind controller methods or use arrow handlers; add route-level test preserving method context."
+    },
+    {
+      "priority": "P1",
+      "title": "Bloquear POST parcial em diagnóstico COMPLETED e hidratar respostas persistidas no preenchimento; impedir reabertura editável de concluídos."
+    }
+  ],
+  "next_actions": [
+    "Retest current and preencher after route-binding fix, still blocking POST start and answer submissions.",
+    "Corrigir o formulário para usar as 75 respostas do backend e impedir qualquer edição de diagnóstico concluído; adicionar teste de regressão para POST parcial COMPLETED."
+  ]
+}

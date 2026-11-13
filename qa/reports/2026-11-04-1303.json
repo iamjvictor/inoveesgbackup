@@ -1,0 +1,162 @@
+{
+  "round_id": "20261104-1602-local-round",
+  "started_at": "2026-11-04T13:01:31-03:00",
+  "finished_at": "2026-11-04T13:03:35-03:00",
+  "environment": {
+    "status": "ENVIRONMENT_BLOCKED",
+    "timezone": "America/Sao_Paulo",
+    "frontend": "http://localhost:3000 unavailable (HTTP 000)",
+    "backend": "http://localhost:4000 unavailable (HTTP 000)",
+    "database": "remote Supabase host; production status unverified",
+    "supabase": "remote project; production status unverified",
+    "mercado_pago": "credentials present but neither verified TEST-; sandbox flag alone is insufficient",
+    "external_calls_made": false,
+    "browser": "Playwright CLI 1.64.1; Chromium 1248 launch blocked by EPERM",
+    "preexisting_git_changes": "present; left untouched"
+  },
+  "scenarios": [
+    {
+      "id": "PRE-001",
+      "name": "Frontend preflight localhost:3000",
+      "status": "BLOCKED",
+      "detail": "HTTP 000; no listener. Frontend start withheld because configured Supabase is remote and non-production status is unproven.",
+      "evidence": "qa/artifacts/20261104-1602-local-round/preflight-summary.txt"
+    },
+    {
+      "id": "PRE-002",
+      "name": "Backend preflight localhost:4000/health",
+      "status": "BLOCKED",
+      "detail": "HTTP 000; no listener. Backend start withheld because startup warms Prisma against remote Supabase-hosted database.",
+      "evidence": "qa/artifacts/20261104-1602-local-round/preflight-summary.txt"
+    },
+    {
+      "id": "PRE-003",
+      "name": "Backend database health localhost:4000/health/db",
+      "status": "BLOCKED",
+      "detail": "HTTP 000; no listener; would depend on unverified remote database.",
+      "evidence": "qa/artifacts/20261104-1602-local-round/preflight-summary.txt"
+    },
+    {
+      "id": "BR-001",
+      "name": "Playwright Chromium browser preflight",
+      "status": "BLOCKED",
+      "detail": "CLI/browser versions are installed, but Chromium launch failed with EPERM due executor sandbox. No app page was navigated.",
+      "command": "playwright screenshot --browser chromium --timeout 5000 http://localhost:3000 <artifact>",
+      "evidence": "qa/artifacts/20261104-1602-local-round/playwright-preflight.log"
+    },
+    {
+      "id": "SAFE-001",
+      "name": "Backend unit tests",
+      "status": "PASS",
+      "detail": "24 passed, 0 failed using direct Node test runner; no services started. Standard npm script was separately blocked by tsx IPC EPERM.",
+      "command": "node --import tsx --test <24 discovered backend/src/**/*.test.ts files>",
+      "evidence": "qa/artifacts/20261104-1602-local-round/backend-unit-tests-direct.log"
+    },
+    {
+      "id": "SAFE-002",
+      "name": "Frontend lint",
+      "status": "FAIL",
+      "detail": "Lint returned exit 1 with 50 errors and 79 warnings. No source files were changed.",
+      "command": "npm run lint --prefix frontend",
+      "evidence": "qa/artifacts/20261104-1602-local-round/frontend-lint.log"
+    },
+    {
+      "id": "AUTH-001",
+      "name": "Cadastro, login, logout, recuperação e sessão",
+      "status": "BLOCKED",
+      "detail": "Requires app plus Supabase Auth integration; remote project not proven non-production. No request or account mutation made."
+    },
+    {
+      "id": "AUTHZ-001",
+      "name": "Navegação e autorização por organização/papel",
+      "status": "BLOCKED",
+      "detail": "Requires authenticated synthetic accounts and a proven isolated data backend; none available."
+    },
+    {
+      "id": "CHECKOUT-001",
+      "name": "Catálogo, checkout, aprovação/recusa/pendência/cancelamento",
+      "status": "BLOCKED",
+      "detail": "Environment blocked: both Mercado Pago credentials do not have TEST- prefix. No checkout or provider request made."
+    },
+    {
+      "id": "WEBHOOK-001",
+      "name": "Webhook Mercado Pago local com fixture/assinatura",
+      "status": "BLOCKED",
+      "detail": "Local backend unavailable; no webhook posted. Payment sandbox not proven."
+    },
+    {
+      "id": "UI-001",
+      "name": "Acessibilidade, formulário, teclado, reload e estados visuais",
+      "status": "BLOCKED",
+      "detail": "Browser could not start and local frontend is unavailable; no visual behavior claimed."
+    }
+  ],
+  "bugs": [
+    {
+      "id": "QA-001",
+      "severity": "medium",
+      "classification": "quality gate / lint",
+      "reproducible": true,
+      "steps": [
+        "Run npm run lint --prefix frontend"
+      ],
+      "result": "Exit 1 with 50 errors and 79 warnings. See log for file/line locations.",
+      "evidence": "qa/artifacts/20261104-1602-local-round/frontend-lint.log",
+      "hypothesis": "Existing frontend lint findings; not modified during QA."
+    }
+  ],
+  "blocked_items": [
+    {
+      "id": "ENVIRONMENT_BLOCKED",
+      "reason": "Remote Supabase/database hosts could not be proven non-production; local app processes absent.",
+      "attempts": [
+        "Checked localhost ports/listeners/processes",
+        "Checked local health URLs",
+        "Classified configured hosts without logging secret values"
+      ],
+      "unlock": "Provide an isolated local/staging fixture confirmed not production, including a disposable database and Supabase Auth/storage project, or a fully local mock setup."
+    },
+    {
+      "id": "PAYMENT_BLOCKED",
+      "reason": "Both Mercado Pago credentials failed the required TEST- prefix check.",
+      "unlock": "Configure both keys as official TEST- credentials in the isolated environment; rerun checkout only after verification."
+    },
+    {
+      "id": "BROWSER_BLOCKED",
+      "reason": "Chromium failed to launch under executor sandbox (EPERM).",
+      "unlock": "Run in an executor where installed Playwright Chromium can launch, or provide configured Playwright MCP."
+    }
+  ],
+  "synthetic_accounts": [],
+  "artifacts": [
+    "qa/artifacts/20261104-1602-local-round/preflight-summary.txt",
+    "qa/artifacts/20261104-1602-local-round/frontend-lint.log",
+    "qa/artifacts/20261104-1602-local-round/backend-unit-tests.log",
+    "qa/artifacts/20261104-1602-local-round/backend-unit-tests-direct.log",
+    "qa/artifacts/20261104-1602-local-round/playwright-preflight.log"
+  ],
+  "improvements": [
+    {
+      "priority": "P1",
+      "item": "Use a verified isolated local environment for browser and auth workflows; current env points at remote Supabase services."
+    },
+    {
+      "priority": "P2",
+      "item": "Resolve frontend lint errors (50 errors; 79 warnings) and rerun lint."
+    },
+    {
+      "priority": "P2",
+      "item": "Enable Chromium launch or configure Playwright MCP for browser evidence."
+    },
+    {
+      "priority": "P3",
+      "item": "Adjust the test runner invocation for this sandbox where tsx IPC socket creation is denied; direct Node invocation passed."
+    }
+  ],
+  "next_actions": [
+    "Run full browser/auth/authorization exploratory matrix once local frontend/backend and non-production dependencies are available.",
+    "Repeat Mercado Pago flows only after both credentials are verified TEST-.",
+    "Capture initial/error/success/checkout browser evidence when Chromium is runnable.",
+    "Do not reuse existing real accounts or data; use synthetic accounts dedicated to the round."
+  ]
+}

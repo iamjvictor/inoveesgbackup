@@ -1,0 +1,10 @@
+{
+  "login": 200,
+  "result": {
+    "responseCount": 17,
+    "expectedFirst": "Inexistente (A prática não existe, não é discutida ou nunca foi implementada)",
+    "displayedFirst": "Inexistente (A prática não existe, não é discutida ou nunca foi implementada)",
+    "matched": true,
+    "posts": []
+  }
+}

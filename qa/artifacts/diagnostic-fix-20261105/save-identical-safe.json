@@ -1,0 +1,268 @@
+{
+  "loginStatus": 200,
+  "preSave": {
+    "status": "ACTIVE",
+    "responseCount": 17,
+    "uiAnswersMatchDatabase": true,
+    "noQuestionAnswerWasChanged": true
+  },
+  "saveStatus": 200,
+  "saveMs": 2981,
+  "saveResponse": {
+    "success": true,
+    "savedOnly": true
+  },
+  "navigationMs": 3446,
+  "after": {
+    "status": "ACTIVE",
+    "responseCount": 17,
+    "answerHashesUnchanged": true
+  },
+  "network": [
+    {
+      "kind": "request",
+      "ms": null,
+      "method": "POST",
+      "path": "/api/auth/login"
+    },
+    {
+      "kind": "response",
+      "ms": null,
+      "method": "POST",
+      "path": "/api/auth/login",
+      "status": 200
+    },
+    {
+      "kind": "request",
+      "ms": null,
+      "method": "GET",
+      "path": "/api/diagnostic/current"
+    },
+    {
+      "kind": "request",
+      "ms": null,
+      "method": "GET",
+      "path": "/api/auth/me"
+    },
+    {
+      "kind": "request",
+      "ms": null,
+      "method": "GET",
+      "path": "/api/auth/me/access"
+    },
+    {
+      "kind": "request",
+      "ms": null,
+      "method": "GET",
+      "path": "/api/auth/me"
+    },
+    {
+      "kind": "request",
+      "ms": null,
+      "method": "GET",
+      "path": "/api/auth/me/access"
+    },
+    {
+      "kind": "response",
+      "ms": null,
+      "method": "GET",
+      "path": "/api/auth/me/access",
+      "status": 200
+    },
+    {
+      "kind": "response",
+      "ms": null,
+      "method": "GET",
+      "path": "/api/auth/me/access",
+      "status": 200
+    },
+    {
+      "kind": "response",
+      "ms": null,
+      "method": "GET",
+      "path": "/api/auth/me",
+      "status": 200
+    },
+    {
+      "kind": "request",
+      "ms": null,
+      "method": "GET",
+      "path": "/api/diagnostic/current"
+    },
+    {
+      "kind": "request",
+      "ms": null,
+      "method": "GET",
+      "path": "/api/diagnostic/current"
+    },
+    {
+      "kind": "response",
+      "ms": null,
+      "method": "GET",
+      "path": "/api/auth/me",
+      "status": 200
+    },
+    {
+      "kind": "response",
+      "ms": null,
+      "method": "GET",
+      "path": "/api/diagnostic/current",
+      "status": 200
+    },
+    {
+      "kind": "response",
+      "ms": null,
+      "method": "GET",
+      "path": "/api/diagnostic/current",
+      "status": 200
+    },
+    {
+      "kind": "request",
+      "ms": null,
+      "method": "GET",
+      "path": "/api/consulting/current"
+    },
+    {
+      "kind": "response",
+      "ms": null,
+      "method": "GET",
+      "path": "/api/diagnostic/current",
+      "status": 200
+    },
+    {
+      "kind": "request",
+      "ms": null,
+      "method": "GET",
+      "path": "/api/consulting/current"
+    },
+    {
+      "kind": "response",
+      "ms": null,
+      "method": "GET",
+      "path": "/api/consulting/current",
+      "status": 200
+    },
+    {
+      "kind": "request",
+      "ms": null,
+      "method": "GET",
+      "path": "/api/budget"
+    },
+    {
+      "kind": "response",
+      "ms": null,
+      "method": "GET",
+      "path": "/api/consulting/current",
+      "status": 200
+    },
+    {
+      "kind": "request",
+      "ms": null,
+      "method": "GET",
+      "path": "/api/budget"
+    },
+    {
+      "kind": "request",
+      "ms": null,
+      "method": "GET",
+      "path": "/api/auth/me"
+    },
+    {
+      "kind": "request",
+      "ms": null,
+      "method": "GET",
+      "path": "/api/auth/me/access"
+    },
+    {
+      "kind": "response",
+      "ms": null,
+      "method": "GET",
+      "path": "/api/auth/me/access",
+      "status": 200
+    },
+    {
+      "kind": "response",
+      "ms": null,
+      "method": "GET",
+      "path": "/api/auth/me",
+      "status": 200
+    },
+    {
+      "kind": "request",
+      "ms": null,
+      "method": "GET",
+      "path": "/api/diagnostic/current"
+    },
+    {
+      "kind": "request",
+      "ms": null,
+      "method": "GET",
+      "path": "/api/diagnostic/current"
+    },
+    {
+      "kind": "response",
+      "ms": null,
+      "method": "GET",
+      "path": "/api/diagnostic/current",
+      "status": 200
+    },
+    {
+      "kind": "response",
+      "ms": null,
+      "method": "GET",
+      "path": "/api/diagnostic/current",
+      "status": 200
+    },
+    {
+      "kind": "request",
+      "ms": 253,
+      "method": "POST",
+      "path": "/api/diagnostic/48df6eaa-1c3d-47b5-bf78-583288fed09d/submit"
+    },
+    {
+      "kind": "response",
+      "ms": 2981,
+      "method": "POST",
+      "path": "/api/diagnostic/48df6eaa-1c3d-47b5-bf78-583288fed09d/submit",
+      "status": 200
+    },
+    {
+      "kind": "request",
+      "ms": 2983,
+      "method": "GET",
+      "path": "/api/auth/me"
+    },
+    {
+      "kind": "request",
+      "ms": 2983,
+      "method": "GET",
+      "path": "/api/auth/me/access"
+    },
+    {
+      "kind": "response",
+      "ms": 2988,
+      "method": "GET",
+      "path": "/api/auth/me/access",
+      "status": 200
+    },
+    {
+      "kind": "response",
+      "ms": 3366,
+      "method": "GET",
+      "path": "/api/auth/me",
+      "status": 200
+    },
+    {
+      "kind": "request",
+      "ms": 3464,
+      "method": "GET",
+      "path": "/api/diagnostic/current"
+    },
+    {
+      "kind": "request",
+      "ms": 3465,
+      "method": "GET",
+      "path": "/api/diagnostic/current"
+    }
+  ]
+}

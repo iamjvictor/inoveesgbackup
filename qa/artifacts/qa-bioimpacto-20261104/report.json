@@ -1,0 +1,284 @@
+{
+  "round_id": "qa-bioimpacto-20261104",
+  "started_at": "2026-11-05T00:19:00Z",
+  "finished_at": "2026-11-05T00:52:25Z",
+  "timezone": "America/Sao_Paulo",
+  "environment": {
+    "frontend": {
+      "host": "localhost:3000",
+      "status": 200
+    },
+    "api_health": {
+      "host": "localhost:4000/api/health",
+      "status": 200,
+      "result": "ok"
+    },
+    "api_target": "localhost:4000/api",
+    "public_api_url_classification": "localhost, conforme preflight",
+    "browser": "Chromium via Playwright existente",
+    "api_rate_limit_initial_capture": "serializado com intervalo mínimo de 1000ms; retestes seguintes usaram tráfego normal de interface",
+    "checkout": "nenhum iniciado",
+    "webhook": "nenhum enviado",
+    "continuation": {
+      "cycles": 12,
+      "started_at": "2026-11-05T00:39:21.858Z",
+      "stopped_at": "2026-11-05T00:52:25Z",
+      "duration_minutes_approx": 13,
+      "execution": "uma rota por vez; uma aba/contexto isolado; viewports desktop/tablet/mobile; capturas estabilizadas após ciclo 6",
+      "stop_reason": "Orquestrador directed stop after API 500/503; safe GET page visits occurred in cycles 11–12 due stop-condition bug, no relogin/retry/write; no further traffic after browser stop."
+    },
+    "health_final": {
+      "host": "localhost:4000/api/health",
+      "method": "GET",
+      "status": 200,
+      "elapsed_ms": 1.863,
+      "result": "ok"
+    }
+  },
+  "scenarios": [
+    {
+      "id": "login_and_preflight",
+      "status": "PASS",
+      "result": "Frontend/API health 200; login UI 200; auth/me e auth/me/access 200.",
+      "evidence": [
+        "browser-summary.json",
+        "retest-summary.json",
+        "safe-pages-summary.json",
+        "my-services-summary.json"
+      ]
+    },
+    {
+      "id": "diagnostic",
+      "status": "FAIL_UNEXPECTED_WRITE",
+      "result": "A navegação a /app/diagnostico disparou 4 POST /api/diagnostic/start HTTP 200 sem clique. Requests/respostas sem body/ID foram registrados; número de inserts desconhecido; interrompido após detectar.",
+      "evidence": [
+        "retest-summary.json",
+        "diagnostico-tablet-retest.png",
+        "diagnostico-mobile-retest.png"
+      ]
+    },
+    {
+      "id": "evidence_responsiveness",
+      "status": "PASS_PARTIAL",
+      "result": "Conteúdo carregado em 1365x768, 768x1024 e 390x844; scrollWidth menor que viewport em todos; nenhum upload/ação executado.",
+      "evidence": [
+        "evidencias-desktop-retest.png",
+        "evidencias-tablet-retest.png",
+        "evidencias-mobile-retest.png",
+        "safe-pages-summary.json"
+      ]
+    },
+    {
+      "id": "results_responsiveness",
+      "status": "BLOCKED",
+      "result": "Spinner permaneceu nas capturas; nova tentativa evitada porque pode redirecionar para Diagnóstico e repetir POST inesperado.",
+      "evidence": [
+        "resultados-desktop-retest.png",
+        "resultados-tablet-retest.png",
+        "resultados-mobile-retest.png",
+        "retest-summary.json"
+      ]
+    },
+    {
+      "id": "dashboard_responsiveness",
+      "status": "PASS_PARTIAL",
+      "result": "Tablet/mobile renderizaram painel; desktop capturado em loading; nenhum overflow horizontal medido.",
+      "evidence": [
+        "painel-tablet-safe.png",
+        "painel-mobile-safe.png",
+        "painel-desktop-safe.png",
+        "safe-pages-summary.json"
+      ]
+    },
+    {
+      "id": "my_services",
+      "status": "PASS_PARTIAL",
+      "result": "Rota segura visitada em navegador isolado. Remove apenas cache local inoveesg_purchased_services_${companyId}; localStorage estava inicialmente vazio. Conteúdo de serviços ainda mostrava loading após 2.5 s; nenhuma escrita API fora do login.",
+      "evidence": [
+        "meus-servicos-desktop.png",
+        "meus-servicos-tablet.png",
+        "meus-servicos-mobile.png",
+        "my-services-summary.json"
+      ]
+    },
+    {
+      "id": "keyboard_focus",
+      "status": "PASS_PARTIAL",
+      "result": "Tab focou link Área da Empresa com outline auto/1px.",
+      "evidence": [
+        "retest-summary.json",
+        "safe-pages-summary.json"
+      ]
+    },
+    {
+      "id": "console",
+      "status": "PASS",
+      "result": "Nenhum console error ou page error nos retestes sem throttling.",
+      "evidence": [
+        "retest-summary.json",
+        "safe-pages-summary.json",
+        "my-services-summary.json"
+      ]
+    },
+    {
+      "id": "continued_safe_navigation",
+      "status": "PASS_PARTIAL_WITH_SERVER_ERRORS",
+      "result": "12 ciclos seriais; 84 respostas HTTP 200, 1 HTTP 500 e 2 HTTP 503; sem escrita não-login. Após os erros, navegações seguras Evidências/Meus Serviços ainda geraram GETs 200 por falha do controle de parada, sem relogin ou retry explícito. Navegador parado após a detecção.",
+      "evidence": [
+        "continuation-cycles.json",
+        "continuation-07-painel-mobile.png",
+        "continuation-08-evidencias-desktop.png",
+        "continuation-09-meus-servicos-tablet.png",
+        "continuation-10-painel-desktop.png",
+        "continuation-11-evidencias-tablet.png",
+        "continuation-12-meus-servicos-mobile.png"
+      ]
+    }
+  ],
+  "bugs": [
+    {
+      "id": "B-001",
+      "severity": "medium",
+      "classification": "produto",
+      "title": "Diagnóstico dispara escrita ao ser aberto",
+      "reproduction": "Login; abrir /app/diagnostico sem clicar em iniciar. Foram observados 4 POST /api/diagnostic/start HTTP 200.",
+      "frontend_cause": "DiagnosticOverviewView useEffect chama diagnosticService.startDiagnostic() para carregar perguntas, inclusive ao exibir diagnóstico concluído.",
+      "backend_effect_possible": "Procura DRAFT/ACTIVE; se ausente, cria draft e invalida cache. Busca/criação não atômica e schema sem unicidade organização/status podem permitir drafts duplicados concorrentes.",
+      "limitations": "Não foram guardados bodies/IDs, não houve inspeção de banco; número de inserts não é conhecido.",
+      "evidence": [
+        "retest-summary.json",
+        "diagnostico-tablet-retest.png",
+        "diagnostico-mobile-retest.png"
+      ]
+    },
+    {
+      "id": "ENV-001",
+      "severity": "inconclusive",
+      "classification": "ambiente/serviço transitório; causa não determinada",
+      "title": "Erros transitórios nas dependências do perfil e diagnóstico",
+      "observations": [
+        {
+          "at": "2026-11-05T00:49:37.098Z",
+          "method": "GET",
+          "path": "/api/auth/me",
+          "status": 500,
+          "duration_ms": 10059,
+          "console_excerpt": "Failed to fetch user profile; erro sanitizado na invocação Prisma adminUser.findFirst."
+        },
+        {
+          "at": "2026-11-05T00:49:47.216Z",
+          "method": "GET",
+          "path": "/api/diagnostic/current",
+          "status": 503,
+          "duration_ms": 10025
+        },
+        {
+          "at": "2026-11-05T00:49:47.243Z",
+          "method": "GET",
+          "path": "/api/diagnostic/current",
+          "status": 503,
+          "duration_ms": 10016
+        }
+      ],
+      "recovery_observed": "Após o erro, ciclos 11–12 ainda navegaram em Evidências e Meus Serviços por falha de controle de parada; não houve novo login ou retry explícito, mas foram gerados GETs. auth/me 200 em 413 ms em 00:50:27.568Z; diagnostic/current 200 em 2053 ms em 00:50:29.691Z; bioimpacto/history 200 em 2857 ms em 00:50:30.492Z; no ciclo 12 current/history também 200 em 3894/3716 ms. Depois que a continuação foi percebida, navegador foi parado.",
+      "retries_initiated": false,
+      "evidence": [
+        "continuation-cycles.json"
+      ],
+      "subsequent_safe_navigation_gets": true,
+      "stop_condition_missed": true
+    }
+  ],
+  "blocked_items": [
+    {
+      "id": "results_loading",
+      "details": "Resultados permaneceu em loading; após POST inesperado, nova navegação poderia redirecionar a Diagnóstico e repetir efeito de escrita.",
+      "recovery": "Corrigir efeito automático e estabelecer estado do diagnóstico em QA antes de retestar."
+    },
+    {
+      "id": "dashboard_and_services_wait",
+      "details": "Painel desktop e Meus Serviços tablet foram capturados em loading; bloco de serviços ainda buscava dados após 2.5 s.",
+      "recovery": "Repetir somente rotas read-only e aguardar o conteúdo terminar de carregar."
+    },
+    {
+      "id": "continued_round_stopped",
+      "details": "Continuação encerrada após 12 ciclos e orientação do orquestrador diante de 500/503. O controle de parada falhou e os ciclos 11–12 ainda navegaram apenas para Evidências/Meus Serviços e emitiram GETs; não houve relogin, retry explícito ou escrita. Após perceber a continuação, navegador foi parado; health read-only final retornou 200."
+    }
+  ],
+  "synthetic_accounts": [
+    {
+      "identifier": "qa.b***@example.com",
+      "password_recorded": false,
+      "profile": "QA Bioimpacto Sintético / QA Bioimpacto"
+    }
+  ],
+  "artifacts": [
+    "01-login.png",
+    "03-dashboard.png",
+    "browser-summary.json",
+    "environment-summary.json",
+    "retest-summary.json",
+    "safe-pages-summary.json",
+    "my-services-summary.json",
+    "report.md",
+    "report.json",
+    "diagnostico-desktop-retest.png",
+    "diagnostico-tablet-retest.png",
+    "diagnostico-mobile-retest.png",
+    "evidencias-desktop-retest.png",
+    "evidencias-tablet-retest.png",
+    "evidencias-mobile-retest.png",
+    "resultados-desktop-retest.png",
+    "resultados-tablet-retest.png",
+    "resultados-mobile-retest.png",
+    "painel-desktop-safe.png",
+    "painel-tablet-safe.png",
+    "painel-mobile-safe.png",
+    "meus-servicos-desktop.png",
+    "meus-servicos-tablet.png",
+    "meus-servicos-mobile.png",
+    "keyboard-focus.png",
+    "continuation-cycles.json",
+    "continuation-01-painel-desktop.png",
+    "continuation-02-evidencias-tablet.png",
+    "continuation-03-meus-servicos-mobile.png",
+    "continuation-04-painel-tablet.png",
+    "continuation-05-evidencias-mobile.png",
+    "continuation-06-meus-servicos-desktop.png",
+    "continuation-07-painel-mobile.png",
+    "continuation-08-evidencias-desktop.png",
+    "continuation-09-meus-servicos-tablet.png",
+    "continuation-10-painel-desktop.png",
+    "continuation-11-evidencias-tablet.png",
+    "continuation-12-meus-servicos-mobile.png"
+  ],
+  "improvements": [
+    "Média: carregar perguntas do diagnóstico sem POST e só criar draft em ação explícita.",
+    "Média: tornar a criação de draft idempotente e protegida contra concorrência.",
+    "Baixa: loading de Painel/Meus Serviços precisa manter feedback sem captura prematura."
+  ],
+  "next_actions": [
+    "Corrigir efeito do Diagnóstico e proteção concorrente do endpoint; verificar estado criado somente por fluxo de QA aprovado.",
+    "Retestar Resultados após estado consistente e sem escrita indireta.",
+    "Repetir inspeção desktop de Painel e tablet de Meus Serviços depois do carregamento completo."
+  ],
+  "integrity": {
+    "production_code_changed": false,
+    "checkout_started": false,
+    "payments_attempted": false,
+    "webhooks_sent": false,
+    "uploads_attempted": false,
+    "secrets_or_tokens_recorded": false,
+    "unexpected_write_requests_observed": 4,
+    "unexpected_write_insert_count": "unknown; no database verification",
+    "continuation_non_login_writes": 0,
+    "server_responses": {
+      "200": 84,
+      "500": 1,
+      "503": 2
+    },
+    "no_relogin_after_server_errors": true,
+    "safe_get_navigations_after_initial_server_errors": 2,
+    "server_error_stop_condition_missed": true
+  }
+}

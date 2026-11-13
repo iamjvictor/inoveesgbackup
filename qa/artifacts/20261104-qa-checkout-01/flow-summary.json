@@ -1,0 +1,116 @@
+{
+  "state": {
+    "elapsed_ms": 8093,
+    "url": "http://localhost:3000/app",
+    "bodyText": "Carregando seu perfil...",
+    "emailMasked": "qa.***@example.invalid",
+    "syntheticDocData": true,
+    "servicePage": {
+      "url": "/app/upgrade",
+      "headings": [],
+      "priceTexts": []
+    },
+    "buyButtons": [
+      ""
+    ]
+  },
+  "events": [
+    {
+      "kind": "request",
+      "method": "POST",
+      "url": "http://localhost:4000/api/auth/register",
+      "body": {
+        "keys": [
+          "companyName",
+          "industrySegment",
+          "businessCategoryCode",
+          "businessSegmentCode",
+          "specificActivity",
+          "size",
+          "cargoFuncao",
+          "grauParticipacao",
+          "tradeName",
+          "addressLine1",
+          "addressNumber",
+          "country",
+          "state",
+          "city",
+          "naturezaJuridica",
+          "porte",
+          "tempoOperacao",
+          "alcanceMercado",
+          "esgJaPossui",
+          "esgInteresse"
+        ]
+      },
+      "at": 5674
+    },
+    {
+      "kind": "response",
+      "status": 201,
+      "url": "http://localhost:4000/api/auth/register",
+      "body": {
+        "responseKeys": [
+          "user",
+          "organization",
+          "expiresIn"
+        ]
+      },
+      "at": 12388
+    },
+    {
+      "kind": "request",
+      "method": "GET",
+      "url": "http://localhost:4000/api/auth/me",
+      "body": {
+        "keys": []
+      },
+      "at": 12581
+    },
+    {
+      "kind": "request",
+      "method": "GET",
+      "url": "http://localhost:4000/api/auth/me/access",
+      "body": {
+        "keys": []
+      },
+      "at": 12581
+    },
+    {
+      "kind": "request",
+      "method": "GET",
+      "url": "http://localhost:4000/api/auth/me",
+      "body": {
+        "keys": []
+      },
+      "at": 12582
+    },
+    {
+      "kind": "request",
+      "method": "GET",
+      "url": "http://localhost:4000/api/auth/me/access",
+      "body": {
+        "keys": []
+      },
+      "at": 12583
+    },
+    {
+      "kind": "request",
+      "method": "GET",
+      "url": "http://localhost:4000/api/auth/me",
+      "body": {
+        "keys": []
+      },
+      "at": 13863
+    },
+    {
+      "kind": "request",
+      "method": "GET",
+      "url": "http://localhost:4000/api/auth/me/access",
+      "body": {
+        "keys": []
+      },
+      "at": 13863
+    }
+  ]
+}

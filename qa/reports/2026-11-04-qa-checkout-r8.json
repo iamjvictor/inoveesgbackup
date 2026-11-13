@@ -1,0 +1,29 @@
+{
+  "round_id": "20261104-checkout-r8",
+  "started_at": "2026-11-04T15:40:00-03:00",
+  "finished_at": "2026-11-04T15:48:00-03:00",
+  "environment": {
+    "frontend_local": "available",
+    "backend_local": "available",
+    "seller_test_identity": "confirmed_by_users_me_test_user_tag",
+    "buyer_test_identity": "confirmed_from_user_provided_test_panel",
+    "configured_checkout_return_frontend": "production_domain"
+  },
+  "scenarios": [
+    {"id": "local-preflight", "status": "passed"},
+    {"id": "seller-identity", "status": "passed", "http_status": 200},
+    {"id": "buyer-test-account", "status": "passed", "credentials_recorded": false},
+    {"id": "synthetic-app-signup-and-login", "status": "passed", "login_http_status": 200, "auth_me_http_status": 200, "access_context_http_status": 200},
+    {"id": "select-pre-diagnostic-through-ui", "status": "passed", "product_code": "PRE_DIAGNOSTIC", "displayed_price_brl": 250.0},
+    {"id": "create-checkout-preference", "status": "blocked", "reason": "FRONTEND_URL configured to production; no preference request issued"},
+    {"id": "sandbox-payment-return-permissions", "status": "blocked", "reason": "No preference or transaction"}
+  ],
+  "bugs": [
+    {"severity": "high", "category": "environment configuration", "file": "backend/.env", "line": 10, "summary": "Local checkout back URLs target production because FRONTEND_URL resolves to www.inove-esg.com.br", "reproduction": "Inspect FRONTEND_URL hostname, then inspect buildBackUrls in backend/src/modules/checkout/services/checkoutService.ts:99; the builder derives all status URLs from env.frontendUrl", "evidence": "qa/artifacts/20261104-checkout-r8/preflight.json", "payment_submitted": false}
+  ],
+  "blocked_items": ["Configure FRONTEND_URL to an authorized HTTPS test frontend endpoint and rerun checkout"],
+  "synthetic_accounts": {"app_user_rows_created_during_round": 2, "buyer_credentials_recorded": false},
+  "artifacts": ["qa/artifacts/20261104-checkout-r8/preflight.json", "qa/artifacts/20261104-checkout-r8/upgrade-product-selected.png"],
+  "improvements": ["Add local configuration validation that rejects production FRONTEND_URL when running checkout sandbox tests"],
+  "next_actions": ["After environment correction, generate preference and confirm sandbox host plus all return URL hosts before handing off final payment action"]
+}

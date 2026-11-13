@@ -1,0 +1,390 @@
+{
+  "responses": [
+    {
+      "atMs": 1793838275573,
+      "method": "POST",
+      "path": "/api/auth/login",
+      "status": 200
+    },
+    {
+      "atMs": 1793838276536,
+      "method": "GET",
+      "path": "/api/auth/me/access",
+      "status": 200
+    },
+    {
+      "atMs": 1793838276539,
+      "method": "GET",
+      "path": "/api/auth/me/access",
+      "status": 200
+    },
+    {
+      "atMs": 1793838276823,
+      "method": "GET",
+      "path": "/api/auth/me",
+      "status": 200
+    },
+    {
+      "atMs": 1793838277029,
+      "method": "GET",
+      "path": "/api/auth/me",
+      "status": 200
+    },
+    {
+      "atMs": 1793838277275,
+      "method": "GET",
+      "path": "/api/auth/me/access",
+      "status": 200
+    },
+    {
+      "atMs": 1793838277538,
+      "method": "GET",
+      "path": "/api/auth/me",
+      "status": 200
+    },
+    {
+      "atMs": 1793838278455,
+      "method": "GET",
+      "path": "/api/auth/me/access",
+      "status": 200
+    },
+    {
+      "atMs": 1793838278836,
+      "method": "GET",
+      "path": "/api/auth/me",
+      "status": 200
+    },
+    {
+      "atMs": 1793838278930,
+      "method": "GET",
+      "path": "/api/diagnostic/current",
+      "status": 200
+    },
+    {
+      "atMs": 1793838278959,
+      "method": "GET",
+      "path": "/api/diagnostic/current",
+      "status": 200
+    },
+    {
+      "atMs": 1793838279368,
+      "method": "POST",
+      "path": "/api/diagnostic/start",
+      "status": 200
+    },
+    {
+      "atMs": 1793838279401,
+      "method": "POST",
+      "path": "/api/diagnostic/start",
+      "status": 200
+    },
+    {
+      "atMs": 1793838279966,
+      "method": "GET",
+      "path": "/api/auth/me/access",
+      "status": 200
+    },
+    {
+      "atMs": 1793838280152,
+      "method": "GET",
+      "path": "/api/auth/me",
+      "status": 200
+    },
+    {
+      "atMs": 1793838280244,
+      "method": "GET",
+      "path": "/api/diagnostic/current",
+      "status": 200
+    },
+    {
+      "atMs": 1793838280266,
+      "method": "GET",
+      "path": "/api/diagnostic/current",
+      "status": 200
+    },
+    {
+      "atMs": 1793838280473,
+      "method": "POST",
+      "path": "/api/diagnostic/start",
+      "status": 200
+    },
+    {
+      "atMs": 1793838280669,
+      "method": "POST",
+      "path": "/api/diagnostic/start",
+      "status": 200
+    },
+    {
+      "atMs": 1793838281174,
+      "method": "GET",
+      "path": "/api/auth/me/access",
+      "status": 200
+    },
+    {
+      "atMs": 1793838281363,
+      "method": "GET",
+      "path": "/api/auth/me",
+      "status": 200
+    },
+    {
+      "atMs": 1793838281450,
+      "method": "GET",
+      "path": "/api/diagnostic/current",
+      "status": 200
+    },
+    {
+      "atMs": 1793838281480,
+      "method": "GET",
+      "path": "/api/diagnostic/current",
+      "status": 200
+    },
+    {
+      "atMs": 1793838282407,
+      "method": "GET",
+      "path": "/api/auth/me/access",
+      "status": 200
+    },
+    {
+      "atMs": 1793838282594,
+      "method": "GET",
+      "path": "/api/auth/me",
+      "status": 200
+    },
+    {
+      "atMs": 1793838282676,
+      "method": "GET",
+      "path": "/api/diagnostic/current",
+      "status": 200
+    },
+    {
+      "atMs": 1793838282710,
+      "method": "GET",
+      "path": "/api/diagnostic/current",
+      "status": 200
+    },
+    {
+      "atMs": 1793838283621,
+      "method": "GET",
+      "path": "/api/auth/me/access",
+      "status": 200
+    },
+    {
+      "atMs": 1793838283801,
+      "method": "GET",
+      "path": "/api/auth/me",
+      "status": 200
+    },
+    {
+      "atMs": 1793838283886,
+      "method": "GET",
+      "path": "/api/diagnostic/current",
+      "status": 200
+    },
+    {
+      "atMs": 1793838283905,
+      "method": "GET",
+      "path": "/api/diagnostic/current",
+      "status": 200
+    },
+    {
+      "atMs": 1793838284868,
+      "method": "GET",
+      "path": "/api/auth/me/access",
+      "status": 200
+    },
+    {
+      "atMs": 1793838285121,
+      "method": "GET",
+      "path": "/api/auth/me",
+      "status": 200
+    },
+    {
+      "atMs": 1793838285207,
+      "method": "GET",
+      "path": "/api/diagnostic/current",
+      "status": 200
+    },
+    {
+      "atMs": 1793838285245,
+      "method": "GET",
+      "path": "/api/diagnostic/current",
+      "status": 200
+    },
+    {
+      "atMs": 1793838285996,
+      "method": "GET",
+      "path": "/api/auth/me/access",
+      "status": 200
+    },
+    {
+      "atMs": 1793838286345,
+      "method": "GET",
+      "path": "/api/auth/me",
+      "status": 200
+    },
+    {
+      "atMs": 1793838286420,
+      "method": "GET",
+      "path": "/api/diagnostic/current",
+      "status": 200
+    },
+    {
+      "atMs": 1793838286453,
+      "method": "GET",
+      "path": "/api/diagnostic/current",
+      "status": 200
+    },
+    {
+      "atMs": 1793838287221,
+      "method": "GET",
+      "path": "/api/auth/me/access",
+      "status": 200
+    },
+    {
+      "atMs": 1793838287410,
+      "method": "GET",
+      "path": "/api/auth/me",
+      "status": 200
+    },
+    {
+      "atMs": 1793838287500,
+      "method": "GET",
+      "path": "/api/diagnostic/current",
+      "status": 200
+    },
+    {
+      "atMs": 1793838287502,
+      "method": "GET",
+      "path": "/api/diagnostic/current",
+      "status": 200
+    },
+    {
+      "atMs": 1793838288327,
+      "method": "GET",
+      "path": "/api/auth/me/access",
+      "status": 200
+    },
+    {
+      "atMs": 1793838288513,
+      "method": "GET",
+      "path": "/api/auth/me",
+      "status": 200
+    },
+    {
+      "atMs": 1793838288590,
+      "method": "GET",
+      "path": "/api/diagnostic/current",
+      "status": 200
+    },
+    {
+      "atMs": 1793838288592,
+      "method": "GET",
+      "path": "/api/diagnostic/current",
+      "status": 200
+    }
+  ],
+  "consoleErrors": [],
+  "pageErrors": [],
+  "navigations": [
+    {
+      "name": "diagnostico",
+      "viewport": 1365,
+      "url": "/app/diagnostico",
+      "title": "Inove ESG",
+      "text": "Área da Empresa\nPainel\nMeus Serviços\nDiagnóstico\nEvidências\nCadeia\nResultados\nRanking\nQB\n\nQA Bioimpacto Sintético\n\nQA Bioimpacto\n\nSair",
+      "scrollWidth": 1350,
+      "activeTag": "BODY",
+      "bodyScrollHeight": 768
+    },
+    {
+      "name": "diagnostico",
+      "viewport": 768,
+      "url": "/app/diagnostico",
+      "title": "Inove ESG",
+      "text": "Área da Empresa\nPainel\nMeus Serviços\nDiagnóstico\nEvidências\nCadeia\nResultados\nRanking\nQB\n\nQA Bioimpacto Sintético\n\nQA Bioimpacto\n\nSair\nPontuação Geral: 93%\nBaixar Relatório PDF\nVer Resultados Detalhados\nAmbiental\nEIXO E\n•\n17/17 QUESTÕES\nNota: 99%\n\nAvalia a pegada ecológica, eficiência energética, recursos hídricos, resíduos e emissões de carbono.\n\n99%\nProva Finalizada\nBioeconomia Circular\nEIXO B\n•\n14/14 QUESTÕES\nNota: 88%\n\nMapeia a circularidade de materiais, reaproveitamento de coprodutos e sustentabilidade da cadeia.\n\n88%\nProva Finalizada\nSocial\nEIXO S\n•\n21/21 QUESTÕES\nNota: 95%\n\nExamina a saúde ocupacional, direitos humanos, diversidade, relações comunitárias e segurança do trabalho.\n\n95%\nProva Finalizada\nGovernança\nEIXO G\n•\n23/23 QUESTÕES\nNota: 91%\n\nMede o canal de ética, compliance legal, transparência corporativa e práticas de conselho consultivo.\n\n91%\nProva Finalizada",
+      "scrollWidth": 753,
+      "activeTag": "BODY",
+      "bodyScrollHeight": 1212
+    },
+    {
+      "name": "diagnostico",
+      "viewport": 390,
+      "url": "/app/diagnostico",
+      "title": "Inove ESG",
+      "text": "Área da Empresa\nQA Bioimpacto\nÁrea da Empresa\nPainel\nMeus Serviços\nDiagnóstico\nEvidências\nCadeia\nResultados\nRanking\nQB\n\nQA Bioimpacto Sintético\n\nQA Bioimpacto\n\nSair\nPontuação Geral: 93%\nBaixar Relatório PDF\nVer Resultados Detalhados\nAmbiental\nEIXO E\n•\n17/17 QUESTÕES\nNota: 99%\n\nAvalia a pegada ecológica, eficiência energética, recursos hídricos, resíduos e emissões de carbono.\n\n99%\nProva Finalizada\nBioeconomia Circular\nEIXO B\n•\n14/14 QUESTÕES\nNota: 88%\n\nMapeia a circularidade de materiais, reaproveitamento de coprodutos e sustentabilidade da cadeia.\n\n88%\nProva Finalizada\nSocial\nEIXO S\n•\n21/21 QUESTÕES\nNota: 95%\n\nExamina a saúde ocupacional, direitos humanos, diversidade, relações comunitárias e segurança do trabalho.\n\n95%\nProva Finalizada\nGovernança\nEIXO G\n•\n23/23 QUESTÕES\nNota: 91%\n\nMede o canal de ética, compliance legal, transparência corporativa e práticas de conselho consultivo.\n\n91%\nProva Finalizada",
+      "scrollWidth": 375,
+      "activeTag": "BODY",
+      "bodyScrollHeight": 1806
+    },
+    {
+      "name": "evidencias",
+      "viewport": 1365,
+      "url": "/app/evidencias",
+      "title": "Inove ESG",
+      "text": "Área da Empresa\nPainel\nMeus Serviços\nDiagnóstico\nEvidências\nCadeia\nResultados\nRanking\nQB\n\nQA Bioimpacto Sintético\n\nQA Bioimpacto\n\nSair\n\nDESEMPENHO COMPROVADO\n\nPontuação calculada a partir das evidências aprovadas.\n\nICEB\n\n0/100\n\nNÍVEL ATUAL\n\nNível 1 · Elementar\n\nNOTA DECLARADA\n\n93/100\n\nConsulte acima o histórico e a contagem regressiva da próxima janela de evidências.\n\nAMBIENTAL (E)\n\n0%\n\nNota comprovada\n\nNão comprovada\nNota declarada\n99%\nBIOECONOMIA (B)\n\n0%\n\nNota comprovada\n\nNão comprovada\nNota declarada\n88%\nSOCIAL (S)\n\n0%\n\nNota comprovada\n\nNão comprovada\nNota declarada\n95%\nGOVERNANÇA (G)\n\n0%\n\nNota comprovada\n\nNão comprovada\nNota declarada\n91%\nE\nAmbiental\nAgronegócio · Agroindústria\n0% comprovada\nB\nBioeconomia\nAgronegócio · Agroindústria\n0% comprovada\nS\nSocial\nAgronegócio · Agroindústria\n0% comprovada\nG\nGovernança\nAgronegócio · Agroindústria\n0% comprovada",
+      "scrollWidth": 1350,
+      "activeTag": "BODY",
+      "bodyScrollHeight": 813
+    },
+    {
+      "name": "evidencias",
+      "viewport": 768,
+      "url": "/app/evidencias",
+      "title": "Inove ESG",
+      "text": "Área da Empresa\nPainel\nMeus Serviços\nDiagnóstico\nEvidências\nCadeia\nResultados\nRanking\nQB\n\nQA Bioimpacto Sintético\n\nQA Bioimpacto\n\nSair\n\nDESEMPENHO COMPROVADO\n\nPontuação calculada a partir das evidências aprovadas.\n\nICEB\n\n0/100\n\nNÍVEL ATUAL\n\nNível 1 · Elementar\n\nNOTA DECLARADA\n\n93/100\n\nConsulte acima o histórico e a contagem regressiva da próxima janela de evidências.\n\nAMBIENTAL (E)\n\n0%\n\nNota comprovada\n\nNão comprovada\nNota declarada\n99%\nBIOECONOMIA (B)\n\n0%\n\nNota comprovada\n\nNão comprovada\nNota declarada\n88%\nSOCIAL (S)\n\n0%\n\nNota comprovada\n\nNão comprovada\nNota declarada\n95%\nGOVERNANÇA (G)\n\n0%\n\nNota comprovada\n\nNão comprovada\nNota declarada\n91%\nE\nAmbiental\nAgronegócio · Agroindústria\n0% comprovada\nB\nBioeconomia\nAgronegócio · Agroindústria\n0% comprovada\nS\nSocial\nAgronegócio · Agroindústria\n0% comprovada\nG\nGovernança\nAgronegócio · Agroindústria\n0% comprovada",
+      "scrollWidth": 753,
+      "activeTag": "BODY",
+      "bodyScrollHeight": 1183
+    },
+    {
+      "name": "evidencias",
+      "viewport": 390,
+      "url": "/app/evidencias",
+      "title": "Inove ESG",
+      "text": "Área da Empresa\nQA Bioimpacto\nÁrea da Empresa\nPainel\nMeus Serviços\nDiagnóstico\nEvidências\nCadeia\nResultados\nRanking\nQB\n\nQA Bioimpacto Sintético\n\nQA Bioimpacto\n\nSair\n\nDESEMPENHO COMPROVADO\n\nPontuação calculada a partir das evidências aprovadas.\n\nICEB\n\n0/100\n\nNÍVEL ATUAL\n\nNível 1 · Elementar\n\nNOTA DECLARADA\n\n93/100\n\nConsulte acima o histórico e a contagem regressiva da próxima janela de evidências.\n\nAMBIENTAL (E)\n\n0%\n\nNota comprovada\n\nNão comprovada\nNota declarada\n99%\nBIOECONOMIA (B)\n\n0%\n\nNota comprovada\n\nNão comprovada\nNota declarada\n88%\nSOCIAL (S)\n\n0%\n\nNota comprovada\n\nNão comprovada\nNota declarada\n95%\nGOVERNANÇA (G)\n\n0%\n\nNota comprovada\n\nNão comprovada\nNota declarada\n91%\nE\nAmbiental\nAgronegócio · Agroindústria\nB\nBioeconomia\nAgronegócio · Agroindústria\nS\nSocial\nAgronegócio · Agroindústria\nG\nGovernança\nAgronegócio · Agroindústria",
+      "scrollWidth": 375,
+      "activeTag": "BODY",
+      "bodyScrollHeight": 1618
+    },
+    {
+      "name": "resultados",
+      "viewport": 1365,
+      "url": "/app/resultados",
+      "title": "Inove ESG",
+      "text": "Área da Empresa\nPainel\nMeus Serviços\nDiagnóstico\nEvidências\nCadeia\nResultados\nRanking\nQB\n\nQA Bioimpacto Sintético\n\nQA Bioimpacto\n\nSair",
+      "scrollWidth": 1350,
+      "activeTag": "BODY",
+      "bodyScrollHeight": 768
+    },
+    {
+      "name": "resultados",
+      "viewport": 768,
+      "url": "/app/resultados",
+      "title": "Inove ESG",
+      "text": "Área da Empresa\nPainel\nMeus Serviços\nDiagnóstico\nEvidências\nCadeia\nResultados\nRanking\nQB\n\nQA Bioimpacto Sintético\n\nQA Bioimpacto\n\nSair",
+      "scrollWidth": 753,
+      "activeTag": "BODY",
+      "bodyScrollHeight": 1024
+    },
+    {
+      "name": "resultados",
+      "viewport": 390,
+      "url": "/app/resultados",
+      "title": "Inove ESG",
+      "text": "Área da Empresa\nQA Bioimpacto\nÁrea da Empresa\nPainel\nMeus Serviços\nDiagnóstico\nEvidências\nCadeia\nResultados\nRanking\nQB\n\nQA Bioimpacto Sintético\n\nQA Bioimpacto\n\nSair",
+      "scrollWidth": 375,
+      "activeTag": "BODY",
+      "bodyScrollHeight": 844
+    }
+  ],
+  "storageKeyNames": [],
+  "cookieNames": [
+    "inoveesg_token"
+  ],
+  "focus": {
+    "tag": "A",
+    "label": "Área da Empresa\nQA Bioimpacto",
+    "outline": "auto",
+    "width": "1px"
+  }
+}

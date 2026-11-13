@@ -1,0 +1,121 @@
+{
+  "round_id": "20261104-qa-checkout-01",
+  "started_at": "2026-11-04T14:01:00-03:00",
+  "finished_at": "2026-11-04T14:31:00-03:00",
+  "timezone": "America/Sao_Paulo",
+  "environment": {
+    "frontend": "http://localhost:3000; Next.js dev server, HTTP 200",
+    "backend": "http://localhost:4000; local dev server, /api/health HTTP 200",
+    "database": "remote Supabase test project, confirmed test environment; no migrations applied",
+    "mercado_pago": "test seller context from prior sanitized environment verification; test identity indicated; checkout target was sandbox host",
+    "browser": "Playwright 1.64.1 with headless Chromium, --no-sandbox",
+    "external_payment_submitted": false,
+    "production_modified": false,
+    "other_qa_files_modified": false
+  },
+  "scenarios": [
+    {
+      "id": "AUTH-01",
+      "name": "Register synthetic account through UI",
+      "status": "PASS",
+      "result": "POST /api/auth/register returned HTTP 201 in 6.65 s. Response keys were user, organization and expiresIn. Account identifier masked; document values and credentials omitted.",
+      "evidence": [
+        "qa/artifacts/20261104-qa-checkout-01/flow-summary.json",
+        "qa/artifacts/20261104-qa-checkout-01/06-registration-result.png"
+      ]
+    },
+    {
+      "id": "AUTH-02",
+      "name": "Login through UI with the synthetic account",
+      "status": "PASS",
+      "result": "POST /api/auth/login returned HTTP 200 in 1.54 s on first login and 1.47 s on the checkout run. Auth profile/access requests returned HTTP 200.",
+      "evidence": [
+        "qa/artifacts/20261104-qa-checkout-01/login-summary.json",
+        "qa/artifacts/20261104-qa-checkout-01/09-login-ready.png",
+        "qa/artifacts/20261104-qa-checkout-01/10-login-result.png"
+      ]
+    },
+    {
+      "id": "CAT-01",
+      "name": "Load service catalog and price",
+      "status": "PASS",
+      "result": "GET /api/checkout/catalog-prices returned HTTP 200. The selected card and detail modal both displayed R$ 250,00 for Diagnóstico Autodeclarável / Pré-Diagnóstico ESG Autodeclarável.",
+      "evidence": [
+        "qa/artifacts/20261104-qa-checkout-01/14-selected-service-priced.png",
+        "qa/artifacts/20261104-qa-checkout-01/15-service-detail.png"
+      ]
+    },
+    {
+      "id": "CHECKOUT-01",
+      "name": "Create preference by selecting service card and confirming purchase",
+      "status": "PASS",
+      "result": "After selecting the service card and clicking Comprar Agora in its detail modal, POST /api/checkout/preference carried productCode PRE_DIAGNOSTIC and quantity 1. HTTP 201 arrived in 3.68 s. The browser then navigated to the sandbox Mercado Pago redirect. No HTTP 400 occurred in this valid selected-service flow.",
+      "evidence": [
+        "qa/artifacts/20261104-qa-checkout-01/checkout-response-capture.json",
+        "qa/artifacts/20261104-qa-checkout-01/17-provider-result-capture.png"
+      ]
+    },
+    {
+      "id": "CHECKOUT-02",
+      "name": "Open provider sandbox checkout",
+      "status": "FAIL",
+      "result": "Browser navigated to https://sandbox.mercadopago.com.br/checkout/v1/redirect (query string redacted). The provider GET returned HTTP 403 in 184 ms with text/html and an error page in Spanish. No payment form was submitted.",
+      "evidence": [
+        "qa/artifacts/20261104-qa-checkout-01/checkout-response-capture.json",
+        "qa/artifacts/20261104-qa-checkout-01/16-checkout-result.png",
+        "qa/artifacts/20261104-qa-checkout-01/17-provider-result-capture.png"
+      ]
+    },
+    {
+      "id": "CHECKOUT-03",
+      "name": "Investigate HTTP 400 on valid checkout flow",
+      "status": "NOT_REPRODUCED",
+      "result": "No 400 was returned by the valid UI flow; preference creation returned 201. The provider navigation failed with 403 instead. Code inspection of checkoutController.ts shows invalid Zod input and any caught service exception are mapped to 400, so a future 400 needs its sanitized response message and backend log to identify the cause. No invalid or unselected product request was sent.",
+      "evidence": [
+        "qa/artifacts/20261104-qa-checkout-01/checkout-response-capture.json"
+      ]
+    }
+  ],
+  "observations": [
+    "The first card-level Comprar action opens the service detail modal; it does not create a checkout until Comprar Agora is clicked.",
+    "The app showed a transient profile loading view immediately after registration; login in a fresh browser context succeeded and loaded the catalog.",
+    "The browser captured preference status and timing, but could not read the preference response JSON before navigation. Backend code defines the response fields as checkoutUrl, orderId, productCode and totalCents; identifiers and the URL query string are excluded from this report.",
+    "The valid checkout created a pending application order/preference in the test environment. No payment was submitted."
+  ],
+  "synthetic_accounts": [
+    {
+      "identifier": "qa.c***@example.invalid",
+      "result": "Registration and login succeeded; synthetic data only."
+    }
+  ],
+  "artifacts": [
+    "qa/artifacts/20261104-qa-checkout-01/01-registration-step1.png",
+    "qa/artifacts/20261104-qa-checkout-01/02-registration-step2.png",
+    "qa/artifacts/20261104-qa-checkout-01/03-registration-step3.png",
+    "qa/artifacts/20261104-qa-checkout-01/04-registration-step4.png",
+    "qa/artifacts/20261104-qa-checkout-01/05-registration-ready.png",
+    "qa/artifacts/20261104-qa-checkout-01/06-registration-result.png",
+    "qa/artifacts/20261104-qa-checkout-01/07-services.png",
+    "qa/artifacts/20261104-qa-checkout-01/09-login-ready.png",
+    "qa/artifacts/20261104-qa-checkout-01/10-login-result.png",
+    "qa/artifacts/20261104-qa-checkout-01/11-upgrade-page.png",
+    "qa/artifacts/20261104-qa-checkout-01/14-selected-service-priced.png",
+    "qa/artifacts/20261104-qa-checkout-01/15-service-detail.png",
+    "qa/artifacts/20261104-qa-checkout-01/16-checkout-result.png",
+    "qa/artifacts/20261104-qa-checkout-01/17-provider-result-capture.png",
+    "qa/artifacts/20261104-qa-checkout-01/flow-summary.json",
+    "qa/artifacts/20261104-qa-checkout-01/login-summary.json",
+    "qa/artifacts/20261104-qa-checkout-01/checkout-attempt.json",
+    "qa/artifacts/20261104-qa-checkout-01/checkout-response-capture.json"
+  ],
+  "limitations": [
+    "HTTP 400 was not reproduced in the valid purchase path, so no 400 response body is available.",
+    "Mercado Pago sandbox returned 403 before a payment form could be used.",
+    "The preference JSON was interrupted/unavailable to the browser response listener during redirect; only HTTP status, duration, product code, quantity and sandbox navigation were captured."
+  ],
+  "next_actions": [
+    "Investigate Mercado Pago sandbox 403 using the same verified test seller and an approved test buyer; do not submit payment until the sandbox page loads.",
+    "If a 400 is still observed, capture the response message and correlated sanitized backend error for that specific request; this run did not produce one.",
+    "Do not apply migrations as part of this QA report."
+  ]
+}

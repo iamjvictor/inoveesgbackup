@@ -1,16 +1,23 @@
-import { Router } from "express";
+import { Router, type RequestHandler } from "express";
 import { DiagnosticController } from "../modules/diagnostic/controllers/diagnosticController.js";
 import { authMiddleware } from "../middlewares/authMiddleware.js";
 
-const diagnosticController = new DiagnosticController();
+export function createDiagnosticRoutes(
+  diagnosticController = new DiagnosticController(),
+  authenticate: RequestHandler = authMiddleware,
+) {
+  const routes = Router();
 
-export const diagnosticRoutes = Router();
+  routes.post("/simulate-pre-diag", authenticate, diagnosticController.simulatePurchase);
+  routes.post("/confirm-payment", authenticate, diagnosticController.confirmPayment);
+  routes.post("/start", authenticate, diagnosticController.startDiagnostic);
+  routes.get("/current", authenticate, diagnosticController.getCurrentDiagnostic.bind(diagnosticController));
+  routes.get("/current/report", authenticate, diagnosticController.downloadCurrentReport);
+  routes.get("/history", authenticate, diagnosticController.getDiagnosticHistory);
+  routes.get("/bioimpacto/history", authenticate, diagnosticController.getBioimpactoHistory);
+  routes.post("/:id/evidences", authenticate, diagnosticController.uploadEvidences);
+  routes.post("/:id/submit", authenticate, diagnosticController.submitResponses);
+  return routes;
+}
 
-diagnosticRoutes.post("/simulate-pre-diag", authMiddleware, diagnosticController.simulatePurchase);
-diagnosticRoutes.post("/confirm-payment", authMiddleware, diagnosticController.confirmPayment);
-diagnosticRoutes.post("/start", authMiddleware, diagnosticController.startDiagnostic);
-diagnosticRoutes.get("/current", authMiddleware, diagnosticController.getCurrentDiagnostic);
-diagnosticRoutes.get("/current/report", authMiddleware, diagnosticController.downloadCurrentReport);
-diagnosticRoutes.get("/history", authMiddleware, diagnosticController.getDiagnosticHistory);
-diagnosticRoutes.post("/:id/evidences", authMiddleware, diagnosticController.uploadEvidences);
-diagnosticRoutes.post("/:id/submit", authMiddleware, diagnosticController.submitResponses);
+export const diagnosticRoutes = createDiagnosticRoutes();

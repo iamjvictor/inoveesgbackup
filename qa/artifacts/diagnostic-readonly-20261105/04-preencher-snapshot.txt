@@ -1,0 +1,55 @@
+- link "Inove ESG Área da Empresa":
+  - /url: /
+  - img "Inove ESG"
+  - text: Área da Empresa
+- button "Collapse sidebar"
+- navigation:
+  - list:
+    - listitem:
+      - link "Painel":
+        - /url: /app
+    - listitem:
+      - link "Meus Serviços":
+        - /url: /app/meus-servicos
+    - listitem:
+      - link "Diagnóstico":
+        - /url: /app/diagnostico
+    - listitem:
+      - link "Evidências":
+        - /url: /app/evidencias
+    - listitem:
+      - link "Cadeia":
+        - /url: /app/upgrade
+    - listitem:
+      - link "Resultados":
+        - /url: /app/resultados
+    - listitem:
+      - link "Ranking":
+        - /url: /app/upgrade
+- link "QB QA Bioimpacto Sintético QA Bioimpacto Online":
+  - /url: /app/perfil
+  - text: QB
+  - paragraph: QA Bioimpacto Sintético
+  - paragraph: QA Bioimpacto
+- button "Sair"
+- main:
+  - paragraph: Diagnóstico ESG
+  - heading "Preenchimento do questionário" [level=1]
+  - paragraph: Responda uma questão por vez. Selecione uma opção para avançar ou use os botões abaixo para navegar.
+  - text: 0/75 perguntas respondidas Etapa 1/75 Pergunta 1 Eixo E
+  - heading "A empresa possui licenças ambientais válidas?" [level=2]
+  - paragraph: Selecione a alternativa que melhor representa a situação atual da empresa.
+  - radio "Inexistente (A prática não existe, não é discutida ou nunca foi implementada)"
+  - text: Inexistente (A prática não existe, não é discutida ou nunca foi implementada)
+  - radio "Inicial (Existem ações pontuais ou informais, mas sem padronização ou acompanhamento)"
+  - text: Inicial (Existem ações pontuais ou informais, mas sem padronização ou acompanhamento)
+  - radio "Parcialmente Implementado (A prática está implementada em parte da empresa, com algum controle ou monitoramento)"
+  - text: Parcialmente Implementado (A prática está implementada em parte da empresa, com algum controle ou monitoramento)
+  - radio "Estruturado (A prática é formalizada, aplicada de forma consistente e monitorada regularmente)"
+  - text: Estruturado (A prática é formalizada, aplicada de forma consistente e monitorada regularmente)
+  - radio "Avançado / Estratégico (A prática é integrada à estratégia da empresa, possui metas, indicadores, melhoria contínua e/ou envolve cadeia de valor)"
+  - text: Avançado / Estratégico (A prática é integrada à estratégia da empresa, possui metas, indicadores, melhoria contínua e/ou envolve cadeia de valor)
+  - button "Voltar" [disabled]
+  - button "Próxima pergunta" [disabled]
+  - paragraph: Você deve responder a todas as 75 perguntas para concluir o diagnóstico.
+- alert

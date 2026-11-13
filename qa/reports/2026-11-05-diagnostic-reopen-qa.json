@@ -1,0 +1,30 @@
+{
+  "round_id": "diagnostic-reopen-2026-11-05",
+  "environment": { "frontend": "http://localhost:3000", "backend": "http://localhost:4000", "status": "local test" },
+  "synthetic_account": "qa strategic, email and password omitted",
+  "scenarios": [
+    { "id": "AC-003-a", "name": "Reopen active module", "status": "PASS", "evidence": "17/17 selected values matched API answerText by questionOrder" },
+    { "id": "AC-003-b", "name": "Hydrate from server without session draft", "status": "PASS", "evidence": "Removed isolated sessionStorage answer key, reloaded, all 17 matched" },
+    { "id": "AC-003-c", "name": "Preserve temporary local edits", "status": "PASS", "evidence": "Changed E1 locally without submit; after reload temporary value remained" },
+    { "id": "AC-003-d", "name": "No diagnostic writes during read", "status": "PASS", "evidence": "No POST start/submit during reopen/reload" },
+    { "id": "AC-003-e", "name": "Legacy empty cache fallback and v2 intentional blank", "status": "PASS", "evidence": "Legacy blanks did not override persisted answers; explicit v2 blank remained blank; no write during read" },
+    { "id": "AC-003-f", "name": "Save same 17 module responses without finalizing", "status": "PASS", "evidence": "UI compared all 17 to DB; POST 200 in 2981ms; status ACTIVE, 17 response hashes unchanged" }
+  ],
+  "bugs": [],
+  "blocked_items": [ "No real PostgreSQL concurrency test for overlapping saves or integrated transient retry behavior" ],
+  "synthetic_accounts": [ "Synthetic Strategic QA account (credentials not stored)" ],
+  "artifacts": [
+    "qa/artifacts/diagnostic-fix-20261105/reopen-check.json",
+    "qa/artifacts/diagnostic-fix-20261105/local-draft-check.json",
+    "qa/artifacts/diagnostic-fix-20261105/reopen-first-question.png",
+    "qa/artifacts/diagnostic-fix-20261105/stale-empty-cache-check.json",
+    "qa/artifacts/diagnostic-fix-20261105/versioned-empty-cache-check.json",
+    "qa/artifacts/diagnostic-fix-20261105/save-identical-safe.json",
+    "qa/artifacts/diagnostic-fix-20261105/save-identical-ready.png"
+  ],
+  "improvements": [ "One after-change POST sample took 2981ms vs prior 10732ms sample; collect repeated measurements before concluding latency distribution" ],
+  "next_actions": [
+    "Add PostgreSQL integration tests for concurrent saves and injected transient failures",
+    "Broad npm test invocation with name-pattern argument did not filter tests and showed unrelated failures: diagnostic completion email recipient expectation and signed Mercado Pago query notification fixture"
+  ]
+}

@@ -16,9 +16,11 @@
     "seed:business-categories": "node dist/scripts/seed-business-categories.js",
     "prisma:studio": "prisma studio",
     "admin:create": "tsx src/scripts/admin-users.ts",
-    "test": "tsx --test \"src/**/*.test.ts\""
+    "test": "tsx --test \"src/**/*.test.ts\"",
+    "email:worker": "node dist/scripts/email-worker.js"
   },
   "dependencies": {
+    "@aws-sdk/client-sesv2": "^3.1161.0",
     "@prisma/client": "^6.8.2",
     "@sparticuz/chromium": "^149.0.0",
     "@supabase/supabase-js": "^2.57.4",

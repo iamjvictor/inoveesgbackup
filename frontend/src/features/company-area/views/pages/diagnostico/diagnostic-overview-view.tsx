@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Link from "next/link";
 
 import { Button } from "@/components/ui/button";
@@ -28,6 +28,7 @@ type OverviewQuestion = Omit<DiagnosticStartPayload["questions"][number], "axis"
 };
 
 interface DiagnosticOverviewViewProps {
+  questions: DiagnosticStartPayload["questions"];
   dbDiagnostic: {
     id: string;
     kind?: "PRE_DIAGNOSTIC" | "FULL_DIAGNOSTIC" | "SUPPLIER_DIAGNOSTIC";
@@ -101,50 +102,17 @@ function ScoreRing({
   );
 }
 
-export function DiagnosticOverviewView({ dbDiagnostic }: DiagnosticOverviewViewProps) {
+export function DiagnosticOverviewView({ dbDiagnostic, questions: diagnosticQuestions }: DiagnosticOverviewViewProps) {
   const { showError } = useErrorModal();
   const isCompleted = dbDiagnostic?.status === "COMPLETED";
-  const [questions, setQuestions] = useState<OverviewQuestion[]>([]);
-  const [isLoadingQuestions, setIsLoadingQuestions] = useState(true);
-  const [loadError, setLoadError] = useState<string | null>(null);
+  const questions = diagnosticQuestions.map<OverviewQuestion>((question) => {
+    let axis: OverviewQuestion["axis"] = "G";
+    if (question.axis === "ENVIRONMENTAL") axis = "E";
+    else if (question.axis === "BIOECONOMY_CIRCULAR") axis = "B";
+    else if (question.axis === "SOCIAL") axis = "S";
+    return { ...question, id: `q-${question.number}`, axis };
+  });
   const [downloading, setDownloading] = useState(false);
-
-  useEffect(() => {
-    async function loadQuestions() {
-      try {
-    const token = "cookie-session";
-        if (!token) {
-          setLoadError("Sessão expirada. Faça login novamente.");
-          return;
-        }
-
-        const session = await diagnosticService.startDiagnostic(token);
-        const mapped = session.questions.map<OverviewQuestion>((question) => {
-          let axis: OverviewQuestion["axis"] = "G";
-          if (question.axis === "ENVIRONMENTAL") axis = "E";
-          else if (question.axis === "BIOECONOMY_CIRCULAR") axis = "B";
-          else if (question.axis === "SOCIAL") axis = "S";
-
-          return {
-            ...question,
-            id: `q-${question.number}`,
-            axis,
-          };
-        });
-
-        setQuestions(mapped);
-      } catch (error) {
-        console.error("Failed to load diagnostic questions:", error);
-        if (!isCompleted) {
-          setLoadError("Não foi possível carregar a estrutura do diagnóstico.");
-        }
-      } finally {
-        setIsLoadingQuestions(false);
-      }
-    }
-
-    loadQuestions();
-  }, [isCompleted]);
 
   const handleDownload = async () => {
     console.log("[handleDownload] Download do relatório a partir do painel de diagnóstico");
@@ -171,23 +139,6 @@ export function DiagnosticOverviewView({ dbDiagnostic }: DiagnosticOverviewViewP
       setDownloading(false);
     }
   };
-
-  if (isLoadingQuestions) {
-    return (
-      <div className="flex h-96 items-center justify-center">
-        <div className="size-8 animate-spin rounded-full border-4 border-emerald-600 border-t-transparent" />
-      </div>
-    );
-  }
-
-  if (loadError && !isCompleted) {
-    return (
-      <div className="mx-auto max-w-xl rounded-3xl border border-slate-200 bg-white p-6 text-center shadow-sm">
-        <p className="text-lg font-semibold text-slate-900">Erro de carregamento</p>
-        <p className="mt-2 text-sm text-slate-600">{loadError}</p>
-      </div>
-    );
-  }
 
   // Define components for each axis
   const pillarsConfig = [
@@ -332,14 +283,14 @@ export function DiagnosticOverviewView({ dbDiagnostic }: DiagnosticOverviewViewP
             <Award className="w-80 h-80 text-white" />
           </div>
 
-          <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
+          <div className="relative z-10 flex flex-col xl:flex-row xl:items-center justify-between gap-6">
             <div>
               <h2 className="text-2xl sm:text-3xl font-black font-display tracking-tight text-white">
                 Pontuação Geral: {overallScore}%
               </h2>
             </div>
 
-            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 shrink-0">
+            <div className="flex w-full flex-col items-stretch gap-3 xl:w-auto xl:flex-row xl:items-center xl:shrink-0">
               <Button
                 onClick={handleDownload}
                 disabled={downloading}
@@ -399,13 +350,13 @@ export function DiagnosticOverviewView({ dbDiagnostic }: DiagnosticOverviewViewP
       )}
 
       {/* ── Pillar Cards Grid ── */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div className="grid min-w-0 grid-cols-1 gap-4 xl:grid-cols-2 xl:gap-6">
         {pillars.map((pillar) => {
           const Icon = pillar.icon;
           return (
             <div 
               key={pillar.key}
-              className={`group flex flex-col justify-between rounded-[28px] border p-6 bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg ${pillar.bgClass}`}
+              className={`group flex min-w-0 flex-col justify-between rounded-[28px] border p-4 sm:p-6 bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg ${pillar.bgClass}`}
             >
               <div className="space-y-5">
                 <div className="flex items-start justify-between">

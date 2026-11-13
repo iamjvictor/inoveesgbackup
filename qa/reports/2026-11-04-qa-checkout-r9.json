@@ -1,0 +1,31 @@
+{
+  "round_id": "20261104-checkout-r9",
+  "started_at": "2026-11-04T15:40:00-03:00",
+  "finished_at": "2026-11-04T16:10:00-03:00",
+  "environment": {
+    "frontend": "local localhost:3000 through user-provided HTTPS tunnel",
+    "backend": "isolated local port 4001; test Supabase",
+    "seller_identity": "test_user confirmed by GET /users/me",
+    "buyer_test_account": "provided by user; not authenticated"
+  },
+  "scenarios": [
+    {"id": "app-ui-login", "status": "passed", "http_status": 200},
+    {"id": "catalog-and-pre-diagnostic-selection", "status": "passed", "product_code": "PRE_DIAGNOSTIC", "ui_price_brl": 250.0},
+    {"id": "preference-create", "status": "passed", "http_status": 201, "external_item_price_brl": 0.01},
+    {"id": "sandbox-init-point", "status": "failed", "host": "sandbox.mercadopago.com.br", "http_status": 403},
+    {"id": "same-preference-init-point-comparison", "status": "observed", "init_point_host": "www.mercadopago.com.br", "sandbox_init_point_host": "sandbox.mercadopago.com.br"},
+    {"id": "test-buyer-authentication", "status": "blocked", "reason": "Sandbox returned 403; alternate init_point reached www host and user instructed to stop before filling credentials"},
+    {"id": "payment-return-access", "status": "blocked", "reason": "No payment submitted; no successful return"},
+    {"id": "webhook", "status": "blocked", "reason": "notification_url is localhost:4001 and no validated public backend tunnel"}
+  ],
+  "order_read_only_check": {"status": "PENDING_PAYMENT", "product_code": "PRE_DIAGNOSTIC", "quantity": 1, "total_cents": 25000, "payment_count": 0},
+  "bugs": [
+    {"severity": "high", "category": "external test-provider block", "summary": "Checkout Pro sandbox redirect returns HTTP 403 before displaying login/payment form", "evidence": "qa/artifacts/20261104-checkout-r8/provider-checkout.png", "reproduced": true},
+    {"severity": "medium", "category": "test environment", "summary": "Webhook notification URL is localhost and not externally reachable", "evidence": "qa/artifacts/20261104-checkout-r8/preference-path-comparison.json"}
+  ],
+  "blocked_items": ["Sandbox 403 prevents buyer authentication/card submission", "No public test backend webhook URL validated", "Access-after-payment and return screen unverified"],
+  "synthetic_accounts": {"app_account_count_created_during_run": 2, "buyer_test_credentials_recorded": false},
+  "artifacts": ["qa/artifacts/20261104-checkout-r8/provider-checkout.png", "qa/artifacts/20261104-checkout-r8/preference-path-comparison.json"],
+  "improvements": ["Investigate Mercado Pago sandbox 403 using an already authenticated test buyer in an allowed test-only context", "Expose backend QA webhook only after validating the tunnel maps to port 4001", "Ensure test order item and external R$0.01 pricing expectations are explicit"],
+  "next_actions": ["Await user instruction regarding the www init_point login flow", "Retest sandbox with authenticated buyer after resolving the 403", "Complete payment only at user-controlled handoff point"]
+}

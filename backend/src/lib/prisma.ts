@@ -12,7 +12,8 @@ export const prisma = new PrismaClient({
 export async function warmPrismaPool(): Promise<void> {
   const t0 = Date.now();
   try {
-    await Promise.all(Array.from({ length: 5 }, () => prisma.$queryRaw`SELECT 1`));
+    await prisma.$queryRaw`SELECT 1`;
+    await Promise.all(Array.from({ length: 4 }, () => prisma.$queryRaw`SELECT 1`));
     console.log(`[prisma] Connection pool warmed with 5 probes in ${Date.now() - t0}ms`);
   } catch (err) {
     console.warn(`[prisma] Pool warm-up failed (${Date.now() - t0}ms):`, err);

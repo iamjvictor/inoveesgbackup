@@ -1,0 +1,34 @@
+{
+  "date": "2026-11-04",
+  "project": "InoveESG",
+  "scope": "Bioimpacto Empresarial Plano 2.2 sandbox checkout",
+  "execution": "checkout_created_handoff_pending",
+  "checks": {
+    "frontend_local_http": 200,
+    "frontend_tunnel_http": 200,
+    "backend_4000_api_health": 200,
+    "backend_4001_api_health": 200,
+    "mercadopago_get_users_me_http": 200,
+    "mercadopago_seller_tag_test_user": true,
+    "mercadopago_site_id": "MLB",
+    "synthetic_accounts_created": 3,
+    "authenticated_upgrade_card_visible": true,
+    "checkout_preference_http": 201,
+    "checkout_provider_host": "sandbox.mercadopago.com.br",
+    "checkout_created": true,
+    "buyer_logged_in": false,
+    "payment_submitted": false,
+    "return_verified": false,
+    "diagnostic_access_verified": false
+  },
+  "blockers": [
+    "Payment submission requires user handoff under browser confirmation policy.",
+    "Buyer login must be typed by the user because no secure credential-entry channel is available; payment also requires user handoff."
+  ],
+  "evidence": [
+    "01-home.png",
+    "02-upgrade-gate.png",
+    "03-tunnel-frontend.png"
+  ],
+  "sensitive_data_logged": false
+}

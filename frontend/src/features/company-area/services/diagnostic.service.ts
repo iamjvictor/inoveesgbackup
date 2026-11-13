@@ -38,6 +38,15 @@ export interface DiagnosticHistoryItem {
   }[];
 }
 
+export interface BioimpactoHistory {
+  orderId: string;
+  startsAt: string;
+  expiresAt: string;
+  diagnosticId: string | null;
+  windows: Array<{ number: number; startsAt: string; endsAt: string; status: "OPEN" | "CLOSED";
+    approved: number; rejected: number; pending: number; score: number | null }>;
+}
+
 export interface DiagnosticStartOption {
   value: number;
   text: string;
@@ -59,8 +68,55 @@ export interface DiagnosticStartPayload {
   questions: DiagnosticStartQuestion[];
 }
 
+export interface DiagnosticAnswerDraft {
+  answers: Record<string, string>;
+  editedQuestionIds: string[];
+}
+
+export function parseDiagnosticAnswerDraft(raw: string | null): DiagnosticAnswerDraft {
+  if (!raw) return { answers: {}, editedQuestionIds: [] };
+
+  try {
+    const parsed: unknown = JSON.parse(raw);
+    if (!parsed || typeof parsed !== "object" || Array.isArray(parsed)) {
+      return { answers: {}, editedQuestionIds: [] };
+    }
+
+    const value = parsed as Record<string, unknown>;
+    if (value.version === 2 && value.answers && typeof value.answers === "object" && !Array.isArray(value.answers)) {
+      const answers = Object.fromEntries(
+        Object.entries(value.answers as Record<string, unknown>)
+          .filter((entry): entry is [string, string] => typeof entry[1] === "string")
+      );
+      const editedQuestionIds = Array.isArray(value.editedQuestionIds)
+        ? value.editedQuestionIds.filter((id): id is string => typeof id === "string" && id in answers)
+        : [];
+      return { answers, editedQuestionIds };
+    }
+
+    // Legacy caches stored every rendered question, including blank answers.
+    // Treat only non-empty legacy values as edits so stale blanks cannot hide
+    // answers already persisted by the server.
+    const answers = Object.fromEntries(
+      Object.entries(value).filter((entry): entry is [string, string] => typeof entry[1] === "string")
+    );
+    return {
+      answers,
+      editedQuestionIds: Object.keys(answers).filter((id) => answers[id].length > 0),
+    };
+  } catch {
+    return { answers: {}, editedQuestionIds: [] };
+  }
+}
+
+export function getDiagnosticAnswerOverrides(draft: DiagnosticAnswerDraft): Record<string, string> {
+  return Object.fromEntries(draft.editedQuestionIds.map((id) => [id, draft.answers[id] ?? ""]));
+}
+
 export interface DiagnosticCurrentResponse {
   hasDiagnostic: boolean;
+  industrySegment?: string;
+  questions: DiagnosticStartQuestion[];
   diagnostic: {
     id: string;
     kind: "PRE_DIAGNOSTIC" | "FULL_DIAGNOSTIC" | "SUPPLIER_DIAGNOSTIC";
@@ -149,6 +205,9 @@ async function request<T>(path: string, init: RequestInit): Promise<T> {
 }
 
 export const diagnosticService = {
+  getBioimpactoHistory() {
+    return request<BioimpactoHistory | null>("/diagnostic/bioimpacto/history", { method: "GET", credentials: "include" });
+  },
   startDiagnostic(token: string) {
     return request<DiagnosticStartPayload>("/diagnostic/start", {
       method: "POST",

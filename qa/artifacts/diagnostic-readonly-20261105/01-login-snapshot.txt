@@ -1,0 +1,136 @@
+- main:
+  - navigation:
+    - link "home":
+      - /url: "#hero"
+      - img "Inove ESG"
+    - list:
+      - listitem:
+        - link "Categorias":
+          - /url: "#categorias"
+      - listitem:
+        - link "Problema":
+          - /url: "#problema"
+      - listitem:
+        - link "Features":
+          - /url: "#features"
+      - listitem:
+        - link "Prova social":
+          - /url: "#prova-social"
+      - listitem:
+        - link "Planos":
+          - /url: "#pricing"
+      - listitem:
+        - link "FAQ":
+          - /url: "#faq"
+    - button "Login"
+  - paragraph: INOVE-ESG
+  - heading "Rastreabilidade e Impacto ESG que o Mercado Exige." [level=1]
+  - paragraph
+  - paragraph: Da origem ao produto final, a Inove ESG centraliza processos, fornecedores e indicadores em uma plataforma completa de gestão de cadeia de produção. Rastreabilidade, conformidade e critérios ESG integrados — tudo que sua operação precisa para funcionar bem e ser comprovada quando o mercado exigir. Simples para o dia a dia, sólido para quem precisa crescer com transparência e credibilidade.
+  - link "Conheça nossas soluções":
+    - /url: "#pricing"
+  - link "Fale com nossos especialistas.":
+    - /url: https://wa.me/5522996062255?text=Ol%C3%A1!%20Gostaria%20de%20falar%20com%20um%20especialista%20da%20Inove%20ESG.
+  - paragraph: Atendimento via WhatsApp • Resposta rápida • Sem compromisso
+  - button "Agronegócio Setor Especializado Agronegócio Agroindústria e Produção Rural Pilares em Destaque Rastreabilidade de fornecedores e origens agrícolas Monitoramento contra desmatamento e sobreposição de áreas Evidências preparadas para auditorias, bancos e certificações Ver detalhes e soluções":
+    - img "Agronegócio"
+    - text: Setor Especializado
+    - heading "Agronegócio" [level=3]
+    - paragraph: Agroindústria e Produção Rural
+    - paragraph: Pilares em Destaque
+    - list:
+      - listitem: Rastreabilidade de fornecedores e origens agrícolas
+      - listitem: Monitoramento contra desmatamento e sobreposição de áreas
+      - listitem: Evidências preparadas para auditorias, bancos e certificações
+    - text: Ver detalhes e soluções
+  - button "Infraestrutura Setor Especializado Infraestrutura Obras, Concessões e Engenharia Pilares em Destaque Acompanhamento centralizado de licenças e condicionantes Governança e homologação preventiva de subcontratados Conformidade exigida em editais, licitações e fundos de investimento Ver detalhes e soluções":
+    - img "Infraestrutura"
+    - text: Setor Especializado
+    - heading "Infraestrutura" [level=3]
+    - paragraph: Obras, Concessões e Engenharia
+    - paragraph: Pilares em Destaque
+    - list:
+      - listitem: Acompanhamento centralizado de licenças e condicionantes
+      - listitem: Governança e homologação preventiva de subcontratados
+      - listitem: Conformidade exigida em editais, licitações e fundos de investimento
+    - text: Ver detalhes e soluções
+  - button "Óleo e Gás Setor Especializado Óleo e Gás Cadeia de Fornecedores, Upstream & Downstream Pilares em Destaque Inventário e acompanhamento de emissões e transição energética Mitigação de riscos operacionais e segurança de alta criticidade Qualificação e comprovação documental perante grandes contratantes Ver detalhes e soluções":
+    - img "Óleo e Gás"
+    - text: Setor Especializado
+    - heading "Óleo e Gás" [level=3]
+    - paragraph: Cadeia de Fornecedores, Upstream & Downstream
+    - paragraph: Pilares em Destaque
+    - list:
+      - listitem: Inventário e acompanhamento de emissões e transição energética
+      - listitem: Mitigação de riscos operacionais e segurança de alta criticidade
+      - listitem: Qualificação e comprovação documental perante grandes contratantes
+    - text: Ver detalhes e soluções
+  - heading "Elimine os Gargalos que Travam sua Operação ESG" [level=2]
+  - paragraph: Entraves comuns que reduzem velocidade e impacto, com o benefício direto de resolver cada um.
+  - heading "Falta de rastreamento da cadeia produtiva" [level=3]
+  - paragraph: Poucos conseguem medir sua contribuição ambiental, social e de governança. Sem indicadores claros, ESG vira intenção e não resultado.
+  - heading "Falta de comprovação de ESG" [level=3]
+  - paragraph: Praticar sustentabilidade só gera valor quando vem acompanhado de comprovação. Muitas empresas já adotam ações sustentáveis, mas esbarram na falta dados organizados, documentos consistentes e uma estrutura confiável. A falta de comprovação faz com que o ESG perca força e assim, deixam de transmitir confiança para o mercado, investidores e auditorias.
+  - heading "Falta de integração de dados ESG direcionado para o mercado" [level=3]
+  - paragraph: "Sem integração, não há visão clara nem evidência consistente. E o impacto é direto: contratos deixam de ser fechados por não atender critérios ESG. Grandes compradores, fundos e parceiros estratégicos exigem rastreabilidade e comprovação confiável. Quem não consegue consolidar e apresentar esses dados de forma estruturada, fica de fora."
+  - heading "Tecnologia Inteligente para Execução ESG" [level=2]
+  - paragraph: Funcionalidades pensadas para transformar estratégia ESG em execução.
+  - article:
+    - heading "Rastreabilidade" [level=3]
+    - paragraph: Visibilidade total da cadeia. Acompanhe dados e processos do início ao fim, garantindo transparência em todas as etapas.
+    - list:
+      - listitem: Segurança e integridade
+      - listitem: Pronto para auditorias
+      - listitem: Visibilidade total
+  - article:
+    - heading "Integração de dados ESG" [level=3]
+    - paragraph: Dados centralizados e estruturados. Elimine planilhas dispersas e consolide todas as informações ESG em um único ambiente.
+    - list:
+      - listitem: Adequação aos critérios
+      - listitem: Aumento de competitividade
+      - listitem: Centralização
+  - article:
+    - heading "Comprovação de ESG" [level=3]
+    - paragraph: Evidência confiável e verificável. Relatórios com base em dados estruturados, garantindo credibilidade nas informações apresentadas.
+    - list:
+      - listitem: Redução de risco
+      - listitem: Confiança para investidores
+      - listitem: Credibilidade
+  - text: Prova social ESG
+  - 'heading "Impacto Real e Mensurável: O Mercado Não Mente" [level=2]'
+  - paragraph: Empresas de diferentes setores usam nossa metodologia para sair do discurso e entrar em execução com governança.
+  - paragraph: 87%
+  - paragraph: maior atratividade para investimentos
+  - paragraph: 65%
+  - paragraph: melhoria na reputação corporativa
+  - paragraph: 3×
+  - paragraph: mais oportunidades em licitações
+  - link "Ver cases":
+    - /url: "#cases"
+  - link "Falar com especialista":
+    - /url: https://wa.me/5522996062255?text=Ol%C3%A1!%20Gostaria%20de%20falar%20com%20um%20especialista%20da%20Inove%20ESG.
+  - paragraph: Agropaulo
+  - paragraph: "Agroindustrial • Faturamento: R$ 20–30 milhões"
+  - paragraph: “Conexão com universidade (UFCA) para um programa de estágio aplicando conhecimentos em ambiente real.”
+  - paragraph: Yapuana
+  - paragraph: Biotecnologia olfativa • Destaque no Shark Tank Brasil
+  - paragraph: “Apoio para integrar e comunicar ESG na estratégia, alinhando operação, narrativa e indicadores.”
+  - 'heading "Direto ao Ponto: Como Funciona" [level=2]'
+  - paragraph: Fluxo simples e direto para acelerar sua decisão e execução ESG.
+  - list:
+    - listitem:
+      - text: PASSO 01
+      - heading "Crie sua conta" [level=3]
+      - paragraph: Acesse a plataforma e inicie sua jornada ESG.
+    - listitem:
+      - text: PASSO 02
+      - heading "Faça seu pré-diagnóstico" [level=3]
+      - paragraph: Responda ao questionário e avalie o nível de maturidade ESG do seu negócio.
+    - listitem:
+      - text: PASSO 03
+      - heading "Receba seu relatório" [level=3]
+      - paragraph: Acesse o painel de desempenho com scores e recomendações estratégicas.
+    - listitem:
+      - text: PASSO 04
+      - heading "Selecione o serviço ideal" [level=3]
+      - paragraph: Escolha o 

@@ -1,0 +1,11 @@
+{
+  "login": 200,
+  "result": {
+    "responseCount": 17,
+    "expectedFirst": "Inexistente (A prática não existe, não é discutida ou nunca foi implementada)",
+    "displayedFirst": null,
+    "matched": false,
+    "intentionalEmptyDisplayed": true,
+    "posts": []
+  }
+}

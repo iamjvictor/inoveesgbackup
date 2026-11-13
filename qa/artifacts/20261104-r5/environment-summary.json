@@ -1,0 +1,35 @@
+{
+  "round_id": "20261104-r5",
+  "timezone": "America/Sao_Paulo",
+  "browser": "Playwright 1.64.1, Chromium headless",
+  "services": {
+    "frontend": {
+      "url": "http://localhost:3000",
+      "health_http": 200
+    },
+    "backend": {
+      "url": "http://localhost:4000/api/health",
+      "health_http": 200
+    },
+    "restart": "Services were started with documented npm run dev scripts. Checkout was also repeated through an isolated frontend/backend pair on ports 3001/4001 with return URLs limited to localhost. QA-owned processes were stopped; parallel QA processes were left untouched."
+  },
+  "database": {
+    "classification": "Remote Supabase test project, confirmed by owner",
+    "email_outbox": "Usable: synthetic signup created a WELCOME outbox record with PENDING status and zero attempts",
+    "migration_applied_by_qa": false
+  },
+  "mercado_pago": {
+    "sandbox_flag": true,
+    "public_key_prefix_class": "APP_USR",
+    "access_token_prefix_class": "APP_USR",
+    "authenticated_user_endpoint_http": 200,
+    "seller_test_user_tag": true,
+    "seller_test_nickname_pattern": true,
+    "buyer_test_account_verified": false,
+    "payment_submitted": false
+  },
+  "load_test": "not run",
+  "production_calls": false,
+  "webhook_calls": false,
+  "concurrent_change_observed": "Backend watch logged a concurrent change in checkoutService.ts after the UI checkout attempt while the round was ending; QA made no code changes and did not test the changed process."
+}

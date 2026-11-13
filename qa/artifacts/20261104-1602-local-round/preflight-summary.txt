@@ -1,0 +1,29 @@
+QA round: 20261104-1602-local-round
+Started: 2026-11-04T13:01:31-03:00
+Finished: 2026-11-04T13:03:35-03:00
+Timezone: America/Sao_Paulo
+
+Safety classification:
+- backend DATABASE_URL: remote Supabase pooler; non-production status unproven.
+- backend SUPABASE_URL and frontend NEXT_PUBLIC_SUPABASE_URL: remote Supabase project; non-production status unproven.
+- backend FRONTEND_URL/BACKEND_URL: remote domains; no requests sent.
+- Mercado Pago public/access credentials: present, neither prefix classified as TEST-; values intentionally not read into report.
+- MERCADOPAGO_SANDBOX flag: present but not accepted as proof of sandbox.
+- No database, Supabase, payment, email, or other external service calls were made by this QA round.
+
+Preflight:
+- GET http://localhost:3000 => no response (curl exit through wrapper; HTTP 000).
+- GET http://localhost:4000/health => no response (HTTP 000).
+- GET http://localhost:4000/health/db => no response (HTTP 000).
+- No listeners observed on ports 3000/4000; no matching application processes observed.
+- Backend not started: backend startup warms Prisma against remote DATABASE_URL and imports remote Supabase configuration.
+- Frontend not started: configured Supabase host is remote and not proven non-production.
+
+Safe verification:
+- Playwright CLI 1.64.1 and Chromium 1248 are installed.
+- Playwright screenshot attempt against localhost:3000 failed before page navigation because Chromium sandbox launch is denied (EPERM). No screenshot was produced.
+- Frontend lint: failed, exit 1; 50 errors and 79 warnings.
+- Backend npm test runner: blocked at tsx IPC startup with EPERM on /tmp/tsx-1000/40.pipe.
+- Backend unit suite run directly with node --import tsx --test against 24 discovered *.test.ts files: 24 passed, 0 failed, exit 0. Tests used isolated/mocked behavior; no services were started.
+
+No accounts, checkout sessions, payments, webhooks, uploads, emails, or mutations were created.

@@ -1,0 +1,18 @@
+[
+  {
+    "scenario": "return_success",
+    "http_status": 200,
+    "elapsed_ms": 1170,
+    "url": "http://localhost:3000/",
+    "visible": false,
+    "body": "Exclusivo\nVersão Física ou Digital\nR$ 41,90\nComprar\nRespostas Diretas para suas Dúvidas\n\nDúvidas que aparecem com mais frequência antes da contratação.\n\n▸Isso serve para PME ou só para grandes empresas?\n▸Quanto tempo leva para ver resultado?\n▸Preciso de equipe interna de sustentabilidade?\nPronto para Transformar ESG em Crescimento Real?\n\nInicie com o pré-diagnóstico gratuito e avance com um plano prático para sua empresa.\n\nConheça nossas soluções\nFale com nossos especialistas.\nProduto\nPreços\nRecursos e suporte\nEmpresa\nLogin\n\n© 2026 Inove ESG. Todos os direitos reservados.\n\nTransformando empresas através de ESG, bioeconomia e impacto positivo."
+  },
+  {
+    "scenario": "return_failure",
+    "http_status": 200,
+    "elapsed_ms": 1542,
+    "url": "http://localhost:3000/",
+    "visible": false,
+    "body": "\nDúvidas que aparecem com mais frequência antes da contratação.\n\n▸Isso serve para PME ou só para grandes empresas?\n▸Quanto tempo leva para ver resultado?\n▸Preciso de equipe interna de sustentabilidade?\nPronto para Transformar ESG em Crescimento Real?\n\nInicie com o pré-diagnóstico gratuito e avance com um plano prático para sua empresa.\n\nConheça nossas soluções\nFale com nossos especialistas.\nProduto\nPreços\nRecursos e suporte\nEmpresa\nLogin\n\n© 2026 Inove ESG. Todos os direitos reservados.\n\nTransformando empresas através de ESG, bioeconomia e impacto positivo.\n\nINOVE ESG\n\nEntrar na plataforma\nLogin\nCadastro\nE-mail\nSenha\nEntrar\nEsqueci minha senha"
+  }
+]

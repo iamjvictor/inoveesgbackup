@@ -1,0 +1,524 @@
+{
+  "loginStatus": 200,
+  "before": {
+    "status": 200,
+    "diagnosticStatus": "ACTIVE",
+    "responseCount": 17,
+    "axisResponses": [
+      {
+        "order": 1,
+        "answer": "Inexistente (A prática não existe, não é discutida ou nunca foi implementada)"
+      },
+      {
+        "order": 2,
+        "answer": "Inexistente (A prática não existe ou nunca foi considerada)"
+      },
+      {
+        "order": 3,
+        "answer": "Inexistente (A prática não existe ou nunca foi considerada)"
+      },
+      {
+        "order": 4,
+        "answer": "Inexistente (A prática não existe ou nunca foi considerada)"
+      },
+      {
+        "order": 5,
+        "answer": "Inexistente (A prática não existe ou nunca foi considerada)"
+      },
+      {
+        "order": 6,
+        "answer": "Inexistente (A prática não existe ou nunca foi considerada)"
+      },
+      {
+        "order": 7,
+        "answer": "Inexistente (A prática não existe ou nunca foi considerada)"
+      },
+      {
+        "order": 8,
+        "answer": "Inexistente (A prática não existe ou nunca foi considerada)"
+      },
+      {
+        "order": 9,
+        "answer": "Inexistente (A prática não existe ou nunca foi considerada)"
+      },
+      {
+        "order": 10,
+        "answer": "Inexistente (A prática não existe ou nunca foi considerada)"
+      },
+      {
+        "order": 11,
+        "answer": "Inexistente (A prática não existe ou nunca foi considerada)"
+      },
+      {
+        "order": 12,
+        "answer": "Inexistente (A prática não existe ou nunca foi considerada)"
+      },
+      {
+        "order": 13,
+        "answer": "Inexistente (A prática não existe ou nunca foi considerada)"
+      },
+      {
+        "order": 14,
+        "answer": "Inexistente (A prática não existe ou nunca foi considerada)"
+      },
+      {
+        "order": 15,
+        "answer": "Inexistente (A prática não existe ou nunca foi considerada)"
+      },
+      {
+        "order": 16,
+        "answer": "Inexistente (A prática não existe ou nunca foi considerada)"
+      },
+      {
+        "order": 17,
+        "answer": "Inexistente (A prática não existe ou nunca foi considerada)"
+      }
+    ],
+    "questionCount": 17
+  },
+  "checks": [
+    {
+      "order": 1,
+      "expected": "Inexistente (A prática não existe, não é discutida ou nunca foi implementada)",
+      "displayed": "Inexistente (A prática não existe, não é discutida ou nunca foi implementada)",
+      "selectedMatches": true,
+      "progress": "17/17"
+    },
+    {
+      "order": 2,
+      "expected": "Inexistente (A prática não existe ou nunca foi considerada)",
+      "displayed": "Inexistente (A prática não existe ou nunca foi considerada)",
+      "selectedMatches": true,
+      "progress": "17/17"
+    },
+    {
+      "order": 3,
+      "expected": "Inexistente (A prática não existe ou nunca foi considerada)",
+      "displayed": "Inexistente (A prática não existe ou nunca foi considerada)",
+      "selectedMatches": true,
+      "progress": "17/17"
+    },
+    {
+      "order": 4,
+      "expected": "Inexistente (A prática não existe ou nunca foi considerada)",
+      "displayed": "Inexistente (A prática não existe ou nunca foi considerada)",
+      "selectedMatches": true,
+      "progress": "17/17"
+    },
+    {
+      "order": 5,
+      "expected": "Inexistente (A prática não existe ou nunca foi considerada)",
+      "displayed": "Inexistente (A prática não existe ou nunca foi considerada)",
+      "selectedMatches": true,
+      "progress": "17/17"
+    },
+    {
+      "order": 6,
+      "expected": "Inexistente (A prática não existe ou nunca foi considerada)",
+      "displayed": "Inexistente (A prática não existe ou nunca foi considerada)",
+      "selectedMatches": true,
+      "progress": "17/17"
+    },
+    {
+      "order": 7,
+      "expected": "Inexistente (A prática não existe ou nunca foi considerada)",
+      "displayed": "Inexistente (A prática não existe ou nunca foi considerada)",
+      "selectedMatches": true,
+      "progress": "17/17"
+    },
+    {
+      "order": 8,
+      "expected": "Inexistente (A prática não existe ou nunca foi considerada)",
+      "displayed": "Inexistente (A prática não existe ou nunca foi considerada)",
+      "selectedMatches": true,
+      "progress": "17/17"
+    },
+    {
+      "order": 9,
+      "expected": "Inexistente (A prática não existe ou nunca foi considerada)",
+      "displayed": "Inexistente (A prática não existe ou nunca foi considerada)",
+      "selectedMatches": true,
+      "progress": "17/17"
+    },
+    {
+      "order": 10,
+      "expected": "Inexistente (A prática não existe ou nunca foi considerada)",
+      "displayed": "Inexistente (A prática não existe ou nunca foi considerada)",
+      "selectedMatches": true,
+      "progress": "17/17"
+    },
+    {
+      "order": 11,
+      "expected": "Inexistente (A prática não existe ou nunca foi considerada)",
+      "displayed": "Inexistente (A prática não existe ou nunca foi considerada)",
+      "selectedMatches": true,
+      "progress": "17/17"
+    },
+    {
+      "order": 12,
+      "expected": "Inexistente (A prática não existe ou nunca foi considerada)",
+      "displayed": "Inexistente (A prática não existe ou nunca foi considerada)",
+      "selectedMatches": true,
+      "progress": "17/17"
+    },
+    {
+      "order": 13,
+      "expected": "Inexistente (A prática não existe ou nunca foi considerada)",
+      "displayed": "Inexistente (A prática não existe ou nunca foi considerada)",
+      "selectedMatches": true,
+      "progress": "17/17"
+    },
+    {
+      "order": 14,
+      "expected": "Inexistente (A prática não existe ou nunca foi considerada)",
+      "displayed": "Inexistente (A prática não existe ou nunca foi considerada)",
+      "selectedMatches": true,
+      "progress": "17/17"
+    },
+    {
+      "order": 15,
+      "expected": "Inexistente (A prática não existe ou nunca foi considerada)",
+      "displayed": "Inexistente (A prática não existe ou nunca foi considerada)",
+      "selectedMatches": true,
+      "progress": "17/17"
+    },
+    {
+      "order": 16,
+      "expected": "Inexistente (A prática não existe ou nunca foi considerada)",
+      "displayed": "Inexistente (A prática não existe ou nunca foi considerada)",
+      "selectedMatches": true,
+      "progress": "17/17"
+    },
+    {
+      "order": 17,
+      "expected": "Inexistente (A prática não existe ou nunca foi considerada)",
+      "displayed": "Inexistente (A prática não existe ou nunca foi considerada)",
+      "selectedMatches": true,
+      "progress": "17/17"
+    }
+  ],
+  "reload": {
+    "status": 200,
+    "diagnosticStatus": "ACTIVE",
+    "responseCount": 17,
+    "axisResponses": [
+      {
+        "order": 1,
+        "answer": "Inexistente (A prática não existe, não é discutida ou nunca foi implementada)"
+      },
+      {
+        "order": 2,
+        "answer": "Inexistente (A prática não existe ou nunca foi considerada)"
+      },
+      {
+        "order": 3,
+        "answer": "Inexistente (A prática não existe ou nunca foi considerada)"
+      },
+      {
+        "order": 4,
+        "answer": "Inexistente (A prática não existe ou nunca foi considerada)"
+      },
+      {
+        "order": 5,
+        "answer": "Inexistente (A prática não existe ou nunca foi considerada)"
+      },
+      {
+        "order": 6,
+        "answer": "Inexistente (A prática não existe ou nunca foi considerada)"
+      },
+      {
+        "order": 7,
+        "answer": "Inexistente (A prática não existe ou nunca foi considerada)"
+      },
+      {
+        "order": 8,
+        "answer": "Inexistente (A prática não existe ou nunca foi considerada)"
+      },
+      {
+        "order": 9,
+        "answer": "Inexistente (A prática não existe ou nunca foi considerada)"
+      },
+      {
+        "order": 10,
+        "answer": "Inexistente (A prática não existe ou nunca foi considerada)"
+      },
+      {
+        "order": 11,
+        "answer": "Inexistente (A prática não existe ou nunca foi considerada)"
+      },
+      {
+        "order": 12,
+        "answer": "Inexistente (A prática não existe ou nunca foi considerada)"
+      },
+      {
+        "order": 13,
+        "answer": "Inexistente (A prática não existe ou nunca foi considerada)"
+      },
+      {
+        "order": 14,
+        "answer": "Inexistente (A prática não existe ou nunca foi considerada)"
+      },
+      {
+        "order": 15,
+        "answer": "Inexistente (A prática não existe ou nunca foi considerada)"
+      },
+      {
+        "order": 16,
+        "answer": "Inexistente (A prática não existe ou nunca foi considerada)"
+      },
+      {
+        "order": 17,
+        "answer": "Inexistente (A prática não existe ou nunca foi considerada)"
+      }
+    ],
+    "firstDisplayed": "Inexistente (A prática não existe ou nunca foi considerada)",
+    "firstExpected": "Inexistente (A prática não existe, não é discutida ou nunca foi implementada)"
+  },
+  "api": [
+    {
+      "event": "request",
+      "method": "POST",
+      "path": "/api/auth/login"
+    },
+    {
+      "event": "response",
+      "method": "POST",
+      "path": "/api/auth/login",
+      "status": 200
+    },
+    {
+      "event": "request",
+      "method": "GET",
+      "path": "/api/diagnostic/current"
+    },
+    {
+      "event": "request",
+      "method": "GET",
+      "path": "/api/auth/me"
+    },
+    {
+      "event": "request",
+      "method": "GET",
+      "path": "/api/auth/me/access"
+    },
+    {
+      "event": "request",
+      "method": "GET",
+      "path": "/api/auth/me"
+    },
+    {
+      "event": "request",
+      "method": "GET",
+      "path": "/api/auth/me/access"
+    },
+    {
+      "event": "response",
+      "method": "GET",
+      "path": "/api/auth/me/access",
+      "status": 200
+    },
+    {
+      "event": "response",
+      "method": "GET",
+      "path": "/api/auth/me/access",
+      "status": 200
+    },
+    {
+      "event": "response",
+      "method": "GET",
+      "path": "/api/auth/me",
+      "status": 200
+    },
+    {
+      "event": "request",
+      "method": "GET",
+      "path": "/api/diagnostic/current"
+    },
+    {
+      "event": "request",
+      "method": "GET",
+      "path": "/api/diagnostic/current"
+    },
+    {
+      "event": "response",
+      "method": "GET",
+      "path": "/api/auth/me",
+      "status": 200
+    },
+    {
+      "event": "response",
+      "method": "GET",
+      "path": "/api/diagnostic/current",
+      "status": 200
+    },
+    {
+      "event": "request",
+      "method": "GET",
+      "path": "/api/auth/me"
+    },
+    {
+      "event": "request",
+      "method": "GET",
+      "path": "/api/auth/me/access"
+    },
+    {
+      "event": "response",
+      "method": "GET",
+      "path": "/api/auth/me/access",
+      "status": 200
+    },
+    {
+      "event": "response",
+      "method": "GET",
+      "path": "/api/auth/me",
+      "status": 200
+    },
+    {
+      "event": "request",
+      "method": "GET",
+      "path": "/api/diagnostic/current"
+    },
+    {
+      "event": "request",
+      "method": "GET",
+      "path": "/api/diagnostic/current"
+    },
+    {
+      "event": "response",
+      "method": "GET",
+      "path": "/api/diagnostic/current",
+      "status": 200
+    },
+    {
+      "event": "response",
+      "method": "GET",
+      "path": "/api/diagnostic/current",
+      "status": 200
+    },
+    {
+      "event": "request",
+      "method": "GET",
+      "path": "/api/auth/me"
+    },
+    {
+      "event": "request",
+      "method": "GET",
+      "path": "/api/auth/me/access"
+    },
+    {
+      "event": "response",
+      "method": "GET",
+      "path": "/api/auth/me/access",
+      "status": 200
+    },
+    {
+      "event": "response",
+      "method": "GET",
+      "path": "/api/auth/me",
+      "status": 200
+    },
+    {
+      "event": "request",
+      "method": "GET",
+      "path": "/api/diagnostic/current"
+    },
+    {
+      "event": "request",
+      "method": "GET",
+      "path": "/api/diagnostic/current"
+    },
+    {
+      "event": "response",
+      "method": "GET",
+      "path": "/api/diagnostic/current",
+      "status": 200
+    },
+    {
+      "event": "response",
+      "method": "GET",
+      "path": "/api/diagnostic/current",
+      "status": 200
+    },
+    {
+      "event": "request",
+      "method": "GET",
+      "path": "/api/diagnostic/current"
+    },
+    {
+      "event": "response",
+      "method": "GET",
+      "path": "/api/diagnostic/current",
+      "status": 200
+    }
+  ],
+  "reloadChecks": [
+    {
+      "order": 1,
+      "selectedMatches": true
+    },
+    {
+      "order": 2,
+      "selectedMatches": true
+    },
+    {
+      "order": 3,
+      "selectedMatches": true
+    },
+    {
+      "order": 4,
+      "selectedMatches": true
+    },
+    {
+      "order": 5,
+      "selectedMatches": true
+    },
+    {
+      "order": 6,
+      "selectedMatches": true
+    },
+    {
+      "order": 7,
+      "selectedMatches": true
+    },
+    {
+      "order": 8,
+      "selectedMatches": true
+    },
+    {
+      "order": 9,
+      "selectedMatches": true
+    },
+    {
+      "order": 10,
+      "selectedMatches": true
+    },
+    {
+      "order": 11,
+      "selectedMatches": true
+    },
+    {
+      "order": 12,
+      "selectedMatches": true
+    },
+    {
+      "order": 13,
+      "selectedMatches": true
+    },
+    {
+      "order": 14,
+      "selectedMatches": true
+    },
+    {
+      "order": 15,
+      "selectedMatches": true
+    },
+    {
+      "order": 16,
+      "selectedMatches": true
+    },
+    {
+      "order": 17,
+      "selectedMatches": true
+    }
+  ]
+}

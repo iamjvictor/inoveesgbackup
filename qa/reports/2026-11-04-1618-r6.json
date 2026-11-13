@@ -1,0 +1,44 @@
+{
+  "round_id": "20261104-r6",
+  "date": "2026-11-04",
+  "timezone": "America/Sao_Paulo",
+  "browser": "Playwright with Google Chrome headless",
+  "environment": {
+    "frontend": "http://localhost:3000",
+    "backend": "http://localhost:4000",
+    "database": "remote Supabase test project per prior QA evidence",
+    "services_started_for_round": true,
+    "services_stopped_after_round": true,
+    "production_modified": false,
+    "migrations_applied": false
+  },
+  "safety": {
+    "authenticated_test_account_used": false,
+    "credentials_available_without_guessing": false,
+    "new_account_created": false,
+    "terms_accepted": false,
+    "email_enabled": false,
+    "mercadopago_credentials": "invalid sentinels only",
+    "checkout_preference_created": false,
+    "external_payment_page_opened": false,
+    "payment_submitted": false,
+    "real_payment": false
+  },
+  "results": [
+    {"scenario": "backend_health", "status": "PASS", "http_status": 200},
+    {"scenario": "success_without_order", "status": "BLOCKED_AUTH", "http_status": 200, "effective_path": "/", "visible_content": "homepage"},
+    {"scenario": "success_with_synthetic_unknown_order", "status": "BLOCKED_AUTH", "http_status": 200, "effective_path": "/", "visible_content": "homepage"},
+    {"scenario": "failure_return", "status": "BLOCKED_AUTH", "http_status": 200, "effective_path": "/", "visible_content": "homepage"},
+    {"scenario": "dashboard", "status": "BLOCKED_AUTH", "http_status": 200, "effective_path": "/", "visible_content": "homepage"},
+    {"scenario": "unauthenticated_order_status_api", "status": "BLOCKED_AUTH", "http_status": 401},
+    {"scenario": "javascript_page_errors", "status": "PASS", "count": 0}
+  ],
+  "evidence": [
+    "qa/artifacts/20261104-r6/route-summary.json",
+    "qa/artifacts/20261104-r6/return-success-no-order.png",
+    "qa/artifacts/20261104-r6/return-success-order-lookup.png",
+    "qa/artifacts/20261104-r6/return-failure.png",
+    "qa/artifacts/20261104-r6/dashboard.png"
+  ],
+  "known_prior_observation": "Round 20261104-r5 reported Maximum update depth exceeded on the authenticated success-return view; not revalidated in this round."
+}

@@ -3219,6 +3219,42 @@ export class AdminService {
         select: { id: true, verificationStatus: true },
       });
 
+      const reviewedUpload = await tx.evidence.findUnique({ where: { id: evidenceId }, select: { uploadedAt: true } });
+      if (reviewedUpload?.uploadedAt) {
+        const planOrder = await tx.order.findFirst({
+          where: { organizationId: evidence.organizationId, status: "PAID", items: { some: { product: { code: "BIOIMPACTO_EMPRESARIAL" } } } },
+          orderBy: { paidAt: "desc" }, select: { id: true, paidAt: true },
+        });
+        if (planOrder?.paidAt) {
+          const uploadedAt = reviewedUpload.uploadedAt;
+          const windowStart = new Date(Date.UTC(uploadedAt.getUTCFullYear(), uploadedAt.getUTCMonth(), 1, 3));
+          const windowEnd = new Date(Date.UTC(uploadedAt.getUTCFullYear(), uploadedAt.getUTCMonth(), 16, 3));
+          const annualEnd = new Date(planOrder.paidAt);
+          annualEnd.setUTCFullYear(annualEnd.getUTCFullYear() + 1);
+          if (new Date() >= windowEnd && uploadedAt >= planOrder.paidAt && uploadedAt < annualEnd) {
+            const monthEvidence = await tx.evidence.findMany({ where: { organizationId: evidence.organizationId,
+              diagnosticId: evidence.diagnosticId, uploadedAt: { gte: windowStart, lt: windowEnd } },
+              select: { verificationStatus: true } });
+            if (monthEvidence.length && monthEvidence.every((item) => item.verificationStatus !== "PENDING")) {
+              const firstMonthEnd = new Date(Date.UTC(planOrder.paidAt.getUTCFullYear(), planOrder.paidAt.getUTCMonth(), 16, 3));
+              const firstWindowOffset = planOrder.paidAt >= firstMonthEnd ? 1 : 0;
+              const windowNumber = (windowStart.getUTCFullYear() - planOrder.paidAt.getUTCFullYear()) * 12
+                + windowStart.getUTCMonth() - planOrder.paidAt.getUTCMonth() + 1 - firstWindowOffset;
+              const scoreAtReview = await tx.diagnosticScore.findUnique({ where: { diagnosticId: evidence.diagnosticId }, select: { provenOverallScore: true, overallScore: true } });
+              const counts = { approved: monthEvidence.filter((item) => item.verificationStatus === "VERIFIED").length,
+                rejected: monthEvidence.filter((item) => item.verificationStatus === "REJECTED").length, pending: 0 };
+              await tx.bioimpactoWindowSnapshot.upsert({
+                where: { orderId_windowNumber: { orderId: planOrder.id, windowNumber } },
+                create: { organizationId: evidence.organizationId, orderId: planOrder.id, windowNumber,
+                  startsAt: windowStart, endsAt: windowEnd, ...counts,
+                  score: scoreAtReview?.provenOverallScore ?? scoreAtReview?.overallScore ?? null },
+                update: {},
+              });
+            }
+          }
+        }
+      }
+
       if (evidence.request?.requirement) {
         const companyEvidences = await tx.evidence.findMany({
           where: { organizationId: evidence.organizationId },

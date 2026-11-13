@@ -1,6 +1,6 @@
 "use client";
 
-import React, { createContext, useContext, useState, ReactNode } from "react";
+import React, { createContext, useCallback, useContext, useState, ReactNode } from "react";
 
 export interface CartItem {
   id: string;
@@ -42,7 +42,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
     setItems((prev) => prev.filter((item) => item.id !== id));
   };
 
-  const clearCart = () => setItems([]);
+  const clearCart = useCallback(() => setItems([]), []);
 
   const total = items.reduce((acc, item) => acc + item.price, 0);
   const itemCount = items.length;

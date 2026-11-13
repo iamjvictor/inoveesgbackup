@@ -86,7 +86,7 @@ export const AgroQuestions: Record<number, DiagnosticQuestion> = {
   },
   4: {
     number: 4,
-    prompt: "Sua empresa possui um plano formal de gestão de resíduos que inclui a redução, reutilização e reciclagem?",
+    prompt: "Plano formal de gestão de resíduos?",
     axis: "ENVIRONMENTAL" as Axis,
     category: "Pilar Ambiental",
     type: "STRATEGIC",
@@ -101,7 +101,7 @@ export const AgroQuestions: Record<number, DiagnosticQuestion> = {
   },
   5: {
     number: 5,
-    prompt: "Sua empresa estabelece metas claras e mensuráveis para a redução de resíduos e monitora o progresso?",
+    prompt: "Metas de redução de resíduos?",
     axis: "ENVIRONMENTAL" as Axis,
     category: "Pilar Ambiental",
     type: "DIFFERENTIAL",
@@ -116,7 +116,7 @@ export const AgroQuestions: Record<number, DiagnosticQuestion> = {
   },
   6: {
     number: 6,
-    prompt: "Sua empresa implementa programas de educação para colaboradores e fornecedores sobre gestão de resíduos e economia circular?",
+    prompt: "Programas de educação sobre resíduos?",
     axis: "ENVIRONMENTAL" as Axis,
     category: "Pilar Ambiental",
     type: "COMPLEMENTARY",
@@ -131,7 +131,7 @@ export const AgroQuestions: Record<number, DiagnosticQuestion> = {
   },
   7: {
     number: 7,
-    prompt: "Sua empresa monitora e busca reduzir o consumo de água em suas operações?",
+    prompt: "Monitora e reduz consumo de água?",
     axis: "ENVIRONMENTAL" as Axis,
     category: "Pilar Ambiental",
     type: "STRATEGIC",
@@ -146,7 +146,7 @@ export const AgroQuestions: Record<number, DiagnosticQuestion> = {
   },
   8: {
     number: 8,
-    prompt: "Sua empresa implementa tecnologias ou processos que promovem o reuso ou reciclagem de água?",
+    prompt: "Tecnologias de reuso de água?",
     axis: "ENVIRONMENTAL" as Axis,
     category: "Pilar Ambiental",
     type: "DIFFERENTIAL",
@@ -161,7 +161,7 @@ export const AgroQuestions: Record<number, DiagnosticQuestion> = {
   },
   9: {
     number: 9,
-    prompt: "Sua empresa avalia os riscos relacionados à escassez hídrica em suas operações e cadeia de valor?",
+    prompt: "Avalia riscos de escassez hídrica?",
     axis: "ENVIRONMENTAL" as Axis,
     category: "Pilar Ambiental",
     type: "STRATEGIC",
@@ -176,7 +176,7 @@ export const AgroQuestions: Record<number, DiagnosticQuestion> = {
   },
   10: {
     number: 10,
-    prompt: "Quais são as fontes de energia utilizadas e há iniciativas para o uso de energias renováveis?",
+    prompt: "Em que nível a empresa adota práticas de gestão, segregação, armazenamento, transporte e destinação ambientalmente adequada dos resíduos gerados em suas obras e operações, incluindo resíduos perigosos?",
     axis: "ENVIRONMENTAL" as Axis,
     category: "Pilar Ambiental",
     type: "STRATEGIC",
@@ -191,7 +191,7 @@ export const AgroQuestions: Record<number, DiagnosticQuestion> = {
   },
   11: {
     number: 11,
-    prompt: "Sua empresa possui metas e ou um plano de transição para aumentar a participação de energias renováveis?",
+    prompt: "Plano de transição energética?",
     axis: "ENVIRONMENTAL" as Axis,
     category: "Pilar Ambiental",
     type: "DIFFERENTIAL",
@@ -206,7 +206,7 @@ export const AgroQuestions: Record<number, DiagnosticQuestion> = {
   },
   12: {
     number: 12,
-    prompt: "Sua empresa possui iniciativas para proteger a biodiversidade local ou restaurar ecossistemas?",
+    prompt: "Proteção da biodiversidade?",
     axis: "ENVIRONMENTAL" as Axis,
     category: "Pilar Ambiental",
     type: "STRATEGIC",
@@ -221,7 +221,7 @@ export const AgroQuestions: Record<number, DiagnosticQuestion> = {
   },
   13: {
     number: 13,
-    prompt: "Sua empresa realiza avaliações de impacto na biodiversidade antes de iniciar novos projetos?",
+    prompt: "Avaliação de impacto na biodiversidade?",
     axis: "ENVIRONMENTAL" as Axis,
     category: "Pilar Ambiental",
     type: "ESSENTIAL",
@@ -236,7 +236,7 @@ export const AgroQuestions: Record<number, DiagnosticQuestion> = {
   },
   14: {
     number: 14,
-    prompt: "Sua empresa busca ativamente fornecedores que demonstrem compromisso com a conservação da biodiversidade?",
+    prompt: "Seleção de fornecedores comprometidos com biodiversidade?",
     axis: "ENVIRONMENTAL" as Axis,
     category: "Pilar Ambiental",
     type: "DIFFERENTIAL",
@@ -251,7 +251,7 @@ export const AgroQuestions: Record<number, DiagnosticQuestion> = {
   },
   15: {
     number: 15,
-    prompt: "Sua empresa mede e reporta suas emissões de Gases de Efeito Estufa (GEE)?",
+    prompt: "Mede e reporta emissões de GEE?",
     axis: "ENVIRONMENTAL" as Axis,
     category: "Pilar Ambiental",
     type: "ESSENTIAL",
@@ -266,7 +266,7 @@ export const AgroQuestions: Record<number, DiagnosticQuestion> = {
   },
   16: {
     number: 16,
-    prompt: "Sua empresa possui um plano de descarbonização com metas de redução de GEE de curto, médio e longo prazo?",
+    prompt: "Plano de descarbonização?",
     axis: "ENVIRONMENTAL" as Axis,
     category: "Pilar Ambiental",
     type: "ESSENTIAL",
@@ -281,7 +281,7 @@ export const AgroQuestions: Record<number, DiagnosticQuestion> = {
   },
   17: {
     number: 17,
-    prompt: "Sua empresa engaja sua cadeia de valor (fornecedores e clientes) na redução de emissões de GEE (Escopo 3)?",
+    prompt: "Engaja a cadeia de valor na redução das emissões (Escopo 3)?",
     axis: "ENVIRONMENTAL" as Axis,
     category: "Pilar Ambiental",
     type: "STRATEGIC",
@@ -296,7 +296,7 @@ export const AgroQuestions: Record<number, DiagnosticQuestion> = {
   },
   18: {
     number: 18,
-    prompt: "A empresa prioriza fornecedores locais?",
+    prompt: "A empresa utiliza matérias-primas renováveis, recicladas ou de origem sustentável?",
     axis: "BIOECONOMY_CIRCULAR" as Axis,
     category: "Pilar Bioeconomia Circular",
     type: "ESSENTIAL",
@@ -311,7 +311,7 @@ export const AgroQuestions: Record<number, DiagnosticQuestion> = {
   },
   19: {
     number: 19,
-    prompt: "A empresa utiliza embalagens sustentáveis ou recicláveis?",
+    prompt: "A empresa possui critérios para seleção de fornecedores de matérias-primas sustentáveis?",
     axis: "BIOECONOMY_CIRCULAR" as Axis,
     category: "Pilar Bioeconomia Circular",
     type: "STRATEGIC",
@@ -326,7 +326,7 @@ export const AgroQuestions: Record<number, DiagnosticQuestion> = {
   },
   20: {
     number: 20,
-    prompt: "Destina resíduos orgânicos para reaproveitamento?",
+    prompt: "A empresa adota princípios de economia circular no desenvolvimento de produtos ou processos?",
     axis: "BIOECONOMY_CIRCULAR" as Axis,
     category: "Pilar Bioeconomia Circular",
     type: "ESSENTIAL",
@@ -341,7 +341,7 @@ export const AgroQuestions: Record<number, DiagnosticQuestion> = {
   },
   21: {
     number: 21,
-    prompt: "Como sua empresa faz a gestão do ACV (Avaliação do Ciclo de Vida) de seus produtos ou serviços?",
+    prompt: "Em que nível a empresa incorpora práticas de reutilização, recuperação e utilização de materiais reciclados para reduzir o consumo de matérias-primas virgens?",
     axis: "BIOECONOMY_CIRCULAR" as Axis,
     category: "Pilar Bioeconomia Circular",
     type: "STRATEGIC",
@@ -356,7 +356,7 @@ export const AgroQuestions: Record<number, DiagnosticQuestion> = {
   },
   22: {
     number: 22,
-    prompt: "Sua empresa utiliza os resultados da ACV para inovar e redesenhar produtos ou processos?",
+    prompt: "Existe logística reversa para produtos ou embalagens?",
     axis: "BIOECONOMY_CIRCULAR" as Axis,
     category: "Pilar Bioeconomia Circular",
     type: "STRATEGIC",
@@ -371,7 +371,7 @@ export const AgroQuestions: Record<number, DiagnosticQuestion> = {
   },
   23: {
     number: 23,
-    prompt: "Sua empresa comunica de forma transparente os resultados da ACV aos seus stakeholders?",
+    prompt: "A empresa mede indicadores relacionados à circularidade dos materiais?",
     axis: "BIOECONOMY_CIRCULAR" as Axis,
     category: "Pilar Bioeconomia Circular",
     type: "DIFFERENTIAL",
@@ -386,7 +386,7 @@ export const AgroQuestions: Record<number, DiagnosticQuestion> = {
   },
   24: {
     number: 24,
-    prompt: "Como sua empresa integra princípios da economia circular em seu modelo de negócios (design para durabilidade, etc.)?",
+    prompt: "Em que nível a empresa incorpora práticas de logística reversa, retorno, recolhimento e recuperação de produtos, equipamentos e materiais utilizados em seus empreendimentos?",
     axis: "BIOECONOMY_CIRCULAR" as Axis,
     category: "Pilar Bioeconomia Circular",
     type: "ESSENTIAL",
@@ -401,7 +401,7 @@ export const AgroQuestions: Record<number, DiagnosticQuestion> = {
   },
   25: {
     number: 25,
-    prompt: "Sua empresa possui parcerias para criar cadeias de valor circular ou simbiose industriais?",
+    prompt: "Existe incentivo à inovação voltada para produtos ou processos bioeconômicos?",
     axis: "BIOECONOMY_CIRCULAR" as Axis,
     category: "Pilar Bioeconomia Circular",
     type: "STRATEGIC",
@@ -416,7 +416,7 @@ export const AgroQuestions: Record<number, DiagnosticQuestion> = {
   },
   26: {
     number: 26,
-    prompt: "Sua empresa oferece programas de logística reversa ou take-back para seus produtos?",
+    prompt: "A empresa realiza Avaliação do Ciclo de Vida (ACV) de produtos ou processos?",
     axis: "BIOECONOMY_CIRCULAR" as Axis,
     category: "Pilar Bioeconomia Circular",
     type: "STRATEGIC",
@@ -431,7 +431,7 @@ export const AgroQuestions: Record<number, DiagnosticQuestion> = {
   },
   27: {
     number: 27,
-    prompt: "Sua empresa utiliza matérias-primas de origem biológica renovável ou subproduto de outras indústrias?",
+    prompt: "A empresa possui indicadores para redução do consumo de matérias-primas virgens?",
     axis: "BIOECONOMY_CIRCULAR" as Axis,
     category: "Pilar Bioeconomia Circular",
     type: "DIFFERENTIAL",
@@ -446,7 +446,7 @@ export const AgroQuestions: Record<number, DiagnosticQuestion> = {
   },
   28: {
     number: 28,
-    prompt: "Sua empresa investe em P&D para substituir materiais de origem fóssil por alternativas biológicas?",
+    prompt: "Existe cooperação com universidades, startups ou centros de pesquisa para inovação em bioeconomia?",
     axis: "BIOECONOMY_CIRCULAR" as Axis,
     category: "Pilar Bioeconomia Circular",
     type: "DIFFERENTIAL",
@@ -461,7 +461,7 @@ export const AgroQuestions: Record<number, DiagnosticQuestion> = {
   },
   29: {
     number: 29,
-    prompt: "Sua empresa adota práticas de agricultura regenerativa ou sustentável?",
+    prompt: "A empresa comunica aos clientes os benefícios ambientais de seus produtos ou serviços?",
     axis: "BIOECONOMY_CIRCULAR" as Axis,
     category: "Pilar Bioeconomia Circular",
     type: "COMPLEMENTARY",
@@ -476,7 +476,7 @@ export const AgroQuestions: Record<number, DiagnosticQuestion> = {
   },
   30: {
     number: 30,
-    prompt: "Sua empresa colabora com agricultores ou instituições de pesquisa para desenvolver práticas bioeconômicas inovadoras?",
+    prompt: "A empresa acompanha indicadores relacionados aos Objetivos de Desenvolvimento Sustentável (ODS) associados à bioeconomia?",
     axis: "BIOECONOMY_CIRCULAR" as Axis,
     category: "Pilar Bioeconomia Circular",
     type: "STRATEGIC",
@@ -491,7 +491,7 @@ export const AgroQuestions: Record<number, DiagnosticQuestion> = {
   },
   31: {
     number: 31,
-    prompt: "Sua empresa avalia e reporta os benefícios ambientais e sociais de suas práticas bioeconômicas?",
+    prompt: "Existe estratégia formal para ampliar a participação da bioeconomia no modelo de negócios?",
     axis: "BIOECONOMY_CIRCULAR" as Axis,
     category: "Pilar Bioeconomia Circular",
     type: "ESSENTIAL",
@@ -506,7 +506,7 @@ export const AgroQuestions: Record<number, DiagnosticQuestion> = {
   },
   32: {
     number: 32,
-    prompt: "Todos os colaboradores estão formalizados?",
+    prompt: "Em que nível a empresa adota práticas para assegurar o cumprimento das exigências legais e trabalhistas aplicáveis aos trabalhadores envolvidos na construção, operação e manutenção de seus empreendimentos?",
     axis: "SOCIAL" as Axis,
     category: "Pilar Social",
     type: "ESSENTIAL",
@@ -521,7 +521,7 @@ export const AgroQuestions: Record<number, DiagnosticQuestion> = {
   },
   33: {
     number: 33,
-    prompt: "A empresa fornece EPIs e treinamentos de segurança?",
+    prompt: "A empresa possui política formal de saúde e segurança do trabalho?",
     axis: "SOCIAL" as Axis,
     category: "Pilar Social",
     type: "ESSENTIAL",
@@ -536,7 +536,7 @@ export const AgroQuestions: Record<number, DiagnosticQuestion> = {
   },
   34: {
     number: 34,
-    prompt: "Existe canal de comunicação com colaboradores?",
+    prompt: "São monitorados acidentes e indicadores de SST?",
     axis: "SOCIAL" as Axis,
     category: "Pilar Social",
     type: "STRATEGIC",
@@ -551,7 +551,7 @@ export const AgroQuestions: Record<number, DiagnosticQuestion> = {
   },
   35: {
     number: 35,
-    prompt: "Sua empresa possui um código de conduta ou política ética que aborda direitos humanos e trabalho justo?",
+    prompt: "Os colaboradores recebem treinamentos periódicos?",
     axis: "SOCIAL" as Axis,
     category: "Pilar Social",
     type: "STRATEGIC",
@@ -566,7 +566,7 @@ export const AgroQuestions: Record<number, DiagnosticQuestion> = {
   },
   36: {
     number: 36,
-    prompt: "Sua empresa realiza due diligence em sua cadeia de suprimentos para mitigar riscos de direitos humanos?",
+    prompt: "Existe programa de desenvolvimento de lideranças?",
     axis: "SOCIAL" as Axis,
     category: "Pilar Social",
     type: "DIFFERENTIAL",
@@ -581,7 +581,7 @@ export const AgroQuestions: Record<number, DiagnosticQuestion> = {
   },
   37: {
     number: 37,
-    prompt: "Sua empresa possui mecanismos para garantir que os salários e benefícios sejam justos e equitativos?",
+    prompt: "A empresa realiza avaliação de desempenho dos colaboradores?",
     axis: "SOCIAL" as Axis,
     category: "Pilar Social",
     type: "STRATEGIC",
@@ -596,7 +596,7 @@ export const AgroQuestions: Record<number, DiagnosticQuestion> = {
   },
   38: {
     number: 38,
-    prompt: "Sua empresa promove a diversidade e inclusão (gênero, raça, idade, PCD - Pessoas com Deficiência) em seu quadro de funcionários e liderança?",
+    prompt: "Existem ações voltadas ao bem-estar físico e mental dos colaboradores?",
     axis: "SOCIAL" as Axis,
     category: "Pilar Social",
     type: "STRATEGIC",
@@ -611,7 +611,7 @@ export const AgroQuestions: Record<number, DiagnosticQuestion> = {
   },
   39: {
     number: 39,
-    prompt: "Sua empresa estabelece metas e indicadores para aumentar a representatividade de grupos sub-representados?",
+    prompt: "A empresa promove diversidade, equidade e inclusão?",
     axis: "SOCIAL" as Axis,
     category: "Pilar Social",
     type: "STRATEGIC",
@@ -626,7 +626,7 @@ export const AgroQuestions: Record<number, DiagnosticQuestion> = {
   },
   40: {
     number: 40,
-    prompt: "Sua empresa oferece um ambiente de trabalho inclusivo, com políticas de não discriminação e acessibilidade?",
+    prompt: "Existem políticas contra discriminação e assédio?",
     axis: "SOCIAL" as Axis,
     category: "Pilar Social",
     type: "ESSENTIAL",
@@ -641,7 +641,7 @@ export const AgroQuestions: Record<number, DiagnosticQuestion> = {
   },
   41: {
     number: 41,
-    prompt: "Sua empresa investe em programas de desenvolvimento profissional e treinamento para seus colaboradores?",
+    prompt: "Existe canal para denúncias relacionadas ao ambiente de trabalho?",
     axis: "SOCIAL" as Axis,
     category: "Pilar Social",
     type: "STRATEGIC",
@@ -656,7 +656,7 @@ export const AgroQuestions: Record<number, DiagnosticQuestion> = {
   },
   42: {
     number: 42,
-    prompt: "Sua empresa oferece oportunidades de desenvolvimento de carreira e mobilidade interna?",
+    prompt: "A empresa realiza pesquisas de clima organizacional?",
     axis: "SOCIAL" as Axis,
     category: "Pilar Social",
     type: "DIFFERENTIAL",
@@ -671,7 +671,7 @@ export const AgroQuestions: Record<number, DiagnosticQuestion> = {
   },
   43: {
     number: 43,
-    prompt: "Sua empresa avalia a eficácia dos programas de treinamento no aprimoramento das competências dos colaboradores?",
+    prompt: "A empresa desenvolve ações de relacionamento com a comunidade?",
     axis: "SOCIAL" as Axis,
     category: "Pilar Social",
     type: "STRATEGIC",
@@ -686,7 +686,7 @@ export const AgroQuestions: Record<number, DiagnosticQuestion> = {
   },
   44: {
     number: 44,
-    prompt: "Como sua empresa se relaciona com a comunidade local e quais são os impactos sociais positivos gerados?",
+    prompt: "Existem programas de investimento social privado ou voluntariado?",
     axis: "SOCIAL" as Axis,
     category: "Pilar Social",
     type: "DIFFERENTIAL",
@@ -701,7 +701,7 @@ export const AgroQuestions: Record<number, DiagnosticQuestion> = {
   },
   45: {
     number: 45,
-    prompt: "Sua empresa realiza consultas e engajamento com a comunidade local para entender suas necessidades?",
+    prompt: "A empresa prioriza fornecedores locais ou da agricultura familiar quando aplicável?",
     axis: "SOCIAL" as Axis,
     category: "Pilar Social",
     type: "STRATEGIC",
@@ -716,7 +716,7 @@ export const AgroQuestions: Record<number, DiagnosticQuestion> = {
   },
   46: {
     number: 46,
-    prompt: "Sua empresa investe em programas de desenvolvimento socioeconômico local (emprego, educação, saúde)?",
+    prompt: "São avaliados critérios sociais na seleção de fornecedores?",
     axis: "SOCIAL" as Axis,
     category: "Pilar Social",
     type: "STRATEGIC",
@@ -731,7 +731,7 @@ export const AgroQuestions: Record<number, DiagnosticQuestion> = {
   },
   47: {
     number: 47,
-    prompt: "Sua empresa garante condições de trabalho seguras e saudáveis para todos os colaboradores?",
+    prompt: "A empresa monitora satisfação de clientes e consumidores?",
     axis: "SOCIAL" as Axis,
     category: "Pilar Social",
     type: "STRATEGIC",
@@ -746,7 +746,7 @@ export const AgroQuestions: Record<number, DiagnosticQuestion> = {
   },
   48: {
     number: 48,
-    prompt: "Sua empresa realiza avaliações de risco ergonômico e psicossocial no ambiente de trabalho?",
+    prompt: "Existe política de proteção de dados e privacidade dos clientes?",
     axis: "SOCIAL" as Axis,
     category: "Pilar Social",
     type: "ESSENTIAL",
@@ -761,7 +761,7 @@ export const AgroQuestions: Record<number, DiagnosticQuestion> = {
   },
   49: {
     number: 49,
-    prompt: "Sua empresa oferece programas de promoção da saúde e prevenção de doenças para seus colaboradores?",
+    prompt: "A empresa comunica de forma transparente seus produtos e serviços?",
     axis: "SOCIAL" as Axis,
     category: "Pilar Social",
     type: "DIFFERENTIAL",
@@ -776,7 +776,7 @@ export const AgroQuestions: Record<number, DiagnosticQuestion> = {
   },
   50: {
     number: 50,
-    prompt: "Sua equipe reflete uma mistura de sabedoria experiente e ideias inovadoras do pessoal jovem?",
+    prompt: "São desenvolvidas ações de educação ou conscientização para clientes e comunidade?",
     axis: "SOCIAL" as Axis,
     category: "Pilar Social",
     type: "COMPLEMENTARY",
@@ -791,7 +791,7 @@ export const AgroQuestions: Record<number, DiagnosticQuestion> = {
   },
   51: {
     number: 51,
-    prompt: "Sua empresa possui programas formais de mentoria ou sucessão para troca de conhecimento entre gerações?",
+    prompt: "A empresa acompanha indicadores sociais para tomada de decisão?",
     axis: "SOCIAL" as Axis,
     category: "Pilar Social",
     type: "STRATEGIC",
@@ -806,7 +806,7 @@ export const AgroQuestions: Record<number, DiagnosticQuestion> = {
   },
   52: {
     number: 52,
-    prompt: "Como sua empresa incentiva a inovação, valorizando a contribuição de todos os colaboradores?",
+    prompt: "Existe estratégia formal para geração de valor social no território onde atua?",
     axis: "SOCIAL" as Axis,
     category: "Pilar Social",
     type: "ESSENTIAL",
@@ -821,7 +821,7 @@ export const AgroQuestions: Record<number, DiagnosticQuestion> = {
   },
   53: {
     number: 53,
-    prompt: "A empresa possui toda a documentação legal e licenças de operação em dia?",
+    prompt: "A empresa possui missão, visão e valores formalizados?",
     axis: "GOVERNANCE" as Axis,
     category: "Pilar Governança",
     type: "STRATEGIC",
@@ -836,7 +836,7 @@ export const AgroQuestions: Record<number, DiagnosticQuestion> = {
   },
   54: {
     number: 54,
-    prompt: "Existem papéis e responsabilidades definidos entre sócios e gestores?",
+    prompt: "A alta direção participa das decisões relacionadas ao ESG?",
     axis: "GOVERNANCE" as Axis,
     category: "Pilar Governança",
     type: "ESSENTIAL",
@@ -851,7 +851,7 @@ export const AgroQuestions: Record<number, DiagnosticQuestion> = {
   },
   55: {
     number: 55,
-    prompt: "A empresa possui valores ou código de conduta simplificado?",
+    prompt: "Existe política formal de ESG ou sustentabilidade?",
     axis: "GOVERNANCE" as Axis,
     category: "Pilar Governança",
     type: "ESSENTIAL",
@@ -866,7 +866,7 @@ export const AgroQuestions: Record<number, DiagnosticQuestion> = {
   },
   56: {
     number: 56,
-    prompt: "Como a empresa organiza contratos e documentos legais?",
+    prompt: "Em que nível a empresa possui práticas estruturadas de controle contábil e financeiro adequadas ao porte, à complexidade e ao ciclo de seus projetos e operações?",
     axis: "GOVERNANCE" as Axis,
     category: "Pilar Governança",
     type: "ESSENTIAL",
@@ -881,7 +881,7 @@ export const AgroQuestions: Record<number, DiagnosticQuestion> = {
   },
   57: {
     number: 57,
-    prompt: "A empresa realiza controle contábil e financeiro organizado?",
+    prompt: "A empresa acompanha indicadores ESG periodicamente?",
     axis: "GOVERNANCE" as Axis,
     category: "Pilar Governança",
     type: "STRATEGIC",
@@ -896,7 +896,7 @@ export const AgroQuestions: Record<number, DiagnosticQuestion> = {
   },
   58: {
     number: 58,
-    prompt: "Sua empresa possui um conselho ou comitê de governança que supervisiona as práticas ESG?",
+    prompt: "Existe responsável ou comitê para gestão ESG?",
     axis: "GOVERNANCE" as Axis,
     category: "Pilar Governança",
     type: "STRATEGIC",
@@ -911,7 +911,7 @@ export const AgroQuestions: Record<number, DiagnosticQuestion> = {
   },
   59: {
     number: 59,
-    prompt: "Qual a frequência das reuniões e como as decisões ESG são integradas à estratégia geral?",
+    prompt: "Em que nível a empresa possui mecanismos estruturados para recebimento, tratamento e acompanhamento de denúncias, irregularidades e comportamentos antiéticos?",
     axis: "GOVERNANCE" as Axis,
     category: "Pilar Governança",
     type: "ESSENTIAL",
@@ -926,7 +926,7 @@ export const AgroQuestions: Record<number, DiagnosticQuestion> = {
   },
   60: {
     number: 60,
-    prompt: "A composição do conselho/comitê reflete diversidade (gênero, raça, idade, experiência)?",
+    prompt: "Em que nível a empresa incorpora ações de capacitação e conscientização sobre ética, integridade e conduta em suas práticas de gestão?",
     axis: "GOVERNANCE" as Axis,
     category: "Pilar Governança",
     type: "STRATEGIC",
@@ -941,7 +941,7 @@ export const AgroQuestions: Record<number, DiagnosticQuestion> = {
   },
   61: {
     number: 61,
-    prompt: "Como sua empresa garante a transparência e a prestação de contas sobre seu desempenho ESG?",
+    prompt: "Em que nível a empresa possui responsabilidades definidas para gestão e acompanhamento de questões ESG, sustentabilidade e conformidade?",
     axis: "GOVERNANCE" as Axis,
     category: "Pilar Governança",
     type: "ESSENTIAL",
@@ -956,7 +956,7 @@ export const AgroQuestions: Record<number, DiagnosticQuestion> = {
   },
   62: {
     number: 62,
-    prompt: "Sua empresa realiza auditorias externas independentes para verificar os dados e relatórios ESG?",
+    prompt: "Existe procedimento para investigação e tratamento das denúncias?",
     axis: "GOVERNANCE" as Axis,
     category: "Pilar Governança",
     type: "STRATEGIC",
@@ -971,7 +971,7 @@ export const AgroQuestions: Record<number, DiagnosticQuestion> = {
   },
   63: {
     number: 63,
-    prompt: "Sua empresa possui um canal de denúncias éticas acessível e confidencial?",
+    prompt: "A empresa realiza avaliação periódica de riscos?",
     axis: "GOVERNANCE" as Axis,
     category: "Pilar Governança",
     type: "ESSENTIAL",
@@ -986,7 +986,7 @@ export const AgroQuestions: Record<number, DiagnosticQuestion> = {
   },
   64: {
     number: 64,
-    prompt: "Sua empresa possui políticas claras de proteção de dados pessoais (LGPD)?",
+    prompt: "Os riscos ESG são incorporados ao processo decisório?",
     axis: "GOVERNANCE" as Axis,
     category: "Pilar Governança",
     type: "ESSENTIAL",
@@ -1001,7 +1001,7 @@ export const AgroQuestions: Record<number, DiagnosticQuestion> = {
   },
   65: {
     number: 65,
-    prompt: "Sua empresa realiza avaliações de impacto à proteção de dados (DPIA) para novos projetos?",
+    prompt: "Existe política anticorrupção?",
     axis: "GOVERNANCE" as Axis,
     category: "Pilar Governança",
     type: "ESSENTIAL",
@@ -1016,7 +1016,7 @@ export const AgroQuestions: Record<number, DiagnosticQuestion> = {
   },
   66: {
     number: 66,
-    prompt: "Sua empresa possui um Encarregado de Dados (DPO) ou comitê responsável pela proteção de dados?",
+    prompt: "Os colaboradores recebem treinamento sobre ética e compliance?",
     axis: "GOVERNANCE" as Axis,
     category: "Pilar Governança",
     type: "STRATEGIC",
@@ -1031,7 +1031,7 @@ export const AgroQuestions: Record<number, DiagnosticQuestion> = {
   },
   67: {
     number: 67,
-    prompt: "A matriz de dupla materialidade já está integrada à estratégia geral da empresa?",
+    prompt: "A empresa atende aos requisitos da LGPD?",
     axis: "GOVERNANCE" as Axis,
     category: "Pilar Governança",
     type: "ESSENTIAL",
@@ -1046,7 +1046,7 @@ export const AgroQuestions: Record<number, DiagnosticQuestion> = {
   },
   68: {
     number: 68,
-    prompt: "Sua empresa envolve stakeholders no processo de identificação e priorização de temas materiais?",
+    prompt: "Existe processo para gestão documental e registros?",
     axis: "GOVERNANCE" as Axis,
     category: "Pilar Governança",
     type: "STRATEGIC",
@@ -1061,7 +1061,7 @@ export const AgroQuestions: Record<number, DiagnosticQuestion> = {
   },
   69: {
     number: 69,
-    prompt: "Como os temas materiais influenciam a alocação de recursos e o desenvolvimento de novos produtos/serviços?",
+    prompt: "Em que nível a empresa incorpora critérios ESG na avaliação e gestão de riscos de fornecedores, empreiteiros, subcontratados e parceiros?",
     axis: "GOVERNANCE" as Axis,
     category: "Pilar Governança",
     type: "STRATEGIC",
@@ -1076,7 +1076,7 @@ export const AgroQuestions: Record<number, DiagnosticQuestion> = {
   },
   70: {
     number: 70,
-    prompt: "Como a comunicação interna e externa influencia as tomadas de decisão visando inovação?",
+    prompt: "Em que nível a empresa realiza processos de avaliação prévia e verificação de conformidade de fornecedores e parceiros críticos antes de sua contratação?",
     axis: "GOVERNANCE" as Axis,
     category: "Pilar Governança",
     type: "STRATEGIC",
@@ -1091,7 +1091,7 @@ export const AgroQuestions: Record<number, DiagnosticQuestion> = {
   },
   71: {
     number: 71,
-    prompt: "Sua empresa possui um processo formal para coletar, analisar e responder ao feedback de stakeholders?",
+    prompt: "A empresa divulga resultados ESG ou relatório de sustentabilidade?",
     axis: "GOVERNANCE" as Axis,
     category: "Pilar Governança",
     type: "DIFFERENTIAL",
@@ -1106,7 +1106,7 @@ export const AgroQuestions: Record<number, DiagnosticQuestion> = {
   },
   72: {
     number: 72,
-    prompt: "Como a empresa utiliza as informações de comunicação para identificar tendências e antecipar riscos ESG?",
+    prompt: "Em que nível a empresa identifica e avalia os temas ESG mais relevantes para seus empreendimentos e para suas principais partes interessadas?",
     axis: "GOVERNANCE" as Axis,
     category: "Pilar Governança",
     type: "STRATEGIC",
@@ -1121,7 +1121,7 @@ export const AgroQuestions: Record<number, DiagnosticQuestion> = {
   },
   73: {
     number: 73,
-    prompt: "Sua empresa possui mecanismos para identificar, avaliar e gerenciar riscos e oportunidades ESG?",
+    prompt: "A empresa realiza auditorias internas ou avaliações periódicas dos processos?",
     axis: "GOVERNANCE" as Axis,
     category: "Pilar Governança",
     type: "STRATEGIC",
@@ -1136,7 +1136,7 @@ export const AgroQuestions: Record<number, DiagnosticQuestion> = {
   },
   74: {
     number: 74,
-    prompt: "Sua empresa integra a avaliação de riscos e oportunidades ESG em seu planejamento estratégico?",
+    prompt: "As decisões estratégicas consideram riscos climáticos, sociais e regulatórios?",
     axis: "GOVERNANCE" as Axis,
     category: "Pilar Governança",
     type: "ESSENTIAL",
@@ -1151,7 +1151,7 @@ export const AgroQuestions: Record<number, DiagnosticQuestion> = {
   },
   75: {
     number: 75,
-    prompt: "Sua empresa realiza due diligence ESG em sua cadeia de suprimentos e em potenciais parceiros?",
+    prompt: "Existe estratégia formal para fortalecimento contínuo da governança corporativa?",
     axis: "GOVERNANCE" as Axis,
     category: "Pilar Governança",
     type: "ESSENTIAL",
@@ -1181,7 +1181,7 @@ export const oilAndGasDiagnosticQuestions: DiagnosticQuestion[] = [
   // EIXO 1 — AMBIENTAL E CLIMÁTICO (21 Questões)
   {
     number: 1,
-    prompt: "A empresa possui todas as licenças, autorizações e requisitos ambientais aplicáveis às suas atividades?",
+    prompt: "Em que nível a empresa adota práticas para assegurar a regularização das licenças, autorizações e requisitos ambientais aplicáveis às suas atividades?",
     axis: "ENVIRONMENTAL" as Axis,
     category: "Pilar Ambiental",
     type: "ESSENTIAL",
@@ -1190,7 +1190,7 @@ export const oilAndGasDiagnosticQuestions: DiagnosticQuestion[] = [
   },
   {
     number: 2,
-    prompt: "A empresa possui um sistema ou procedimento para identificar, controlar e monitorar seus principais impactos ambientais?",
+    prompt: "Em que nível a empresa identifica, avalia, controla e monitora os principais impactos ambientais associados às suas atividades?",
     axis: "ENVIRONMENTAL" as Axis,
     category: "Pilar Ambiental",
     type: "ESSENTIAL",
@@ -1199,7 +1199,7 @@ export const oilAndGasDiagnosticQuestions: DiagnosticQuestion[] = [
   },
   {
     number: 3,
-    prompt: "A empresa monitora o consumo de água, energia, combustíveis e outros recursos naturais utilizados em suas operações?",
+    prompt: "Em que nível a empresa monitora o consumo de água, energia, combustíveis e outros recursos naturais utilizados em suas operações?",
     axis: "ENVIRONMENTAL" as Axis,
     category: "Pilar Ambiental",
     type: "STRATEGIC",
@@ -1208,7 +1208,7 @@ export const oilAndGasDiagnosticQuestions: DiagnosticQuestion[] = [
   },
   {
     number: 4,
-    prompt: "A empresa possui metas ou iniciativas para reduzir o consumo de água em suas operações?",
+    prompt: "Em que nível a empresa adota práticas para reduzir o consumo de água em suas operações?",
     axis: "ENVIRONMENTAL" as Axis,
     category: "Pilar Ambiental",
     type: "STRATEGIC",
@@ -1217,7 +1217,7 @@ export const oilAndGasDiagnosticQuestions: DiagnosticQuestion[] = [
   },
   {
     number: 5,
-    prompt: "A empresa adota tecnologias ou práticas de reuso, tratamento ou reciclagem da água?",
+    prompt: "Em que nível a empresa incorpora práticas e tecnologias de captação, tratamento, reuso ou reciclagem de água em suas operações?",
     axis: "ENVIRONMENTAL" as Axis,
     category: "Pilar Ambiental",
     type: "DIFFERENTIAL",
@@ -1226,7 +1226,7 @@ export const oilAndGasDiagnosticQuestions: DiagnosticQuestion[] = [
   },
   {
     number: 6,
-    prompt: "A empresa avalia riscos relacionados à disponibilidade, escassez ou contaminação da água em suas operações?",
+    prompt: "Em que nível a empresa identifica, avalia e gerencia riscos relacionados à disponibilidade, escassez, qualidade ou contaminação da água em suas operações?",
     axis: "ENVIRONMENTAL" as Axis,
     category: "Pilar Ambiental",
     type: "STRATEGIC",
@@ -1235,7 +1235,7 @@ export const oilAndGasDiagnosticQuestions: DiagnosticQuestion[] = [
   },
   {
     number: 7,
-    prompt: "A empresa identifica e monitora as fontes de energia e combustíveis utilizadas em suas operações?",
+    prompt: "Em que nível a empresa identifica e monitora as fontes de energia e os combustíveis utilizados em suas operações?",
     axis: "ENVIRONMENTAL" as Axis,
     category: "Pilar Ambiental",
     type: "STRATEGIC",
@@ -1244,7 +1244,7 @@ export const oilAndGasDiagnosticQuestions: DiagnosticQuestion[] = [
   },
   {
     number: 8,
-    prompt: "A empresa possui iniciativas ou metas para aumentar a eficiência energética e reduzir o consumo de combustíveis fósseis?",
+    prompt: "Em que nível a empresa adota práticas de eficiência energética para reduzir o consumo de energia e combustíveis fósseis?",
     axis: "ENVIRONMENTAL" as Axis,
     category: "Pilar Ambiental",
     type: "STRATEGIC",
@@ -1253,7 +1253,7 @@ export const oilAndGasDiagnosticQuestions: DiagnosticQuestion[] = [
   },
   {
     number: 9,
-    prompt: "A empresa utiliza ou avalia a utilização de fontes de energia renovável ou de menor impacto ambiental?",
+    prompt: "Em que nível a empresa incorpora fontes de energia renovável ou de menor impacto ambiental em suas operações?",
     axis: "ENVIRONMENTAL" as Axis,
     category: "Pilar Ambiental",
     type: "DIFFERENTIAL",
@@ -1262,7 +1262,7 @@ export const oilAndGasDiagnosticQuestions: DiagnosticQuestion[] = [
   },
   {
     number: 10,
-    prompt: "A empresa realiza a segregação, armazenamento, transporte e destinação adequada dos resíduos gerados, especialmente resíduos perigosos?",
+    prompt: "Em que nível a empresa adota práticas de segregação, armazenamento, transporte e destinação ambientalmente adequada dos resíduos gerados, especialmente os perigosos?",
     axis: "ENVIRONMENTAL" as Axis,
     category: "Pilar Ambiental",
     type: "ESSENTIAL",
@@ -1271,7 +1271,7 @@ export const oilAndGasDiagnosticQuestions: DiagnosticQuestion[] = [
   },
   {
     number: 11,
-    prompt: "A empresa possui um plano ou procedimento formal de gestão e redução de resíduos?",
+    prompt: "Em que nível a empresa adota práticas estruturadas de prevenção, gestão e redução dos resíduos gerados em suas operações?",
     axis: "ENVIRONMENTAL" as Axis,
     category: "Pilar Ambiental",
     type: "STRATEGIC",
@@ -1280,7 +1280,7 @@ export const oilAndGasDiagnosticQuestions: DiagnosticQuestion[] = [
   },
   {
     number: 12,
-    prompt: "A empresa estabelece metas ou indicadores para redução, reutilização, reciclagem ou reaproveitamento de materiais?",
+    prompt: "Em que nível a empresa incorpora práticas de redução, reutilização, reciclagem e reaproveitamento de materiais e resíduos, acompanhando seu desempenho?",
     axis: "ENVIRONMENTAL" as Axis,
     category: "Pilar Ambiental",
     type: "DIFFERENTIAL",
@@ -1289,7 +1289,7 @@ export const oilAndGasDiagnosticQuestions: DiagnosticQuestion[] = [
   },
   {
     number: 13,
-    prompt: "A empresa possui programas de treinamento ou orientação ambiental para colaboradores e terceiros relacionados à gestão de resíduos e prevenção da poluição?",
+    prompt: "Em que nível a empresa incorpora ações de capacitação e orientação ambiental para colaboradores e terceiros, com foco na gestão de resíduos e na prevenção da poluição?",
     axis: "ENVIRONMENTAL" as Axis,
     category: "Pilar Ambiental",
     type: "DIFFERENTIAL",
@@ -1298,7 +1298,7 @@ export const oilAndGasDiagnosticQuestions: DiagnosticQuestion[] = [
   },
   {
     number: 14,
-    prompt: "A empresa identifica os potenciais impactos de suas atividades sobre biodiversidade, ecossistemas ou áreas ambientalmente sensíveis?",
+    prompt: "Em que nível a empresa identifica e avalia os potenciais impactos de suas atividades sobre a biodiversidade, os ecossistemas e as áreas ambientalmente sensíveis?",
     axis: "ENVIRONMENTAL" as Axis,
     category: "Pilar Ambiental",
     type: "ESSENTIAL",
@@ -1307,7 +1307,7 @@ export const oilAndGasDiagnosticQuestions: DiagnosticQuestion[] = [
   },
   {
     number: 15,
-    prompt: "A empresa adota medidas de prevenção, mitigação, recuperação ou compensação de impactos ambientais quando aplicável?",
+    prompt: "Em que nível a empresa adota medidas de prevenção, mitigação, recuperação ou compensação dos impactos ambientais de suas atividades, quando aplicável?",
     axis: "ENVIRONMENTAL" as Axis,
     category: "Pilar Ambiental",
     type: "ESSENTIAL",
@@ -1316,7 +1316,7 @@ export const oilAndGasDiagnosticQuestions: DiagnosticQuestion[] = [
   },
   {
     number: 16,
-    prompt: "A empresa considera critérios ambientais na seleção e contratação de seus próprios fornecedores e prestadores de serviços?",
+    prompt: "Em que nível critérios ambientais são incorporados à seleção e à contratação dos fornecedores e prestadores de serviços da empresa?",
     axis: "ENVIRONMENTAL" as Axis,
     category: "Pilar Ambiental",
     type: "STRATEGIC",
@@ -1325,7 +1325,7 @@ export const oilAndGasDiagnosticQuestions: DiagnosticQuestion[] = [
   },
   {
     number: 17,
-    prompt: "A empresa realiza ou possui capacidade de realizar o inventário de suas emissões de Gases de Efeito Estufa?",
+    prompt: "Em que nível a empresa realiza a quantificação e o monitoramento das emissões de Gases de Efeito Estufa (GEE) associadas às suas atividades?",
     axis: "ENVIRONMENTAL" as Axis,
     category: "Pilar Ambiental",
     type: "ESSENTIAL",
@@ -1334,7 +1334,7 @@ export const oilAndGasDiagnosticQuestions: DiagnosticQuestion[] = [
   },
   {
     number: 18,
-    prompt: "A empresa possui dados sobre consumo de combustíveis, energia elétrica, transporte ou outras fontes relevantes para o cálculo de emissões?",
+    prompt: "Em que nível a empresa coleta, organiza e mantém dados sobre consumo de combustíveis, energia elétrica, transporte e outras fontes relevantes para a quantificação das emissões de GEE?",
     axis: "ENVIRONMENTAL" as Axis,
     category: "Pilar Ambiental",
     type: "ESSENTIAL",
@@ -1343,7 +1343,7 @@ export const oilAndGasDiagnosticQuestions: DiagnosticQuestion[] = [
   },
   {
     number: 19,
-    prompt: "A empresa possui metas, iniciativas ou planos para redução de suas emissões de GEE?",
+    prompt: "Em que nível a empresa adota práticas para reduzir as emissões de GEE associadas às suas atividades?",
     axis: "ENVIRONMENTAL" as Axis,
     category: "Pilar Ambiental",
     type: "ESSENTIAL",
@@ -1352,7 +1352,7 @@ export const oilAndGasDiagnosticQuestions: DiagnosticQuestion[] = [
   },
   {
     number: 20,
-    prompt: "A empresa identifica quais de suas atividades, produtos ou serviços podem contribuir para as emissões da cadeia de valor de seus clientes?",
+    prompt: "Em que nível a empresa identifica e avalia a contribuição de suas atividades, produtos ou serviços para as emissões de GEE na cadeia de valor de seus clientes?",
     axis: "ENVIRONMENTAL" as Axis,
     category: "Pilar Ambiental",
     type: "STRATEGIC",
@@ -1361,7 +1361,7 @@ export const oilAndGasDiagnosticQuestions: DiagnosticQuestion[] = [
   },
   {
     number: 21,
-    prompt: "A empresa possui capacidade de fornecer periodicamente dados ambientais e climáticos necessários para que seus clientes calculem e monitorem as emissões indiretas de Escopo 3?",
+    prompt: "Em que nível a empresa mantém práticas estruturadas para disponibilizar periodicamente dados ambientais e climáticos que permitam aos clientes calcular e monitorar suas emissões indiretas de Escopo 3?",
     axis: "ENVIRONMENTAL" as Axis,
     category: "Pilar Ambiental",
     type: "ESSENTIAL",
@@ -1372,7 +1372,7 @@ export const oilAndGasDiagnosticQuestions: DiagnosticQuestion[] = [
   // EIXO 2 — SOCIAL (17 Questões)
   {
     number: 22,
-    prompt: "Todos os trabalhadores e colaboradores da empresa atuam de acordo com as exigências legais e trabalhistas aplicáveis?",
+    prompt: "Em que nível a empresa adota práticas para assegurar o cumprimento das exigências legais e trabalhistas aplicáveis aos seus trabalhadores e colaboradores?",
     axis: "SOCIAL" as Axis,
     category: "Pilar Social",
     type: "ESSENTIAL",
@@ -1381,7 +1381,7 @@ export const oilAndGasDiagnosticQuestions: DiagnosticQuestion[] = [
   },
   {
     number: 23,
-    prompt: "A empresa possui mecanismos para garantir condições justas de trabalho, remuneração e benefícios?",
+    prompt: "Em que nível a empresa adota práticas para assegurar condições justas de trabalho, remuneração e benefícios aos seus trabalhadores?",
     axis: "SOCIAL" as Axis,
     category: "Pilar Social",
     type: "STRATEGIC",
@@ -1390,7 +1390,7 @@ export const oilAndGasDiagnosticQuestions: DiagnosticQuestion[] = [
   },
   {
     number: 24,
-    prompt: "A empresa possui código de conduta, política ou diretrizes relacionadas a direitos humanos, trabalho digno e não discriminação?",
+    prompt: "Em que nível a empresa incorpora princípios de direitos humanos, trabalho digno e não discriminação em suas práticas de gestão?",
     axis: "SOCIAL" as Axis,
     category: "Pilar Social",
     type: "STRATEGIC",
@@ -1399,7 +1399,7 @@ export const oilAndGasDiagnosticQuestions: DiagnosticQuestion[] = [
   },
   {
     number: 25,
-    prompt: "A empresa avalia ou monitora riscos relacionados a direitos humanos em sua própria operação e cadeia de fornecedores?",
+    prompt: "Em que nível a empresa identifica, avalia e monitora riscos relacionados a direitos humanos em suas operações e na cadeia de fornecedores?",
     axis: "SOCIAL" as Axis,
     category: "Pilar Social",
     type: "STRATEGIC",
@@ -1408,7 +1408,7 @@ export const oilAndGasDiagnosticQuestions: DiagnosticQuestion[] = [
   },
   {
     number: 26,
-    prompt: "A empresa fornece os Equipamentos de Proteção Individual e Coletiva necessários às atividades desenvolvidas?",
+    prompt: "Em que nível a empresa adota práticas para assegurar a disponibilização, utilização e gestão adequada dos Equipamentos de Proteção Individual e Coletiva necessários às atividades desenvolvidas?",
     axis: "SOCIAL" as Axis,
     category: "Pilar Social",
     type: "ESSENTIAL",
@@ -1417,7 +1417,7 @@ export const oilAndGasDiagnosticQuestions: DiagnosticQuestion[] = [
   },
   {
     number: 27,
-    prompt: "A empresa realiza treinamentos periódicos de saúde, segurança e prevenção de acidentes?",
+    prompt: "Em que nível a empresa incorpora treinamentos de saúde, segurança e prevenção de acidentes às suas práticas de gestão dos trabalhadores?",
     axis: "SOCIAL" as Axis,
     category: "Pilar Social",
     type: "ESSENTIAL",
@@ -1426,7 +1426,7 @@ export const oilAndGasDiagnosticQuestions: DiagnosticQuestion[] = [
   },
   {
     number: 28,
-    prompt: "A empresa possui procedimentos para identificar, avaliar e controlar riscos ocupacionais?",
+    prompt: "Em que nível a empresa identifica, avalia e controla os riscos ocupacionais associados às suas atividades?",
     axis: "SOCIAL" as Axis,
     category: "Pilar Social",
     type: "ESSENTIAL",
@@ -1435,7 +1435,7 @@ export const oilAndGasDiagnosticQuestions: DiagnosticQuestion[] = [
   },
   {
     number: 29,
-    prompt: "A empresa monitora acidentes, incidentes, quase acidentes e outros indicadores de saúde e segurança?",
+    prompt: "Em que nível a empresa realiza o monitoramento e a gestão de acidentes, incidentes, quase acidentes e demais aspectos relacionados à saúde e segurança do trabalho?",
     axis: "SOCIAL" as Axis,
     category: "Pilar Social",
     type: "STRATEGIC",
@@ -1444,7 +1444,7 @@ export const oilAndGasDiagnosticQuestions: DiagnosticQuestion[] = [
   },
   {
     number: 30,
-    prompt: "A empresa possui ações voltadas à promoção da saúde física e prevenção de doenças relacionadas ao trabalho?",
+    prompt: "Em que nível a empresa incorpora práticas de promoção da saúde física e prevenção de doenças relacionadas ao trabalho à sua gestão de pessoas?",
     axis: "SOCIAL" as Axis,
     category: "Pilar Social",
     type: "STRATEGIC",
@@ -1453,7 +1453,7 @@ export const oilAndGasDiagnosticQuestions: DiagnosticQuestion[] = [
   },
   {
     number: 31,
-    prompt: "A empresa considera riscos ergonômicos e psicossociais em suas práticas de gestão de pessoas?",
+    prompt: "Em que nível a empresa identifica, avalia e gerencia riscos ergonômicos e psicossociais relacionados ao trabalho?",
     axis: "SOCIAL" as Axis,
     category: "Pilar Social",
     type: "STRATEGIC",
@@ -1462,7 +1462,7 @@ export const oilAndGasDiagnosticQuestions: DiagnosticQuestion[] = [
   },
   {
     number: 32,
-    prompt: "A empresa promove diversidade e inclusão em seu quadro de colaboradores e em posições de liderança?",
+    prompt: "Em que nível a empresa incorpora práticas de diversidade e inclusão em seu quadro de colaboradores e posições de liderança?",
     axis: "SOCIAL" as Axis,
     category: "Pilar Social",
     type: "DIFFERENTIAL",
@@ -1471,7 +1471,7 @@ export const oilAndGasDiagnosticQuestions: DiagnosticQuestion[] = [
   },
   {
     number: 33,
-    prompt: "A empresa possui políticas ou práticas para prevenir discriminação, assédio e outras formas de violência no ambiente de trabalho?",
+    prompt: "Em que nível a empresa adota práticas de prevenção e enfrentamento à discriminação, ao assédio e a outras formas de violência no ambiente de trabalho?",
     axis: "SOCIAL" as Axis,
     category: "Pilar Social",
     type: "ESSENTIAL",
@@ -1480,7 +1480,7 @@ export const oilAndGasDiagnosticQuestions: DiagnosticQuestion[] = [
   },
   {
     number: 34,
-    prompt: "A empresa estabelece ações, metas ou indicadores relacionados à inclusão de grupos sub-representados?",
+    prompt: "Em que nível a empresa promove a inclusão e a participação de grupos sub-representados em seu ambiente de trabalho?",
     axis: "SOCIAL" as Axis,
     category: "Pilar Social",
     type: "DIFFERENTIAL",
@@ -1489,7 +1489,7 @@ export const oilAndGasDiagnosticQuestions: DiagnosticQuestion[] = [
   },
   {
     number: 35,
-    prompt: "A empresa investe em capacitação e desenvolvimento profissional de seus colaboradores?",
+    prompt: "Em que nível a empresa incorpora capacitação e desenvolvimento profissional às suas práticas de gestão dos trabalhadores?",
     axis: "SOCIAL" as Axis,
     category: "Pilar Social",
     type: "STRATEGIC",
@@ -1498,7 +1498,7 @@ export const oilAndGasDiagnosticQuestions: DiagnosticQuestion[] = [
   },
   {
     number: 36,
-    prompt: "A empresa possui mecanismos para estimular inovação, compartilhamento de conhecimento e desenvolvimento de novas competências?",
+    prompt: "Em que nível a empresa promove o compartilhamento de conhecimento, o desenvolvimento de novas competências e a inovação entre seus trabalhadores?",
     axis: "SOCIAL" as Axis,
     category: "Pilar Social",
     type: "DIFFERENTIAL",
@@ -1507,7 +1507,7 @@ export const oilAndGasDiagnosticQuestions: DiagnosticQuestion[] = [
   },
   {
     number: 37,
-    prompt: "A empresa possui práticas de sucessão, mentoria ou transferência de conhecimento entre profissionais mais experientes e novas gerações?",
+    prompt: "Em que nível a empresa incorpora práticas de sucessão, mentoria e transferência de conhecimento entre profissionais experientes e novas gerações?",
     axis: "SOCIAL" as Axis,
     category: "Pilar Social",
     type: "DIFFERENTIAL",
@@ -1516,7 +1516,7 @@ export const oilAndGasDiagnosticQuestions: DiagnosticQuestion[] = [
   },
   {
     number: 38,
-    prompt: "A empresa identifica e acompanha os impactos sociais de suas operações sobre comunidades, territórios e demais partes interessadas, adotando ações para gerar impactos positivos ou mitigar impactos negativos?",
+    prompt: "Em que nível a empresa identifica, avalia e gerencia os impactos sociais de suas operações sobre comunidades, territórios e demais partes interessadas?",
     axis: "SOCIAL" as Axis,
     category: "Pilar Social",
     type: "STRATEGIC",
@@ -1527,7 +1527,7 @@ export const oilAndGasDiagnosticQuestions: DiagnosticQuestion[] = [
   // EIXO 3 — GOVERNANÇA, ÉTICA E GESTÃO ESG (23 Questões)
   {
     number: 39,
-    prompt: "A empresa mantém sua documentação societária, fiscal, trabalhista, regulatória e operacional atualizada?",
+    prompt: "Em que nível a empresa adota práticas para manter atualizada, organizada e regular sua documentação societária, fiscal, trabalhista, regulatória e operacional?",
     axis: "GOVERNANCE" as Axis,
     category: "Pilar Governança",
     type: "ESSENTIAL",
@@ -1536,7 +1536,7 @@ export const oilAndGasDiagnosticQuestions: DiagnosticQuestion[] = [
   },
   {
     number: 40,
-    prompt: "Existem papéis, responsabilidades e níveis de decisão claramente definidos entre sócios, gestores e colaboradores?",
+    prompt: "Em que nível a empresa possui papéis, responsabilidades e níveis de decisão claramente definidos entre sócios, gestores e colaboradores?",
     axis: "GOVERNANCE" as Axis,
     category: "Pilar Governança",
     type: "STRATEGIC",
@@ -1545,7 +1545,7 @@ export const oilAndGasDiagnosticQuestions: DiagnosticQuestion[] = [
   },
   {
     number: 41,
-    prompt: "A empresa possui processos organizados para gestão de contratos, documentos e obrigações com clientes e fornecedores?",
+    prompt: "Em que nível a empresa adota processos estruturados para gestão de contratos, documentos e obrigações relacionadas a clientes e fornecedores?",
     axis: "GOVERNANCE" as Axis,
     category: "Pilar Governança",
     type: "STRATEGIC",
@@ -1554,7 +1554,7 @@ export const oilAndGasDiagnosticQuestions: DiagnosticQuestion[] = [
   },
   {
     number: 42,
-    prompt: "A empresa possui controles contábeis e financeiros adequados ao porte e à complexidade de suas operações?",
+    prompt: "Em que nível a empresa possui práticas estruturadas de controle contábil e financeiro adequadas ao porte e à complexidade de suas operações?",
     axis: "GOVERNANCE" as Axis,
     category: "Pilar Governança",
     type: "ESSENTIAL",
@@ -1563,7 +1563,7 @@ export const oilAndGasDiagnosticQuestions: DiagnosticQuestion[] = [
   },
   {
     number: 43,
-    prompt: "A empresa possui código de ética, código de conduta ou política equivalente?",
+    prompt: "Em que nível princípios de ética, integridade e conduta estão incorporados às práticas de gestão da empresa?",
     axis: "GOVERNANCE" as Axis,
     category: "Pilar Governança",
     type: "ESSENTIAL",
@@ -1572,7 +1572,7 @@ export const oilAndGasDiagnosticQuestions: DiagnosticQuestion[] = [
   },
   {
     number: 44,
-    prompt: "A empresa possui diretrizes ou controles para prevenção de corrupção, fraude, conflito de interesses e outras práticas ilícitas?",
+    prompt: "Em que nível a empresa adota práticas de prevenção, identificação e tratamento de corrupção, fraude, conflitos de interesses e outras práticas ilícitas?",
     axis: "GOVERNANCE" as Axis,
     category: "Pilar Governança",
     type: "ESSENTIAL",
@@ -1581,7 +1581,7 @@ export const oilAndGasDiagnosticQuestions: DiagnosticQuestion[] = [
   },
   {
     number: 45,
-    prompt: "A empresa possui um canal ou mecanismo para comunicação e tratamento de denúncias, irregularidades ou comportamentos antiéticos?",
+    prompt: "Em que nível a empresa possui mecanismos estruturados para recebimento, tratamento e acompanhamento de denúncias, irregularidades e comportamentos antiéticos?",
     axis: "GOVERNANCE" as Axis,
     category: "Pilar Governança",
     type: "ESSENTIAL",
@@ -1590,7 +1590,7 @@ export const oilAndGasDiagnosticQuestions: DiagnosticQuestion[] = [
   },
   {
     number: 46,
-    prompt: "A empresa realiza treinamentos ou ações de conscientização sobre ética, integridade e conduta?",
+    prompt: "Em que nível a empresa incorpora ações de capacitação e conscientização sobre ética, integridade e conduta em suas práticas de gestão?",
     axis: "GOVERNANCE" as Axis,
     category: "Pilar Governança",
     type: "STRATEGIC",
@@ -1599,7 +1599,7 @@ export const oilAndGasDiagnosticQuestions: DiagnosticQuestion[] = [
   },
   {
     number: 47,
-    prompt: "A empresa possui uma pessoa, equipe ou responsável definido para acompanhar questões ESG, sustentabilidade ou conformidade?",
+    prompt: "Em que nível a empresa possui responsabilidades definidas para gestão e acompanhamento de questões ESG, sustentabilidade e conformidade?",
     axis: "GOVERNANCE" as Axis,
     category: "Pilar Governança",
     type: "STRATEGIC",
@@ -1608,7 +1608,7 @@ export const oilAndGasDiagnosticQuestions: DiagnosticQuestion[] = [
   },
   {
     number: 48,
-    prompt: "A alta liderança participa ou acompanha decisões relacionadas à sustentabilidade, riscos e desempenho ESG?",
+    prompt: "Em que nível a alta liderança participa da tomada de decisões e do acompanhamento de questões relacionadas à sustentabilidade, aos riscos e ao desempenho ESG?",
     axis: "GOVERNANCE" as Axis,
     category: "Pilar Governança",
     type: "ESSENTIAL",
@@ -1617,7 +1617,7 @@ export const oilAndGasDiagnosticQuestions: DiagnosticQuestion[] = [
   },
   {
     number: 49,
-    prompt: "A empresa possui indicadores ou metas para acompanhar seu desempenho ambiental, social e de governança?",
+    prompt: "Em que nível a empresa realiza o acompanhamento sistemático de seu desempenho ambiental, social e de governança?",
     axis: "GOVERNANCE" as Axis,
     category: "Pilar Governança",
     type: "STRATEGIC",
@@ -1626,7 +1626,7 @@ export const oilAndGasDiagnosticQuestions: DiagnosticQuestion[] = [
   },
   {
     number: 50,
-    prompt: "A empresa realiza reuniões ou processos periódicos para analisar resultados, riscos e oportunidades relacionados à sustentabilidade?",
+    prompt: "Em que nível a empresa incorpora a análise periódica de resultados, riscos e oportunidades relacionados à sustentabilidade aos seus processos de gestão e tomada de decisão?",
     axis: "GOVERNANCE" as Axis,
     category: "Pilar Governança",
     type: "STRATEGIC",
@@ -1635,7 +1635,7 @@ export const oilAndGasDiagnosticQuestions: DiagnosticQuestion[] = [
   },
   {
     number: 51,
-    prompt: "A empresa comunica informações relevantes sobre suas práticas ESG aos clientes, colaboradores ou demais partes interessadas?",
+    prompt: "Em que nível a empresa adota práticas de comunicação e transparência sobre suas práticas ESG junto a clientes, colaboradores e demais partes interessadas?",
     axis: "GOVERNANCE" as Axis,
     category: "Pilar Governança",
     type: "DIFFERENTIAL",
@@ -1644,7 +1644,7 @@ export const oilAndGasDiagnosticQuestions: DiagnosticQuestion[] = [
   },
   {
     number: 52,
-    prompt: "A empresa possui processos para coletar, armazenar e atualizar dados ESG de forma organizada e verificável?",
+    prompt: "Em que nível a empresa adota processos estruturados para coleta, armazenamento, controle, atualização e rastreabilidade dos dados ESG?",
     axis: "GOVERNANCE" as Axis,
     category: "Pilar Governança",
     type: "ESSENTIAL",
@@ -1653,7 +1653,7 @@ export const oilAndGasDiagnosticQuestions: DiagnosticQuestion[] = [
   },
   {
     number: 53,
-    prompt: "A empresa consegue disponibilizar evidências e documentos que comprovem as informações ESG declaradas?",
+    prompt: "Em que nível a empresa mantém evidências e documentos que permitem comprovar e verificar as informações ESG declaradas?",
     axis: "GOVERNANCE" as Axis,
     category: "Pilar Governança",
     type: "ESSENTIAL",
@@ -1662,7 +1662,7 @@ export const oilAndGasDiagnosticQuestions: DiagnosticQuestion[] = [
   },
   {
     number: 54,
-    prompt: "A empresa realiza auditorias, verificações internas ou avaliações externas relacionadas à conformidade e sustentabilidade?",
+    prompt: "Em que nível a empresa incorpora auditorias, verificações internas ou avaliações externas para avaliar sua conformidade e seu desempenho em sustentabilidade?",
     axis: "GOVERNANCE" as Axis,
     category: "Pilar Governança",
     type: "DIFFERENTIAL",
@@ -1671,7 +1671,7 @@ export const oilAndGasDiagnosticQuestions: DiagnosticQuestion[] = [
   },
   {
     number: 55,
-    prompt: "A empresa possui critérios para avaliar riscos e requisitos ESG de seus próprios fornecedores e parceiros?",
+    prompt: "Em que nível a empresa incorpora critérios ESG na avaliação e gestão de riscos de seus fornecedores e parceiros?",
     axis: "GOVERNANCE" as Axis,
     category: "Pilar Governança",
     type: "ESSENTIAL",
@@ -1680,7 +1680,7 @@ export const oilAndGasDiagnosticQuestions: DiagnosticQuestion[] = [
   },
   {
     number: 56,
-    prompt: "A empresa realiza algum tipo de due diligence ou verificação de conformidade antes de contratar fornecedores ou parceiros críticos?",
+    prompt: "Em que nível a empresa realiza processos de avaliação prévia e verificação de conformidade de fornecedores e parceiros críticos antes de sua contratação?",
     axis: "GOVERNANCE" as Axis,
     category: "Pilar Governança",
     type: "STRATEGIC",
@@ -1689,7 +1689,7 @@ export const oilAndGasDiagnosticQuestions: DiagnosticQuestion[] = [
   },
   {
     number: 57,
-    prompt: "A empresa consegue identificar riscos ESG relevantes associados aos produtos, serviços ou matérias-primas adquiridos de terceiros?",
+    prompt: "Em que nível a empresa identifica, avalia e gerencia riscos ESG associados aos produtos, serviços e matérias-primas adquiridos de terceiros?",
     axis: "GOVERNANCE" as Axis,
     category: "Pilar Governança",
     type: "STRATEGIC",
@@ -1698,7 +1698,7 @@ export const oilAndGasDiagnosticQuestions: DiagnosticQuestion[] = [
   },
   {
     number: 58,
-    prompt: "A empresa identifica os temas ESG mais relevantes para seu negócio, seus clientes e demais partes interessadas?",
+    prompt: "Em que nível a empresa identifica e avalia os temas ESG mais relevantes para seu negócio, seus clientes e demais partes interessadas?",
     axis: "GOVERNANCE" as Axis,
     category: "Pilar Governança",
     type: "STRATEGIC",
@@ -1707,7 +1707,7 @@ export const oilAndGasDiagnosticQuestions: DiagnosticQuestion[] = [
   },
   {
     number: 59,
-    prompt: "A empresa possui mecanismos para receber, analisar e responder às demandas, reclamações ou expectativas de clientes, comunidades, trabalhadores e outros stakeholders?",
+    prompt: "Em que nível a empresa possui mecanismos estruturados para receber, analisar e responder às demandas, reclamações e expectativas de clientes, comunidades, trabalhadores e demais partes interessadas?",
     axis: "GOVERNANCE" as Axis,
     category: "Pilar Governança",
     type: "STRATEGIC",
@@ -1716,7 +1716,7 @@ export const oilAndGasDiagnosticQuestions: DiagnosticQuestion[] = [
   },
   {
     number: 60,
-    prompt: "A empresa possui políticas ou procedimentos para proteção de dados pessoais e informações confidenciais?",
+    prompt: "Em que nível a empresa adota práticas estruturadas para proteção de dados pessoais e informações comerciais e confidenciais?",
     axis: "GOVERNANCE" as Axis,
     category: "Pilar Governança",
     type: "STRATEGIC",
@@ -1725,7 +1725,7 @@ export const oilAndGasDiagnosticQuestions: DiagnosticQuestion[] = [
   },
   {
     number: 61,
-    prompt: "A empresa possui responsáveis e controles para identificar, avaliar e reduzir riscos relacionados à segurança da informação e à proteção de dados?",
+    prompt: "Em que nível a empresa identifica, avalia e gerencia riscos relacionados à segurança da informação e à proteção de dados?",
     axis: "GOVERNANCE" as Axis,
     category: "Pilar Governança",
     type: "ESSENTIAL",
@@ -1736,7 +1736,7 @@ export const oilAndGasDiagnosticQuestions: DiagnosticQuestion[] = [
   // EIXO 4 — BIOECONOMIA, ECONOMIA CIRCULAR E INOVAÇÃO SUSTENTÁVEL (14 Questões)
   {
     number: 62,
-    prompt: "A empresa avalia os impactos ambientais de seus produtos ou serviços ao longo de seu ciclo de vida?",
+    prompt: "Em que nível a empresa avalia os impactos ambientais de seus produtos ou serviços ao longo de seu ciclo de vida?",
     axis: "BIOECONOMY_CIRCULAR" as Axis,
     category: "Pilar Bioeconomia e Inovação",
     type: "STRATEGIC",
@@ -1745,7 +1745,7 @@ export const oilAndGasDiagnosticQuestions: DiagnosticQuestion[] = [
   },
   {
     number: 63,
-    prompt: "A empresa utiliza informações sobre ciclo de vida para identificar oportunidades de redução de impactos ambientais ou emissões?",
+    prompt: "Em que nível a empresa utiliza informações sobre ciclo de vida para orientar decisões e identificar oportunidades de redução de impactos ambientais e emissões?",
     axis: "BIOECONOMY_CIRCULAR" as Axis,
     category: "Pilar Bioeconomia e Inovação",
     type: "STRATEGIC",
@@ -1754,7 +1754,7 @@ export const oilAndGasDiagnosticQuestions: DiagnosticQuestion[] = [
   },
   {
     number: 64,
-    prompt: "A empresa considera critérios de durabilidade, manutenção, reparabilidade, reutilização ou reciclabilidade no desenvolvimento ou aquisição de produtos e materiais?",
+    prompt: "Em que nível critérios de durabilidade, manutenção, reparabilidade, reutilização e reciclabilidade são incorporados ao desenvolvimento ou à aquisição de produtos e materiais?",
     axis: "BIOECONOMY_CIRCULAR" as Axis,
     category: "Pilar Bioeconomia e Inovação",
     type: "STRATEGIC",
@@ -1763,7 +1763,7 @@ export const oilAndGasDiagnosticQuestions: DiagnosticQuestion[] = [
   },
   {
     number: 65,
-    prompt: "A empresa possui iniciativas para reduzir o consumo de matérias-primas virgens por meio de reutilização, recuperação ou uso de materiais reciclados?",
+    prompt: "Em que nível a empresa incorpora práticas de reutilização, recuperação e utilização de materiais reciclados para reduzir o consumo de matérias-primas virgens?",
     axis: "BIOECONOMY_CIRCULAR" as Axis,
     category: "Pilar Bioeconomia e Inovação",
     type: "ESSENTIAL",
@@ -1772,7 +1772,7 @@ export const oilAndGasDiagnosticQuestions: DiagnosticQuestion[] = [
   },
   {
     number: 66,
-    prompt: "A empresa possui práticas para reaproveitamento, recuperação ou valorização de resíduos e subprodutos gerados em suas operações?",
+    prompt: "Em que nível a empresa incorpora práticas de reaproveitamento, recuperação e valorização de resíduos e subprodutos gerados em suas operações?",
     axis: "BIOECONOMY_CIRCULAR" as Axis,
     category: "Pilar Bioeconomia e Inovação",
     type: "ESSENTIAL",
@@ -1781,7 +1781,7 @@ export const oilAndGasDiagnosticQuestions: DiagnosticQuestion[] = [
   },
   {
     number: 67,
-    prompt: "A empresa possui parcerias com outras empresas ou organizações para reaproveitamento de materiais, resíduos ou subprodutos?",
+    prompt: "Em que nível a empresa desenvolve ou participa de parcerias com outras empresas e organizações para reaproveitamento de materiais, resíduos e subprodutos?",
     axis: "BIOECONOMY_CIRCULAR" as Axis,
     category: "Pilar Bioeconomia e Inovação",
     type: "DIFFERENTIAL",
@@ -1790,7 +1790,7 @@ export const oilAndGasDiagnosticQuestions: DiagnosticQuestion[] = [
   },
   {
     number: 68,
-    prompt: "A empresa possui sistemas ou iniciativas de logística reversa, retorno, recolhimento ou recuperação de produtos e materiais?",
+    prompt: "Em que nível a empresa incorpora práticas de logística reversa, retorno, recolhimento e recuperação de produtos e materiais?",
     axis: "BIOECONOMY_CIRCULAR" as Axis,
     category: "Pilar Bioeconomia e Inovação",
     type: "STRATEGIC",
@@ -1799,7 +1799,7 @@ export const oilAndGasDiagnosticQuestions: DiagnosticQuestion[] = [
   },
   {
     number: 69,
-    prompt: "A empresa utiliza ou avalia o uso de matérias-primas renováveis, de origem biológica sustentável ou provenientes de fontes circulares?",
+    prompt: "Em que nível a empresa incorpora matérias-primas renováveis, de origem biológica sustentável ou provenientes de fontes circulares em suas atividades?",
     axis: "BIOECONOMY_CIRCULAR" as Axis,
     category: "Pilar Bioeconomia e Inovação",
     type: "DIFFERENTIAL",
@@ -1808,7 +1808,7 @@ export const oilAndGasDiagnosticQuestions: DiagnosticQuestion[] = [
   },
   {
     number: 70,
-    prompt: "A empresa investe ou participa de iniciativas para substituir materiais, insumos ou processos de maior impacto por alternativas de menor carbono ou origem renovável?",
+    prompt: "Em que nível a empresa incorpora alternativas de menor intensidade de carbono ou de origem renovável em substituição a materiais, insumos e processos de maior impacto ambiental?",
     axis: "BIOECONOMY_CIRCULAR" as Axis,
     category: "Pilar Bioeconomia e Inovação",
     type: "STRATEGIC",
@@ -1817,7 +1817,7 @@ export const oilAndGasDiagnosticQuestions: DiagnosticQuestion[] = [
   },
   {
     number: 71,
-    prompt: "A empresa desenvolve, utiliza ou comercializa soluções que contribuam para redução da dependência de recursos não renováveis?",
+    prompt: "Em que nível a empresa desenvolve, utiliza ou comercializa soluções que contribuem para reduzir a dependência de recursos não renováveis?",
     axis: "BIOECONOMY_CIRCULAR" as Axis,
     category: "Pilar Bioeconomia e Inovação",
     type: "DIFFERENTIAL",
@@ -1826,7 +1826,7 @@ export const oilAndGasDiagnosticQuestions: DiagnosticQuestion[] = [
   },
   {
     number: 72,
-    prompt: "A empresa investe ou participa de projetos de pesquisa, desenvolvimento e inovação voltados à sustentabilidade, descarbonização ou eficiência de recursos?",
+    prompt: "Em que nível a empresa incorpora pesquisa, desenvolvimento e inovação voltados à sustentabilidade, à descarbonização e à eficiência no uso de recursos em suas atividades?",
     axis: "BIOECONOMY_CIRCULAR" as Axis,
     category: "Pilar Bioeconomia e Inovação",
     type: "DIFFERENTIAL",
@@ -1835,7 +1835,7 @@ export const oilAndGasDiagnosticQuestions: DiagnosticQuestion[] = [
   },
   {
     number: 73,
-    prompt: "A empresa possui parcerias com universidades, centros de pesquisa, startups ou outras organizações para desenvolver soluções sustentáveis?",
+    prompt: "Em que nível a empresa desenvolve parcerias com universidades, centros de pesquisa, startups ou outras organizações para desenvolver soluções sustentáveis?",
     axis: "BIOECONOMY_CIRCULAR" as Axis,
     category: "Pilar Bioeconomia e Inovação",
     type: "DIFFERENTIAL",
@@ -1844,7 +1844,7 @@ export const oilAndGasDiagnosticQuestions: DiagnosticQuestion[] = [
   },
   {
     number: 74,
-    prompt: "A empresa avalia ou mensura os benefícios ambientais, sociais ou econômicos das soluções inovadoras que desenvolve ou utiliza?",
+    prompt: "Em que nível a empresa avalia os benefícios ambientais, sociais e econômicos das soluções inovadoras que desenvolve ou utiliza?",
     axis: "BIOECONOMY_CIRCULAR" as Axis,
     category: "Pilar Bioeconomia e Inovação",
     type: "STRATEGIC",
@@ -1853,7 +1853,7 @@ export const oilAndGasDiagnosticQuestions: DiagnosticQuestion[] = [
   },
   {
     number: 75,
-    prompt: "A empresa consegue demonstrar como seus produtos, serviços ou soluções contribuem para redução de emissões, resíduos, consumo de recursos ou outros impactos ao longo da cadeia de valor de seus clientes?",
+    prompt: "Em que nível a empresa demonstra os benefícios de seus produtos, serviços ou soluções para a redução de emissões, resíduos, consumo de recursos e outros impactos ao longo da cadeia de valor de seus clientes?",
     axis: "BIOECONOMY_CIRCULAR" as Axis,
     category: "Pilar Bioeconomia e Inovação",
     type: "ESSENTIAL",

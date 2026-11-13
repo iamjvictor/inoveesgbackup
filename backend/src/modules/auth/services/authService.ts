@@ -5,6 +5,7 @@ import type { LoginInput, RegisterInput } from "../models/authModel.js";
 import { AuthRepository } from "../repositories/authRepository.js";
 import type { AuthAccessContext } from "../models/accessModel.js";
 import { env } from "../../../config/env.js";
+import { sendEmail } from "../../email/index.js";
 
 const authRepository = new AuthRepository();
 
@@ -43,7 +44,7 @@ export function sanitizeActivity(text?: string | null): string | null {
 }
 
 export class AuthService {
-  private async resolveSessionUser(supabaseUserId: string) {
+  private async resolveSessionUser(supabaseUserId: string, mode: "client" | "admin" = "client") {
     const [user, adminUser] = await Promise.all([
       authRepository.findBySupabaseUserId(supabaseUserId),
       authRepository.findAdminUserBySupabaseUserId(supabaseUserId),
@@ -53,7 +54,7 @@ export class AuthService {
       return null;
     }
 
-    if (!adminUser) {
+    if (!adminUser || mode !== "admin") {
       return user;
     }
 
@@ -64,7 +65,7 @@ export class AuthService {
     };
   }
 
-  private async authenticateWithSupabase(input: LoginInput) {
+  private async authenticateWithSupabase(input: LoginInput, mode: "client" | "admin" = "client") {
     const { data, error } = await supabaseAuthClient.auth.signInWithPassword({
       email: input.email,
       password: input.password,
@@ -78,7 +79,7 @@ export class AuthService {
       throw new Error(error?.message ?? "Invalid credentials");
     }
 
-    const user = await this.resolveSessionUser(data.user.id);
+    const user = await this.resolveSessionUser(data.user.id, mode);
 
     if (!user) {
       throw new Error("Usuário não encontrado");
@@ -196,6 +197,11 @@ export class AuthService {
       organizationId: result.organization.id,
     });
 
+    // Disparo direto do e-mail de boas-vindas reutilizável
+    void sendEmail("WELCOME", result.user.email, {
+      name: result.user.fullName ?? "",
+    });
+
     return {
       accessToken: signInResult.data.session.access_token,
       refreshToken: signInResult.data.session.refresh_token,
@@ -250,7 +256,7 @@ export class AuthService {
       email: input.email,
     });
 
-    const session = await this.authenticateWithSupabase(input);
+    const session = await this.authenticateWithSupabase(input, "admin");
 
     if (session.user?.role !== "ADMIN") {
       throw new Error("Acesso restrito ao painel administrativo");
@@ -263,13 +269,13 @@ export class AuthService {
     };
   }
 
-  async getMe(supabaseUserId: string, forceFresh = false) {
+  async getMe(supabaseUserId: string, forceFresh = false, mode: "client" | "admin" = "client") {
     console.info("[auth.getMe] Fetching profile from database", {
       supabaseUserId,
     });
 
     if (forceFresh) await authRepository.invalidateUserCachesForSupabaseUser(supabaseUserId);
-    const user = await this.resolveSessionUser(supabaseUserId);
+    const user = await this.resolveSessionUser(supabaseUserId, mode);
 
     return user;
   }

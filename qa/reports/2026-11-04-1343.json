@@ -1,0 +1,182 @@
+{
+  "round_id": "20261104-r4",
+  "started_at": "2026-11-04T13:30:00-03:00",
+  "finished_at": "2026-11-04T13:43:34-03:00",
+  "timezone": "America/Sao_Paulo",
+  "environment": {
+    "frontend": "http://localhost:3000; HTTP 200",
+    "backend": "http://localhost:4000/api/health; HTTP 200",
+    "qa_backend": "http://localhost:4001; started temporarily with local FRONTEND_URL/BACKEND_URL and email disabled, then stopped",
+    "database": "remote Supabase test project; status confirmed by owner; hostname redacted",
+    "supabase": "remote Supabase test project; status confirmed by owner; hostname redacted",
+    "mercado_pago": "test seller identity confirmed by authenticated GET /users/me; test_user tag and generated test nickname pattern present; raw response/account identifiers excluded",
+    "browser": "Playwright 1.64.1 with headless Chromium; screenshots under qa/artifacts/20261104-r4",
+    "load_test": "not run"
+  },
+  "scenarios": [
+    {
+      "id": "AC-001",
+      "name": "Homepage and local service health",
+      "status": "PASS",
+      "result": "Frontend returned HTTP 200. Backend /api/health returned HTTP 200. Existing services were not restarted."
+    },
+    {
+      "id": "AC-002",
+      "name": "Signup empty/step validation",
+      "status": "PASS",
+      "result": "Empty step was blocked; synthetic valid CPF and CNPJ advanced through respondent, company, and ESG profile steps. Final form enabled submit."
+    },
+    {
+      "id": "AC-003",
+      "name": "Synthetic signup submit",
+      "status": "FAIL",
+      "result": "POST /api/auth/register returned HTTP 500 after 4.4 s. Prisma reports public.email_outbox missing. Supabase Auth user creation was followed by a delete attempt. Subsequent login returned HTTP 401. No migration applied."
+    },
+    {
+      "id": "AC-004",
+      "name": "Invalid login",
+      "status": "PASS",
+      "result": "Synthetic non-existent credentials returned HTTP 401 from local backend in about 3 s end-to-end; UI showed an invalid-credentials message; no session."
+    },
+    {
+      "id": "AC-005",
+      "name": "Login after signup attempt",
+      "status": "BLOCKED",
+      "result": "The signup failed before local persistence; subsequent login for the synthetic account returned HTTP 401. Successful login/session/logout scenarios were unavailable."
+    },
+    {
+      "id": "AC-006",
+      "name": "Unauthenticated app checkout route",
+      "status": "PASS",
+      "result": "POST /api/checkout/preference without token returned HTTP 401 in 80 ms; no application order was created."
+    },
+    {
+      "id": "AC-007",
+      "name": "Mercado Pago test seller identity",
+      "status": "PASS",
+      "result": "Authenticated GET /users/me returned HTTP 200. Response had a test_user tag and generated test nickname pattern. No account identifiers or raw response were saved."
+    },
+    {
+      "id": "AC-008",
+      "name": "Provider sandbox preference creation",
+      "status": "PASS",
+      "result": "Two provider-only synthetic preferences returned HTTP 201 using the verified test seller. Response included init_point and sandbox_init_point. Only the sandbox URL was opened; no notification_url was configured. No payment was submitted."
+    },
+    {
+      "id": "AC-009",
+      "name": "Opening sandbox checkout",
+      "status": "FAIL",
+      "result": "Chromium navigated to https://sandbox.mercadopago.com.br/checkout/v1/redirect and received HTTP 403 with a provider error page. The address was verified as sandbox; no payment form was submitted."
+    },
+    {
+      "id": "AC-010",
+      "name": "Application order creation and checkout return",
+      "status": "BLOCKED",
+      "result": "App order creation requires an authenticated account; signup failed. Direct visits to success/failure return routes redirected to the login modal. No purchase status transition or successful return was exercised."
+    },
+    {
+      "id": "AC-011",
+      "name": "Webhook invalid signature",
+      "status": "FAIL",
+      "result": "Local webhook accepted an unrelated merchant_order event with an invalid synthetic x-signature and returned HTTP 200 ignored. Controller/service inspection shows no x-signature validation. No payment state changed."
+    },
+    {
+      "id": "AC-012",
+      "name": "Webhook payment event missing id",
+      "status": "PASS",
+      "result": "Local payment event without paymentId returned HTTP 400 in 5 ms before any provider lookup."
+    },
+    {
+      "id": "AC-013",
+      "name": "Webhook payment state transitions",
+      "status": "BLOCKED",
+      "result": "No app order or payment exists and checkout could not load (HTTP 403); approved/rejected/pending webhook transitions were not sent."
+    }
+  ],
+  "bugs": [
+    {
+      "id": "BUG-001",
+      "severity": "high",
+      "category": "environment/schema mismatch",
+      "title": "Cadastro always fails when email_outbox table is absent",
+      "reproduction": "Submit a valid synthetic registration to local backend; request returns 500. Backend log says public.email_outbox does not exist. Auth user is then deleted. See qa/artifacts/20261104-r4/registration-blocker.txt.",
+      "evidence": [
+        "qa/artifacts/20261104-r4/signup-result.png",
+        "qa/artifacts/20261104-r4/login-after-signup.png"
+      ]
+    },
+    {
+      "id": "BUG-002",
+      "severity": "high",
+      "category": "webhook security",
+      "title": "Webhook does not validate x-signature",
+      "reproduction": "POST an unrelated event to local /api/webhooks/mercadopago with x-signature=invalid-test-signature; response is 200 received/ignored. Source path: backend/src/modules/webhooks/services/mercadopagoWebhookService.ts and controller.",
+      "evidence": [
+        "qa/artifacts/20261104-r4/local-api-cases.json"
+      ]
+    },
+    {
+      "id": "BUG-003",
+      "severity": "medium",
+      "category": "provider/environment",
+      "title": "Sandbox checkout address returns HTTP 403",
+      "reproduction": "Open the sandbox_init_point returned by the test preference in Chromium; final host/path remain sandbox.mercadopago.com.br/checkout/v1/redirect and provider returns 403 page.",
+      "evidence": [
+        "qa/artifacts/20261104-r4/checkout-sandbox.png",
+        "qa/artifacts/20261104-r4/mp-preference-summary.json"
+      ]
+    }
+  ],
+  "blocked_items": [
+    "Successful account creation/login and all authenticated app purchase states are blocked by missing public.email_outbox table. No database migration was run.",
+    "Checkout Pro sandbox page responds 403. No card or payment was submitted.",
+    "No buyer test account was verified for this application; transaction and payment-state tests were therefore not performed.",
+    "Webhook signature invalidity is accepted for ignored events; no payment-changing webhook was tested."
+  ],
+  "synthetic_accounts": [
+    {
+      "identifier": "email masked as qa-***-r4@example.com",
+      "result": "signup attempt failed; temporary Supabase Auth account delete was called; subsequent login returned 401; no password or personal identifiers stored"
+    }
+  ],
+  "artifacts": [
+    "qa/artifacts/20261104-r4/home.png",
+    "qa/artifacts/20261104-r4/login-modal.png",
+    "qa/artifacts/20261104-r4/login-invalid-submit.png",
+    "qa/artifacts/20261104-r4/signup-step1-empty.png",
+    "qa/artifacts/20261104-r4/signup-step1-valid.png",
+    "qa/artifacts/20261104-r4/signup-step2-filled.png",
+    "qa/artifacts/20261104-r4/signup-step3-empty.png",
+    "qa/artifacts/20261104-r4/signup-step4-ready.png",
+    "qa/artifacts/20261104-r4/signup-result.png",
+    "qa/artifacts/20261104-r4/login-after-signup.png",
+    "qa/artifacts/20261104-r4/return-success.png",
+    "qa/artifacts/20261104-r4/return-failure.png",
+    "qa/artifacts/20261104-r4/checkout-sandbox.png",
+    "qa/artifacts/20261104-r4/environment-summary.json",
+    "qa/artifacts/20261104-r4/mp-preference-summary.json",
+    "qa/artifacts/20261104-r4/local-api-cases.json",
+    "qa/artifacts/20261104-r4/return-pages.json",
+    "qa/artifacts/20261104-r4/registration-blocker.txt"
+  ],
+  "improvements": [
+    {
+      "priority": "P1",
+      "item": "Apply and verify the existing additive email_outbox migration in the explicitly test Supabase environment before retesting signup; preserve the current rule that migration application needs explicit authorization."
+    },
+    {
+      "priority": "P1",
+      "item": "Validate Mercado Pago x-signature and request-id before processing any webhook; add local tests for missing/invalid/valid signatures and replay behavior."
+    },
+    {
+      "priority": "P2",
+      "item": "Investigate the provider 403 for the verified sandbox_init_point and test seller preference; retain the provider domain/path and sanitized response evidence."
+    }
+  ],
+  "next_actions": [
+    "After migration authorization/application, retry synthetic signup, successful login/logout, authenticated checkout and local return states.",
+    "Resolve sandbox checkout HTTP 403 with Mercado Pago support/configuration or a documented provider-side setting, then verify buyer test account before any payment submission.",
+    "Retest signature verification against localhost only after implementation; do not use the public ngrok notification URL in test preferences.",
+    "Revisit pending/approved/rejected app order transitions and local webhook fixtures once signup and test checkout are available."
+  ]
+}

@@ -1,0 +1,129 @@
+{
+  "round_id": "diagnostico-protecao-tablet-20261105",
+  "environment": {
+    "frontend": "localhost:3000",
+    "backend": "localhost:4000",
+    "health": 200
+  },
+  "scenarios": [
+    {
+      "id": "QA-001",
+      "status": "PASS",
+      "summary": "Bioimpacto COMPLETED exibiu 75/75, 93%; GET current 200.",
+      "artifact": "qa/artifacts/diagnostic-fix-20261105/diagnostico-desktop.png"
+    },
+    {
+      "id": "QA-002",
+      "status": "PASS",
+      "summary": "Rota preencher direta redirecionou à visão; sem POST start/submit.",
+      "artifact": "qa/artifacts/diagnostic-fix-20261105/preencher-direto.png"
+    },
+    {
+      "id": "QA-003",
+      "status": "PASS_PARTIAL",
+      "summary": "Desktop cards e banner cabem.",
+      "artifact": "qa/artifacts/diagnostic-fix-20261105/diagnostico-desktop.png"
+    },
+    {
+      "id": "QA-004",
+      "status": "PASS",
+      "summary": "Reteste após ajuste: botão PDF x=353..688, banner x=320..721, cards inteiros no viewport 768×1024; scrollWidth=753.",
+      "artifact": "qa/artifacts/diagnostic-fix-20261105/diagnostico-tablet-retest-20261105.png"
+    },
+    {
+      "id": "QA-005",
+      "status": "PASS",
+      "summary": "Reteste: botão PDF x=41..334 e conteúdo x=16..359 em 390×844, sem corte; scrollWidth=375.",
+      "artifact": "qa/artifacts/diagnostic-fix-20261105/diagnostico-mobile-retest-20261105.png"
+    },
+    {
+      "id": "QA-006",
+      "status": "PASS_PERSISTENCE",
+      "summary": "Reenvio na UI dos 17 valores já persistidos; finalize=false; hashes SHA-256 antes/depois iguais, status ACTIVE e total 17; sem finalizar diagnóstico.",
+      "artifact": "qa/artifacts/diagnostic-fix-20261105/strategic-save-exact-answers-20261105.json"
+    },
+    {
+      "id": "QA-007",
+      "status": "PASS_UNIT",
+      "summary": "Guarda rejeita edição COMPLETED; não foi feita escrita na conta concluída."
+    },
+    {
+      "id": "QA-008",
+      "status": "PASS_MOCK",
+      "summary": "Serialização save/finalize passa com mock; sem PostgreSQL real."
+    },
+    {
+      "id": "QA-009",
+      "status": "PASS",
+      "summary": "Reteste desktop: botão PDF x=790..1007 e banner x=328..1310 em 1365×900, sem corte.",
+      "artifact": "qa/artifacts/diagnostic-fix-20261105/diagnostico-desktop-retest-20261105.png"
+    },
+    {
+      "id": "QA-010",
+      "status": "PASS_WITH_LATENCY",
+      "summary": "POST submit 200 em 10,732 s; spinner ~10,963 s; refreshProfile e navegação terminaram; reabertura mostrou 0/17.",
+      "artifact": "qa/artifacts/diagnostic-fix-20261105/strategic-save-exact-answers-20261105.json"
+    }
+  ],
+  "bugs": [
+    {
+      "id": "OBS-001",
+      "severity": "MEDIUM",
+      "title": "POST de salvamento do módulo demora 10,7 segundos",
+      "evidence": "qa/artifacts/diagnostic-fix-20261105/strategic-save-exact-answers-20261105.json"
+    },
+    {
+      "id": "BUG-004",
+      "severity": "MEDIUM",
+      "title": "Reabrir módulo ativo mostra 0/17 apesar de 17 respostas persistidas",
+      "file": "frontend/src/app/(app)/app/diagnostico/preencher/page.tsx:122-144",
+      "reproduction": "Conta Estratégica ACTIVE com 17 respostas E. GET /diagnostic/current retornou 17 no _count, sem answer/answerText nos objetos questions; ao abrir /app/diagnostico/preencher?axis=E a UI mostrou 0/17.",
+      "impact": "Usuário pode reescolher respostas e salvar valores que substituem os que já estavam gravados.",
+      "evidence": "qa/artifacts/diagnostic-fix-20261105/strategic-save-exact-answers-20261105.json; qa/artifacts/diagnostic-fix-20261105/strategic-save-form-before-20261105.png"
+    }
+  ],
+  "test_commands": [
+    "backend: npx tsc --noEmit -p tsconfig.json",
+    "backend: npx tsx --test src/modules/diagnostic/services/diagnosticService.test.ts src/modules/diagnostic/services/diagnosticEditGuard.test.ts src/modules/diagnostic/services/diagnosticMutationLock.test.ts src/modules/diagnostic/controllers/diagnosticCurrent.controller.test.ts",
+    "frontend: npx tsc --noEmit",
+    "git diff --check"
+  ],
+  "results": {
+    "backend_tests": "16/16 passed",
+    "backend_typescript": "passed",
+    "frontend_typescript": "passed",
+    "diff_check": "passed"
+  },
+  "blocked_items": [
+    "PostgreSQL advisory lock not tested against real PostgreSQL",
+    "UI do módulo ativo permaneceu com spinner visual após persistência confirmada",
+    "Advisory lock sem teste PostgreSQL real; spinner não trava, mas POST demora 10,732 s."
+  ],
+  "accounts": {
+    "bioimpacto": "diagnosis preserved: COMPLETED 75 responses",
+    "strategic": "module E persisted as 17 responses; status ACTIVE; not finalized"
+  },
+  "retest_at": "2026-11-05T12:54:04.822Z",
+  "retest_measurements": "qa/artifacts/diagnostic-fix-20261105/tablet-retest-20261105.json",
+  "save_measurement": {
+    "account": "synthetic QA strategic",
+    "diagnosticStatusBeforeAndAfter": "ACTIVE",
+    "responsesBeforeAndAfter": 17,
+    "exactValuesUnchanged": true,
+    "finalized": false,
+    "submitResponse": {
+      "status": 200,
+      "seconds": 10.732,
+      "savedOnly": true
+    },
+    "spinnerSeconds": 10.963,
+    "refreshProfile": {
+      "startedSecondsAfterSubmitResponse": 0.003,
+      "meAccessSeconds": 0.004,
+      "meSeconds": 0.202
+    },
+    "navigationSecondsFromClick": 11,
+    "initialUiProgress": "0/17",
+    "artifact": "qa/artifacts/diagnostic-fix-20261105/strategic-save-exact-answers-20261105.json"
+  }
+}

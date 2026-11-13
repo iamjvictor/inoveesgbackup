@@ -1,0 +1,319 @@
+{
+  "selected_service": "Diagnóstico Autodeclarável",
+  "displayed_price": "R$ 250,00",
+  "detail_text": "dúvidas.\nSERVIÇO AUTODECLARÁVEL\nPré-Diagnóstico ESG Autodeclarável\n\nAvaliação ágil, objetiva e 100% autodeclarável para mapear a maturidade da sua empresa sem a burocracia de upload de evidências nesta etapa.\n\nCOMO FUNCIONA E O QUE ESTÁ INCLUSO\nRelatório Automático de Maturidade\n\nDiagnóstico visual e objetivo com sua classificação de maturidade nas dimensões Ambiental, Social e Governança.\n\nROTEIRO DO PROCESSO (PASSO A PASSO)\n1\nContratação Segura\n\nVocê confirma a contratação via checkout com liberação imediata na sua conta.\n\n2\nResposta ao Formulário\n\nResponda ao questionário autodeclarável no painel, no seu próprio ritmo.\n\n3\nApuração Automatizada\n\nO sistema calcula a pontuação com base nos pesos específicos das perguntas.\n\n4\nEntrega do Diagnóstico\n\nVisualização do nível de maturidade na tela e recebimento por e-mail com contato InoveESG.\n\nDados protegidos sob sigilo e conformidade com a LGPD\nCheckout seguro via Mercado Pago\nINVESTIMENTO:\nR$ 250,00\n(pagamento único)\nVoltar\nComprar Agora",
+  "modal_price": "INVESTIMENTO:\nR$ 250,00\n(pagamento único)\nVoltar\nComp",
+  "click_elapsed_ms": 15131,
+  "final_url": "https://sandbox.mercadopago.com.br/checkout/v1/redirect",
+  "final_host": "sandbox.mercadopago.com.br",
+  "final_text": "Mercado Libre - Donde comprar y vender de todo\n\n\nHubo un error accediendo a esta pagina...\nIr a la página principal",
+  "events": [
+    {
+      "type": "navigation",
+      "url": "http://localhost:3000/",
+      "at": -6091
+    },
+    {
+      "type": "navigation",
+      "url": "http://localhost:3000/",
+      "at": -5461
+    },
+    {
+      "type": "request",
+      "method": "POST",
+      "path": "/api/auth/login",
+      "body": {
+        "fields": []
+      },
+      "at": -4929
+    },
+    {
+      "type": "response",
+      "method": "POST",
+      "path": "/api/auth/login",
+      "status": 200,
+      "elapsed_ms": 1203,
+      "data": {},
+      "at": -3726
+    },
+    {
+      "type": "navigation",
+      "url": "http://localhost:3000/app",
+      "at": -3659
+    },
+    {
+      "type": "request",
+      "method": "GET",
+      "path": "/api/auth/me",
+      "body": {
+        "fields": []
+      },
+      "at": -3623
+    },
+    {
+      "type": "request",
+      "method": "GET",
+      "path": "/api/auth/me/access",
+      "body": {
+        "fields": []
+      },
+      "at": -3622
+    },
+    {
+      "type": "request",
+      "method": "GET",
+      "path": "/api/auth/me",
+      "body": {
+        "fields": []
+      },
+      "at": -3621
+    },
+    {
+      "type": "request",
+      "method": "GET",
+      "path": "/api/auth/me/access",
+      "body": {
+        "fields": []
+      },
+      "at": -3621
+    },
+    {
+      "type": "response",
+      "method": "GET",
+      "path": "/api/auth/me/access",
+      "status": 200,
+      "elapsed_ms": 609,
+      "data": {},
+      "at": -3013
+    },
+    {
+      "type": "response",
+      "method": "GET",
+      "path": "/api/auth/me/access",
+      "status": 200,
+      "elapsed_ms": 610,
+      "data": {},
+      "at": -3011
+    },
+    {
+      "type": "response",
+      "method": "GET",
+      "path": "/api/auth/me",
+      "status": 200,
+      "elapsed_ms": 858,
+      "data": {
+        "status": "ACTIVE"
+      },
+      "at": -2765
+    },
+    {
+      "type": "request",
+      "method": "GET",
+      "path": "/api/diagnostic/current",
+      "body": {
+        "fields": []
+      },
+      "at": -2747
+    },
+    {
+      "type": "request",
+      "method": "GET",
+      "path": "/api/diagnostic/current",
+      "body": {
+        "fields": []
+      },
+      "at": -2718
+    },
+    {
+      "type": "navigation",
+      "url": "http://localhost:3000/app/upgrade",
+      "at": -2652
+    },
+    {
+      "type": "request",
+      "method": "GET",
+      "path": "/api/checkout/catalog-prices",
+      "body": {
+        "fields": []
+      },
+      "at": -2603
+    },
+    {
+      "type": "request",
+      "method": "GET",
+      "path": "/api/checkout/catalog-prices",
+      "body": {
+        "fields": []
+      },
+      "at": -2602
+    },
+    {
+      "type": "response",
+      "method": "GET",
+      "path": "/api/auth/me",
+      "status": 200,
+      "elapsed_ms": 1076,
+      "data": {
+        "status": "ACTIVE"
+      },
+      "at": -2545
+    },
+    {
+      "type": "response",
+      "method": "GET",
+      "path": "/api/checkout/catalog-prices",
+      "status": 200,
+      "elapsed_ms": 377,
+      "data": {},
+      "at": -2226
+    },
+    {
+      "type": "request",
+      "method": "GET",
+      "path": "/api/budget",
+      "body": {
+        "fields": []
+      },
+      "at": -2161
+    },
+    {
+      "type": "request",
+      "method": "GET",
+      "path": "/api/budget",
+      "body": {
+        "fields": []
+      },
+      "at": -2158
+    },
+    {
+      "type": "response",
+      "method": "GET",
+      "path": "/api/diagnostic/current",
+      "status": 200,
+      "elapsed_ms": 589,
+      "data": {},
+      "at": -2158
+    },
+    {
+      "type": "response",
+      "method": "GET",
+      "path": "/api/diagnostic/current",
+      "status": 200,
+      "elapsed_ms": 561,
+      "data": {},
+      "at": -2157
+    },
+    {
+      "type": "navigation",
+      "url": "http://localhost:3000/app/upgrade",
+      "at": -1849
+    },
+    {
+      "type": "navigation",
+      "url": "http://localhost:3000/app/upgrade",
+      "at": -1740
+    },
+    {
+      "type": "request",
+      "method": "GET",
+      "path": "/api/auth/me",
+      "body": {
+        "fields": []
+      },
+      "at": -1735
+    },
+    {
+      "type": "request",
+      "method": "GET",
+      "path": "/api/auth/me/access",
+      "body": {
+        "fields": []
+      },
+      "at": -1735
+    },
+    {
+      "type": "response",
+      "method": "GET",
+      "path": "/api/auth/me/access",
+      "status": 200,
+      "elapsed_ms": 4,
+      "data": {},
+      "at": -1731
+    },
+    {
+      "type": "response",
+      "method": "GET",
+      "path": "/api/auth/me",
+      "status": 200,
+      "elapsed_ms": 250,
+      "data": {
+        "status": "ACTIVE"
+      },
+      "at": -1485
+    },
+    {
+      "type": "request",
+      "method": "GET",
+      "path": "/api/checkout/catalog-prices",
+      "body": {
+        "fields": []
+      },
+      "at": -1468
+    },
+    {
+      "type": "request",
+      "method": "GET",
+      "path": "/api/checkout/catalog-prices",
+      "body": {
+        "fields": []
+      },
+      "at": -1453
+    },
+    {
+      "type": "response",
+      "method": "GET",
+      "path": "/api/checkout/catalog-prices",
+      "status": 200,
+      "elapsed_ms": 381,
+      "data": {},
+      "at": -1087
+    },
+    {
+      "type": "response",
+      "method": "GET",
+      "path": "/api/checkout/catalog-prices",
+      "status": 200,
+      "elapsed_ms": 773,
+      "data": {},
+      "at": -680
+    },
+    {
+      "type": "request",
+      "method": "POST",
+      "path": "/api/checkout/preference",
+      "body": {
+        "productCode": "PRE_DIAGNOSTIC",
+        "quantity": 1,
+        "fields": [
+          "productCode",
+          "quantity"
+        ]
+      },
+      "at": 50
+    },
+    {
+      "type": "navigation",
+      "url": "https://sandbox.mercadopago.com.br/checkout/v1/redirect",
+      "at": 4995
+    },
+    {
+      "type": "response",
+      "method": "POST",
+      "path": "/api/checkout/preference",
+      "status": 201,
+      "elapsed_ms": 4951,
+      "data": {},
+      "at": 5001
+    }
+  ]
+}

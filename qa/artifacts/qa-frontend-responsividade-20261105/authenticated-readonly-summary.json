@@ -1,0 +1,612 @@
+{
+  "results": [
+    {
+      "viewport": "desktop",
+      "loginState": {
+        "url": "/app",
+        "modal": false,
+        "text": "Área da Empresa\nPainel\nMeus Serviços\nDiagnóstico\nEvidências\nCadeia\nResultados\nRanking\nQB\n\nQA Bioimpacto Sintético\n\nQA Bioimpacto\n\nSair\nOlá, QA! 👋"
+      },
+      "viewports": [
+        {
+          "path": "/app",
+          "title": "Inove ESG",
+          "width": 1365,
+          "docWidth": 1350,
+          "bodyWidth": 1350,
+          "loading": false,
+          "text": "Área da Empresa\nPainel\nMeus Serviços\nDiagnóstico\nEvidências\nCadeia\nResultados\nRanking\nQB\n\nQA Bioimpacto Sintético\n\nQA Bioimpacto\n\nSair\nOlá, QA! 👋"
+        },
+        {
+          "path": "/app/meus-servicos",
+          "title": "Inove ESG",
+          "width": 1365,
+          "docWidth": 1350,
+          "bodyWidth": 1350,
+          "loading": true,
+          "text": "Área da Empresa\nPainel\nMeus Serviços\nDiagnóstico\nEvidências\nCadeia\nResultados\nRanking\nQB\n\nQA Bioimpacto Sintético\n\nQA Bioimpacto\n\nSair\nECOSSISTEMA INOVEESG\nMeus Serviços\n\nGerencie seus serviços contratados, materiais adicionais e solicitações de propostas.\n\nAd"
+        },
+        {
+          "path": "/app/diagnostico",
+          "title": "Inove ESG",
+          "width": 1365,
+          "docWidth": 1350,
+          "bodyWidth": 1350,
+          "loading": true,
+          "text": "Carregando seu perfil..."
+        },
+        {
+          "path": "/app/evidencias",
+          "title": "Inove ESG",
+          "width": 1365,
+          "docWidth": 1350,
+          "bodyWidth": 1350,
+          "loading": false,
+          "text": "Área da Empresa\nPainel\nMeus Serviços\nDiagnóstico\nEvidências\nCadeia\nResultados\nRanking\nQB\n\nQA Bioimpacto Sintético\n\nQA Bioimpacto\n\nSair\n\nDESEMPENHO COMPROVADO\n\nPontuação calculada a partir das evidências aprovadas.\n\nICEB\n\n0/100\n\nNÍVEL ATUAL\n\nNível 1 · Elementar"
+        },
+        {
+          "path": "/app/resultados",
+          "title": "Inove ESG",
+          "width": 1365,
+          "docWidth": 1350,
+          "bodyWidth": 1350,
+          "loading": false,
+          "text": "Área da Empresa\nPainel\nMeus Serviços\nDiagnóstico\nEvidências\nCadeia\nResultados\nRanking\nQB\n\nQA Bioimpacto Sintético\n\nQA Bioimpacto\n\nSair"
+        }
+      ],
+      "errors": [],
+      "network": [
+        {
+          "method": "POST",
+          "path": "/api/auth/login",
+          "status": 200,
+          "durationMs": 856
+        },
+        {
+          "method": "GET",
+          "path": "/api/auth/me/access",
+          "status": 200,
+          "durationMs": 627
+        },
+        {
+          "method": "GET",
+          "path": "/api/auth/me/access",
+          "status": 200,
+          "durationMs": 624
+        },
+        {
+          "method": "GET",
+          "path": "/api/auth/me",
+          "status": 200,
+          "durationMs": 822
+        },
+        {
+          "method": "GET",
+          "path": "/api/auth/me",
+          "status": 200,
+          "durationMs": 1010
+        },
+        {
+          "method": "GET",
+          "path": "/api/auth/me/access",
+          "status": 200,
+          "durationMs": 5
+        },
+        {
+          "method": "GET",
+          "path": "/api/auth/me",
+          "status": 200,
+          "durationMs": 193
+        },
+        {
+          "method": "GET",
+          "path": "/api/diagnostic/current",
+          "status": 200,
+          "durationMs": 1339
+        },
+        {
+          "method": "GET",
+          "path": "/api/auth/me/access",
+          "status": 200,
+          "durationMs": 5
+        },
+        {
+          "method": "GET",
+          "path": "/api/auth/me",
+          "status": 200,
+          "durationMs": 385
+        },
+        {
+          "method": "GET",
+          "path": "/api/auth/me/access",
+          "status": 200,
+          "durationMs": 5135
+        },
+        {
+          "method": "GET",
+          "path": "/api/auth/me",
+          "status": 200,
+          "durationMs": 6369
+        },
+        {
+          "method": "GET",
+          "path": "/api/auth/me",
+          "status": 200,
+          "durationMs": 6370
+        },
+        {
+          "method": "GET",
+          "path": "/api/auth/me",
+          "status": 200,
+          "durationMs": 8178
+        },
+        {
+          "method": "GET",
+          "path": "/api/diagnostic/current",
+          "status": 200,
+          "durationMs": 14
+        },
+        {
+          "method": "GET",
+          "path": "/api/diagnostic/current",
+          "status": 200,
+          "durationMs": 28
+        },
+        {
+          "method": "GET",
+          "path": "/api/auth/me",
+          "status": 200,
+          "durationMs": 205
+        },
+        {
+          "method": "GET",
+          "path": "/api/auth/me",
+          "status": 200,
+          "durationMs": 206
+        },
+        {
+          "method": "GET",
+          "path": "/api/auth/me",
+          "status": 200,
+          "durationMs": 201
+        },
+        {
+          "method": "GET",
+          "path": "/api/auth/me",
+          "status": 200,
+          "durationMs": 202
+        },
+        {
+          "method": "GET",
+          "path": "/api/auth/me",
+          "status": 200,
+          "durationMs": 416
+        },
+        {
+          "method": "GET",
+          "path": "/api/auth/me",
+          "status": 200,
+          "durationMs": 417
+        },
+        {
+          "method": "GET",
+          "path": "/api/diagnostic/current",
+          "status": 200,
+          "durationMs": 11
+        },
+        {
+          "method": "GET",
+          "path": "/api/diagnostic/current",
+          "status": 200,
+          "durationMs": 13
+        },
+        {
+          "method": "GET",
+          "path": "/api/diagnostic/current",
+          "status": 200,
+          "durationMs": 11
+        },
+        {
+          "method": "GET",
+          "path": "/api/diagnostic/current",
+          "status": 200,
+          "durationMs": 13
+        },
+        {
+          "method": "GET",
+          "path": "/api/diagnostic/current",
+          "status": 200,
+          "durationMs": 15
+        },
+        {
+          "method": "GET",
+          "path": "/api/diagnostic/current",
+          "status": 200,
+          "durationMs": 17
+        },
+        {
+          "method": "GET",
+          "path": "/api/diagnostic/current",
+          "status": 200,
+          "durationMs": 9
+        },
+        {
+          "method": "GET",
+          "path": "/api/diagnostic/current",
+          "status": 200,
+          "durationMs": 10
+        },
+        {
+          "method": "GET",
+          "path": "/api/auth/me/access",
+          "status": 200,
+          "durationMs": 5
+        },
+        {
+          "method": "GET",
+          "path": "/api/auth/me",
+          "status": 200,
+          "durationMs": 195
+        },
+        {
+          "method": "GET",
+          "path": "/api/diagnostic/current",
+          "status": 200,
+          "durationMs": 10
+        },
+        {
+          "method": "GET",
+          "path": "/api/diagnostic/current",
+          "status": 200,
+          "durationMs": 23
+        },
+        {
+          "method": "GET",
+          "path": "/api/auth/me/access",
+          "status": 200,
+          "durationMs": 5
+        },
+        {
+          "method": "GET",
+          "path": "/api/auth/me",
+          "status": 200,
+          "durationMs": 388
+        },
+        {
+          "method": "GET",
+          "path": "/api/diagnostic/current",
+          "status": 200,
+          "durationMs": 19
+        },
+        {
+          "method": "GET",
+          "path": "/api/diagnostic/current",
+          "status": 200,
+          "durationMs": 24
+        }
+      ]
+    },
+    {
+      "viewport": "tablet",
+      "loginState": {
+        "url": "/?auth=true",
+        "modal": true,
+        "text": "Categorias\nProblema\nFeatures\nProva social\nPlanos\nFAQ\n\nINOVE-ESG\n\nRastreabilidade e Impacto ESG que o Mercado Exige.\n\nDa origem ao produto final, a Inove ESG centraliza processos, f"
+      },
+      "viewports": [],
+      "errors": [],
+      "network": []
+    },
+    {
+      "viewport": "mobile",
+      "loginState": {
+        "url": "/app",
+        "modal": false,
+        "text": "Área da Empresa\nQA Bioimpacto\nÁrea da Empresa\nPainel\nMeus Serviços\nDiagnóstico\nEvidências\nCadeia\nResultados\nRanking\nQB\n\nQA Bioimpacto Sintético\n\nQA Bioimpacto\n\nSair\nOlá, QA! 👋"
+      },
+      "viewports": [
+        {
+          "path": "/app",
+          "title": "Inove ESG",
+          "width": 390,
+          "docWidth": 375,
+          "bodyWidth": 375,
+          "loading": true,
+          "text": "Carregando seu perfil..."
+        },
+        {
+          "path": "/app/meus-servicos",
+          "title": "Inove ESG",
+          "width": 390,
+          "docWidth": 375,
+          "bodyWidth": 375,
+          "loading": true,
+          "text": "Área da Empresa\nQA Bioimpacto\nÁrea da Empresa\nPainel\nMeus Serviços\nDiagnóstico\nEvidências\nCadeia\nResultados\nRanking\nQB\n\nQA Bioimpacto Sintético\n\nQA Bioimpacto\n\nSair\nECOSSISTEMA INOVEESG\nMeus Serviços\n\nGerencie seus serviços contratados, materiais adicionais e "
+        },
+        {
+          "path": "/app/diagnostico",
+          "title": "Inove ESG",
+          "width": 390,
+          "docWidth": 375,
+          "bodyWidth": 375,
+          "loading": true,
+          "text": "Carregando seu perfil..."
+        },
+        {
+          "path": "/app/evidencias",
+          "title": "Inove ESG",
+          "width": 390,
+          "docWidth": 375,
+          "bodyWidth": 375,
+          "loading": false,
+          "text": "Área da Empresa\nQA Bioimpacto\nÁrea da Empresa\nPainel\nMeus Serviços\nDiagnóstico\nEvidências\nCadeia\nResultados\nRanking\nQB\n\nQA Bioimpacto Sintético\n\nQA Bioimpacto\n\nSair\n\nDESEMPENHO COMPROVADO\n\nPontuação calculada a partir das evidências aprovadas.\n\nICEB\n\n0/100\n\nNÍ"
+        },
+        {
+          "path": "/app/resultados",
+          "title": "Inove ESG",
+          "width": 390,
+          "docWidth": 375,
+          "bodyWidth": 375,
+          "loading": false,
+          "text": "Área da Empresa\nQA Bioimpacto\nÁrea da Empresa\nPainel\nMeus Serviços\nDiagnóstico\nEvidências\nCadeia\nResultados\nRanking\nQB\n\nQA Bioimpacto Sintético\n\nQA Bioimpacto\n\nSair"
+        }
+      ],
+      "errors": [],
+      "network": [
+        {
+          "method": "POST",
+          "path": "/api/auth/login",
+          "status": 200,
+          "durationMs": 1127
+        },
+        {
+          "method": "GET",
+          "path": "/api/auth/me/access",
+          "status": 200,
+          "durationMs": 636
+        },
+        {
+          "method": "GET",
+          "path": "/api/auth/me/access",
+          "status": 200,
+          "durationMs": 633
+        },
+        {
+          "method": "GET",
+          "path": "/api/auth/me",
+          "status": 200,
+          "durationMs": 827
+        },
+        {
+          "method": "GET",
+          "path": "/api/diagnostic/current",
+          "status": 200,
+          "durationMs": 14
+        },
+        {
+          "method": "GET",
+          "path": "/api/diagnostic/current",
+          "status": 200,
+          "durationMs": 17
+        },
+        {
+          "method": "GET",
+          "path": "/api/auth/me/access",
+          "status": 200,
+          "durationMs": 5
+        },
+        {
+          "method": "GET",
+          "path": "/api/auth/me",
+          "status": 200,
+          "durationMs": 1539
+        },
+        {
+          "method": "GET",
+          "path": "/api/diagnostic/current",
+          "status": 200,
+          "durationMs": 16
+        },
+        {
+          "method": "GET",
+          "path": "/api/diagnostic/current",
+          "status": 200,
+          "durationMs": 19
+        },
+        {
+          "method": "GET",
+          "path": "/api/auth/me/access",
+          "status": 200,
+          "durationMs": 5
+        },
+        {
+          "method": "GET",
+          "path": "/api/auth/me",
+          "status": 200,
+          "durationMs": 196
+        },
+        {
+          "method": "GET",
+          "path": "/api/invite/stats",
+          "status": 200,
+          "durationMs": 15
+        },
+        {
+          "method": "GET",
+          "path": "/api/invite/stats",
+          "status": 200,
+          "durationMs": 12
+        },
+        {
+          "method": "GET",
+          "path": "/api/auth/me",
+          "status": 200,
+          "durationMs": 7216
+        },
+        {
+          "method": "GET",
+          "path": "/api/auth/me/access",
+          "status": 200,
+          "durationMs": 8056
+        },
+        {
+          "method": "GET",
+          "path": "/api/diagnostic/current",
+          "status": 200,
+          "durationMs": 17
+        },
+        {
+          "method": "GET",
+          "path": "/api/diagnostic/current",
+          "status": 200,
+          "durationMs": 19
+        },
+        {
+          "method": "GET",
+          "path": "/api/auth/me",
+          "status": 200,
+          "durationMs": 6999
+        },
+        {
+          "method": "GET",
+          "path": "/api/auth/me",
+          "status": 200,
+          "durationMs": 7001
+        },
+        {
+          "method": "GET",
+          "path": "/api/auth/me",
+          "status": 200,
+          "durationMs": 220
+        },
+        {
+          "method": "GET",
+          "path": "/api/auth/me",
+          "status": 200,
+          "durationMs": 221
+        },
+        {
+          "method": "GET",
+          "path": "/api/auth/me",
+          "status": 200,
+          "durationMs": 223
+        },
+        {
+          "method": "GET",
+          "path": "/api/auth/me",
+          "status": 200,
+          "durationMs": 225
+        },
+        {
+          "method": "GET",
+          "path": "/api/auth/me",
+          "status": 200,
+          "durationMs": 221
+        },
+        {
+          "method": "GET",
+          "path": "/api/auth/me",
+          "status": 200,
+          "durationMs": 222
+        },
+        {
+          "method": "GET",
+          "path": "/api/diagnostic/current",
+          "status": 200,
+          "durationMs": 12
+        },
+        {
+          "method": "GET",
+          "path": "/api/diagnostic/current",
+          "status": 200,
+          "durationMs": 14
+        },
+        {
+          "method": "GET",
+          "path": "/api/diagnostic/current",
+          "status": 200,
+          "durationMs": 12
+        },
+        {
+          "method": "GET",
+          "path": "/api/diagnostic/current",
+          "status": 200,
+          "durationMs": 13
+        },
+        {
+          "method": "GET",
+          "path": "/api/diagnostic/current",
+          "status": 200,
+          "durationMs": 10
+        },
+        {
+          "method": "GET",
+          "path": "/api/diagnostic/current",
+          "status": 200,
+          "durationMs": 11
+        },
+        {
+          "method": "GET",
+          "path": "/api/diagnostic/current",
+          "status": 200,
+          "durationMs": 11
+        },
+        {
+          "method": "GET",
+          "path": "/api/diagnostic/current",
+          "status": 200,
+          "durationMs": 14
+        },
+        {
+          "method": "GET",
+          "path": "/api/auth/me/access",
+          "status": 200,
+          "durationMs": 5
+        },
+        {
+          "method": "GET",
+          "path": "/api/auth/me",
+          "status": 200,
+          "durationMs": 466
+        },
+        {
+          "method": "GET",
+          "path": "/api/diagnostic/current",
+          "status": 200,
+          "durationMs": 12
+        },
+        {
+          "method": "GET",
+          "path": "/api/diagnostic/current",
+          "status": 200,
+          "durationMs": 17
+        },
+        {
+          "method": "GET",
+          "path": "/api/auth/me/access",
+          "status": 200,
+          "durationMs": 5
+        },
+        {
+          "method": "GET",
+          "path": "/api/auth/me",
+          "status": 200,
+          "durationMs": 421
+        },
+        {
+          "method": "GET",
+          "path": "/api/diagnostic/current",
+          "status": 200,
+          "durationMs": 15
+        },
+        {
+          "method": "GET",
+          "path": "/api/diagnostic/current",
+          "status": 200,
+          "durationMs": 15
+        }
+      ]
+    }
+  ],
+  "blockedWrites": []
+}

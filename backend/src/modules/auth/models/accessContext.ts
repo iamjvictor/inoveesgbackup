@@ -33,7 +33,7 @@ const SERVICE_CATALOG: Record<string, { serviceId: string; name: string; descrip
   },
 };
 
-const EVIDENCE_PRODUCTS = ["ASSESSORIA_EVIDENCIAS", "ASSESSORIA_COMPLETA", "FULL_DIAGNOSTIC", "FULL_DIAGNOSTIC_PLUS"];
+const EVIDENCE_PRODUCTS = ["ASSESSORIA_EVIDENCIAS", "ASSESSORIA_COMPLETA", "FULL_DIAGNOSTIC", "FULL_DIAGNOSTIC_PLUS", "BIOIMPACTO_EMPRESARIAL"];
 
 export function hasEvidenceProductAccess(productCodes: string[]): boolean {
   return productCodes.some((code) =>
@@ -81,7 +81,14 @@ export function buildAuthAccessContext(user: any): AuthAccessContext | null {
     .filter((order: any) => order.status === "PAID")
     .flatMap((order: any) =>
       (order.items ?? [])
-        .filter((item: any) => item?.product?.code)
+        .filter((item: any) => {
+          if (!item?.product?.code) return false;
+          if (item.product.code !== "BIOIMPACTO_EMPRESARIAL") return true;
+          const paidAt = new Date(order.paidAt ?? order.createdAt);
+          const expiresAt = new Date(paidAt);
+          expiresAt.setUTCFullYear(expiresAt.getUTCFullYear() + 1);
+          return Number.isFinite(paidAt.getTime()) && new Date() < expiresAt;
+        })
         .map((item: any) => {
           const service = normalizeService(item.product.code);
           const quantity = Number(item.quantity ?? 1);
@@ -118,6 +125,8 @@ export function buildAuthAccessContext(user: any): AuthAccessContext | null {
     "pre-diag-plus",
     "diag-consultoria",
     "full-diagnostic",
+    "full-diagnostic-plus",
+    "bioimpacto-empresarial",
     "assessoria-completa",
     "assessoria-evidencias",
   ];
@@ -130,13 +139,15 @@ export function buildAuthAccessContext(user: any): AuthAccessContext | null {
     "pre-diag-plus",
     "diag-consultoria",
     "full-diagnostic",
+    "full-diagnostic-plus",
+    "bioimpacto-empresarial",
     "assessoria-completa",
     "assessoria-evidencias",
   ];
 
   const hasPreDiagnosticAccess =
     normalizedCodes.some(code => preDiagnosticProducts.includes(code)) ||
-    (organization.subscriptions?.some((s: any) => s.status === "ACTIVE") ?? false) ||
+    (organization.subscriptions?.some((s: any) => s.status === "ACTIVE" && (!s.endsAt || new Date(s.endsAt) > new Date())) ?? false) ||
     (organization.entitlements?.some((e: any) => e.status === "ACTIVE") ?? false);
 
   return {

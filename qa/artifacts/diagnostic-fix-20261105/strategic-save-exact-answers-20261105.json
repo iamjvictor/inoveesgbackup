@@ -1,0 +1,247 @@
+{
+  "capturedAt": "2026-11-05T13:01:24.928Z",
+  "diagnosticId": "48df6eaa-1c3d-47b5-bf78-583288fed09d",
+  "precondition": {
+    "apiStatus": "ACTIVE",
+    "dbStatus": "ACTIVE",
+    "apiResponseCount": 17,
+    "eResponseCount": 17,
+    "initialUiProgress": "0/17"
+  },
+  "save": {
+    "navigation": true,
+    "finalUrl": "http://localhost:3000/app/diagnostico",
+    "buttonTimeline": [
+      {
+        "atMs": 23,
+        "text": "Salvando..."
+      },
+      {
+        "atMs": 10986,
+        "text": "Finalizar e voltar ao painel"
+      }
+    ],
+    "finalText": "Área da Empresa\nPainel\nMeus Serviços\nDiagnóstico\nEvidências\nCadeia\nResultados\nRanking\nQE\n\nQA Estratégico ESG\n\nQA Estratégico 1793826552956\n\nSair",
+    "apiEvents": [
+      {
+        "kind": "request",
+        "atMs": 19,
+        "method": "POST",
+        "path": "/api/diagnostic/48df6eaa-1c3d-47b5-bf78-583288fed09d/submit"
+      },
+      {
+        "kind": "request",
+        "atMs": 10754,
+        "method": "GET",
+        "path": "/api/auth/me"
+      },
+      {
+        "kind": "request",
+        "atMs": 10754,
+        "method": "GET",
+        "path": "/api/auth/me/access"
+      },
+      {
+        "kind": "response",
+        "atMs": 10751,
+        "status": 200,
+        "method": "POST",
+        "path": "/api/diagnostic/48df6eaa-1c3d-47b5-bf78-583288fed09d/submit",
+        "payload": {
+          "responseCount": 17,
+          "finalize": false,
+          "responsibilityDeclarationAccepted": false,
+          "answerHashes": [
+            {
+              "order": 1,
+              "hash": "5bfeac8991966eae91cca287a4b20d72adef3c2797b183e27719c414d0f86181"
+            },
+            {
+              "order": 2,
+              "hash": "f9997ab9f441b08600ae3a75baff1f721a147f9490ac7f546632081ea7e8b199"
+            },
+            {
+              "order": 3,
+              "hash": "f9997ab9f441b08600ae3a75baff1f721a147f9490ac7f546632081ea7e8b199"
+            },
+            {
+              "order": 4,
+              "hash": "f9997ab9f441b08600ae3a75baff1f721a147f9490ac7f546632081ea7e8b199"
+            },
+            {
+              "order": 5,
+              "hash": "f9997ab9f441b08600ae3a75baff1f721a147f9490ac7f546632081ea7e8b199"
+            },
+            {
+              "order": 6,
+              "hash": "f9997ab9f441b08600ae3a75baff1f721a147f9490ac7f546632081ea7e8b199"
+            },
+            {
+              "order": 7,
+              "hash": "f9997ab9f441b08600ae3a75baff1f721a147f9490ac7f546632081ea7e8b199"
+            },
+            {
+              "order": 8,
+              "hash": "f9997ab9f441b08600ae3a75baff1f721a147f9490ac7f546632081ea7e8b199"
+            },
+            {
+              "order": 9,
+              "hash": "f9997ab9f441b08600ae3a75baff1f721a147f9490ac7f546632081ea7e8b199"
+            },
+            {
+              "order": 10,
+              "hash": "f9997ab9f441b08600ae3a75baff1f721a147f9490ac7f546632081ea7e8b199"
+            },
+            {
+              "order": 11,
+              "hash": "f9997ab9f441b08600ae3a75baff1f721a147f9490ac7f546632081ea7e8b199"
+            },
+            {
+              "order": 12,
+              "hash": "f9997ab9f441b08600ae3a75baff1f721a147f9490ac7f546632081ea7e8b199"
+            },
+            {
+              "order": 13,
+              "hash": "f9997ab9f441b08600ae3a75baff1f721a147f9490ac7f546632081ea7e8b199"
+            },
+            {
+              "order": 14,
+              "hash": "f9997ab9f441b08600ae3a75baff1f721a147f9490ac7f546632081ea7e8b199"
+            },
+            {
+              "order": 15,
+              "hash": "f9997ab9f441b08600ae3a75baff1f721a147f9490ac7f546632081ea7e8b199"
+            },
+            {
+              "order": 16,
+              "hash": "f9997ab9f441b08600ae3a75baff1f721a147f9490ac7f546632081ea7e8b199"
+            },
+            {
+              "order": 17,
+              "hash": "f9997ab9f441b08600ae3a75baff1f721a147f9490ac7f546632081ea7e8b199"
+            }
+          ]
+        },
+        "responseBody": {
+          "success": true,
+          "savedOnly": true
+        }
+      },
+      {
+        "kind": "response",
+        "atMs": 10758,
+        "status": 200,
+        "method": "GET",
+        "path": "/api/auth/me/access"
+      },
+      {
+        "kind": "response",
+        "atMs": 10956,
+        "status": 200,
+        "method": "GET",
+        "path": "/api/auth/me"
+      },
+      {
+        "kind": "request",
+        "atMs": 11046,
+        "method": "GET",
+        "path": "/api/diagnostic/current"
+      },
+      {
+        "kind": "request",
+        "atMs": 11046,
+        "method": "GET",
+        "path": "/api/diagnostic/current"
+      },
+      {
+        "kind": "response",
+        "atMs": 12459,
+        "status": 200,
+        "method": "GET",
+        "path": "/api/diagnostic/current"
+      },
+      {
+        "kind": "response",
+        "atMs": 12461,
+        "status": 200,
+        "method": "GET",
+        "path": "/api/diagnostic/current"
+      }
+    ]
+  },
+  "after": {
+    "status": "ACTIVE",
+    "responseCount": 17,
+    "exactAnswersUnchanged": true,
+    "responseHashes": [
+      {
+        "order": 1,
+        "answerHash": "5bfeac8991966eae91cca287a4b20d72adef3c2797b183e27719c414d0f86181"
+      },
+      {
+        "order": 2,
+        "answerHash": "f9997ab9f441b08600ae3a75baff1f721a147f9490ac7f546632081ea7e8b199"
+      },
+      {
+        "order": 3,
+        "answerHash": "f9997ab9f441b08600ae3a75baff1f721a147f9490ac7f546632081ea7e8b199"
+      },
+      {
+        "order": 4,
+        "answerHash": "f9997ab9f441b08600ae3a75baff1f721a147f9490ac7f546632081ea7e8b199"
+      },
+      {
+        "order": 5,
+        "answerHash": "f9997ab9f441b08600ae3a75baff1f721a147f9490ac7f546632081ea7e8b199"
+      },
+      {
+        "order": 6,
+        "answerHash": "f9997ab9f441b08600ae3a75baff1f721a147f9490ac7f546632081ea7e8b199"
+      },
+      {
+        "order": 7,
+        "answerHash": "f9997ab9f441b08600ae3a75baff1f721a147f9490ac7f546632081ea7e8b199"
+      },
+      {
+        "order": 8,
+        "answerHash": "f9997ab9f441b08600ae3a75baff1f721a147f9490ac7f546632081ea7e8b199"
+      },
+      {
+        "order": 9,
+        "answerHash": "f9997ab9f441b08600ae3a75baff1f721a147f9490ac7f546632081ea7e8b199"
+      },
+      {
+        "order": 10,
+        "answerHash": "f9997ab9f441b08600ae3a75baff1f721a147f9490ac7f546632081ea7e8b199"
+      },
+      {
+        "order": 11,
+        "answerHash": "f9997ab9f441b08600ae3a75baff1f721a147f9490ac7f546632081ea7e8b199"
+      },
+      {
+        "order": 12,
+        "answerHash": "f9997ab9f441b08600ae3a75baff1f721a147f9490ac7f546632081ea7e8b199"
+      },
+      {
+        "order": 13,
+        "answerHash": "f9997ab9f441b08600ae3a75baff1f721a147f9490ac7f546632081ea7e8b199"
+      },
+      {
+        "order": 14,
+        "answerHash": "f9997ab9f441b08600ae3a75baff1f721a147f9490ac7f546632081ea7e8b199"
+      },
+      {
+        "order": 15,
+        "answerHash": "f9997ab9f441b08600ae3a75baff1f721a147f9490ac7f546632081ea7e8b199"
+      },
+      {
+        "order": 16,
+        "answerHash": "f9997ab9f441b08600ae3a75baff1f721a147f9490ac7f546632081ea7e8b199"
+      },
+      {
+        "order": 17,
+        "answerHash": "f9997ab9f441b08600ae3a75baff1f721a147f9490ac7f546632081ea7e8b199"
+      }
+    ]
+  }
+}

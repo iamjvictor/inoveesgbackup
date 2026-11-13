@@ -7,7 +7,7 @@ import { getDiagnosticOverviewViewModel } from "@/features/company-area/controll
 import { DiagnosticOverviewView } from "@/features/company-area/views/pages/diagnostico/diagnostic-overview-view";
 import { DiagnosticStartView } from "@/features/company-area/views/pages/diagnostico/diagnostic-start-view";
 import { useCompany } from "@/features/company-area/context/company-context";
-import { diagnosticService, type DiagnosticCurrentResponse } from "@/features/company-area/services/diagnostic.service";
+import { diagnosticService, type DiagnosticCurrentResponse, type DiagnosticStartQuestion } from "@/features/company-area/services/diagnostic.service";
 import { ApiError } from "@/features/company-area/services/diagnostic.service";
 import { useErrorModal } from "@/components/ui/error-modal-provider";
 
@@ -19,6 +19,7 @@ export default function DiagnosticPage() {
   const { showError } = useErrorModal();
   
   const [dbDiagnostic, setDbDiagnostic] = useState<DiagnosticCurrentResponse["diagnostic"]>(null);
+  const [questions, setQuestions] = useState<DiagnosticStartQuestion[]>([]);
   const [isFetchingDiag, setIsFetchingDiag] = useState(true);
   const [isStarting, setIsStarting] = useState(false);
 
@@ -38,6 +39,9 @@ export default function DiagnosticPage() {
         if (!active) return;
         if (res.hasDiagnostic && res.diagnostic) {
           setDbDiagnostic(res.diagnostic);
+          setQuestions(res.questions ?? []);
+        } else {
+          setQuestions([]);
         }
       } catch (err) {
         console.error("Failed to load current diagnostic:", err);
@@ -96,6 +100,7 @@ export default function DiagnosticPage() {
     const token = "cookie-session";
 
       const session = await diagnosticService.startDiagnostic(token);
+      setQuestions(session.questions);
 
       if (typeof window !== "undefined") {
         window.sessionStorage.setItem(DIAGNOSTIC_START_CACHE_KEY, JSON.stringify(session));
@@ -105,6 +110,7 @@ export default function DiagnosticPage() {
       const res = await diagnosticService.getCurrentDiagnostic(token);
       if (res.hasDiagnostic && res.diagnostic) {
         setDbDiagnostic(res.diagnostic);
+        setQuestions(res.questions ?? session.questions);
       }
     } catch (err) {
       console.error("Failed to start diagnostic:", err);
@@ -134,5 +140,5 @@ export default function DiagnosticPage() {
     );
   }
 
-  return <DiagnosticOverviewView dbDiagnostic={dbDiagnostic} />;
+  return <DiagnosticOverviewView dbDiagnostic={dbDiagnostic} questions={questions} />;
 }

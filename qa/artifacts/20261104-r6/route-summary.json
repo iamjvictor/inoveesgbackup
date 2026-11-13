@@ -1,0 +1,58 @@
+{
+  "round": "20261104-r6",
+  "browser": "Playwright / Chrome",
+  "test_account_authenticated": false,
+  "checkout_or_payment_submitted": false,
+  "external_payment_accessed": false,
+  "results": [
+    {
+      "scenario": "return-success-no-order",
+      "requested_path": "/app/checkout/success",
+      "http_status": 200,
+      "effective_path": "/",
+      "visible_heading": [
+        "Rastreabilidade e Impacto ESG que o Mercado Exige."
+      ],
+      "homepage_visible": true,
+      "screenshot": "qa/artifacts/20261104-r6/return-success-no-order.png"
+    },
+    {
+      "scenario": "return-success-order-lookup",
+      "requested_path": "/app/checkout/success",
+      "http_status": 200,
+      "effective_path": "/",
+      "visible_heading": [
+        "Rastreabilidade e Impacto ESG que o Mercado Exige."
+      ],
+      "homepage_visible": true,
+      "screenshot": "qa/artifacts/20261104-r6/return-success-order-lookup.png"
+    },
+    {
+      "scenario": "return-failure",
+      "requested_path": "/app/checkout/failure",
+      "http_status": 200,
+      "effective_path": "/",
+      "visible_heading": [
+        "Rastreabilidade e Impacto ESG que o Mercado Exige."
+      ],
+      "homepage_visible": true,
+      "screenshot": "qa/artifacts/20261104-r6/return-failure.png"
+    },
+    {
+      "scenario": "dashboard",
+      "requested_path": "/app",
+      "http_status": 200,
+      "effective_path": "/",
+      "visible_heading": [
+        "Rastreabilidade e Impacto ESG que o Mercado Exige."
+      ],
+      "homepage_visible": true,
+      "screenshot": "qa/artifacts/20261104-r6/dashboard.png"
+    }
+  ],
+  "backend": {
+    "health_status": 200,
+    "unauthenticated_order_status": 401
+  },
+  "page_errors": []
+}

@@ -1,0 +1,224 @@
+{
+  "round_id": "20261104-r5",
+  "started_at": "2026-11-04T14:08:52-03:00",
+  "finished_at": "2026-11-04T14:40:08-03:00",
+  "timezone": "America/Sao_Paulo",
+  "environment": {
+    "frontend": "http://localhost:3000; health HTTP 200 after documented restart",
+    "backend": "http://localhost:4000/api/health; HTTP 200 after documented restart",
+    "start_commands": [
+      "backend: FRONTEND_URL=http://localhost:3000 BACKEND_URL=http://localhost:4000 CORS_ORIGIN=http://localhost:3000 npm run dev",
+      "frontend: BACKEND_URL=http://localhost:4000 npm run dev -- --hostname localhost",
+      "isolated UI checkout: backend PORT=4001 FRONTEND_URL=http://localhost:3001 BACKEND_URL=http://localhost:4001 CORS_ORIGIN=http://localhost:3001 npm run dev; frontend BACKEND_URL=http://localhost:4001 NEXT_PUBLIC_API_URL=/api NEXT_PUBLIC_FRONTEND_URL=http://localhost:3001 npm run dev -- --hostname localhost --port 3001"
+    ],
+    "database": "Remote Supabase test project, owner-confirmed; hostname redacted",
+    "email_outbox": "Synthetic WELCOME event persisted with PENDING status, zero attempts; worker not run",
+    "mercado_pago": "Authenticated GET /users/me HTTP 200 indicated test_user tag and test nickname pattern; configured key prefixes classified APP_USR; sandbox flag true; buyer test account not verified",
+    "browser": "Playwright 1.64.1, Chromium headless",
+    "production_calls": false,
+    "migration_applied_by_qa": false,
+    "load_test": "not run",
+    "isolated_ui_checkout_pair": "http://localhost:3001 frontend to localhost:4001 backend; localhost-only back URLs",
+    "qa_owned_processes_stopped_after_round": true,
+    "parallel_qa_processes_modified_or_stopped": false,
+    "concurrent_change_observed": "Backend watch logged a concurrent checkoutService.ts change after the UI checkout attempt while the round was ending. QA made no code changes and did not test the changed process."
+  },
+  "scenarios": [
+    {
+      "id": "AC-001",
+      "name": "Local health and homepage",
+      "status": "PASS",
+      "result": "Frontend and backend health returned HTTP 200; homepage rendered without fatal page error."
+    },
+    {
+      "id": "AC-002",
+      "name": "Synthetic signup and email_outbox persistence",
+      "status": "PASS",
+      "result": "Playwright signup returned HTTP 201 in about 7000 ms and navigated to /app. A read-only check found one WELCOME outbox record with PENDING status and zero attempts. No email worker ran."
+    },
+    {
+      "id": "AC-003",
+      "name": "Successful login, logout and session invalidation",
+      "status": "PASS",
+      "result": "UI login HTTP 200 in about 1415 ms; a further login returned HTTP 200 in 1629 ms; logout HTTP 204 in 10 ms; GET /api/auth/me after logout returned HTTP 401 in 10 ms."
+    },
+    {
+      "id": "AC-004",
+      "name": "Mercado Pago seller test identity",
+      "status": "PASS",
+      "result": "Authenticated GET /users/me returned HTTP 200; test_user tag and test nickname pattern observed. No raw account identifiers or credentials saved."
+    },
+    {
+      "id": "AC-005",
+      "name": "Application checkout preference",
+      "status": "FAIL",
+      "result": "Authenticated browser fetch for PRE_DIAGNOSTIC_PLUS returned HTTP 400 in 5828 ms. Then Playwright selected Pré-Diagnóstico ESG Autodeclarável in /app/upgrade (R$ 250,00, quantity 1), clicked Comprar Agora and submitted PRE_DIAGNOSTIC; HTTP 400 in 5751 ms with auto_return invalid; back_url.success must be defined. Provider sandbox unit price logged as R$ 0.01. No preference/checkout URL; local order/diagnostic records rolled back and post-check counts were zero."
+    },
+    {
+      "id": "AC-006",
+      "name": "Sandbox checkout opening and payment",
+      "status": "BLOCKED",
+      "result": "No sandbox checkout URL was created. The official Checkout Pro test buyer account was not confirmed, so no checkout page was opened and no card/payment was submitted."
+    },
+    {
+      "id": "AC-007",
+      "name": "Official Mercado Pago test card research",
+      "status": "PASS",
+      "result": "Reviewed current official Checkout Pro test card and holder-result table, including APRO, OTHE, CONT, SECU and EXPI. Card numbers were neither saved nor submitted."
+    },
+    {
+      "id": "AC-008",
+      "name": "Success and failure return routes",
+      "status": "FAIL",
+      "result": "Without a preference or transaction, /app/checkout/success returned HTTP 200 and displayed payment approved; /app/checkout/failure returned HTTP 200 and displayed payment rejected. Success navigation also logged Maximum update depth exceeded at frontend/src/features/company-area/context/cart-context.tsx:45. No remote payment state changed."
+    },
+    {
+      "id": "AC-009",
+      "name": "Email delivery",
+      "status": "BLOCKED",
+      "result": "WELCOME outbox status remained PENDING with zero attempts; no worker or email delivery was exercised."
+    },
+    {
+      "id": "AC-010",
+      "name": "Webhook scenarios",
+      "status": "BLOCKED",
+      "result": "Not tested while another agent works on webhook files; QA did not edit those files."
+    },
+    {
+      "id": "AC-011",
+      "name": "Production, migrations and load constraints",
+      "status": "PASS",
+      "result": "No production calls, migrations, load tests, payment submissions or payment-changing webhook calls were made."
+    },
+    {
+      "id": "AC-012",
+      "name": "UI signup validation",
+      "status": "PASS",
+      "result": "Empty step blocks advance; invalid synthetic CPF shows a visible error and keeps advance disabled. No registration was submitted in this validation scenario."
+    },
+    {
+      "id": "AC-013",
+      "name": "Keyboard focus in login modal",
+      "status": "FAIL",
+      "result": "With the modal open, the first Tab moved focus to an anchor outside the modal."
+    },
+    {
+      "id": "AC-014",
+      "name": "Mobile layout and FAQ",
+      "status": "PASS",
+      "result": "At 375 px viewport, document/body scroll width measured 360 px with no horizontal overflow; FAQ expanded and answer was visible."
+    }
+  ],
+  "bugs": [
+    {
+      "id": "BUG-R5-001",
+      "severity": "medium",
+      "category": "checkout configuration/environment",
+      "title": "Checkout Pro preference rejected with localhost return URLs",
+      "reproduction": "Log in as the synthetic account and POST PRE_DIAGNOSTIC_PLUS to /api/checkout/preference. Backend builds local back_urls; Mercado Pago responds HTTP 400 auto_return invalid/back_url.success must be defined; pending database records are rolled back.",
+      "hypothesis": "The provider requires public HTTPS/named-domain back_urls and rejects localhost, as stated in its official documentation.",
+      "evidence": [
+        "qa/artifacts/20261104-r5/checkout-attempt.json"
+      ],
+      "payment_submitted": false
+    },
+    {
+      "id": "BUG-R5-002",
+      "severity": "medium",
+      "category": "payment return validation",
+      "title": "Success route displays approved payment without validating a transaction",
+      "reproduction": "With the synthetic test user authenticated and no checkout preference/payment, visit /app/checkout/success; UI displays Pagamento Confirmado and Aprovado.",
+      "evidence": [
+        "qa/artifacts/20261104-r5/return-success.png",
+        "qa/artifacts/20261104-r5/return-summary.json"
+      ],
+      "remote_entitlements_changed": false
+    },
+    {
+      "id": "BUG-R5-003",
+      "severity": "high",
+      "category": "frontend runtime",
+      "title": "Checkout success return triggers Maximum update depth exceeded",
+      "reproduction": "Visit /app/checkout/success while authenticated. The Next.js dev runtime logs Maximum update depth exceeded and points to cart-context.tsx:45.",
+      "hypothesis": "clearCart has unstable identity and sets a fresh empty array in an effect depending on clearCart, repeating the render/effect cycle.",
+      "evidence": [
+        "qa/artifacts/20261104-r5/return-summary.json",
+        "qa/artifacts/20261104-r5/return-success.png"
+      ]
+    },
+    {
+      "id": "BUG-R5-004",
+      "severity": "low",
+      "category": "accessibility",
+      "title": "First keyboard Tab escapes the login modal",
+      "reproduction": "Open /?auth=true and press Tab once; focus moves to an anchor outside the modal.",
+      "evidence": [
+        "qa/artifacts/20261104-r5/login-modal-tab-focus.png",
+        "qa/artifacts/20261104-r5/ui-validation.json"
+      ]
+    }
+  ],
+  "blocked_items": [
+    "No checkout preference/init_point was produced because Mercado Pago rejected localhost return URLs; an authorized HTTPS test domain or tunnel is needed.",
+    "No payment was submitted because the Checkout Pro buyer test account was not confirmed, even though the seller identity was confirmed as a test user.",
+    "Email delivery was not tested; the outbox item is pending and no worker was started.",
+    "Webhook scenarios were deferred while the parallel webhook agent is modifying those files."
+  ],
+  "synthetic_accounts": [
+    {
+      "identifier": "qa-***@example.net",
+      "result": "One synthetic test account created successfully; password and full identifiers not recorded."
+    }
+  ],
+  "artifacts": [
+    "qa/artifacts/20261104-r5/home.png",
+    "qa/artifacts/20261104-r5/signup-step1.png",
+    "qa/artifacts/20261104-r5/signup-step2.png",
+    "qa/artifacts/20261104-r5/signup-step4-ready.png",
+    "qa/artifacts/20261104-r5/signup-result.png",
+    "qa/artifacts/20261104-r5/login-success.png",
+    "qa/artifacts/20261104-r5/return-success.png",
+    "qa/artifacts/20261104-r5/return-failure.png",
+    "qa/artifacts/20261104-r5/environment-summary.json",
+    "qa/artifacts/20261104-r5/session-cycle.json",
+    "qa/artifacts/20261104-r5/checkout-attempt.json",
+    "qa/artifacts/20261104-r5/return-summary.json",
+    "qa/artifacts/20261104-r5/provider-test-identity.json",
+    "qa/artifacts/20261104-r5/checkout-service-selected.png",
+    "qa/artifacts/20261104-r5/checkout-ui-result.png",
+    "qa/artifacts/20261104-r5/signup-empty-validation.png",
+    "qa/artifacts/20261104-r5/signup-invalid-cpf.png",
+    "qa/artifacts/20261104-r5/login-modal-tab-focus.png",
+    "qa/artifacts/20261104-r5/mobile-faq.png",
+    "qa/artifacts/20261104-r5/ui-validation.json"
+  ],
+  "improvements": [
+    {
+      "priority": "P1",
+      "item": "Use an explicitly authorized HTTPS test return domain/tunnel for Checkout Pro; do not route test returns to production."
+    },
+    {
+      "priority": "P1",
+      "item": "Validate server-side payment state before rendering payment success or granting any access."
+    },
+    {
+      "priority": "P1",
+      "item": "Stabilize the cart clear callback/effect cycle on the success route."
+    },
+    {
+      "priority": "P2",
+      "item": "Verify WELCOME email delivery only with a configured test worker/provider."
+    },
+    {
+      "priority": "P2",
+      "item": "Keep keyboard focus inside the login modal and restore focus on close."
+    }
+  ],
+  "next_actions": [
+    "After user authorization, correct BUG-R5-002/003 and rerun local return routes.",
+    "Once an HTTPS test return URL and confirmed test buyer account are available, retry the preference, open only its sandbox URL, and complete an official test-card scenario if all test identity checks pass.",
+    "After the parallel webhook implementation is complete, retest only against localhost with signature fixtures.",
+    "Do not apply migrations or perform additional fixes without user approval.",
+    "Review the login modal focus behavior after user authorization for corrections."
+  ]
+}

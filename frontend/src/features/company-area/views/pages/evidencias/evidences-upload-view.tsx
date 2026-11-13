@@ -1,8 +1,8 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
-import { Heart, Leaf, Loader2, Recycle, Scale, ShieldCheck } from "lucide-react";
-import { diagnosticService } from "@/features/company-area/services/diagnostic.service";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { ChevronLeft, ChevronRight, Heart, Leaf, Loader2, Recycle, Scale, ShieldCheck } from "lucide-react";
+import { diagnosticService, type BioimpactoHistory } from "@/features/company-area/services/diagnostic.service";
 import { getBusinessDayStart, getEvidenceUploadDeadline } from "@/features/company-area/services/evidence-upload-window";
 import { useCompany } from "../../../context/company-context";
 import {
@@ -91,6 +91,18 @@ export function EvidencesView() {
   const [sendingByGroup, setSendingByGroup] = useState<LoadingGroup>(() => createEmptyGroupMap(() => false));
   const [isLoading, setIsLoading] = useState(true);
   const [statusMessage, setStatusMessage] = useState<string | null>(null);
+  const [bioimpactoHistory, setBioimpactoHistory] = useState<BioimpactoHistory | null>(null);
+  const currentBioimpactoCardRef = useRef<HTMLDivElement>(null);
+  const bioimpactoScrollRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    diagnosticService.getBioimpactoHistory().then(setBioimpactoHistory).catch(() => setBioimpactoHistory(null));
+  }, []);
+
+  useEffect(() => {
+    if (!bioimpactoHistory) return;
+    requestAnimationFrame(() => currentBioimpactoCardRef.current?.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "center" }));
+  }, [bioimpactoHistory]);
 
   useEffect(() => {
     setPreviewMode(process.env.NODE_ENV === "development" &&
@@ -166,13 +178,18 @@ export function EvidencesView() {
   }, []);
 
   useEffect(() => {
-    const interval = window.setInterval(() => setNow(Date.now()), 60_000);
+    const interval = window.setInterval(() => setNow(Date.now()), 1_000);
     return () => window.clearInterval(interval);
   }, []);
 
   const hasPurchasedFullDiagnostic = serviceAccess?.purchasedProductCodes?.some((code) =>
-    ["FULL_DIAGNOSTIC", "FULL_DIAGNOSTIC_PLUS"].includes(code.toUpperCase().replace(/-/g, "_")),
+    ["FULL_DIAGNOSTIC", "FULL_DIAGNOSTIC_PLUS", "BIOIMPACTO_EMPRESARIAL"].includes(code.toUpperCase().replace(/-/g, "_")),
   ) ?? false;
+  const bioimpactoPurchase = serviceAccess?.purchasedServices?.find((service) => service.productCode === "BIOIMPACTO_EMPRESARIAL");
+  const businessDay = Number(new Intl.DateTimeFormat("en-US", { timeZone: "America/Sao_Paulo", day: "numeric" }).format(now));
+  const bioimpactoExpiresAt = bioimpactoPurchase ? new Date(bioimpactoPurchase.purchasedAt) : null;
+  bioimpactoExpiresAt?.setUTCFullYear(bioimpactoExpiresAt.getUTCFullYear() + 1);
+  const bioimpactoWindowOpen = Boolean(bioimpactoExpiresAt && now < bioimpactoExpiresAt.getTime() && businessDay >= 1 && businessDay <= 15);
   const latestDeclaration = (company?.subjectDiagnostics ?? []).find((diagnostic) =>
     (hasPurchasedFullDiagnostic ? diagnostic.kind === "FULL_DIAGNOSTIC" : ["PRE_DIAGNOSTIC", "FULL_DIAGNOSTIC"].includes(diagnostic.kind)) &&
     ["DRAFT", "ACTIVE", "COMPLETED"].includes(diagnostic.status),
@@ -187,7 +204,7 @@ export function EvidencesView() {
   const hasFullDiagnostic = previewMode || hasPurchasedFullDiagnostic;
   const showEvidenceDeadline = hasFullDiagnostic || hasEvidenceAccess || hasUnresolvedDiagnostic;
   const canUpload = previewMode || (hasEvidenceAccess && !hasUnresolvedDiagnostic &&
-    (!hasFullDiagnostic || Boolean(deadline && now < deadline.closesAt.getTime())));
+    (bioimpactoPurchase ? bioimpactoWindowOpen : !hasFullDiagnostic || Boolean(deadline && now < deadline.closesAt.getTime())));
   const daysRemaining = deadline
     ? Math.max(0, Math.round((deadline.lastUploadDay - getBusinessDayStart(now)) / (24 * 60 * 60 * 1000)))
     : 0;
@@ -288,7 +305,7 @@ export function EvidencesView() {
       return;
     }
     if (!canUpload) {
-      setStatusMessage("O prazo de 20 dias para enviar evidências terminou.");
+      setStatusMessage(bioimpactoPurchase ? "O Plano 2.2 aceita evidências do dia 1 ao 15 de cada mês." : "O prazo de 20 dias para enviar evidências terminou.");
       return;
     }
     if (sendingByGroup[groupCode]) {
@@ -387,10 +404,72 @@ export function EvidencesView() {
           </div>
         </section>
 
+      {bioimpactoHistory && (
+        <section className="w-full rounded-2xl border border-emerald-100 bg-white p-5 shadow-sm">
+          <h2 className="text-lg font-bold text-slate-800">Histórico de evidências</h2>
+          <p className="mt-1 text-sm text-slate-600">Vigência até {new Intl.DateTimeFormat("pt-BR", { timeZone: "America/Sao_Paulo" }).format(new Date(bioimpactoHistory.expiresAt))}. Cada janela abre do dia 1 ao 15.</p>
+          {(() => {
+            const openWindow = bioimpactoHistory.windows.find((window) => window.status === "OPEN");
+            const nowDate = new Date(now);
+            const localParts = new Intl.DateTimeFormat("en-US", { timeZone: "America/Sao_Paulo", year: "numeric", month: "numeric", day: "numeric" }).formatToParts(nowDate);
+            const part = (type: string) => Number(localParts.find((item) => item.type === type)?.value);
+            const year = part("year");
+            const month = part("month");
+            const nextOpening = openWindow
+              ? new Date(openWindow.endsAt)
+              : new Date(Date.UTC(year, month, 1, 3));
+            const target = openWindow ? nextOpening : new Date(Math.min(nextOpening.getTime(), new Date(bioimpactoHistory.expiresAt).getTime()));
+            const seconds = Math.max(0, Math.floor((target.getTime() - now) / 1000));
+            const days = Math.floor(seconds / 86400);
+            const hours = Math.floor((seconds % 86400) / 3600);
+            const minutes = Math.floor((seconds % 3600) / 60);
+            const remainingSeconds = seconds % 60;
+            const timer = `${days}d ${String(hours).padStart(2, "0")}h ${String(minutes).padStart(2, "0")}m ${String(remainingSeconds).padStart(2, "0")}s`;
+            return <div aria-live="polite" className={`mt-4 rounded-xl border px-4 py-3 text-center ${openWindow ? "border-red-200 bg-red-50 text-red-700" : "border-emerald-200 bg-emerald-50 text-emerald-700"}`}>
+              <p className="text-xs font-bold uppercase tracking-wide">{openWindow ? "Janela fecha em" : "Próxima janela abre em"}</p>
+              <p className="mt-1 font-mono text-xl font-extrabold tabular-nums">{timer}</p>
+              <p className="mt-1 text-xs">{openWindow ? "Envie suas evidências até o dia 15." : `Abertura prevista: ${new Intl.DateTimeFormat("pt-BR", { timeZone: "America/Sao_Paulo", dateStyle: "long" }).format(target)}.`}</p>
+            </div>;
+          })()}
+          <div className="relative mt-4">
+            <button type="button" aria-label="Meses anteriores" onClick={() => bioimpactoScrollRef.current?.scrollBy({ left: -300, behavior: "smooth" })} className="absolute -left-3 top-1/2 z-10 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-700 shadow-md hover:bg-emerald-50 hover:text-emerald-700">
+              <ChevronLeft className="h-5 w-5" />
+            </button>
+            <div ref={bioimpactoScrollRef} className="-mx-1 overflow-x-auto scroll-smooth snap-x snap-mandatory pb-2 [&::-webkit-scrollbar]:hidden" style={{ scrollbarWidth: "none", msOverflowStyle: "none" }} aria-label="Histórico das 12 janelas mensais">
+            <div className="flex w-max gap-3 px-1">
+              {Array.from({ length: 12 }, (_, index) => {
+                const startMonth = new Date(bioimpactoHistory.startsAt);
+                const startsAt = new Date(Date.UTC(startMonth.getUTCFullYear(), startMonth.getUTCMonth() + index, 1, 3));
+                const endsAt = new Date(Date.UTC(startsAt.getUTCFullYear(), startsAt.getUTCMonth(), 16, 3));
+                const window = bioimpactoHistory.windows.find((item) => item.number === index + 1);
+                const currentMonthIndex = Math.max(0, Math.min(11, (new Date(now).getUTCFullYear() - startMonth.getUTCFullYear()) * 12 + new Date(now).getUTCMonth() - startMonth.getUTCMonth()));
+                const isCurrent = currentMonthIndex === index;
+                const isOpen = window?.status === "OPEN";
+                const isPast = index < currentMonthIndex;
+                const lastDay = new Date(endsAt.getTime() - 1);
+                const daysLeft = Math.max(0, Math.ceil((endsAt.getTime() - now) / 86_400_000));
+                return <div key={index + 1} ref={isCurrent ? currentBioimpactoCardRef : undefined} className={`w-[270px] shrink-0 snap-center rounded-xl border p-4 ${isOpen ? "border-emerald-300 bg-emerald-50" : isCurrent ? "border-emerald-200 bg-emerald-50/50" : "border-slate-200 bg-slate-50"}`}>
+                  <p className="text-xs font-bold uppercase text-emerald-700">Janela {index + 1} · {isOpen ? "Aberta" : window?.status === "CLOSED" ? "Encerrada" : isCurrent ? "Atual" : isPast ? "Sem registros" : "Prevista"}</p>
+                  <p className="mt-1 text-sm font-semibold text-slate-800">{new Intl.DateTimeFormat("pt-BR", { timeZone: "America/Sao_Paulo", day: "2-digit", month: "short", year: "numeric" }).format(startsAt)} a {new Intl.DateTimeFormat("pt-BR", { timeZone: "America/Sao_Paulo", day: "2-digit", month: "short", year: "numeric" }).format(lastDay)}</p>
+                  {isOpen && <p className="mt-1 text-xs text-emerald-800">Até dia 15 · {daysLeft} {daysLeft === 1 ? "dia restante" : "dias restantes"}</p>}
+                  <p className="mt-2 text-xs text-slate-600">{window ? `${window.approved} aprovadas · ${window.rejected} rejeitadas · ${window.pending} pendentes` : "Aguardando esta janela"}</p>
+                  <p className="mt-1 text-xs font-semibold text-slate-700">Pontuação: {window?.score == null ? isPast ? "sem registro" : "em análise" : `${window.score.toFixed(1)}/100`}</p>
+                </div>;
+              })}
+            </div>
+          </div>
+            <button type="button" aria-label="Próximos meses" onClick={() => bioimpactoScrollRef.current?.scrollBy({ left: 300, behavior: "smooth" })} className="absolute -right-3 top-1/2 z-10 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-700 shadow-md hover:bg-emerald-50 hover:text-emerald-700">
+              <ChevronRight className="h-5 w-5" />
+            </button>
+          </div>
+        </section>
+      )}
       {showEvidenceDeadline ? (
         <section className={`w-full max-w-none rounded-b-2xl border border-t-0 px-5 py-4 text-sm shadow-sm ${canUpload ? "border-emerald-100 bg-white text-slate-700" : "border-amber-200 bg-amber-50 text-amber-950"}`}>
           {hasUnresolvedDiagnostic ? (
             <p>Conclua o diagnóstico autodeclarado antes de enviar as evidências.</p>
+          ) : bioimpactoPurchase ? (
+            <p>Consulte acima o histórico e a contagem regressiva da próxima janela de evidências.</p>
           ) : deadline ? (
             <>
               <div className="flex flex-wrap items-center justify-between gap-3">

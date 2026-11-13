@@ -1,0 +1,12 @@
+{
+  "login": 200,
+  "before": {
+    "status": "ACTIVE",
+    "count": 17,
+    "original": "Inexistente (A prática não existe, não é discutida ou nunca foi implementada)",
+    "alternate": "Inicial (Existem ações pontuais ou informais, mas sem padronização ou acompanhamento)"
+  },
+  "localEdit": "Inicial (Existem ações pontuais ou informais, mas sem padronização ou acompanhamento)",
+  "afterReload": "Inicial (Existem ações pontuais ou informais, mas sem padronização ou acompanhamento)",
+  "diagnosticWrites": []
+}
