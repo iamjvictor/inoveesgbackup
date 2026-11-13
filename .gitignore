@@ -25,6 +25,7 @@ node_modules/
 *.sqlite
 *.sqlite3
 *.log
+*.zip
 admin-users.json
 backend/.worktrees/
 supabase/.temp/
